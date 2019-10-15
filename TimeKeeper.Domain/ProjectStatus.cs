@@ -4,12 +4,12 @@ using System.Text;
 
 namespace TimeKeeper.Domain
 {
-    public class ProjectStatus
+    public class ProjectStatus   // provjeriti da li klasu treba proglasiti static
     {
         public int Id { get; set; }
-        public const string InProgress = "in progress";
-        public const string OnHold = "on hold";
-        public const string Finished = "finished";
-        public const string Canceled = "canceled";
+        public const int IN_PROGRESS = 0;
+        public const int ON_HOLD = 1;
+        public const int FINISHED = 2;
+        public const int CANCELED = 3;
     }
 }

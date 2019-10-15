@@ -7,8 +7,8 @@ namespace TimeKeeper.Domain
     public class CalendarType
     {
         public int Id { get; set; }
-        public const string FixedBid = "fixed bid";
-        public const string Hourly = "hourly";
-        public const string PerCapita = "per capita";
+        public const int VACATION = 0;
+        public const int SICK = 1;
+        public const int PerCapita = 2;
     }
 }
