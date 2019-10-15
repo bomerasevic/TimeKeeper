@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace TimeKeeper.Domain
 {
-    public class Calendar
+    [Table("Calendar")]
+    public class Calendar : BaseClass
     {
         public Calendar()
         {
             Tasks = new List<Assignment>();
         }
-        public int EmployeeId { get; set; }
+        public virtual Employee Employee { get; set; }
         public CalendarType CalendarType { get; set; }
         public DateTime Date { get; set; }
-        public decimal Hours { get; set; }
+        public decimal TotalHours { get; set; }
         public virtual IList<Assignment> Tasks { get; set; }
     }
 }

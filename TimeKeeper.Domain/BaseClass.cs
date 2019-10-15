@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace TimeKeeper.Domain
@@ -12,6 +13,7 @@ namespace TimeKeeper.Domain
             Creator = 0;
             Deleted = false;
         }
+        [Key]
         public int Id { get; set; }
         public DateTime Created { get; set; }
         public int Creator { get; set; }
