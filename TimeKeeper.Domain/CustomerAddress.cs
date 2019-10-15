@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace TimeKeeper.Domain
 {
     public class CustomerAddress
     {
-        public CustomerAddress()
-        {
-            Customers = new List<Customer>();
-        }
+        [Required]
         public string Road { get; set; }
+        [Required]
         public int ZipCode { get; set; }
+        [Required]
         public string City { get; set; }
+        [Required]
         public string Country { get; set; }
-        public virtual IList<Customer> Customers { get; set; }
     }
 }
