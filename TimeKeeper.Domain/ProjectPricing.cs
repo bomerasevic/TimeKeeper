@@ -7,8 +7,8 @@ namespace TimeKeeper.Domain
     public class ProjectPricing
     {
         public int Id { get; set; }
-        public const string FixedBid = "fixed bid";
-        public const string Hourly = "hourly";
-        public const string PerCapita = "per capita";
+        public const int FIXED_BID = 0;
+        public const int HOURLY = 1;
+        public const int PER_CAPITA = 2;
     }
 }
