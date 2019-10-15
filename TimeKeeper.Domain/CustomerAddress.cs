@@ -4,15 +4,16 @@ using System.Text;
 
 namespace TimeKeeper.Domain
 {
-    public class CustomerStatus
+    public class CustomerAddress
     {
-        public CustomerStatus()
+        public CustomerAddress()
         {
             Customers = new List<Customer>();
         }
-        public int Id { get; set; }
-        public const int PROSPECT = 0;
-        public const int CLIENT = 0;
+        public string Road { get; set; }
+        public int ZipCode { get; set; }
+        public string City { get; set; }
+        public string Country { get; set; }
         public virtual IList<Customer> Customers { get; set; }
     }
 }

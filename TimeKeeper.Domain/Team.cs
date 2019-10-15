@@ -9,8 +9,10 @@ namespace TimeKeeper.Domain
         public Team()
         {
             Projects = new List<Project>();
+            ProjectMembers = new List<Member>();
         }
         public string Name { get; set; }
         public virtual IList<Project> Projects { get; set; }
+        public virtual IList<Member> ProjectMembers { get; set; }
     }
 }
