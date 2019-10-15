@@ -4,11 +4,12 @@ using System.Text;
 
 namespace TimeKeeper.Domain
 {
-    public class CalendarType
+    public class CalendarType : BaseStatus
     {
-        public int Id { get; set; }
-        public const int VACATION = 0;
-        public const int SICK = 1;
-        public const int PerCapita = 2;
+        public CalendarType()
+        {
+            Calendar = new List<Calendar>();
+        }
+        public virtual IList<Calendar> Calendar { get; set; }
     }
 }

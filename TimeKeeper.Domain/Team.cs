@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace TimeKeeper.Domain
@@ -11,6 +12,7 @@ namespace TimeKeeper.Domain
             Projects = new List<Project>();
             ProjectMembers = new List<Member>();
         }
+        [Required]
         public string Name { get; set; }
         public virtual IList<Project> Projects { get; set; }
         public virtual IList<Member> ProjectMembers { get; set; }

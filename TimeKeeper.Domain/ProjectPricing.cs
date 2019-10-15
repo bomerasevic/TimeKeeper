@@ -4,11 +4,12 @@ using System.Text;
 
 namespace TimeKeeper.Domain
 {
-    public class ProjectPricing
+    public class ProjectPricing : BaseStatus
     {
-        public int Id { get; set; }
-        public const int FIXED_BID = 0;
-        public const int HOURLY = 1;
-        public const int PER_CAPITA = 2;
+        public ProjectPricing()
+        {
+            Projects = new List<Project>();
+        }
+        public virtual IList<Project> Projects { get; set; }
     }
 }
