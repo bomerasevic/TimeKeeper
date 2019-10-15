@@ -6,6 +6,11 @@ namespace TimeKeeper.Domain
 {
     public class Employee : BaseClass
     {
+        public Employee()
+        {
+            Days = new List<Calendar>();
+            Memberships = new List<Member>();
+        }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Image { get; set; }
@@ -16,6 +21,8 @@ namespace TimeKeeper.Domain
         public DateTime EndDate { get; set; }
         public EmployeeStatus Status { get; set; }
         public EmployeePosition Position { get; set; }
+        public virtual IList<Calendar> Days { get; set; }
+        public virtual IList<Member> Memberships { get; set; }
 
     }
 }
