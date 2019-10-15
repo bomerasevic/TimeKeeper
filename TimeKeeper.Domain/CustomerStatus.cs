@@ -12,7 +12,7 @@ namespace TimeKeeper.Domain
         }
         public int Id { get; set; }
         public const int PROSPECT = 0;
-        public const int CLIENT = 0;
+        public const int CLIENT = 1;
         public virtual IList<Customer> Customers { get; set; }
     }
 }
