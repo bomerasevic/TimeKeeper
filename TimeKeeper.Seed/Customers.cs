@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TimeKeeper.Seed
 {
-    class Assignments
+    public static class Customers
     {
     }
 }

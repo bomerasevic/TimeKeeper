@@ -9,7 +9,7 @@ namespace TimeKeeper.Domain
     {
         public Employee()
         {
-            Days = new List<Calendar>();
+            Days = new List<Day>();
             Memberships = new List<Member>();
         }
         [Required]
@@ -27,7 +27,7 @@ namespace TimeKeeper.Domain
         public DateTime EndDate { get; set; }
         public virtual EmployeeStatus Status { get; set; }
         public virtual EmployeePosition Position { get; set; }
-        public virtual IList<Calendar> Days { get; set; }
+        public virtual IList<Day> Days { get; set; }
         public virtual IList<Member> Memberships { get; set; }
 
     }

@@ -7,7 +7,7 @@ namespace TimeKeeper.Domain
 {
     public class Assignment : BaseClass
     {
-        public virtual Calendar Day { get; set; }
+        public virtual Day Day { get; set; }
         public virtual Project Project { get; set; }
         [Required]
         public string Description { get; set; }

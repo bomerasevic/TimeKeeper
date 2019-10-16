@@ -9,7 +9,7 @@ namespace TimeKeeper.DAL
     {
         private readonly TimeKeeperContext _context;
         private IRepository<Assignment> _assignments;
-        private IRepository<Calendar> _calendar;
+        private IRepository<Day> _calendar;
         private IRepository<DayType> _dayTypes;
         private IRepository<Customer> _customers;
         private IRepository<CustomerStatus> _customerStatuses;
@@ -38,7 +38,7 @@ namespace TimeKeeper.DAL
         }
 
         public IRepository<Assignment> Assignments => _assignments ?? (_assignments = new AssignmentsRepository(_context));
-        public IRepository<Calendar> Calendar => _calendar ?? (_calendar = new CalendarRepository(_context));
+        public IRepository<Day> Calendar => _calendar ?? (_calendar = new CalendarRepository(_context));
         public IRepository<DayType> DayTypes => _dayTypes ?? (_dayTypes = new Repository<DayType>(_context));
         public IRepository<Customer> Customers => _customers ?? (_customers = new CustomersRepository(_context));
         public IRepository<CustomerStatus> CustomerStatuses => _customerStatuses ?? (_customerStatuses = new Repository<CustomerStatus>(_context));
