@@ -13,7 +13,7 @@ namespace TimeKeeper.Domain
             Tasks = new List<Assignment>();
         }
         public virtual Employee Employee { get; set; }
-        public CalendarType CalendarType { get; set; }
+        public DayType DayType { get; set; }
         public DateTime Date { get; set; }
         public decimal TotalHours { get; set; }
         public virtual IList<Assignment> Tasks { get; set; }
