@@ -4,9 +4,9 @@ using System.Text;
 
 namespace TimeKeeper.Domain
 {
-    public class CalendarType : BaseStatus
+    public class DayType : BaseStatus
     {
-        public CalendarType()
+        public DayType()
         {
             Calendar = new List<Calendar>();
         }

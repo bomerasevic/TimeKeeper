@@ -21,8 +21,8 @@ namespace TimeKeeper.Domain
         public string Email { get; set; }
         [Required]
         public string Phone { get; set; }
-        public CustomerAddress Address { get; set; }
-        public CustomerStatus Status { get; set; }
+        public virtual CustomerAddress Address { get; set; }
+        public virtual CustomerStatus Status { get; set; }
         public virtual IList<Project> Projects { get; set; }
     }
 }

@@ -13,7 +13,7 @@ namespace TimeKeeper.DAL
 
         public DbSet<Assignment> Assignments { get; set; }
         public DbSet<Calendar> Calendar { get; set; }
-        public DbSet<CalendarType> CalendarTypes { get; set; }
+        public DbSet<DayType> DayTypes { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<CustomerStatus> CustomerStatuses { get; set; }
         public DbSet<Employee> Employees { get; set; }
@@ -27,8 +27,10 @@ namespace TimeKeeper.DAL
         public DbSet<Team> Teams { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
-        {
+        {            
             optionBuilder.UseNpgsql("User ID=postgres; Password=admin; Server=localhost; Port=5432; Database=time_keeper; Integrated Security=true; Pooling=true;");
+            optionBuilder.UseLazyLoadingProxies(true); // default = true
+            base.OnConfiguring(optionBuilder);
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -38,7 +40,7 @@ namespace TimeKeeper.DAL
 
             builder.Entity<Assignment>().HasQueryFilter(x => !x.Deleted);
             builder.Entity<Calendar>().HasQueryFilter(x => !x.Deleted);
-            builder.Entity<CalendarType>().HasQueryFilter(x => !x.Deleted);
+            builder.Entity<DayType>().HasQueryFilter(x => !x.Deleted);
             builder.Entity<Customer>().HasQueryFilter(x => !x.Deleted);
             builder.Entity<CustomerStatus>().HasQueryFilter(x => !x.Deleted);
             builder.Entity<Employee>().HasQueryFilter(x => !x.Deleted);
