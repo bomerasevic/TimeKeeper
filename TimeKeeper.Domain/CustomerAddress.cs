@@ -10,7 +10,7 @@ namespace TimeKeeper.Domain
         [Required]
         public string Road { get; set; }
         [Required]
-        public int ZipCode { get; set; }
+        public string ZipCode { get; set; }
         [Required]
         public string City { get; set; }
         [Required]
