@@ -12,7 +12,7 @@ namespace TimeKeeper.DAL
         public TimeKeeperContext() : base() { }
 
         public DbSet<Assignment> Assignments { get; set; }
-        public DbSet<Calendar> Calendar { get; set; }
+        public DbSet<Day> Calendar { get; set; }
         public DbSet<DayType> DayTypes { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<CustomerStatus> CustomerStatuses { get; set; }
@@ -39,7 +39,7 @@ namespace TimeKeeper.DAL
             builder.Entity<Customer>().OwnsOne(x => x.Address);
 
             builder.Entity<Assignment>().HasQueryFilter(x => !x.Deleted);
-            builder.Entity<Calendar>().HasQueryFilter(x => !x.Deleted);
+            builder.Entity<Day>().HasQueryFilter(x => !x.Deleted);
             builder.Entity<DayType>().HasQueryFilter(x => !x.Deleted);
             builder.Entity<Customer>().HasQueryFilter(x => !x.Deleted);
             builder.Entity<CustomerStatus>().HasQueryFilter(x => !x.Deleted);

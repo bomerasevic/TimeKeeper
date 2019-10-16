@@ -7,11 +7,9 @@ namespace TimeKeeper.Seed
 {
     public static class Utility
     {
-        public static Dictionary<int, int> assignmentDictionary = new Dictionary<int, int>();  // <stara vrijednost Id-a, nova vrijednost Id-a>
-        public static Dictionary<int, int> calendarDictionary = new Dictionary<int, int>();
+        public static Dictionary<int, int> dayDictionary = new Dictionary<int, int>();  // <stara vrijednost Id-a, nova vrijednost Id-a>
         public static Dictionary<int, int> customerDictionary = new Dictionary<int, int>();
         public static Dictionary<int, int> employeeDictionary = new Dictionary<int, int>();
-        public static Dictionary<int, int> memberDictionary = new Dictionary<int, int>();
         public static Dictionary<int, int> projectDictionary = new Dictionary<int, int>();
         public static Dictionary<string, int> roleDictionary = new Dictionary<string, int>();
         public static Dictionary<string, int> teamDictionary = new Dictionary<string, int>();

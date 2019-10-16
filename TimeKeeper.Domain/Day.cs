@@ -6,14 +6,14 @@ using System.Text;
 namespace TimeKeeper.Domain
 {
     [Table("Calendar")]
-    public class Calendar : BaseClass
+    public class Day : BaseClass
     {
-        public Calendar()
+        public Day()
         {
             Tasks = new List<Assignment>();
         }
         public virtual Employee Employee { get; set; }
-        public DayType DayType { get; set; }
+        public virtual DayType DayType { get; set; }
         public DateTime Date { get; set; }
         public decimal TotalHours { get; set; }
         public virtual IList<Assignment> Tasks { get; set; }
