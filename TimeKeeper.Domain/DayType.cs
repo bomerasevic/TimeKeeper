@@ -8,8 +8,8 @@ namespace TimeKeeper.Domain
     {
         public DayType()
         {
-            Days = new List<Calendar>();
+            Calendar = new List<Calendar>();
         }
-        public virtual IList<Calendar> Days { get; set; }
+        public virtual IList<Calendar> Calendar { get; set; }
     }
 }

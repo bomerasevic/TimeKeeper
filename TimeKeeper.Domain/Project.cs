@@ -19,8 +19,8 @@ namespace TimeKeeper.Domain
         public virtual Customer Customer { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public ProjectStatus Status { get; set; }
-        public ProjectPricing Pricing { get; set; }
+        public virtual ProjectStatus Status { get; set; }
+        public virtual ProjectPricing Pricing { get; set; }
         public decimal Amount { get; set; }
         public virtual IList<Assignment> Tasks { get; set; }
 

@@ -25,8 +25,8 @@ namespace TimeKeeper.Domain
         public DateTime Birthday { get; set; }
         public DateTime BeginDate { get; set; }
         public DateTime EndDate { get; set; }
-        public EmployeeStatus Status { get; set; }
-        public EmployeePosition Position { get; set; }
+        public virtual EmployeeStatus Status { get; set; }
+        public virtual EmployeePosition Position { get; set; }
         public virtual IList<Calendar> Days { get; set; }
         public virtual IList<Member> Memberships { get; set; }
 
