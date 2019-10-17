@@ -12,13 +12,14 @@ namespace TimeKeeper.Seed
         static void Main()
         {
             FileInfo file = new FileInfo(fileLocation);
-            using(ExcelPackage package = new ExcelPackage(file))
+            string conStr = "User ID=postgres; Password=admin; Server=localhost; Port=5432; Database=time_keeper; Integrated Security=true; Pooling=true;";
+            using (ExcelPackage package = new ExcelPackage(file))
             {
-                using(UnitOfWork unit = new UnitOfWork(new TimeKeeperContext()))
+                using(UnitOfWork unit = new UnitOfWork(new TimeKeeperContext(conStr)))
                 {
                     unit.Context.Database.EnsureDeleted();
                     unit.Context.Database.EnsureCreated();
-                    //unit.Context.ChangeTracker.AutoDetectChangesEnabled = false;
+                    unit.Context.ChangeTracker.AutoDetectChangesEnabled = false;
 
                     var sheets = package.Workbook.Worksheets;
                     Teams.Collect(sheets["Teams"], unit);

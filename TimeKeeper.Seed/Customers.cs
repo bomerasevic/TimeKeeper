@@ -12,18 +12,26 @@ namespace TimeKeeper.Seed
         public static void Collect(ExcelWorksheet rawData, UnitOfWork unit)
         {
             Console.Write("Customers: ");
+
+            CustomerStatus prospect = new CustomerStatus { Name = "prospect" };
+            CustomerStatus client = new CustomerStatus { Name = "client" };
+            unit.CustomerStatuses.Insert(prospect);
+            unit.CustomerStatuses.Insert(client);
+            unit.Save();
+
             int N = 0;
             for (int row = 2; row <= rawData.Dimension.Rows; row++)
             {
                 int oldId = rawData.ReadInteger(row, 1);
                 Customer c = new Customer
                 {
+                    Id = rawData.ReadInteger(row, 1),
                     Name = rawData.ReadString(row, 2),
                     Image = rawData.ReadString(row,3),
                     Contact = rawData.ReadString(row,4),
                     Email = rawData.ReadString(row,5),
                     Phone = rawData.ReadString(row,6),
-                    //Status = (CustomerStatus)rawData.ReadInteger(row,10) ERROR OVDJE
+                    Status = unit.CustomerStatuses.Get(rawData.ReadInteger(row,10)),
                     Address = new CustomerAddress()
                 };
                 c.Address.Road = rawData.ReadString(row, 7);
