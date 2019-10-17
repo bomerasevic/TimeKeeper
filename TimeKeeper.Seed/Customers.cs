@@ -24,6 +24,7 @@ namespace TimeKeeper.Seed
                     Email = rawData.ReadString(row,5),
                     Phone = rawData.ReadString(row,6),
                     //Status = (CustomerStatus)rawData.ReadInteger(row,10) ERROR OVDJE
+                    Address = new CustomerAddress()
                 };
                 c.Address.Road = rawData.ReadString(row, 7);
                 c.Address.ZipCode = rawData.ReadString(row, 8);

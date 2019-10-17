@@ -26,9 +26,9 @@ namespace TimeKeeper.Seed
                     Customers.Collect(sheets["Customers"], unit);
                     Projects.Collect(sheets["Projects"], unit);
                     Employees.Collect(sheets["Employees"], unit);
-                    Members.Collect(sheets["Members"], unit);
+                    Members.Collect(sheets["Engagement"], unit);
                     Calendar.Collect(sheets["Calendar"], unit);
-                    Assignments.Collect(sheets["Assignments"], unit);
+                    Assignments.Collect(sheets["Details"], unit);
                 }
             }
             Console.WriteLine("All tasks done!");
