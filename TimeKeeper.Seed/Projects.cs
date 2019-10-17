@@ -12,6 +12,27 @@ namespace TimeKeeper.Seed
         public static void Collect(ExcelWorksheet rawData, UnitOfWork unit)
         {
             Console.Write("Projects: ");
+
+            ProjectStatus inProgress = new ProjectStatus { Name = "in progress" };
+            ProjectStatus onHold = new ProjectStatus { Name = "on hold" };
+            ProjectStatus finished = new ProjectStatus { Name = "finished" };
+            ProjectStatus cancelled = new ProjectStatus { Name = "cancelled" };
+            unit.ProjectStatuses.Insert(inProgress);
+            unit.ProjectStatuses.Insert(onHold);
+            unit.ProjectStatuses.Insert(finished);
+            unit.ProjectStatuses.Insert(cancelled);
+            unit.Save();
+
+            ProjectPricing fixedBid = new ProjectPricing { Name = "fixed bid" };
+            ProjectPricing hourly = new ProjectPricing { Name = "hourly" };
+            ProjectPricing perCapita = new ProjectPricing { Name = "per capita" };
+            ProjectPricing proBono = new ProjectPricing { Name = "pro bono" };
+            unit.ProjectPrices.Insert(fixedBid);
+            unit.ProjectPrices.Insert(hourly);
+            unit.ProjectPrices.Insert(perCapita);
+            unit.ProjectPrices.Insert(proBono);
+            unit.Save();
+
             int N = 0;
             for (int row = 2; row <= rawData.Dimension.Rows; row++)
             {
@@ -22,10 +43,10 @@ namespace TimeKeeper.Seed
                     Description = rawData.ReadString(row, 4),
                     StartDate = rawData.ReadDate(row, 5),
                     EndDate = rawData.ReadDate(row, 6),
-                    //Status = (ProjectStatus)rawData.ReadInteger(row, 7), ERROR OVDJE
+                    Status = unit.ProjectStatuses.Get(rawData.ReadInteger(row, 7)), 
                     Customer = unit.Customers.Get(Utility.dicCust[rawData.ReadInteger(row, 8)]),
                     Team = unit.Teams.Get(Utility.dicTeam[rawData.ReadString(row, 9)]),
-                    //Pricing = (ProjectPricing)rawData.ReadInteger(row, 10), ERROR OVDJE
+                    Pricing = unit.ProjectPrices.Get(rawData.ReadInteger(row, 10) + 1),
                     Amount = rawData.ReadDecimal(row, 11)
                 };
                 unit.Projects.Insert(p);

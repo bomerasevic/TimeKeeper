@@ -9,7 +9,10 @@ namespace TimeKeeper.DAL
 {
     public class TimeKeeperContext : DbContext
     {
+        private string _conStr;
         public TimeKeeperContext() : base() { }
+        public TimeKeeperContext(DbContextOptions<TimeKeeperContext> options) : base(options) { }
+        public TimeKeeperContext(string conStr) { _conStr = conStr; }
 
         public DbSet<Assignment> Assignments { get; set; }
         public DbSet<Day> Calendar { get; set; }
@@ -27,8 +30,11 @@ namespace TimeKeeper.DAL
         public DbSet<Team> Teams { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
-        {            
-            optionBuilder.UseNpgsql("User ID=postgres; Password=admin; Server=localhost; Port=5432; Database=time_keeper; Integrated Security=true; Pooling=true;");
+        {      
+            if(_conStr != null)
+            {
+                optionBuilder.UseNpgsql(_conStr);
+            }
             optionBuilder.UseLazyLoadingProxies(true); // default = true
             base.OnConfiguring(optionBuilder);
         }
