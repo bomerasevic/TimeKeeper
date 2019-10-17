@@ -2,6 +2,7 @@ body {
     font-family:  Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
+
 .header nav img{
 
     height: 42px;
@@ -28,14 +29,14 @@ body {
 .header .container {
     text-align: center;
     color: white;
-    padding-top: 100px;
+    padding-top: 200px;
 }
 
 .header .container h1{
 
-    font-size: 80px;
+    font-size: 96px;
     
-    font-weight: 300;
+    font-weight: 400;
 
 }
 .header .container h2{
@@ -57,12 +58,13 @@ body {
     padding: 100px 10%;
     min-width: 100%;
     background: #D3CCE3;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to right, #E9E4F0, #D3CCE3);  /* Chrome 10-25, Safari 5.1-6 */
-background: linear-gradient(to right, #E9E4F0, #D3CCE3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+background: -webkit-linear-gradient(to bottom, #ffffff, #D3CCE3);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to bottom, #ffffff, #D3CCE3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 .container.white-section img {
     margin-top: 0px;
-    width: 100px;
+    margin-bottom: 20px;
+    width: 110px;
     height: auto;
  }
 /* BERININ DODANI DIO*/
@@ -73,7 +75,7 @@ background: linear-gradient(to right, #E9E4F0, #D3CCE3); /* W3C, IE 10+/ Edge, F
     width: 70%;
     margin-left: auto;
     margin-right: auto;
-    text-align: justify;
+    text-align: center;
 }
 h1{
     font-weight: 100;
@@ -199,8 +201,9 @@ h1{
 .features h5 {
     letter-spacing: 1px;
     font-family: Roboto;
-    font-weight: 100;
+    font-weight: 400;
     margin-bottom: 30px;
+    font-size: 20px;
 }
 .features p {
     color: #9a9a9a;
@@ -232,9 +235,12 @@ padding: 100px 0;
     text-align: center;
     padding: 20px 10% ;
     margin-bottom: 80px;
+    
     -webkit-box-shadow: 0px 9px 9px 0px rgba(0,0,0,0.20);
 -moz-box-shadow: 0px 9px 9px 0px rgba(0,0,0,0.20);
 box-shadow: 0px 9px 9px 0px rgba(0,0,0,0.20);
+
+    
 
 }
 
@@ -250,6 +256,7 @@ box-shadow: 0px 9px 9px 0px rgba(0,0,0,0.20);
 
 .rectangle h4{
     margin: 0px;
+    font-size: 22px;
 }
 
 .icon {
@@ -268,6 +275,14 @@ box-shadow: 0px 9px 9px 0px rgba(0,0,0,0.20);
 
     
 }
+
+.gradient-lighter{
+    
+    background: #D3CCE3;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to bottom, #ffffff, #D3CCE3);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to bottom, #ffffff, #D3CCE3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    }
+
 
 .icon img:hover{
     opacity: 0.4;
@@ -311,7 +326,7 @@ box-shadow: 0px 9px 9px 0px rgba(0,0,0,0.20);
     background-image: url("../images/form.png");
     background-size: cover;
    padding: 80px 0px;
-   margin-top: 80px;
+   margin-top: 0;
    color: white;
 }
 
@@ -337,7 +352,13 @@ box-shadow: 0px 9px 9px 0px rgba(0,0,0,0.20);
 }
 
 @media screen and (max-width: 600px){
-    /*BERININ DIO*/
+    
+
+   .nav-wrapper{
+
+       position: absolute;
+   }
+    
     .padding-right {
         width: 100%;
         border-bottom: 1px solid #dbdbdb;
@@ -461,9 +482,12 @@ box-shadow: 0px 9px 9px 0px rgba(0,0,0,0.20);
 }
 
 footer{
-    background-color: rgb(57, 54, 67, 1);
-    padding: 30px;
+    background-color: rgb(63, 63, 63);
+    padding: 20px;
     font-size:80%;
     color: #bbbaba;
 
+}
+footer p{
+    text-align: center;
 }
