@@ -12,16 +12,16 @@ namespace TimeKeeper.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TeamsController : BaseController
+    public class EmployeesController : BaseController
     {
-        public TeamsController(TimeKeeperContext context) : base(context) { }
+        public EmployeesController(TimeKeeperContext context) : base(context) { }
 
         [HttpGet]
         public IActionResult Get()
         {
             try
             {
-                return Ok(Unit.Teams.Get().OrderBy(x => x.Name).ToList().Select(x => x.Create()).ToList());
+                return Ok(Unit.Employees.Get().OrderBy(x => x.FirstName).ToList().Select(x => x.Create()).ToList());
             }
             catch (Exception ex)
             {
@@ -34,14 +34,14 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
-                Team team = Unit.Teams.Get(id);
-                if (team == null)
+                Employee employee = Unit.Employees.Get(id);
+                if (employee == null)
                 {
                     return NotFound();
                 }
                 else
                 {
-                    return Ok(team.Create());
+                    return Ok(employee.Create());
                 }
             }
             catch (Exception ex)

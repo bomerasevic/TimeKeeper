@@ -10,7 +10,7 @@ namespace TimeKeeper.DAL
     public class TimeKeeperContext : DbContext
     {
         private string _conStr;
-        public TimeKeeperContext() : base() { }
+        public TimeKeeperContext() : base() { _conStr = "User ID=postgres; Password=admin; Server=localhost; Port=5432; Database=time_keeper; Integrated Security=true; Pooling=true;"; }
         public TimeKeeperContext(DbContextOptions<TimeKeeperContext> options) : base(options) { }
         public TimeKeeperContext(string conStr) { _conStr = conStr; }
 
