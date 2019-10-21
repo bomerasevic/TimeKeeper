@@ -7,7 +7,6 @@ namespace TimeKeeper.Domain
 {
     public class BaseStatus : BaseClass
     {
-        [Required]
         public string Name { get; set; }
     }
 }

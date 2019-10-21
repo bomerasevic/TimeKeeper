@@ -16,7 +16,7 @@ namespace TimeKeeper.API.Factory
                 Id = team.Id,
                 Name = team.Name,
                 Description = team.Description,
-                Members = team.TeamMembers.Select(x => x.Master()).ToList(),
+                Members = team.TeamMembers.Select(x => x.Master("team")).ToList(),
                 Projects = team.Projects.Select(x => x.Master()).ToList()
             };
         }
@@ -34,8 +34,7 @@ namespace TimeKeeper.API.Factory
                 EndDate = project.EndDate,
                 Status = new MasterModel { Id = project.Status.Id, Name = project.Status.Name },
                 Pricing = new MasterModel { Id = project.Pricing.Id, Name = project.Pricing.Name },
-                Amount = project.Amount,
-                Tasks = project.Tasks.Select(x => x.Master()).ToList()
+                Amount = project.Amount
             };           
         }
         public static DayModel Create(this Day day)
@@ -58,7 +57,7 @@ namespace TimeKeeper.API.Factory
                 Name = role.Name,
                 HourlyPrice = role.HourlyPrice,
                 MonthlyPrice = role.MonthlyPrice,
-                MemberRoles = role.MemberRoles.Select(x => x.Master()).ToList()
+                MemberRoles = role.MemberRoles.Select(x => x.Master("role")).ToList()
             };
         }
         public static EmployeeModel Create(this Employee employee)
@@ -77,7 +76,7 @@ namespace TimeKeeper.API.Factory
                 Status = new MasterModel { Id = employee.Status.Id, Name = employee.Status.Name },
                 Position = new MasterModel { Id = employee.Position.Id, Name = employee.Position.Name },
                 Days = employee.Days.Select(x => x.Master()).ToList(),
-                Memberships = employee.Memberships.Select(x => x.Master()).ToList(),
+                Memberships = employee.Memberships.Select(x => x.Master("role")).ToList(),
             };
         }
     }

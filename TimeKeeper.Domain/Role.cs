@@ -11,7 +11,6 @@ namespace TimeKeeper.Domain
         {
             MemberRoles = new List<Member>();
         }
-        [Required]
         public string Name { get; set; }
         public decimal HourlyPrice { get; set; }
         public decimal MonthlyPrice { get; set; }

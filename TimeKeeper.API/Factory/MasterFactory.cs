@@ -35,12 +35,13 @@ namespace TimeKeeper.API.Factory
             };
         }
 
-        public static MasterModel Master(this Member m)
+        public static MasterModel Master(this Member m, string temp)
         {
             return new MasterModel
             {
                 Id = m.Id,
-                Name = m.Employee.FirstName + " " + m.Employee.LastName + ", " + m.Role.Name.Monogram()
+                //Name = m.Employee.FirstName + " " + m.Employee.LastName + ", " + m.Role.Name.Monogram()
+                Name = (temp == "team") ? $"{m.Employee.FirstName + " " + m.Employee.LastName}, {m.Role.Name.Monogram()}" : $"{m.Employee.FirstName + " " + m.Employee.LastName}, {m.Team.Name}"
             };
         }
 

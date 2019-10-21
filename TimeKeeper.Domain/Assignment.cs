@@ -9,7 +9,6 @@ namespace TimeKeeper.Domain
     {
         public virtual Day Day { get; set; }
         public virtual Project Project { get; set; }
-        [Required]
         public string Description { get; set; }
         public decimal Hours { get; set; }
     }
