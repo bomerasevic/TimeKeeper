@@ -12,9 +12,7 @@ namespace TimeKeeper.Domain
             Projects = new List<Project>();
             TeamMembers = new List<Member>();
         }
-        [Required]
         public string Name { get; set; }
-        [Required]
         public string Description { get; set; }
         public virtual IList<Project> Projects { get; set; }
         public virtual IList<Member> TeamMembers { get; set; }

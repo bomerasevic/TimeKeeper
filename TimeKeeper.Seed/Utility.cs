@@ -35,7 +35,10 @@ namespace TimeKeeper.Seed
         {
             try
             {
-                return DateTime.Parse(sht.ReadString(row, col));
+                var data = sht.Cells[row, col].Value;
+                if (data == null) return DateTime.MinValue;
+                return DateTime.FromOADate(double.Parse(data.ToString()));
+                //return DateTime.Parse(sht.ReadString(row, col));
             }
             catch
             {

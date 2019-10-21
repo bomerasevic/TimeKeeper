@@ -11,9 +11,7 @@ namespace TimeKeeper.Domain
         {
             Tasks = new List<Assignment>();
         }
-        [Required]
         public string Name { get; set; }
-        [Required]
         public string Description { get; set; }
         public virtual Team Team { get; set; }
         public virtual Customer Customer { get; set; }

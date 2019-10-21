@@ -11,15 +11,10 @@ namespace TimeKeeper.Domain
         {
             Projects = new List<Project>();
         }
-        [Required]
         public string Name { get; set; }
-        [Required]
         public string Image { get; set; }
-        [Required]
         public string Contact { get; set; }
-        [Required]
         public string Email { get; set; }
-        [Required]
         public string Phone { get; set; }
         public virtual CustomerAddress Address { get; set; }
         public virtual CustomerStatus Status { get; set; }
