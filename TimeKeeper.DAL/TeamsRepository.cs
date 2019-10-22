@@ -7,7 +7,6 @@ namespace TimeKeeper.DAL
 {
     public class TeamsRepository : Repository<Team>
     {
-        public TeamsRepository(TimeKeeperContext context) : base(context) { }
-
-    }
+        public TeamsRepository(TimeKeeperContext context) : base(context) { }        
+    }   
 }

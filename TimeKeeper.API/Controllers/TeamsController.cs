@@ -55,6 +55,35 @@ namespace TimeKeeper.API.Controllers
                 return BadRequest(ex);
             }
         }
+        [HttpGet("{id}/members")]
+        public IActionResult GetMembers(int id)
+        {
+            try
+            {
+                Log.LogInformation($"Try to fetch team members for team with id {id}");
+                Team team = Unit.Teams.Get(id);
+                if(team == null)
+                {
+                    Log.LogError($"There is no team with specified id {id}");
+                    return NotFound();
+                }
+                else
+                {
+                    return Ok(
+                        new
+                        {
+                            team.Id,
+                            team.Name,
+                            Members = team.TeamMembers.Select(x => x.Create())
+                        });
+                }
+            }
+            catch(Exception ex)
+            {
+                Log.LogCritical(ex, "Server error");
+                return BadRequest(ex);
+            }
+        }
         [HttpPost]
         public IActionResult Post([FromBody] Team team)
         {
@@ -71,8 +100,16 @@ namespace TimeKeeper.API.Controllers
                 return BadRequest(ex);
             }
         }
-
+        /// <summary>
+        /// Ovaj metod azurira podatke za team
+        /// </summary>
+        /// <param name="team">Podaci koji dodju sa frontenda</param>
+        /// <returns>Inserted data with generated Id</returns>
+        /// <response code="200">valja</response>
+        /// <response code="400">ne valja</response>
         [HttpPut("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
         public IActionResult Put(int id, [FromBody] Team team)
         {
             try
