@@ -101,12 +101,22 @@ namespace TimeKeeper.API.Controllers
             }
         }
         /// <summary>
+<<<<<<< HEAD
         /// Ovaj metod azurira podatke za team
         /// </summary>
         /// <param name="team">Podaci koji dodju sa frontenda</param>
         /// <returns>Inserted data with generated Id</returns>
         /// <response code="200">valja</response>
         /// <response code="400">ne valja</response>
+=======
+        /// This method updates Team data
+        /// </summary>
+        /// <param name="id">ID of Team which we wish to Update</param>
+        /// <param name="team">Data which comes from frontend</param>
+        /// <returns>Team with new value of ID</returns>
+        /// <response status="200">Status OK</response>
+        /// <response status="400">Status Not OK</response>
+>>>>>>> dev
         [HttpPut("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]

@@ -19,8 +19,8 @@ namespace TimeKeeper.API
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder().SetBasePath(env.ContentRootPath)
-                                                    .AddJsonFile("appsettings.json", optional:false, reloadOnChange:true);
-            Configuration = builder.Build(); 
+                                                    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+            Configuration = builder.Build();
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -30,7 +30,31 @@ namespace TimeKeeper.API
             string connectionString = Configuration["ConnectionString"];
             services.AddDbContext<TimeKeeperContext>(o => { o.UseNpgsql(connectionString); });
 
+<<<<<<< HEAD
             services.AddSwaggerDocument();
+=======
+            services.AddSwaggerDocument(config =>
+            {
+                config.PostProcess = document =>
+                {
+                    document.Info.Version = "v1";
+                    document.Info.Title = "ToDo API";
+                    document.Info.Description = "A simple ASP.NET Core web API";
+                    document.Info.TermsOfService = "None";
+                    document.Info.Contact = new NSwag.OpenApiContact
+                    {
+                        Name = "Shayne Boyer",
+                        Email = string.Empty,
+                        Url = "https://twitter.com/spboyer"
+                    };
+                    document.Info.License = new NSwag.OpenApiLicense
+                    {
+                        Name = "Use under LICX",
+                        Url = "https://example.com/license"
+                    };
+                };
+            });
+>>>>>>> dev
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -40,6 +64,10 @@ namespace TimeKeeper.API
                 app.UseDeveloperExceptionPage();
             }
 
+<<<<<<< HEAD
+=======
+            //app.UseStaticFiles();
+>>>>>>> dev
             app.UseOpenApi();
             app.UseSwaggerUi3();
 

@@ -89,5 +89,44 @@ namespace TimeKeeper.API.Factory
                 Memberships = employee.Memberships.Select(x => x.Master("role")).ToList(),
             };
         }
+
+        public static AssignmentModel Create(this Assignment assignment)
+        {
+            return new AssignmentModel
+            {
+                Id = assignment.Id,
+                Description = assignment.Description,
+                Hours = assignment.Hours,
+                Project = new MasterModel { Id = assignment.Project.Id, Name = assignment.Project.Name }
+            };
+        }
+
+        public static CustomerModel Create(this Customer customer)
+        {
+            return new CustomerModel
+            {
+                Id = customer.Id,
+                Name = customer.Name,
+                Image = customer.Image,
+                Contact = customer.Contact,
+                Email = customer.Email,
+                Phone = customer.Phone,
+                Address = customer.Address,
+                Status = new MasterModel { Id=customer.Status.Id, Name=customer.Status.Name},
+                Projects = customer.Projects.Select(x=>x.Master()).ToList()
+            };
+        }
+
+        public static MemberModel Create(this Member member)
+        {
+            return new MemberModel
+            {
+                Id = member.Id,
+                Employee = new MasterModel { Id=member.Employee.Id, Name=$"{member.Employee.FirstName + " " + member.Employee.LastName}"},
+                Role = new MasterModel { Id=member.Role.Id, Name=member.Role.Name},
+                Team = new MasterModel { Id=member.Team.Id, Name=member.Team.Name},
+                HoursWeekly = member.HoursWeekly
+            };
+        }
     }
 }

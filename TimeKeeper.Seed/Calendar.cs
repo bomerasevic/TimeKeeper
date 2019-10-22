@@ -33,9 +33,9 @@ namespace TimeKeeper.Seed
 
             for (int row = 2; row <= rawData.Dimension.Rows; row++)
             {
+                int oldId = rawData.ReadInteger(row, 1);
                 Day d = new Day
                 {
-                    Id = rawData.ReadInteger(row, 1),
                     Employee = unit.Employees.Get(Utility.dicEmpl[rawData.ReadInteger(row, 2)]),
                     DayType = unit.DayTypes.Get(rawData.ReadInteger(row, 3)), 
                     Date = rawData.ReadDate(row, 4)
@@ -43,6 +43,7 @@ namespace TimeKeeper.Seed
 
                 unit.Calendar.Insert(d);
                 unit.Save();
+                Utility.dicDays.Add(oldId, d.Id);
                 N++;
                 if (N % 100 == 0)
                 {

@@ -17,7 +17,7 @@ namespace TimeKeeper.Seed
             {
                 Assignment a = new Assignment
                 {
-                    Day = unit.Calendar.Get(rawData.ReadInteger(row, 4)),
+                    Day = unit.Calendar.Get(Utility.dicDays[rawData.ReadInteger(row, 4)]),
                     Project = unit.Projects.Get(Utility.dicProj[rawData.ReadInteger(row, 3)]),
                     Hours = rawData.ReadDecimal(row, 2),
                     Description = rawData.ReadString(row, 1)

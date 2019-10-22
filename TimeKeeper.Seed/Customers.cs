@@ -25,7 +25,6 @@ namespace TimeKeeper.Seed
                 int oldId = rawData.ReadInteger(row, 1);
                 Customer c = new Customer
                 {
-                    Id = rawData.ReadInteger(row, 1),
                     Name = rawData.ReadString(row, 2),
                     Image = rawData.ReadString(row,3),
                     Contact = rawData.ReadString(row,4),

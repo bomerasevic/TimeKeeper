@@ -15,6 +15,7 @@ namespace TimeKeeper.Domain
         public virtual Employee Employee { get; set; }
         public virtual DayType DayType { get; set; }
         public DateTime Date { get; set; }
+        [NotMapped]
         public decimal TotalHours { get; set; }
         public virtual IList<Assignment> Tasks { get; set; }
     }
