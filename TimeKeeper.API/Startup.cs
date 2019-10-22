@@ -30,6 +30,9 @@ namespace TimeKeeper.API
             string connectionString = Configuration["ConnectionString"];
             services.AddDbContext<TimeKeeperContext>(o => { o.UseNpgsql(connectionString); });
 
+<<<<<<< HEAD
+            services.AddSwaggerDocument();
+=======
             services.AddSwaggerDocument(config =>
             {
                 config.PostProcess = document =>
@@ -51,6 +54,7 @@ namespace TimeKeeper.API
                     };
                 };
             });
+>>>>>>> dev
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -60,7 +64,10 @@ namespace TimeKeeper.API
                 app.UseDeveloperExceptionPage();
             }
 
+<<<<<<< HEAD
+=======
             //app.UseStaticFiles();
+>>>>>>> dev
             app.UseOpenApi();
             app.UseSwaggerUi3();
 
