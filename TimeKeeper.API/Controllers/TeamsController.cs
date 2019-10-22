@@ -71,8 +71,17 @@ namespace TimeKeeper.API.Controllers
                 return BadRequest(ex);
             }
         }
-
+        /// <summary>
+        /// This method updates Team data
+        /// </summary>
+        /// <param name="id">ID of Team which we wish to Update</param>
+        /// <param name="team">Data which comes from frontend</param>
+        /// <returns>Team with new value of ID</returns>
+        /// <response status="200">Status OK</response>
+        /// <response status="400">Status Not OK</response>
         [HttpPut("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
         public IActionResult Put(int id, [FromBody] Team team)
         {
             try

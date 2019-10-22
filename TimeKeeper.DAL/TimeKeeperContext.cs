@@ -33,9 +33,8 @@ namespace TimeKeeper.DAL
         {      
             if(_conStr != null)
             {
-                optionBuilder.UseNpgsql(_conStr);
+                optionBuilder.UseLazyLoadingProxies(true).UseNpgsql(_conStr);
             }
-            optionBuilder.UseLazyLoadingProxies(true); // default = true
             base.OnConfiguring(optionBuilder);
         }
         protected override void OnModelCreating(ModelBuilder builder)

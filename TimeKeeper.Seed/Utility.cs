@@ -15,7 +15,7 @@ namespace TimeKeeper.Seed
         public static Dictionary<int, int> dicProjPricing = new Dictionary<int, int>();
         public static Dictionary<int, int> dicEmpl = new Dictionary<int, int>();
         public static Dictionary<string, int> dicEmpPosition = new Dictionary<string, int>();
-        //public static Dictionary<int, int> dicDays = new Dictionary<int, int>();
+        public static Dictionary<int, int> dicDays = new Dictionary<int, int>();
 
         public static string ReadString(this ExcelWorksheet sht, int row, int col)
         {

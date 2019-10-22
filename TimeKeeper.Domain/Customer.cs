@@ -9,6 +9,7 @@ namespace TimeKeeper.Domain
     {
         public Customer()
         {
+            Address = new CustomerAddress();
             Projects = new List<Project>();
         }
         public string Name { get; set; }
