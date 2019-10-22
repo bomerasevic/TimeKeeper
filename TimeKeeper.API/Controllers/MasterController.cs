@@ -28,10 +28,13 @@ namespace TimeKeeper.API.Controllers
         [HttpGet("projects")]
         public IActionResult GetProjects() => Ok(Unit.Projects.Get().Select(x => x.Master()).ToList());
 
-        [HttpGet("people")]
+        [HttpGet("employees")]
         public IActionResult GetPeople() => Ok(Unit.Employees.Get().Select(x => x.Master()).ToList());
 
         [HttpGet("calendar")]
-        public IActionResult GetCalendar() => Ok(Unit.Calendar.Get().ToList());
+        public IActionResult GetCalendar() => Ok(Unit.Calendar.Get().Select(x=>x.Master()).ToList());
+
+        [HttpGet("members")]
+        public IActionResult GetMembers() => Ok(Unit.Members.Get().ToList());
     }
 }

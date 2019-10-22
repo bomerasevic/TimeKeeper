@@ -13,19 +13,21 @@ namespace TimeKeeper.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EmployeesController : BaseController
+    public class CustomersController : BaseController
     {
-        public EmployeesController(TimeKeeperContext context, ILogger<EmployeesController> log) : base(context, log) { }
+        public CustomersController(TimeKeeperContext context, ILogger<CustomersController> log) : base (context, log) { }
 
         [HttpGet]
         public IActionResult Get()
         {
             try
             {
-                return Ok(Unit.Employees.Get().ToList().Select(x => x.Create()).ToList());
+                Log.LogInformation("Try to get all Customers");
+                return Ok(Unit.Customers.Get().OrderBy(x => x.Name).ToList().Select(x => x.Create()).ToList());
             }
             catch (Exception ex)
             {
+                Log.LogCritical(ex, "Server error!");
                 return BadRequest(ex);
             }
         }
@@ -35,48 +37,55 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
-                Employee employee = Unit.Employees.Get(id);
-                if (employee == null)
+                Log.LogInformation($"Try to get Customer with {id} ");
+                Customer customer = Unit.Customers.Get(id);
+                if (customer == null)
                 {
+                    Log.LogInformation($"Customer with id {id} not found");
                     return NotFound();
                 }
                 else
                 {
-                    return Ok(employee.Create());
+                    return Ok(customer.Create());
                 }
             }
             catch (Exception ex)
             {
+                Log.LogCritical(ex, "Server error!");
                 return BadRequest(ex);
             }
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] Employee employee)
+        public IActionResult Post([FromBody] Customer customer)
         {
             try
             {
-                Unit.Employees.Insert(employee);
+                Unit.Customers.Insert(customer);
                 Unit.Save();
-                return Ok(employee.Create());
+                Log.LogInformation($"Customer {customer.Name} added with id {customer.Id}");
+                return Ok(customer.Create());
             }
             catch (Exception ex)
             {
+                Log.LogCritical(ex, "Server error!");
                 return BadRequest(ex);
             }
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] Employee employee)
+        public IActionResult Put(int id, [FromBody] Customer customer)
         {
             try
             {
-                Unit.Employees.Update(employee, id);
+                Unit.Customers.Update(customer, id);
                 Unit.Save();
-                return Ok(employee.Create());
+                Log.LogInformation($"Customer with id {id} updated with body {customer}");
+                return Ok(customer.Create());
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
+                Log.LogCritical(ex, "Server error!");
                 return BadRequest(ex);
             }
         }
@@ -86,12 +95,14 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
-                Unit.Employees.Delete(id);
+                Unit.Customers.Delete(id);
                 Unit.Save();
+                Log.LogInformation($"Attempt to delete Customer with id {id}");
                 return NoContent();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
+                Log.LogCritical(ex, "Server error!");
                 return BadRequest(ex);
             }
         }
