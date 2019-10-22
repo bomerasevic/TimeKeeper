@@ -6,15 +6,8 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-<<<<<<< HEAD
-    <DocumentationFile>obj\Debug\netcoreapp2.2\TimeKeeper.API.xml</DocumentationFile>
-    <NoWarn>1701;1702;1591</NoWarn>
-    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
-    <WarningLevel>4</WarningLevel>
-=======
     <NoWarn>1701;1702;1591</NoWarn>
     <DocumentationFile>C:\Projects\TimeKeeper\TimeKeeper.API\obj\Debug\netcoreapp2.2\TimeKeeper.API.xml</DocumentationFile>
->>>>>>> dev
   </PropertyGroup>
 
   <ItemGroup>
