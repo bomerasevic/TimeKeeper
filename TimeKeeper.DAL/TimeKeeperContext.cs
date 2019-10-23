@@ -24,6 +24,7 @@ namespace TimeKeeper.DAL
         public DbSet<EmployeePosition> EmployeePositions { get; set; }
         public DbSet<EmployeeStatus> EmployeeStatuses { get; set; }
         public DbSet<Member> Members { get; set; }
+        public DbSet<MemberStatus> MemberStatuses { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<ProjectPricing> ProjectPricings { get; set; }
         public DbSet<ProjectStatus> ProjectStatuses { get; set; }
@@ -54,6 +55,7 @@ namespace TimeKeeper.DAL
             builder.Entity<EmployeePosition>().HasQueryFilter(x => !x.Deleted);
             builder.Entity<EmployeeStatus>().HasQueryFilter(x => !x.Deleted);
             builder.Entity<Member>().HasQueryFilter(x => !x.Deleted);
+            builder.Entity<MemberStatus>().HasQueryFilter(x => !x.Deleted);
             builder.Entity<Project>().HasQueryFilter(x => !x.Deleted);
             builder.Entity<ProjectPricing>().HasQueryFilter(x => !x.Deleted);
             builder.Entity<ProjectStatus>().HasQueryFilter(x => !x.Deleted);

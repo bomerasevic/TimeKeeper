@@ -114,6 +114,7 @@ namespace TimeKeeper.API.Factory
                 Employee = new MasterModel { Id=member.Employee.Id, Name=$"{member.Employee.FirstName + " " + member.Employee.LastName}"},
                 Role = new MasterModel { Id=member.Role.Id, Name=member.Role.Name},
                 Team = new MasterModel { Id=member.Team.Id, Name=member.Team.Name},
+                Status = new MasterModel { Id = member.Status.Id, Name = member.Status.Name },
                 HoursWeekly = member.HoursWeekly
             };
         }
