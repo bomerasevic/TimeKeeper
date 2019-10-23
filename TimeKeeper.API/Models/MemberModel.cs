@@ -9,13 +9,8 @@ namespace TimeKeeper.API.Models
     {
         public int Id { get; set; }
         public MasterModel Employee { get; set; }
-<<<<<<< HEAD
-        public MasterModel Team { get; set; }
-        public MasterModel Role { get; set; }
-=======
         public MasterModel Role { get; set; }
         public MasterModel Team { get; set; }
->>>>>>> dev
         public decimal HoursWeekly { get; set; }
     }
 }

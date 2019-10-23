@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,11 +31,12 @@ namespace TimeKeeper.DAL
         public DbSet<Team> Teams { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
-        {      
-            if(_conStr != null)
+        {
+            if (_conStr != null)
             {
-                optionBuilder.UseLazyLoadingProxies(true).UseNpgsql(_conStr);
+                optionBuilder.UseNpgsql(_conStr);
             }
+            optionBuilder.UseLazyLoadingProxies(true);
             base.OnConfiguring(optionBuilder);
         }
         protected override void OnModelCreating(ModelBuilder builder)

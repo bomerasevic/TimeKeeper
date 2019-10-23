@@ -60,6 +60,10 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
+                project.Team = Unit.Teams.Get(project.Team.Id);
+                project.Customer = Unit.Customers.Get(project.Customer.Id);
+                project.Status = Unit.ProjectStatuses.Get(project.Status.Id);
+                project.Pricing = Unit.ProjectPrices.Get(project.Pricing.Id);
                 Unit.Projects.Insert(project);
                 Unit.Save();
                 Log.LogInformation($"Project {project.Name} added with id {project.Id}");
