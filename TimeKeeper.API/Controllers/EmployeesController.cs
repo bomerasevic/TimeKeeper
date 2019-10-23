@@ -56,6 +56,8 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
+                employee.Status = Unit.EmployeeStatuses.Get(employee.Status.Id);
+                employee.Position = Unit.EmployeePositions.Get(employee.Position.Id);
                 Unit.Employees.Insert(employee);
                 Unit.Save();
                 return Ok(employee.Create());
@@ -71,6 +73,8 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
+                employee.Status = Unit.EmployeeStatuses.Get(employee.Status.Id);
+                employee.Position = Unit.EmployeePositions.Get(employee.Position.Id);
                 Unit.Employees.Update(employee, id);
                 Unit.Save();
                 return Ok(employee.Create());

@@ -15,7 +15,7 @@ namespace TimeKeeper.API.Controllers
     [ApiController]
     public class CustomersController : BaseController
     {
-        public CustomersController(TimeKeeperContext context, ILogger<CustomersController> log) : base (context, log) { }
+        public CustomersController(TimeKeeperContext context, ILogger<CustomersController> log) : base(context, log) { }
 
         [HttpGet]
         public IActionResult Get()
@@ -62,6 +62,13 @@ namespace TimeKeeper.API.Controllers
             try
             {
                 customer.Status = Unit.CustomerStatuses.Get(customer.Status.Id);
+                customer.Address = new CustomerAddress
+                {
+                    Road = customer.Address.Road,
+                    ZipCode = customer.Address.ZipCode,
+                    City = customer.Address.City,
+                    Country = customer.Address.Country
+                };
                 Unit.Customers.Insert(customer);
                 Unit.Save();
                 Log.LogInformation($"Customer {customer.Name} added with id {customer.Id}");
@@ -79,12 +86,20 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
+                customer.Status = Unit.CustomerStatuses.Get(customer.Status.Id);
+                customer.Address = new CustomerAddress
+                {
+                    Road = customer.Address.Road,
+                    ZipCode = customer.Address.ZipCode,
+                    City = customer.Address.City,
+                    Country = customer.Address.Country
+                };
                 Unit.Customers.Update(customer, id);
                 Unit.Save();
                 Log.LogInformation($"Customer with id {id} updated with body {customer}");
                 return Ok(customer.Create());
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log.LogCritical(ex, "Server error!");
                 return BadRequest(ex);
