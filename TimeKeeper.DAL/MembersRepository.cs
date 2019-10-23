@@ -9,5 +9,17 @@ namespace TimeKeeper.DAL
     {
         public MembersRepository(TimeKeeperContext context) : base(context) { }
 
+        public override void Update(Member member, int id)
+        {
+            Member old = Get(id);
+
+            if (old != null)
+            {
+                _context.Entry(old).CurrentValues.SetValues(member);
+                old.Team = member.Team;
+                old.Employee = member.Employee;
+                old.Role = member.Role;
+            }
+        }
     }
 }

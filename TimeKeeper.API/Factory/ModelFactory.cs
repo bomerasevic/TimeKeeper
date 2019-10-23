@@ -20,17 +20,6 @@ namespace TimeKeeper.API.Factory
                 Projects = team.Projects.Select(x => x.Master()).ToList()
             };
         }
-        public static MemberModel Create(this Member member)
-        {
-            return new MemberModel
-            {
-                Id = member.Id,
-                Employee = new MasterModel { Id = member.Employee.Id, Name = member.Employee.FirstName + " " + member.Employee.LastName },
-                Team = new MasterModel { Id = member.Team.Id, Name = member.Team.Name },
-                Role = new MasterModel { Id = member.Role.Id, Name = member.Role.Name },
-                HoursWeekly = member.HoursWeekly
-            };
-        }
         public static ProjectModel Create(this Project project)
         {
             return new ProjectModel

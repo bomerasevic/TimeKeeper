@@ -61,6 +61,7 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
+                customer.Status = Unit.CustomerStatuses.Get(customer.Status.Id);
                 Unit.Customers.Insert(customer);
                 Unit.Save();
                 Log.LogInformation($"Customer {customer.Name} added with id {customer.Id}");

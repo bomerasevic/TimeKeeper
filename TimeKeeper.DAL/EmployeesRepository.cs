@@ -18,7 +18,8 @@ namespace TimeKeeper.DAL
             if(old != null)
             {
                 _context.Entry(old).CurrentValues.SetValues(employee);
-
+                old.Status = employee.Status;
+                old.Position = employee.Position;
             }
         }
     }
