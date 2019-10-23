@@ -80,6 +80,10 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
+                project.Team = Unit.Teams.Get(project.Team.Id);
+                project.Customer = Unit.Customers.Get(project.Customer.Id);
+                project.Status = Unit.ProjectStatuses.Get(project.Status.Id);
+                project.Pricing = Unit.ProjectPrices.Get(project.Pricing.Id);
                 Unit.Projects.Update(project, id);
                 Unit.Save();
                 Log.LogInformation($"Project {project.Name} with id {project.Id} has changes.");

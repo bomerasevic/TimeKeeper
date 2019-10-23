@@ -19,6 +19,7 @@ namespace TimeKeeper.DAL
                 old.Team = member.Team;
                 old.Employee = member.Employee;
                 old.Role = member.Role;
+                old.Status = member.Status;
             }
         }
     }
