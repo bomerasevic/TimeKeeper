@@ -118,5 +118,14 @@ namespace TimeKeeper.API.Factory
                 HoursWeekly = member.HoursWeekly
             };
         }
+
+        public static MasterModel Create(this BaseStatus baseStatus)
+        {
+            return new MasterModel
+            {
+                Id = baseStatus.Id,
+                Name = baseStatus.Name
+            };
+        }
     }
 }

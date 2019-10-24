@@ -87,5 +87,13 @@ namespace TimeKeeper.API.Factory
                 Name = $"{d.DayType.Name}"
             };
         }
+        public static MasterModel Master(this BaseStatus bs)
+        {
+            return new MasterModel
+            {
+                Id = bs.Id,
+                Name = bs.Name
+            };
+        }
     }
 }

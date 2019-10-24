@@ -17,7 +17,15 @@ namespace TimeKeeper.API.Controllers
     {
         public TeamsController(TimeKeeperContext context, ILogger<TeamsController> log) : base(context, log) { }
 
+        /// <summary>
+        /// This method get data of all Teams
+        /// </summary>
+        /// <returns>Data of all teams</returns>
+        /// <response status="200">Status OK</response>
+        /// <response status="400">Status Not OK</response>
         [HttpGet]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
         public IActionResult Get()
         {
             try
@@ -31,8 +39,18 @@ namespace TimeKeeper.API.Controllers
                 return BadRequest(ex);
             }
         }
-
+        /// <summary>
+        /// This method returns Team by specified Id
+        /// </summary>
+        /// <param name="id">Team value by specified Id</param>
+        /// <returns>Team values by specified Id</returns>
+        /// <response status="200">Status 200 OK</response>
+        /// <response status="404">Status 404 Not Found</response>
+        /// <response status="400">Status 400 Bad Request</response>        
         [HttpGet("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(400)]
         public IActionResult Get(int id)
         {
             try
@@ -55,7 +73,18 @@ namespace TimeKeeper.API.Controllers
                 return BadRequest(ex);
             }
         }
+        /// <summary>
+        /// This method creates new Team
+        /// </summary>
+        /// <param name="team">Data which comes from frontend</param>
+        /// <returns>New Team values</returns>
+        /// <response status="200">Status 200 OK</response>
+        /// <response status="404">Status 404 Not Found</response>
+        /// <response status="400">Status 400 Bad Request</response>
         [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(400)]
         public IActionResult Post([FromBody] Team team)
         {
             try
@@ -72,15 +101,17 @@ namespace TimeKeeper.API.Controllers
             }
         }
         /// <summary>
-        /// This method updates Team data
+        /// This method updates Teams data
         /// </summary>
         /// <param name="id">ID of Team which we wish to Update</param>
         /// <param name="team">Data which comes from frontend</param>
         /// <returns>Team with new value of ID</returns>
-        /// <response status="200">Status OK</response>
-        /// <response status="400">Status Not OK</response>
+        /// <response status="200">Status 200 OK</response>
+        /// <response status="404">Status 404 Not Found</response>
+        /// <response status="400">Status 400 Bad Request</response>
         [HttpPut("{id}")]
         [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
         [ProducesResponseType(400)]
         public IActionResult Put(int id, [FromBody] Team team)
         {
@@ -97,8 +128,16 @@ namespace TimeKeeper.API.Controllers
                 return BadRequest(ex);
             }
         }
-
+        /// <summary>
+        /// This method Attempt to delete Team
+        /// </summary>
+        /// <param name="id">ID of Team which we wish to Delete</param>
+        /// <returns>Team with new value of ID</returns>
+        /// <response status="204">Status 204 No Content</response>
+        /// <response status="400">Status 400 Bad Request</response>
         [HttpDelete("{id}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
         public IActionResult Delete(int id)
         {
             try
