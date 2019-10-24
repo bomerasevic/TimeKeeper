@@ -16,14 +16,21 @@ namespace TimeKeeper.API.Controllers
     public class CustomersController : BaseController
     {
         public CustomersController(TimeKeeperContext context, ILogger<CustomersController> log) : base(context, log) { }
-
+        /// <summary>
+        /// This method returns all Customers
+        /// </summary>
+        /// <returns>Returns all Customers</returns>
+        /// <response status="200">Status 200 OK</response>
+        /// <response status="400">Status 400 Bad Request</response>
         [HttpGet]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
         public IActionResult Get()
         {
             try
             {
                 Log.LogInformation("Try to get all Customers");
-                return Ok(Unit.Customers.Get().OrderBy(x => x.Name).ToList().Select(x => x.Create()).ToList());
+                return Ok(Unit.Customers.Get().ToList().Select(x => x.Create()).ToList());
             }
             catch (Exception ex)
             {
@@ -31,8 +38,18 @@ namespace TimeKeeper.API.Controllers
                 return BadRequest(ex);
             }
         }
-
+        /// <summary>
+        /// This method returns Customer with specified Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Returns Customer with Id=id</returns>
+        /// <response status="200">Status 200 OK</response>
+        /// <response status="404">Status 404 Not Found</response>
+        /// <response status="400">Status 400 Bad Request</response>
         [HttpGet("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(400)]
         public IActionResult Get(int id)
         {
             try
@@ -55,8 +72,16 @@ namespace TimeKeeper.API.Controllers
                 return BadRequest(ex);
             }
         }
-
+        /// <summary>
+        /// Inserts new Customer
+        /// </summary>
+        /// <param name="customer"></param>
+        /// <returns>Creates new Customer from request body</returns>
+        /// <response status="200">Status 200 OK</response>
+        /// <response status="400">Status 400 Bad Request</response>
         [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
         public IActionResult Post([FromBody] Customer customer)
         {
             try
@@ -80,8 +105,17 @@ namespace TimeKeeper.API.Controllers
                 return BadRequest(ex);
             }
         }
-
+        /// <summary>
+        /// Updates Customer with specified Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="customer"></param>
+        /// <returns>Customer with Id=id is Updated</returns>
+        /// <response status="200">Status 200 OK</response>
+        /// <response status="400">Status 400 Bad Request</response>
         [HttpPut("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
         public IActionResult Put(int id, [FromBody] Customer customer)
         {
             try
@@ -105,8 +139,16 @@ namespace TimeKeeper.API.Controllers
                 return BadRequest(ex);
             }
         }
-
+        /// <summary>
+        /// This method Deletes Customer with specified Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Customer with Id=id is Deleted</returns>
+        /// <response status="204">Status 204 No Content</response>
+        /// <response status="400">Status 400 Bad Request</response>
         [HttpDelete("{id}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
         public IActionResult Delete(int id)
         {
             try
