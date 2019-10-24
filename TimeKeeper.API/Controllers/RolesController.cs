@@ -17,7 +17,15 @@ namespace TimeKeeper.API.Controllers
     {
         public RolesController(TimeKeeperContext context, ILogger<RolesController> log) : base(context, log) { }
 
+        /// <summary>
+        /// This method get data of all Roles
+        /// </summary>
+        /// <returns>Data of all Roles</returns>
+        /// <response status="200">Status OK</response>
+        /// <response status="400">Status Not OK</response>
         [HttpGet]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
         public IActionResult Get()
         {
             try
@@ -31,8 +39,18 @@ namespace TimeKeeper.API.Controllers
                 return BadRequest(ex);
             }
         }
-
+        /// <summary>
+        /// This method returns Role by specified Id
+        /// </summary>
+        /// <param name="id">Role value by specified Id</param>
+        /// <returns>Role values by specified Id</returns>
+        /// <response status="200">Status 200 OK</response>
+        /// <response status="404">Status 404 Not Found</response>
+        /// <response status="400">Status 400 Bad Request</response>        
         [HttpGet("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(400)]
         public IActionResult Get(int id)
         {
             try
@@ -55,7 +73,18 @@ namespace TimeKeeper.API.Controllers
                 return BadRequest(ex);
             }
         }
+        /// <summary>
+        /// This method sets values of new Role
+        /// </summary>
+        /// <param name="role">Data which comes from frontend</param>
+        /// <returns>New Role values</returns>
+        /// <response status="200">Status 200 OK</response>
+        /// <response status="404">Status 404 Not Found</response>
+        /// <response status="400">Status 400 Bad Request</response>
         [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(400)]
         public IActionResult Post([FromBody] Role role)
         {
             try
@@ -71,7 +100,19 @@ namespace TimeKeeper.API.Controllers
                 return BadRequest(ex);
             }
         }
+        /// <summary>
+        /// This method updates Roles data
+        /// </summary>
+        /// <param name="id">ID of Role which we wish to Update</param>
+        /// <param name="role">Data which comes from frontend</param>
+        /// <returns>Role with new value of ID</returns>
+        /// <response status="200">Status 200 OK</response>
+        /// <response status="404">Status 404 Not Found</response>
+        /// <response status="400">Status 400 Bad Request</response>
         [HttpPut("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(400)]
         public IActionResult Put(int id, [FromBody] Role role)
         {
             try
@@ -87,7 +128,16 @@ namespace TimeKeeper.API.Controllers
                 return BadRequest(ex);
             }
         }
+        /// <summary>
+        /// This method attempt to delete Role
+        /// </summary>
+        /// <param name="id">ID of Role which we wish to Delete</param>
+        /// <returns>Team with new value of ID</returns>
+        /// <response status="204">Status 204 No Content</response>
+        /// <response status="400">Status 400 Bad Request</response>
         [HttpDelete("{id}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
         public IActionResult Delete(int id)
         {
             try
