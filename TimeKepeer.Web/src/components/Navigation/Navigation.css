@@ -9,12 +9,17 @@
         margin-left: 0px;
         padding-left: 0px;
     }
+
+  
+   
 }
 .custom-navbar {
-    padding: 0 100px;
+    padding: 0 4em;
     background-color: rgb(57, 54, 67, 0.9);
     border-bottom: 1px solid #163e37;
 }
+
+
 nav .brand-logo {
     position: relative;
 }

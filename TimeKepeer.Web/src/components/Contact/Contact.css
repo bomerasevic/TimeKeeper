@@ -1,0 +1,29 @@
+.contact {
+    background-image: url("../../assets/images/form.png");
+    background-size: cover;
+   padding: 80px 0px;
+   margin-top: 0;
+   color: white;
+}
+
+
+.input-field{
+    color: white;
+}
+
+#textarea2,#first_name,#email,#icon_telephone{
+    color: white;
+}
+
+.contact h6 {
+    color: #00ae8e;
+}
+
+.contact h3,h4{
+    margin: 0;
+}
+
+.contact h4{
+    margin-top: 10px;
+}
+

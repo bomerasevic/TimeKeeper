@@ -3,6 +3,9 @@ import "./Home.css";
 import Navigation from "../Navigation/Navigation";
 import logo from "../../assets/images/logo.svg";
 import MobileNavigation from "../MobileNavigation/MobileNavigation";
+
+
+
 function Home() {
     return (
         <div className="header " id="home">
