@@ -1,0 +1,32 @@
+[
+    {
+        "name": "Hasan Hadzagic",
+        "role": "QA Engineer",
+        "description": "Unit Testing. Integration Testing. System Testing. Sanity Testing. Smoke Testing. Interface Testing. Regression Testing. Beta/Acceptance Testing",
+        "icon": "https://i.ibb.co/x8zVGpX/Hasan-Hadzagic.jpg"
+    },
+    {
+        "name": "Anisa Hadzibulic",
+        "role": "Backend developer",
+        "description": "Shefica",
+        "icon": "https://i.ibb.co/Nn7HyFY/Anisa-Hadzibulic.jpg"
+    },
+    {
+        "name": "Almas Rezepagic",
+        "role": "Backend developer",
+        "description": "Almas LOL",
+        "icon": "https://i.ibb.co/sPqw7Hs/Almas-Redzepagic.jpg"
+    },
+    {
+        "name": "Amina Muzurovic",
+        "role": "Frontend developer",
+        "description": "MuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuziMuzi",
+        "icon": "https://i.ibb.co/v1rHrxv/Amina-Muzurovic.jpg"
+    },
+    {
+        "name": "Faris Spica",
+        "role": "Frontend developer",
+        "description": "Now U see mee",
+        "icon": "https://i.ibb.co/DVp65nq/Faris-Spica.jpg"
+    }
+]
