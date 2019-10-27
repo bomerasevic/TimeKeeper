@@ -28,6 +28,7 @@ namespace TimeKeeper.DAL
         private IRepository<ProjectStatus> _projectStatuses;
         private IRepository<Role> _roles;
         private IRepository<Team> _teams;
+        private IRepository<User> _users;
 
         public TimeKeeperContext Context { get { return _context; } }
 
@@ -46,6 +47,7 @@ namespace TimeKeeper.DAL
         public IRepository<ProjectStatus> ProjectStatuses => _projectStatuses ?? (_projectStatuses = new Repository<ProjectStatus>(_context));
         public IRepository<Role> Roles => _roles ?? (_roles = new RolesRepository(_context));
         public IRepository<Team> Teams => _teams ?? (_teams = new TeamsRepository(_context));
+        public IRepository<User> Users => _users ?? (_users = new Repository<User>(_context));
 
         public int Save() => _context.SaveChanges();
 

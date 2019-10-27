@@ -30,6 +30,7 @@ namespace TimeKeeper.DAL
         public DbSet<ProjectStatus> ProjectStatuses { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Team> Teams { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
         {
@@ -61,6 +62,7 @@ namespace TimeKeeper.DAL
             builder.Entity<ProjectStatus>().HasQueryFilter(x => !x.Deleted);
             builder.Entity<Role>().HasQueryFilter(x => !x.Deleted);
             builder.Entity<Team>().HasQueryFilter(x => !x.Deleted);
+            builder.Entity<User>().HasQueryFilter(x => !x.Deleted);
         }
         public override int SaveChanges()
         {
