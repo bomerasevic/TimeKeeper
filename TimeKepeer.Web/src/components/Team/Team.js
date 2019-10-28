@@ -6,49 +6,50 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import team from "./../../data/teamMembers.json";
 function Team() {
-    let settings = {
-        dots: true,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 3,
+	let settings = {
+		dots: true,
+		infinite: true,
+		speed: 400,
+		slidesToShow: 3,
         slidesToScroll: 1,
-        responsive: [
-            {
-                breakpoint: 1200,
-                settings: {
-                    infinite: true,
-                    slidesToShow: 3,
-                    slidesToScroll: 1,
-                    dots: true,
-                    arrows: true
-                }
-            },
-            {
-                breakpoint: 1000,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 1,
-                    dots: true,
-                    arrows: true
-                }
-            },
-            {
-                breakpoint: 600,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    arrows:true
-                }
-            }
-        ]
-    };
-    const teamMembers = team.map((member, i) => (
-        <TeamMember key={i} name={member.name} role={member.role} icon={member.icon} />
-    ));
-    return (
-        <div className="team large-section" id="team">
-            <Slider {...settings}>{teamMembers}</Slider>
-        </div>
-    );
+       
+		responsive: [
+			{
+				breakpoint: 1200,
+				settings: {
+					infinite: true,
+					slidesToShow: 3,
+					slidesToScroll: 1,
+					dots: true,
+					arrows: true
+				}
+			},
+			{
+				breakpoint: 1000,
+				settings: {
+					slidesToShow: 2,
+					slidesToScroll: 1,
+					dots: true,
+					arrows: true
+				}
+			},
+			{
+				breakpoint: 600,
+				settings: {
+					slidesToShow: 1,
+					slidesToScroll: 1,
+					arrows: true
+				}
+			}
+		]
+	};
+	const teamMembers = team.map((member, i) => (
+		<TeamMember key={i} name={member.name} role={member.role} icon={member.icon} />
+	));
+	return (
+		<div className="team large-section" id="staff">
+			<Slider {...settings}>{teamMembers}</Slider>
+		</div>
+	);
 }
 export default Team;

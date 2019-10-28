@@ -3,14 +3,14 @@ import "./Home.css";
 import Navigation from "../Navigation/Navigation";
 import logo from "../../assets/images/logo.svg";
 import MobileNavigation from "../MobileNavigation/MobileNavigation";
-
+//import Menu from "../MobileNavigation/menu";
 
 
 function Home() {
     return (
         <div className="header " id="home">
             <Navigation />
-            <MobileNavigation />
+            <MobileNavigation/>
             <div className="container header-text">
                 <img className="logo-large" src={logo} />
                 <h1>TimeKeeper</h1>

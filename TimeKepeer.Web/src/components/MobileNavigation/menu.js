@@ -3,43 +3,33 @@ import M from "materialize-css/dist/js/materialize.min.js";
 import "materialize-css/dist/css/materialize.min.css";
 
 class Menu extends Component {
-  componentDidMount() {
-      var elem = document.querySelector(".sidenav");
-      var instance = M.Sidenav.init(elem, {
-          edge: "left",
-          inDuration: 250
-      });
-  }
+    componentDidMount() {
+        const M = window.M;
+        document.addEventListener('DOMContentLoaded', function () {
+        let elems = document.querySelectorAll('.sidenav');
+        let instances = M.Sidenav.init(elems, {});
+        });
+        }
 
   render() {
       return (
-          <div>
-              <ul id="slide-out" className="sidenav">
-                  <li />
-                  <li>
-                      <a href="#!">
-                          <i className="material-icons">cloud</i>
-                      </a>
-                  </li>
-                  <li>
-                      <a href="#!">Second Link</a>
-                  </li>
-                  <li>
-                      <div className="divider" />
-                  </li>
-                  <li>
-                      <a className="subheader">Subheader</a>
-                  </li>
-                  <li>
-                      <a className="waves-effect" href="#!">
-                          Third Link With Waves
-                      </a>
-                  </li>
-              </ul>
-              <a href="#" data-target="slide-out" className="sidenav-trigger">
-                  <i className="material-icons">menu</i>
-              </a>
-          </div>
+        <ul className="sidenav" id="mobile-demo">
+        <li>
+            <a href="#about">About us</a>
+        </li>
+        <li>
+            <a href="#services">Services</a>
+        </li>
+        <li>
+            <a href="#staff">Our staff</a>
+        </li>
+        <li>
+            <a href="#contact">Contact us</a>
+        </li>
+        <li>
+            <a className="waves-effect waves-light btn">Login</a>
+        </li>
+    </ul>
       );
   }
 }
