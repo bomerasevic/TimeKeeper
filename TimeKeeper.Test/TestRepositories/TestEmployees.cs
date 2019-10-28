@@ -10,7 +10,7 @@ using TimeKeeper.Domain;
 namespace TimeKeeper.Test.TestRepositories
 {
     [TestFixture]
-    public class TestCustomers
+    public class TestEmployees
     {
         public UnitOfWork unit;
 
@@ -26,68 +26,68 @@ namespace TimeKeeper.Test.TestRepositories
         [Test, Order(1)]
         public void GetAll()
         {
-            var collection = unit.Customers.Get();
-            Assert.AreEqual(collection.Count(), 2);
+            var collection = unit.Employees.Get();
+            Assert.AreEqual(collection.Count(), 6);
         }
         [TestCase(1), Order(2)]
         public void GetById(int id)
         {
-            Customer customer = unit.Customers.Get(id);
-            Assert.False(customer == null);
+            Employee employee = unit.Employees.Get(id);
+            Assert.False(employee == null);
         }
         [TestCase(11), Order(3)]
         public void GetByWrongId(int id)
         {
-            Customer customer = unit.Customers.Get(id);
-            Assert.True(customer == null);
+            Employee employee = unit.Employees.Get(id);
+            Assert.True(employee == null);
         }
 
         [Test, Order(4)]
-        public void InsertCustomer()
+        public void InsertEmployee()
         {
-            Customer c = new Customer
+            Employee e = new Employee
             {
-                Name = "New customer"
+                FirstName = "New employee"
             };
-            unit.Customers.Insert(c);
+            unit.Employees.Insert(e);
             int N = unit.Save();
             Assert.AreEqual(1, N);
-            Assert.AreEqual(3, c.Id);
+            Assert.AreEqual(7, e.Id);
         }
 
         [TestCase(1), Order(5)]
-        public void UpdateCustomer(int id)
+        public void UpdateEmployee(int id)
         {
-            Customer c = new Customer
+            Employee e = new Employee
             {
                 Id = id,
-                Name = "Updated!",
-                Address = new CustomerAddress { City = "Updated city" },
-                Status = unit.CustomerStatuses.Get(1)
+                FirstName = "Updated!",
+                EndDate = DateTime.Now,
+                Status = unit.EmployeeStatuses.Get(2)
             };
-            unit.Customers.Update(c, id);
+            unit.Employees.Update(e, id);
             int N = unit.Save();
             Assert.AreEqual(1, N);
-            Assert.AreEqual("Updated!", c.Name);
+            Assert.AreEqual("Updated!", e.FirstName);
         }
 
         [TestCase(11), Order(6)]
-        public void UpdateCustomerWithWrongId(int id)
+        public void UpdateEmployeeWithWrongId(int id)
         {
-            Customer c = new Customer
+            Employee e = new Employee
             {
                 Id = id,
-                Name = "Updated!"
+                FirstName = "Updated!"
             };
-            unit.Customers.Update(c, id);
+            unit.Employees.Update(e, id);
             int N = unit.Save();
             Assert.AreEqual(0, N);
         }
 
         [TestCase(1), Order(7)]
-        public void DeleteCustomer(int id)
+        public void DeleteEmployee(int id)
         {
-            unit.Customers.Delete(id);
+            unit.Employees.Delete(id);
             int N = unit.Save();
             Assert.AreEqual(1, N);
         }
@@ -95,7 +95,7 @@ namespace TimeKeeper.Test.TestRepositories
         [TestCase(11), Order(8)]
         public void WrongDelete(int id)
         {
-            unit.Customers.Delete(id);
+            unit.Employees.Delete(id);
             int N = unit.Save();
             Assert.AreEqual(0, N);
         }

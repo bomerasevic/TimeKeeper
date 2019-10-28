@@ -61,7 +61,10 @@ namespace TimeKeeper.Test.TestRepositories
             Project p = new Project
             {
                 Id = id,
-                Name = "Updated!"
+                Name = "Updated!",
+                Team = unit.Teams.Get(2),
+                EndDate = DateTime.Now,
+                Status = unit.ProjectStatuses.Get(4)
             };
             unit.Projects.Update(p, id);
             int N = unit.Save();
