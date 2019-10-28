@@ -8,7 +8,7 @@
     background-image: url("../../assets/images/header_image.png");
     background-attachment: fixed;
     background-size: cover;
-    height: 100vh;
+    height: 99vh;
 }
 .header .container {
     text-align: center;
