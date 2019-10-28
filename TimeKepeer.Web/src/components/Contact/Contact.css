@@ -27,25 +27,10 @@
     margin-top: 10px;
 }
 
-
-/* .msg{
-    padding: 6px;
+.msg{
+    margin-top: 22px;
 }
-#textarea2{
- 
-    margin-top: 10px;
-    width: 400px;
-    height: 176px;
+textarea{
+    height: 185px !important;
 }
-
-@media screen and (max-width: 600px) {
-	#textarea2{
-        width: auto;
-        height: auto;
-        margin-top: 10px;
-    }
-    .msg{
-        padding: 6px;
-    } */
-
 
