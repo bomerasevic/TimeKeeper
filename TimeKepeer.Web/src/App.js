@@ -9,22 +9,22 @@ import Slider from "react-slick";
 import Services from "./components/Service/Services";
 import Contact from "./components/Contact/Contact";
 import Footer from "./components/Footer/Footer";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
+//import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 class App extends React.Component {
-	render() {
-		return (
-			<div className="App">
-				<Home />
-				<AboutUs />
-				<Services />
-				<Slider />
-				<Team />
-				<Contact />
-				<Footer />
-			</div>
-		);
-	}
+    render() {
+        return (
+            <div className="App">
+                <Home />
+                <AboutUs />
+                <Services />
+                <Slider />
+                <Team />
+                <Contact />
+                <Footer />
+            </div>
+        );
+    }
 }
 
 export default App;

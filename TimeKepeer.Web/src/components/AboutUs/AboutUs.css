@@ -69,3 +69,8 @@ h1 {
         padding: 40px 0;
     }
 }
+d @media screen and (max-width: 400px) {
+    .about-us {
+        font-size: 14px;
+    }
+}
