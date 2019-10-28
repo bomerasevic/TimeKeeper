@@ -7,6 +7,7 @@ class TeamMember extends React.Component {
     render() {
         console.log(this.props.icon);
         return (
+           
             <div className="rectangle">
                 <img className="gray" src={this.props.icon} alt="description"></img>
                 <h4>{this.props.name}</h4>
@@ -14,13 +15,13 @@ class TeamMember extends React.Component {
 
                 <div className="row">
                     <div className="col s4 icon">
-                        <img src={github} />
+                        <img className="grayIcon" src={github} />
                     </div>
                     <div className="col s4 icon">
-                        <img src={facebook} />
+                        <img className="grayIcon" src={facebook} />
                     </div>
                     <div className="col s4 icon">
-                        <img src={linkedin} />
+                        <img className="grayIcon" src={linkedin} />
                     </div>
                 </div>
             </div>
