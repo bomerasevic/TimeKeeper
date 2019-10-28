@@ -15,7 +15,7 @@ namespace TimeKeeper.API.Controllers
     [ApiController]
     public class CustomersController : BaseController
     {
-        public CustomersController(TimeKeeperContext context, ILogger<CustomersController> log) : base(context, log) { }
+        public CustomersController(TimeKeeperContext context) : base(context) { }
         /// <summary>
         /// This method returns all Customers
         /// </summary>
@@ -29,12 +29,12 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
-                Log.LogInformation("Try to get all Customers");
+                //Log.LogInformation("Try to get all Customers");
                 return Ok(Unit.Customers.Get().ToList().Select(x => x.Create()).ToList());
             }
             catch (Exception ex)
             {
-                Log.LogCritical(ex, "Server error!");
+                //Log.LogCritical(ex, "Server error!");
                 return BadRequest(ex);
             }
         }
@@ -54,11 +54,11 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
-                Log.LogInformation($"Try to get Customer with {id} ");
+                //Log.LogInformation($"Try to get Customer with {id} ");
                 Customer customer = Unit.Customers.Get(id);
                 if (customer == null)
                 {
-                    Log.LogInformation($"Customer with id {id} not found");
+                    //Log.LogInformation($"Customer with id {id} not found");
                     return NotFound();
                 }
                 else
@@ -68,7 +68,7 @@ namespace TimeKeeper.API.Controllers
             }
             catch (Exception ex)
             {
-                Log.LogCritical(ex, "Server error!");
+                //Log.LogCritical(ex, "Server error!");
                 return BadRequest(ex);
             }
         }
@@ -96,12 +96,12 @@ namespace TimeKeeper.API.Controllers
                 };
                 Unit.Customers.Insert(customer);
                 Unit.Save();
-                Log.LogInformation($"Customer {customer.Name} added with id {customer.Id}");
+                //Log.LogInformation($"Customer {customer.Name} added with id {customer.Id}");
                 return Ok(customer.Create());
             }
             catch (Exception ex)
             {
-                Log.LogCritical(ex, "Server error!");
+                //Log.LogCritical(ex, "Server error!");
                 return BadRequest(ex);
             }
         }
@@ -130,12 +130,12 @@ namespace TimeKeeper.API.Controllers
                 };
                 Unit.Customers.Update(customer, id);
                 Unit.Save();
-                Log.LogInformation($"Customer with id {id} updated with body {customer}");
+                //Log.LogInformation($"Customer with id {id} updated with body {customer}");
                 return Ok(customer.Create());
             }
             catch (Exception ex)
             {
-                Log.LogCritical(ex, "Server error!");
+                //Log.LogCritical(ex, "Server error!");
                 return BadRequest(ex);
             }
         }
@@ -155,12 +155,12 @@ namespace TimeKeeper.API.Controllers
             {
                 Unit.Customers.Delete(id);
                 Unit.Save();
-                Log.LogInformation($"Attempt to delete Customer with id {id}");
+                //Log.LogInformation($"Attempt to delete Customer with id {id}");
                 return NoContent();
             }
             catch (Exception ex)
             {
-                Log.LogCritical(ex, "Server error!");
+                //Log.LogCritical(ex, "Server error!");
                 return BadRequest(ex);
             }
         }

@@ -20,28 +20,29 @@ namespace TimeKeeper.API
                           .UseContentRoot(Directory.GetCurrentDirectory())
                           .UseIISIntegration()
                           .UseStartup<Startup>()
-                          .ConfigureLogging(log =>
-                          {
-                              log.ClearProviders();
-                              log.SetMinimumLevel(LogLevel.Information);
-                          }).UseNLog()
+                          //.ConfigureLogging(log =>
+                          //{
+                          //    log.ClearProviders();
+                          //    log.SetMinimumLevel(LogLevel.Information);
+                          //}).UseNLog()
                           .Build();
-            
-            var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
-            try
-            {
-                logger.Info("init main");
-                host.Run();
-            }
-            catch(Exception ex)
-            {
-                logger.Error(ex, "Stopped program");
-                throw;
-            }
-            finally
-            {
-                NLog.LogManager.Shutdown();
-            }
+            host.Run();
+
+
+            //var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
+            //try
+            //{
+            //    logger.Info("init main");
+            //}
+            //catch(Exception ex)
+            //{
+            //    logger.Error(ex, "Stopped program");
+            //    throw;
+            //}
+            //finally
+            //{
+            //    NLog.LogManager.Shutdown();
+            //}
         }
 
         //public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>

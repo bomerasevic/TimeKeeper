@@ -15,7 +15,7 @@ namespace TimeKeeper.API.Controllers
     [ApiController]
     public class RolesController : BaseController
     {
-        public RolesController(TimeKeeperContext context, ILogger<RolesController> log) : base(context, log) { }
+        public RolesController(TimeKeeperContext context) : base(context) { }
 
         /// <summary>
         /// This method get data of all Roles
@@ -30,12 +30,12 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
-                Log.LogInformation($"Try to get all Roles");
+                //Log.LogInformation($"Try to get all Roles");
                 return Ok(Unit.Roles.Get().ToList().Select(x => x.Create()).ToList());
             }
             catch (Exception ex)
             {
-                Log.LogCritical(ex, "Server error");
+                //Log.LogCritical(ex, "Server error");
                 return BadRequest(ex);
             }
         }
@@ -55,11 +55,11 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
-                Log.LogInformation($"Try to fetch role with id {id}");
+                //Log.LogInformation($"Try to fetch role with id {id}");
                 Role role = Unit.Roles.Get(id);
                 if (role == null)
                 {
-                    Log.LogError($"There is no role with specified id {id}");
+                    //Log.LogError($"There is no role with specified id {id}");
                     return NotFound();
                 }
                 else
@@ -69,7 +69,7 @@ namespace TimeKeeper.API.Controllers
             }
             catch (Exception ex)
             {
-                Log.LogCritical(ex, "Server error");
+                //Log.LogCritical(ex, "Server error");
                 return BadRequest(ex);
             }
         }
@@ -91,12 +91,12 @@ namespace TimeKeeper.API.Controllers
             {
                 Unit.Roles.Insert(role);
                 Unit.Save();
-                Log.LogInformation($"Role {role.Name} added with id {role.Id}");
+                //Log.LogInformation($"Role {role.Name} added with id {role.Id}");
                 return Ok(role.Create());
             }
             catch (Exception ex)
             {
-                Log.LogCritical(ex, "Server error");
+                //Log.LogCritical(ex, "Server error");
                 return BadRequest(ex);
             }
         }
@@ -119,12 +119,12 @@ namespace TimeKeeper.API.Controllers
             {
                 Unit.Roles.Update(role, id);
                 Unit.Save();
-                Log.LogInformation($"Role {role.Name} with id {role.Id} has changes.");
+                //Log.LogInformation($"Role {role.Name} with id {role.Id} has changes.");
                 return Ok(role.Create());
             }
             catch (Exception ex)
             {
-                Log.LogCritical(ex, "Server error");
+                //Log.LogCritical(ex, "Server error");
                 return BadRequest(ex);
             }
         }
@@ -144,12 +144,12 @@ namespace TimeKeeper.API.Controllers
             {
                 Unit.Roles.Delete(id);
                 Unit.Save();
-                Log.LogInformation($"Attempt to delete role with id {id}");
+                //Log.LogInformation($"Attempt to delete role with id {id}");
                 return NoContent();
             }
             catch (Exception ex)
             {
-                Log.LogCritical(ex, "Server error");
+                //Log.LogCritical(ex, "Server error");
                 return BadRequest(ex);
             }
         }
