@@ -36,6 +36,11 @@ namespace TimeKeeper.API
             string connectionString = Configuration["ConnectionString"];
             services.AddDbContext<TimeKeeperContext>(o => { o.UseNpgsql(connectionString); });
 
+            services.Configure<IISOptions>(o =>
+              {
+                  o.AutomaticAuthentication = false;  // vezana za windows; ne koristi se windows autentikacija/niti od internet information servera
+              });
+
             services.AddSwaggerDocument(config =>
             {
                 config.PostProcess = document =>

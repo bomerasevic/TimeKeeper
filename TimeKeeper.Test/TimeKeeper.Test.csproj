@@ -19,8 +19,4 @@
     <ProjectReference Include="..\TimeKeeper.Seed\TimeKeeper.Seed.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="TestControllers\" />
-  </ItemGroup>
-
 </Project>
