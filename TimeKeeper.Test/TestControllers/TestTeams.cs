@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using TimeKeeper.API.Controllers;
 using TimeKeeper.DAL;
 
 namespace TimeKeeper.Test.TestControllers
@@ -25,11 +26,9 @@ namespace TimeKeeper.Test.TestControllers
         [Test]
         public void GetAll()
         {
-            // Act
-            var collection = unit.Teams.Get();
+            //var controller = new TeamsController(unit);
 
-            // Assert
-            Assert.AreEqual(collection.Count(), 3);
+            //Assert.AreEqual(200, response.StatusCode);
         }
     }
 }

@@ -13,7 +13,6 @@ namespace TimeKeeper.Test.TestRepositories
     public class TestTeams
     {
         public UnitOfWork unit;
-        static IRepository<Team> teams;
 
         [OneTimeSetUp]
         public void SetUp()
@@ -24,79 +23,77 @@ namespace TimeKeeper.Test.TestRepositories
             unit.Seed(fileLocation);
         }
 
-        [Test]
+        [Test, Order(1)]
         public void GetAll()
         {
             var collection = unit.Teams.Get();
             Assert.AreEqual(collection.Count(), 3);
         }
-        [Test]
+        [TestCase(1), Order(2)]
         public void GetById(int id)
         {
             Team team = unit.Teams.Get(id);
             Assert.False(team == null);
         }
-        [Test]
-        public void WrongId()
+        [TestCase(11), Order(3)]
+        public void GetByWrongId(int id)
         {
-            Team team = teams.Get(11);
+            Team team = unit.Teams.Get(id);
             Assert.True(team == null);
         }
 
-        [Test]
+        [Test, Order(4)]
         public void InsertTeam()
         {
             Team t = new Team
             {
                 Name = "New team"
             };
-            teams.Insert(t);
+            unit.Teams.Insert(t);
             int N = unit.Save();
             Assert.AreEqual(1, N);
             Assert.AreEqual(4, t.Id);
         }
 
-        [Test]
-        public void UpdateTeam()
+        [TestCase(1), Order(5)]
+        public void UpdateTeam(int id)
         {
-            int id = 2;
             Team t = new Team
             {
                 Id = id,
                 Name = "Updated!"
             };
-            teams.Update(t, id);
+            unit.Teams.Update(t, id);
             int N = unit.Save();
             Assert.AreEqual(1, N);
             Assert.AreEqual("Updated!", t.Name);
         }
 
-        [Test]
-        public void UpdateTeamWithWrongId()
+        [TestCase(11), Order(6)]
+        public void UpdateTeamWithWrongId(int id)
         {
-            int id = 2;
             Team t = new Team
             {
-                Id = 2,
+                Id = id,
                 Name = "Updated!"
             };
-            teams.Update(t, id + 1);
+            unit.Teams.Update(t, id);
             int N = unit.Save();
             Assert.AreEqual(0, N);
         }
 
-        [Test]
-        public void DeleteTeam()
+        [TestCase(1), Order(7)]
+        public void DeleteTeam(int id)
         {
-            teams.Delete(2);
+            unit.Teams.Delete(id);
             int N = unit.Save();
             Assert.AreEqual(1, N);
         }
 
-        [Test]
-        public void WrongDelete()
+        [TestCase(11), Order(8)]
+        public void WrongDelete(int id)
         {
-            teams.Delete(22);
+            unit.Teams.Delete(id);
             int N = unit.Save();
             Assert.AreEqual(0, N);
         }
