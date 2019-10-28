@@ -3,17 +3,19 @@
     width: auto;
     margin-top: 11px;
 }
-.header {
+.header  {
     font-family: Roboto;
     background-image: url("../../assets/images/header_image.png");
     background-attachment: fixed;
     background-size: cover;
-    height: 99vh;
+    min-height: 98vh;
+    height: auto;
 }
 .header .container {
     text-align: center;
     color: white;
     padding-top: 200px;
+    
 }
 
 .header .container h1 {
@@ -33,7 +35,7 @@
     .header .container h1 {
         font-size: 48px;
     }
-
+  
     .header .container h2 {
         font-size: 24px;
     }
@@ -43,7 +45,8 @@
     }
 
     .header {
-        height: 60vh;
+        min-height: 60vh;
+        height: auto;
     }
 
     .header .container {
