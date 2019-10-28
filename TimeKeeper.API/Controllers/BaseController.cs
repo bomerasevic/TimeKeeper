@@ -14,11 +14,9 @@ namespace TimeKeeper.API.Controllers
     public class BaseController : ControllerBase
     {
         protected UnitOfWork Unit;
-        protected static ILogger<BaseController> Log;
-        public BaseController(TimeKeeperContext context, ILogger<BaseController> log)
+        public BaseController(TimeKeeperContext context)
         {
             Unit = new UnitOfWork(context);
-            Log = log;
         }
     }
 }

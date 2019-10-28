@@ -15,7 +15,7 @@ namespace TimeKeeper.API.Controllers
     [ApiController]
     public class EmployeesController : BaseController
     {
-        public EmployeesController(TimeKeeperContext context, ILogger<EmployeesController> log) : base(context, log) { }
+        public EmployeesController(TimeKeeperContext context) : base(context) { }
         /// <summary>
         /// This method returns all Employees
         /// </summary>
@@ -29,12 +29,12 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
-                Log.LogInformation($"Try to get all Employees");
+                //Log.LogInformation($"Try to get all Employees");
                 return Ok(Unit.Employees.Get().ToList().Select(x => x.Create()).ToList());
             }
             catch (Exception ex)
             {
-                Log.LogCritical(ex, "Server error");
+                //Log.LogCritical(ex, "Server error");
                 return BadRequest(ex);
             }
         }
@@ -54,11 +54,11 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
-                Log.LogInformation($"Try to fetch Employee with Id {id}");
+                //Log.LogInformation($"Try to fetch Employee with Id {id}");
                 Employee employee = Unit.Employees.Get(id);
                 if (employee == null)
                 {
-                    Log.LogError($"There is no Employee with specified Id {id}");
+                    //Log.LogError($"There is no Employee with specified Id {id}");
                     return NotFound();
                 }
                 else
@@ -68,7 +68,7 @@ namespace TimeKeeper.API.Controllers
             }
             catch (Exception ex)
             {
-                Log.LogCritical(ex, "Server error");
+                //Log.LogCritical(ex, "Server error");
                 return BadRequest(ex);
             }
         }
@@ -90,12 +90,12 @@ namespace TimeKeeper.API.Controllers
                 employee.Position = Unit.EmployeePositions.Get(employee.Position.Id);
                 Unit.Employees.Insert(employee);
                 Unit.Save();
-                Log.LogInformation($"Employee {employee.FirstName + " " + employee.LastName} added with Id {employee.Id}");
+                //Log.LogInformation($"Employee {employee.FirstName + " " + employee.LastName} added with Id {employee.Id}");
                 return Ok(employee.Create());
             }
             catch (Exception ex)
             {
-                Log.LogCritical(ex, "Server error");
+                //Log.LogCritical(ex, "Server error");
                 return BadRequest(ex);
             }
         }
@@ -118,12 +118,12 @@ namespace TimeKeeper.API.Controllers
                 employee.Position = Unit.EmployeePositions.Get(employee.Position.Id);
                 Unit.Employees.Update(employee, id);
                 Unit.Save();
-                Log.LogInformation($"Employee {employee.FirstName + " " + employee.LastName} with Id {employee.Id} has changes.");
+                //Log.LogInformation($"Employee {employee.FirstName + " " + employee.LastName} with Id {employee.Id} has changes.");
                 return Ok(employee.Create());
             }
             catch (Exception ex)
             {
-                Log.LogCritical(ex, "Server error");
+                //Log.LogCritical(ex, "Server error");
                 return BadRequest(ex);
             }
         }
@@ -143,12 +143,12 @@ namespace TimeKeeper.API.Controllers
             {
                 Unit.Employees.Delete(id);
                 Unit.Save();
-                Log.LogInformation($"Attempt to delete Employee with Id {id}");
+                //Log.LogInformation($"Attempt to delete Employee with Id {id}");
                 return NoContent();
             }
             catch(Exception ex)
             {
-                Log.LogCritical(ex, "Server error");
+                //Log.LogCritical(ex, "Server error");
                 return BadRequest(ex);
             }
         }

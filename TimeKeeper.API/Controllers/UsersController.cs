@@ -17,7 +17,7 @@ namespace TimeKeeper.API.Controllers
     [ApiController]
     public class UsersController : BaseController
     {
-        public UsersController(TimeKeeperContext context, ILogger<BaseController> log) : base(context, log) { }
+        public UsersController(TimeKeeperContext context) : base(context) { }
 
         [HttpGet]
         public IActionResult Get()

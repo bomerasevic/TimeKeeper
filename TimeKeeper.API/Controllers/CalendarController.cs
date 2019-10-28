@@ -15,19 +15,19 @@ namespace TimeKeeper.API.Controllers
     [ApiController]
     public class CalendarController : BaseController
     {
-        public CalendarController(TimeKeeperContext context, ILogger<BaseController> log) : base(context, log) { }
+        public CalendarController(TimeKeeperContext context) : base(context) { }
 
         [HttpGet]
         public IActionResult Get()
         {
             try
             {
-                Log.LogInformation($"Try to get all Days");
+                //Log.LogInformation($"Try to get all Days");
                 return Ok(Unit.Calendar.Get().ToList().Select(x => x.Create()).ToList());
             }
             catch (Exception ex)
             {
-                Log.LogCritical(ex, "Server error");
+                //Log.LogCritical(ex, "Server error");
                 return BadRequest(ex);
             }
         }
@@ -37,11 +37,11 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
-                Log.LogInformation($"Try to fetch day with id {id}");
+                //Log.LogInformation($"Try to fetch day with id {id}");
                 Day day = Unit.Calendar.Get(id);
                 if (day == null)
                 {
-                    Log.LogError($"There is no day with specified id {id}");
+                    //Log.LogError($"There is no day with specified id {id}");
                     return NotFound();
                 }
                 else
@@ -51,7 +51,7 @@ namespace TimeKeeper.API.Controllers
             }
             catch (Exception ex)
             {
-                Log.LogCritical(ex, "Server error");
+                //Log.LogCritical(ex, "Server error");
                 return BadRequest(ex);
             }
         }
@@ -62,12 +62,12 @@ namespace TimeKeeper.API.Controllers
             {
                 Unit.Calendar.Insert(day);
                 Unit.Save();
-                Log.LogInformation($"Day added with id {day.Id}");
+                //Log.LogInformation($"Day added with id {day.Id}");
                 return Ok(day.Create());
             }
             catch (Exception ex)
             {
-                Log.LogCritical(ex, "Server error");
+                //Log.LogCritical(ex, "Server error");
                 return BadRequest(ex);
             }
         }
@@ -79,12 +79,12 @@ namespace TimeKeeper.API.Controllers
             {
                 Unit.Calendar.Update(day, id);
                 Unit.Save();
-                Log.LogInformation($"Day with id {day.Id} has changes.");
+                //Log.LogInformation($"Day with id {day.Id} has changes.");
                 return Ok(day.Create());
             }
             catch (Exception ex)
             {
-                Log.LogCritical(ex, "Server error");
+                //Log.LogCritical(ex, "Server error");
                 return BadRequest(ex);
             }
         }
@@ -96,12 +96,12 @@ namespace TimeKeeper.API.Controllers
             {
                 Unit.Calendar.Delete(id);
                 Unit.Save();
-                Log.LogInformation($"Attempt to delete day with id {id}");
+                //Log.LogInformation($"Attempt to delete day with id {id}");
                 return NoContent();
             }
             catch (Exception ex)
             {
-                Log.LogCritical(ex, "Server error");
+                //Log.LogCritical(ex, "Server error");
                 return BadRequest(ex);
             }
         }
