@@ -11,7 +11,7 @@ function Navigation() {
                     <a href="#home" className="left brand-logo">
                         <img id="time-keeper-logo" src={logo} />
                     </a>
-                    <a href="#" id="mobile-demo" className="sidenav-trigger">
+                    <a href="#" data-target="mobile-demo" className="sidenav-trigger button-collapse">
                         <i className="material-icons">
                             <img src={hamburger} />
                         </i>
