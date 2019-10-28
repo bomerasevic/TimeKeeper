@@ -15,11 +15,23 @@ namespace TimeKeeper.API
     {        
         public static void Main(string[] args)
         {
+            var host = new WebHostBuilder()
+                          .UseKestrel()
+                          .UseContentRoot(Directory.GetCurrentDirectory())
+                          .UseIISIntegration()
+                          .UseStartup<Startup>()
+                          .ConfigureLogging(log =>
+                          {
+                              log.ClearProviders();
+                              log.SetMinimumLevel(LogLevel.Information);
+                          }).UseNLog()
+                          .Build();
+            
             var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
             try
             {
                 logger.Info("init main");
-                CreateWebHostBuilder(args).Build().Run();
+                host.Run();
             }
             catch(Exception ex)
             {
@@ -32,13 +44,13 @@ namespace TimeKeeper.API
             }
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args).UseStartup<Startup>()
-            .ConfigureLogging(log => 
-            {
-                log.ClearProviders();
-                log.SetMinimumLevel(LogLevel.Information);
-            }).UseNLog();
+        //public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+        //    WebHost.CreateDefaultBuilder(args).UseStartup<Startup>()
+        // .ConfigureLogging(log => 
+        //    {
+        //    log.ClearProviders();
+        //    log.SetMinimumLevel(LogLevel.Information);
+        //}).UseNLog();
 
     }
 }
