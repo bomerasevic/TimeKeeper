@@ -4,6 +4,8 @@
    padding: 80px 0px;
    margin-top: 0;
    color: white;
+   min-height: 60vh;
+   height: auto;
 }
 
 
