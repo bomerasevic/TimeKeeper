@@ -30,12 +30,12 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
-                //Log.LogInformation($"Try to get all Members");
+                Log.Info($"Try to get all Members");
                 return Ok(Unit.Members.Get().ToList().Select(x=>x.Create()).ToList());
             }
             catch(Exception ex)
             {
-                //Log.LogCritical(ex, "Server error");
+                Log.Fatal("Server error");
                 return BadRequest(ex);
             }
         }
@@ -55,11 +55,11 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
-                //Log.LogInformation($"Try to fetch member with id {id}");
+                Log.Info($"Try to fetch member with id {id}");
                 Member member = Unit.Members.Get(id);
                 if (member == null)
                 {
-                    //Log.LogError($"There is no project with specified id {id}");
+                    Log.Error($"There is no project with specified id {id}");
                     return NotFound();
                 }
                 else
@@ -93,12 +93,12 @@ namespace TimeKeeper.API.Controllers
                 member.Status = Unit.MemberStatuses.Get(member.Status.Id);
                 Unit.Members.Insert(member);
                 Unit.Save();
-                //Log.LogInformation($"Member added with id {member.Id}");
+                Log.Info($"Member added with id {member.Id}");
                 return Ok(member.Create());
             }
             catch(Exception ex)
             {
-                //Log.LogCritical(ex, "Server error");
+                Log.Fatal("Server error");
                 return BadRequest(ex);
             }
         }
@@ -123,12 +123,12 @@ namespace TimeKeeper.API.Controllers
                 member.Status = Unit.MemberStatuses.Get(member.Status.Id);
                 Unit.Members.Update(member, id);
                 Unit.Save();
-                //Log.LogInformation($"Member with id {member.Id} has changes.");
+                Log.Info($"Member with id {member.Id} has changes.");
                 return Ok(member.Create());
             }
             catch(Exception ex)
             {
-                //Log.LogCritical(ex, "Server error");
+                Log.Fatal("Server error");
                 return BadRequest(ex);
             }
         }
@@ -148,12 +148,12 @@ namespace TimeKeeper.API.Controllers
             {
                 Unit.Members.Delete(id);
                 Unit.Save();
-                //Log.LogInformation($"Attempt to delete project with id {id}");
+                Log.Info($"Attempt to delete project with id {id}");
                 return NoContent();
             }
             catch (Exception ex)
             {
-                //Log.LogCritical(ex, "Server error");
+                Log.Fatal("Server error");
                 return BadRequest(ex);
             }
         }
