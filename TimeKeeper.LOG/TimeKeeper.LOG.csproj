@@ -11,8 +11,4 @@
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\TimeKeeper.API\TimeKeeper.API.csproj" />
-  </ItemGroup>
-
 </Project>

@@ -29,12 +29,12 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
-                //Log.LogInformation($"Try to get all Employees");
+                Log.Info($"Try to get all Employees");
                 return Ok(Unit.Employees.Get().ToList().Select(x => x.Create()).ToList());
             }
             catch (Exception ex)
             {
-                //Log.LogCritical(ex, "Server error");
+                Log.Fatal("Server error");
                 return BadRequest(ex);
             }
         }
@@ -58,7 +58,7 @@ namespace TimeKeeper.API.Controllers
                 Employee employee = Unit.Employees.Get(id);
                 if (employee == null)
                 {
-                    //Log.LogError($"There is no Employee with specified Id {id}");
+                    Log.Error($"There is no Employee with specified Id {id}");
                     return NotFound();
                 }
                 else
@@ -68,7 +68,7 @@ namespace TimeKeeper.API.Controllers
             }
             catch (Exception ex)
             {
-                //Log.LogCritical(ex, "Server error");
+                Log.Fatal("Server error");
                 return BadRequest(ex);
             }
         }
@@ -90,12 +90,12 @@ namespace TimeKeeper.API.Controllers
                 employee.Position = Unit.EmployeePositions.Get(employee.Position.Id);
                 Unit.Employees.Insert(employee);
                 Unit.Save();
-                //Log.LogInformation($"Employee {employee.FirstName + " " + employee.LastName} added with Id {employee.Id}");
+                Log.Info($"Employee {employee.FirstName + " " + employee.LastName} added with Id {employee.Id}");
                 return Ok(employee.Create());
             }
             catch (Exception ex)
             {
-                //Log.LogCritical(ex, "Server error");
+                Log.Fatal("Server error");
                 return BadRequest(ex);
             }
         }
@@ -118,12 +118,12 @@ namespace TimeKeeper.API.Controllers
                 employee.Position = Unit.EmployeePositions.Get(employee.Position.Id);
                 Unit.Employees.Update(employee, id);
                 Unit.Save();
-                //Log.LogInformation($"Employee {employee.FirstName + " " + employee.LastName} with Id {employee.Id} has changes.");
+                Log.Info($"Employee {employee.FirstName + " " + employee.LastName} with Id {employee.Id} has changes.");
                 return Ok(employee.Create());
             }
             catch (Exception ex)
             {
-                //Log.LogCritical(ex, "Server error");
+                Log.Fatal("Server error");
                 return BadRequest(ex);
             }
         }
@@ -143,12 +143,12 @@ namespace TimeKeeper.API.Controllers
             {
                 Unit.Employees.Delete(id);
                 Unit.Save();
-                //Log.LogInformation($"Attempt to delete Employee with Id {id}");
+                Log.Info($"Attempt to delete Employee with Id {id}");
                 return NoContent();
             }
             catch(Exception ex)
             {
-                //Log.LogCritical(ex, "Server error");
+                Log.Fatal("Server error");
                 return BadRequest(ex);
             }
         }

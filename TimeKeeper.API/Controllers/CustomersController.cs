@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using TimeKeeper.API.Factory;
 using TimeKeeper.DAL;
 using TimeKeeper.Domain;
+using TimeKeeper.LOG;
 
 namespace TimeKeeper.API.Controllers
 {
@@ -29,12 +30,12 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
-                //Log.LogInformation("Try to get all Customers");
+                Log.Info("Try to get all Customers");
                 return Ok(Unit.Customers.Get().ToList().Select(x => x.Create()).ToList());
             }
             catch (Exception ex)
             {
-                //Log.LogCritical(ex, "Server error!");
+                Log.Fatal("Server error!");
                 return BadRequest(ex);
             }
         }
@@ -58,7 +59,7 @@ namespace TimeKeeper.API.Controllers
                 Customer customer = Unit.Customers.Get(id);
                 if (customer == null)
                 {
-                    //Log.LogInformation($"Customer with id {id} not found");
+                    Log.Info($"Customer with id {id} not found");
                     return NotFound();
                 }
                 else
@@ -68,7 +69,7 @@ namespace TimeKeeper.API.Controllers
             }
             catch (Exception ex)
             {
-                //Log.LogCritical(ex, "Server error!");
+                Log.Fatal("Server error!");
                 return BadRequest(ex);
             }
         }
@@ -96,12 +97,12 @@ namespace TimeKeeper.API.Controllers
                 };
                 Unit.Customers.Insert(customer);
                 Unit.Save();
-                //Log.LogInformation($"Customer {customer.Name} added with id {customer.Id}");
+                Log.Info($"Customer {customer.Name} added with id {customer.Id}");
                 return Ok(customer.Create());
             }
             catch (Exception ex)
             {
-                //Log.LogCritical(ex, "Server error!");
+                Log.Fatal("Server error!");
                 return BadRequest(ex);
             }
         }
@@ -130,12 +131,12 @@ namespace TimeKeeper.API.Controllers
                 };
                 Unit.Customers.Update(customer, id);
                 Unit.Save();
-                //Log.LogInformation($"Customer with id {id} updated with body {customer}");
+                Log.Info($"Customer with id {id} updated with body {customer}");
                 return Ok(customer.Create());
             }
             catch (Exception ex)
             {
-                //Log.LogCritical(ex, "Server error!");
+                Log.Fatal("Server error!");
                 return BadRequest(ex);
             }
         }
@@ -155,12 +156,12 @@ namespace TimeKeeper.API.Controllers
             {
                 Unit.Customers.Delete(id);
                 Unit.Save();
-                //Log.LogInformation($"Attempt to delete Customer with id {id}");
+                Log.Info($"Attempt to delete Customer with id {id}");
                 return NoContent();
             }
             catch (Exception ex)
             {
-                //Log.LogCritical(ex, "Server error!");
+                Log.Fatal("Server error!");
                 return BadRequest(ex);
             }
         }
