@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -34,9 +35,15 @@ namespace TimeKeeper.API.Controllers
         {
             User control = Unit.Users.Get(x => x.Username == user.Username && x.Password == user.Password).FirstOrDefault();
             if (control == null) return NotFound();
-            //var bytes = Convert.ToByte($"{control.Username}:{control.Password}");
-            //return Ok(Convert.ToBase64String(bytes));
-            return Ok($"{control.Username}:{control.Password}");
+            byte[] bytes = Encoding.ASCII.GetBytes($"{control.Username}:{control.Password}");
+            string base64 = Convert.ToBase64String(bytes);
+            return Ok(new {
+                control.Id,
+                control.Name,
+                control.Role,
+                base64
+            });
+            //return Ok($"{control.Username}:{control.Password}");
         }
     }
 }
