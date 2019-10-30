@@ -24,3 +24,27 @@
 nav .brand-logo {
     position: relative;
 }
+.ReactModal__Overlay--after-open {
+    z-index: 1000;
+    background-color: rgba(128, 128, 128, 0.397) !important;
+}
+.ReactModal__Content--after-open {
+    width: 800px;
+    height: 500px;
+    position: initial !important;
+    margin: 80px auto !important;
+    display: flex !important;
+}
+.loginHeader1 {
+    font-size: 20px;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+    font-weight: bold;
+}
+.loginHeader2 {
+    font-size: 18px;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+}
