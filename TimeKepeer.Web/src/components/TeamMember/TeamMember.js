@@ -14,13 +14,19 @@ class TeamMember extends React.Component {
 
                 <div className="row">
                     <div className="col s4 icon">
-                        <img className="grayIcon" src={github} />
+                        <a href={this.props.gitLink}>
+                            <img className="grayIcon" src={github} />
+                        </a>
                     </div>
                     <div className="col s4 icon">
-                        <img className="grayIcon" src={facebook} />
+                        <a href={this.props.fbLink}>
+                            <img className="grayIcon" src={facebook} />
+                        </a>
                     </div>
                     <div className="col s4 icon">
-                        <img className="grayIcon" src={linkedin} />
+                        <a href={this.props.linkedInLink}>
+                            <img className="grayIcon" src={linkedin} />
+                        </a>
                     </div>
                 </div>
             </div>
