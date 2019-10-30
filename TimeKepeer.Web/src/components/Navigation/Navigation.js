@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./Navigation.css";
 import logo from "../../assets/images/logo.svg";
+import logomodal from "../../assets/images/logomodal.png"
 import hamburger from "../../assets/images/hamburger.svg";
 import Modal from "react-modal";
 
@@ -69,7 +70,7 @@ class Navigation extends React.Component {
                                     onRequestClose={this.closeModal}
                                 >
                                     <div className="row">
-                                        <img className="logo-modal" src={logo} />
+                                        <img className="logo-modal" src={logomodal} />
 
                                         <h1 className="loginHeader1">Login to your account</h1>
 
@@ -78,7 +79,7 @@ class Navigation extends React.Component {
                                         </h2>
                                         <Formik
                                             initialValues={{
-                                                name: "",
+                                                username: "",
                                                 password: ""
                                             }}
                                             validationSchema={SignupSchema}
@@ -96,7 +97,7 @@ class Navigation extends React.Component {
                                                             type="text"
                                                         />
                                                         {errors.username && touched.username ? (
-                                                            <div>{errors.name}</div>
+                                                            <div className="errorUsername">{errors.username}</div>
                                                         ) : null}
                                                         <label htmlFor="username">username</label>
                                                     </div>
@@ -108,7 +109,7 @@ class Navigation extends React.Component {
                                                             type="text"
                                                         />
                                                         {errors.password && touched.password ? (
-                                                            <div>{errors.password}</div>
+                                                            <div className="errorPassword">{errors.password}</div>
                                                         ) : null}
                                                         <label htmlFor="password">password</label>
                                                     </div>
