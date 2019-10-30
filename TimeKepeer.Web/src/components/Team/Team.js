@@ -44,7 +44,7 @@ function Team() {
         ]
     };
     const teamMembers = team.map((member, i) => (
-        <TeamMember key={i} name={member.name} role={member.role} icon={member.icon} />
+        <TeamMember key={i} name={member.name} role={member.role} icon={member.icon} gitLink={member.gitLink} fbLink={member.fbLink} linkedInLink={member.linkedInLink}/>
     ));
     return (
         <div className="team large-section" id="staff">

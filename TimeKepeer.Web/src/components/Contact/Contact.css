@@ -11,6 +11,9 @@
 .input-field {
     color: white;
 }
+.after-message {
+    margin-top: 50px;
+}
 
 #textarea2,
 #name,
