@@ -64,17 +64,24 @@ class Navigation extends React.Component {
                                 >
                                     Login
                                 </a>
-                                <Modal
+                                <Modal   
                                     isOpen={this.state.modalIsOpen}
                                     onRequestClose={this.closeModal}
-                                >
-                                    <div className="row">
+                                >  
+                               
+                              
+                                    
+                                   <div className="row">
+                                    <img className="logo-modal" src={logo} />
+                                    
+                                    
                                         <h1 className="loginHeader1">Login to your account</h1>
 
                                         <h2 className="loginHeader2">
                                             Save time for doing great work.
                                         </h2>
-                                    </div>
+                                       </div>
+                                  
                                     <Formik
                                         initialValues={{
                                             name: "",
@@ -87,7 +94,11 @@ class Navigation extends React.Component {
                                         }}
                                     >
                                         {({ errors, touched }) => (
+                                       
+                                          
                                             <Form>
+                                        
+                                             
                                                 <div className="input-field">
                                                     <Field
                                                         name="username"
@@ -97,8 +108,9 @@ class Navigation extends React.Component {
                                                     {errors.username && touched.username ? (
                                                         <div>{errors.name}</div>
                                                     ) : null}
-                                                    <label htmlFor="name">Name</label>
-                                                </div>
+                                                    <label htmlFor="username">username</label>
+                                              </div>
+                                                
                                                 <div className="input-field">
                                                     <Field
                                                         name="password"
@@ -110,16 +122,22 @@ class Navigation extends React.Component {
                                                     ) : null}
                                                     <label htmlFor="password">password</label>
                                                 </div>
-
+                                                   
                                                 <button
                                                     type="submit"
                                                     className="waves-effect waves-light btn"
                                                 >
                                                     Send message
                                                 </button>
+                                                                                          
+                                              
                                             </Form>
+                                           
+                                         
                                         )}
                                     </Formik>
+                                    
+                                    
                                 </Modal>
                             </li>
                         </ul>

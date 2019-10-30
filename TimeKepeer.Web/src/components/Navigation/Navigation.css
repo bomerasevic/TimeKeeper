@@ -22,7 +22,7 @@
 }
 
 nav .brand-logo {
-    position: relative;
+    position: relative !important;
 }
 .ReactModal__Overlay--after-open {
     z-index: 1000;
@@ -35,16 +35,39 @@ nav .brand-logo {
     margin: 80px auto !important;
     display: flex !important;
 }
-.loginHeader1 {
+
+  .logo-modal{
+      width: 142px;
+      height: auto;
+      margin-left: 4em !important;
+      margin-top: 1em !important;
+     
+  
+      
+  }
+ .loginHeader1 {
     font-size: 20px;
-    margin-right: auto;
-    margin-left: auto;
     text-align: center;
     font-weight: bold;
+
+
 }
-.loginHeader2 {
+ .loginHeader2 {
     font-size: 18px;
-    margin-right: auto;
-    margin-left: auto;
     text-align: center;
+
+  
 }
+
+.row,#margin-group{
+    margin: 0 !important;
+}
+
+
+
+.row .margin-form{
+    margin-right: 90em;
+}
+
+
+
