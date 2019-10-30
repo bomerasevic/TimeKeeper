@@ -64,80 +64,66 @@ class Navigation extends React.Component {
                                 >
                                     Login
                                 </a>
-                                <Modal   
+                                <Modal
                                     isOpen={this.state.modalIsOpen}
                                     onRequestClose={this.closeModal}
-                                >  
-                               
-                              
-                                    
-                                   <div className="row">
-                                    <img className="logo-modal" src={logo} />
-                                    
-                                    
+                                >
+                                    <div className="row">
+                                        <img className="logo-modal" src={logo} />
+
                                         <h1 className="loginHeader1">Login to your account</h1>
 
                                         <h2 className="loginHeader2">
                                             Save time for doing great work.
                                         </h2>
-                                       </div>
-                                  
-                                    <Formik
-                                        initialValues={{
-                                            name: "",
-                                            password: ""
-                                        }}
-                                        validationSchema={SignupSchema}
-                                        onSubmit={values => {
-                                            // same shape as initial values
-                                            console.log(values);
-                                        }}
-                                    >
-                                        {({ errors, touched }) => (
-                                       
-                                          
-                                            <Form>
-                                        
-                                             
-                                                <div className="input-field">
-                                                    <Field
-                                                        name="username"
-                                                        id="username"
-                                                        type="text"
-                                                    />
-                                                    {errors.username && touched.username ? (
-                                                        <div>{errors.name}</div>
-                                                    ) : null}
-                                                    <label htmlFor="username">username</label>
-                                              </div>
-                                                
-                                                <div className="input-field">
-                                                    <Field
-                                                        name="password"
-                                                        id="password"
-                                                        type="text"
-                                                    />
-                                                    {errors.password && touched.password ? (
-                                                        <div>{errors.password}</div>
-                                                    ) : null}
-                                                    <label htmlFor="password">password</label>
-                                                </div>
-                                                   
-                                                <button
-                                                    type="submit"
-                                                    className="waves-effect waves-light btn"
-                                                >
-                                                    Send message
-                                                </button>
-                                                                                          
-                                              
-                                            </Form>
-                                           
-                                         
-                                        )}
-                                    </Formik>
-                                    
-                                    
+                                        <Formik
+                                            initialValues={{
+                                                name: "",
+                                                password: ""
+                                            }}
+                                            validationSchema={SignupSchema}
+                                            onSubmit={values => {
+                                                // same shape as initial values
+                                                console.log(values);
+                                            }}
+                                        >
+                                            {({ errors, touched }) => (
+                                                <Form>
+                                                    <div className="input-field">
+                                                        <Field
+                                                            name="username"
+                                                            id="username"
+                                                            type="text"
+                                                        />
+                                                        {errors.username && touched.username ? (
+                                                            <div>{errors.name}</div>
+                                                        ) : null}
+                                                        <label htmlFor="username">username</label>
+                                                    </div>
+
+                                                    <div className="input-field">
+                                                        <Field
+                                                            name="password"
+                                                            id="password"
+                                                            type="text"
+                                                        />
+                                                        {errors.password && touched.password ? (
+                                                            <div>{errors.password}</div>
+                                                        ) : null}
+                                                        <label htmlFor="password">password</label>
+                                                    </div>
+                                                    <div id="loginbtn">
+                                                        <button
+                                                            type="submit"
+                                                            className="waves-effect waves-light btn "
+                                                        >
+                                                            Send message
+                                                        </button>
+                                                    </div>
+                                                </Form>
+                                            )}
+                                        </Formik>
+                                    </div>
                                 </Modal>
                             </li>
                         </ul>
