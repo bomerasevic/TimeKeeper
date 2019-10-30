@@ -88,14 +88,23 @@ namespace TimeKeeper.Test.TestControllers
         public void UpdateRoleWithWrongId(int id)
         {
             var controller = new RolesController(context);
-
-            Role role = new Role
+            var response = controller.Get(id) as ObjectResult;
+            if (response == null)
             {
-                Id = id,
-                Name = "Updated!"
-            };
-            var response = controller.Put(id, role) as ObjectResult;
-            Assert.Null(response);
+                Assert.Null(response);
+            }
+            else
+            {
+                Role role = new Role
+                {
+                    Id = id,
+                    Name = "Updated!"
+                };
+                response = controller.Put(id, role) as ObjectResult;
+                var value = response.Value as RoleModel;
+                Assert.AreEqual(200, response.StatusCode);
+                Assert.AreEqual("Updated!", value.Name);
+            }
         }
         [TestCase(2), Order(7)]
         public void DeleteRole(int id)

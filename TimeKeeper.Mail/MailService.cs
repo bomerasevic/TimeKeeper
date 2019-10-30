@@ -13,6 +13,8 @@ namespace TimeKeeper.API.Services
     {
         public static void Send(string mailTo, string subject, string body)
         {
+            string mail = "ntg.infodesk@gmail.com";// Startup.Configuration["mailFrom:mail"];
+            string password = "Company19892016"; // Startup.Configuration["mailFrom:password"];
             SmtpClient client = new SmtpClient()
             {
                 Port = 587,
@@ -21,9 +23,9 @@ namespace TimeKeeper.API.Services
                 Timeout = 10000,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(Startup.Configuration["mailFrom:mail"], Startup.Configuration["mailFrom:password"])
+                Credentials = new NetworkCredential(mail, password)
             };
-            MailMessage message = new MailMessage(Startup.Configuration["mailFrom:mail"], mailTo, subject, body);
+            MailMessage message = new MailMessage(mail, mailTo, subject, body);
             message.BodyEncoding = Encoding.UTF8;
             message.IsBodyHtml = true;
             message.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;

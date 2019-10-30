@@ -59,13 +59,17 @@ namespace TimeKeeper.Test.TestControllers
             var controller = new ProjectsController(context);
             Project project = new Project
             {
-                Name = "New role"
+                Name = "New role",
+                Team = unit.Teams.Get(1),
+                Customer = unit.Customers.Get(1),
+                Status = unit.ProjectStatuses.Get(1),
+                Pricing = unit.ProjectPrices.Get(1)
             };
             var response = controller.Post(project) as ObjectResult;
             var value = response.Value as ProjectModel;
 
             Assert.AreEqual(200, response.StatusCode);
-            Assert.AreEqual(6, value.Id);
+            Assert.AreEqual(4, value.Id);
         }
         [TestCase(1), Order(5)]
         public void UpdateProject(int id)
@@ -75,7 +79,11 @@ namespace TimeKeeper.Test.TestControllers
             Project project = new Project
             {
                 Id = id,
-                Name = "Updated!"
+                Name = "Updated!",
+                Team = unit.Teams.Get(1),
+                Customer = unit.Customers.Get(1),
+                Status = unit.ProjectStatuses.Get(1),
+                Pricing = unit.ProjectPrices.Get(1)
             };
 
             var response = controller.Put(id, project) as ObjectResult;
@@ -88,14 +96,23 @@ namespace TimeKeeper.Test.TestControllers
         public void UpdateProjectWithWrongId(int id)
         {
             var controller = new ProjectsController(context);
-
-            Project project = new Project
+            var response = controller.Get(id) as ObjectResult;
+            if(response == null)
             {
-                Id = id,
-                Name = "Updated!"
-            };
-            var response = controller.Put(id, project) as ObjectResult;
-            Assert.Null(response);
+                Assert.Null(response);
+            }
+            else
+            {
+                Project project = new Project
+                {
+                    Id = id,
+                    Name = "Updated!"
+                };
+                response = controller.Put(id, project) as ObjectResult;
+                var value = response.Value as ProjectModel;
+                Assert.AreEqual(200, response.StatusCode);
+                Assert.AreEqual("Updated!", value.Name);
+            }            
         }
         [TestCase(2), Order(7)]
         public void DeleteProject(int id)
@@ -109,9 +126,16 @@ namespace TimeKeeper.Test.TestControllers
         public void WrongDelete(int id)
         {
             var controller = new ProjectsController(context);
-
-            var response = controller.Delete(id) as StatusCodeResult;
-            Assert.AreEqual(404, response.StatusCode);
+            var response = controller.Get(id) as ObjectResult;
+            if (response == null)
+            {
+                Assert.Null(response);  // 404 - not found
+            }
+            else
+            {
+                var rresponse = controller.Delete(id) as StatusCodeResult;
+                Assert.AreEqual(404, rresponse.StatusCode);
+            }            
         }
     }
 }

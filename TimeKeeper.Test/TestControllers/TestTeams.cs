@@ -89,14 +89,23 @@ namespace TimeKeeper.Test.TestControllers
         public void UpdateTeamWithWrongId(int id)
         {
             var controller = new TeamsController(context);
-
-            Team team = new Team
+            var response = controller.Get(id) as ObjectResult;
+            if (response == null)
             {
-                Id = id,
-                Name = "Updated!"
-            };
-            var response = controller.Put(id, team) as ObjectResult;
-            Assert.Null(response);
+                Assert.Null(response);
+            }
+            else
+            {
+                Team team = new Team
+                {
+                    Id = id,
+                    Name = "Updated!"
+                };
+                response = controller.Put(id, team) as ObjectResult;
+                var value = response.Value as TeamModel;
+                Assert.AreEqual(200, response.StatusCode);
+                Assert.AreEqual("Updated!", value.Name);
+            }
         }
         [TestCase(2), Order(7)]
         public void DeleteTeam(int id)

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TimeKeeper.API.Models;
 using TimeKeeper.API.Services;
+using TimeKeeper.LOG;
 
 namespace TimeKeeper.API.Controllers
 {
