@@ -29,45 +29,43 @@ nav .brand-logo {
     background-color: rgba(128, 128, 128, 0.397) !important;
 }
 .ReactModal__Content--after-open {
-    width: 800px;
+    width: 600px;
     height: 500px;
     position: initial !important;
     margin: 80px auto !important;
     display: flex !important;
 }
 
-  .logo-modal{
-      width: 142px;
-      height: auto;
-      margin-left: 4em !important;
-      margin-top: 1em !important;
-     
-  
-      
-  }
- .loginHeader1 {
+.logo-modal {
+    width: 142px;
+    height: auto;
+    margin-left: 4em !important;
+    margin-top: 1em !important;
+}
+.loginHeader1 {
     font-size: 20px;
     text-align: center;
     font-weight: bold;
-
-
 }
- .loginHeader2 {
+.loginHeader2 {
     font-size: 18px;
     text-align: center;
-
-  
 }
 
-.row,#margin-group{
+.row,
+#margin-group {
     margin: 0 !important;
 }
-
-
-
-.row .margin-form{
-    margin-right: 90em;
+.row {
+    margin-left: auto !important;
+    margin-right: auto !important;
 }
 
-
-
+.row .margin-form {
+    margin-right: 90em;
+}
+#loginbtn {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    text-align: center;
+}
