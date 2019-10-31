@@ -1,5 +1,5 @@
 ﻿using NLog;
-using TimeKeeper.API.Services;
+using TimeKeeper.Mail;
 
 namespace TimeKeeper.LOG
 {

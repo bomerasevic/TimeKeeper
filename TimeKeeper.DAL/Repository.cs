@@ -24,14 +24,22 @@ namespace TimeKeeper.DAL
         public virtual void Update(Entity entity, int id)
         {
             Entity old = Get(id);
-            if (old != null) _context.Entry(old).CurrentValues.SetValues(entity);
+            if (old != null)
+                _context.Entry(old).CurrentValues.SetValues(entity);
+
+            else
+                throw new ArgumentNullException();
         }
 
         public void Delete(Entity entity) => _dbSet.Remove(entity);
         public void Delete(int id)
         {
             Entity entity = Get(id);
-            if (entity != null) Delete(entity);
+            if (entity != null)
+                Delete(entity);
+
+            else
+                throw new ArgumentNullException();
         }
     }
 }

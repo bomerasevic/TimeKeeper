@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using TimeKeeper.API.Models;
 using TimeKeeper.API.Services;
 using TimeKeeper.LOG;
+using TimeKeeper.Mail;
 
 namespace TimeKeeper.API.Controllers
 {

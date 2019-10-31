@@ -7,14 +7,14 @@ using System.Text;
 using System.Threading.Tasks;
 using TimeKeeper.Mail;
 
-namespace TimeKeeper.API.Services
+namespace TimeKeeper.Mail
 {
     public static class MailService
     {
         public static void Send(string mailTo, string subject, string body)
         {
-            string mail = "ntg.infodesk@gmail.com";// Startup.Configuration["mailFrom:mail"];
-            string password = "Company19892016"; // Startup.Configuration["mailFrom:password"];
+            string mail = "ntg.infodesk@gmail.com";
+            string password = "Company19892016";
             SmtpClient client = new SmtpClient()
             {
                 Port = 587,
