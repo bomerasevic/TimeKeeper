@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./Navigation.css";
 import logo from "../../assets/images/logo.svg";
-import logomodal from "../../assets/images/logomodal.png"
+import logomodal from "../../assets/images/logomodal.png";
 import hamburger from "../../assets/images/hamburger.svg";
 import Modal from "react-modal";
 
@@ -59,10 +59,7 @@ class Navigation extends React.Component {
                                 <a href="#contact">Contact us</a>
                             </li>
                             <li>
-                                <a
-                                    className="waves-effect waves-light btn modal-trigger"
-                                    onClick={this.openModal}
-                                >
+                                <a className=" btn modal-trigger" onClick={this.openModal}>
                                     Login
                                 </a>
                                 <Modal
@@ -97,7 +94,9 @@ class Navigation extends React.Component {
                                                             type="text"
                                                         />
                                                         {errors.username && touched.username ? (
-                                                            <div className="errorUsername">{errors.username}</div>
+                                                            <div className="errorUsername">
+                                                                {errors.username}
+                                                            </div>
                                                         ) : null}
                                                         <label htmlFor="username">username</label>
                                                     </div>
@@ -109,16 +108,15 @@ class Navigation extends React.Component {
                                                             type="text"
                                                         />
                                                         {errors.password && touched.password ? (
-                                                            <div className="errorPassword">{errors.password}</div>
+                                                            <div className="errorPassword">
+                                                                {errors.password}
+                                                            </div>
                                                         ) : null}
                                                         <label htmlFor="password">password</label>
                                                     </div>
                                                     <div id="loginbtn">
-                                                        <button
-                                                            type="submit"
-                                                            className="waves-effect waves-light btn "
-                                                        >
-                                                            Send message
+                                                        <button type="submit" className=" btn ">
+                                                            LOGIN
                                                         </button>
                                                     </div>
                                                 </Form>
