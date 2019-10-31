@@ -122,6 +122,11 @@ namespace TimeKeeper.API.Controllers
                 Log.Info($"Team {team.Name} with id {team.Id} has changes.");
                 return Ok(team.Create());
             }
+            catch (ArgumentNullException ae)
+            {
+                Log.Error($"There is no Team with specified Id {id}");
+                return NotFound();
+            }
             catch (Exception ex)
             {
                 Log.Fatal("Server error");
@@ -146,6 +151,11 @@ namespace TimeKeeper.API.Controllers
                 Unit.Save();
                 Log.Info($"Attempt to delete team with id {id}");
                 return NoContent();
+            }
+            catch (ArgumentNullException ae)
+            {
+                Log.Error($"There is no Team with specified Id {id}");
+                return NotFound();
             }
             catch (Exception ex)
             {
