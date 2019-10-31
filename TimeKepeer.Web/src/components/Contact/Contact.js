@@ -43,6 +43,7 @@ const Contact = () => {
                             validationSchema={SignupSchema}
                             onSubmit={(values, { resetForm, setSubmitting }) => {
                                 setSubmitting(true);
+                                console.log(values);
                                 setSubmitionCompleted(true);
                                 resetForm();
                             }}
@@ -94,7 +95,7 @@ const Contact = () => {
 
                                         <button
                                             type="submit"
-                                            className="waves-effect waves-light btn"
+                                            className=" btn"
                                             onClick={handleClickOpen}
                                         >
                                             Send message

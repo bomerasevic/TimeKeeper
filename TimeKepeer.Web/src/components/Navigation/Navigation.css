@@ -15,6 +15,14 @@
         border-bottom: 1px solid #163e37;
     }
 }
+@media screen and (max-width: 600px) {
+    .ReactModal__Overlay--after-open {
+        display: none;
+    }
+    .ReactModal__Content--after-open {
+        display: none;
+    }
+}
 .custom-navbar {
     padding: 0 4em;
     background-color: rgb(57, 54, 67, 0.9);
@@ -41,7 +49,6 @@ nav .brand-logo {
     height: auto;
     margin-left: 4em !important;
     margin-top: 1em !important;
-   
 }
 .loginHeader1 {
     font-size: 24px;
@@ -49,13 +56,13 @@ nav .brand-logo {
     font-weight: bold;
     padding-bottom: 0px;
     margin-bottom: 0px;
- }
- .loginHeader2 {
+}
+.loginHeader2 {
     padding-top: 0px;
     margin-top: 10px;
     font-size: 18px;
     text-align: center;
- }
+}
 
 .row,
 #margin-group {
@@ -80,10 +87,10 @@ nav .brand-logo {
     margin-left: auto !important;
     margin-right: auto !important;
     text-align: center;
- }
- .errorPassword {
-    color:maroon !important;
+}
+.errorPassword {
+    color: maroon !important;
     margin-left: auto !important;
     margin-right: auto !important;
     text-align: center;
- }
+}
