@@ -5,7 +5,7 @@ import logomodal from "../../assets/images/logomodal.png";
 import hamburger from "../../assets/images/hamburger.svg";
 import Modal from "react-modal";
 import swal from "sweetalert";
-
+import axios from "axios";
 import * as Yup from "yup";
 import { Formik, Form, Field } from "formik";
 const SignupSchema = Yup.object().shape({
@@ -14,6 +14,7 @@ const SignupSchema = Yup.object().shape({
         .required("Required"),
     password: Yup.string().required("Required")
 });
+const contactFormEndpoint = "http://192.168.60.72/TimeKeeper/api/users";
 
 class Navigation extends React.Component {
     constructor() {
@@ -83,14 +84,26 @@ class Navigation extends React.Component {
                                                 password: ""
                                             }}
                                             validationSchema={SignupSchema}
-                                            onSubmit={values => {
-                                                swal(
-                                                    "Login success!",
-                                                    "",
-
-                                                    "success"
-                                                );
-                                                console.log(values);
+                                            onSubmit={(values, { setSubmitting }) => {
+                                                swal("Login success", "", "success");
+                                                axios
+                                                    .post(contactFormEndpoint, values, {
+                                                        headers: {
+                                                            "Access-Control-Allow-Origin": "*",
+                                                            "Content-Type": "application/json"
+                                                        }
+                                                    })
+                                                    .then(resp => {
+                                                        console.log(resp);
+                                                    })
+                                                    .catch(err => {
+                                                        console.log(err);
+                                                        swal(
+                                                            "Oops...",
+                                                            "Something went wrong! Reload page.",
+                                                            "error"
+                                                        );
+                                                    });
                                             }}
                                         >
                                             {({ errors, touched }) => (
