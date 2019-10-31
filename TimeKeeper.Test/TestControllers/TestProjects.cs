@@ -92,12 +92,12 @@ namespace TimeKeeper.Test.TestControllers
             Assert.AreEqual(200, response.StatusCode);
             Assert.AreEqual("Updated!", value.Name);
         }
-        [TestCase(11), Order(6)]
+        [TestCase(21), Order(6)]
         public void UpdateProjectWithWrongId(int id)
         {
             var controller = new ProjectsController(context);
             var response = controller.Get(id) as ObjectResult;
-            if(response == null)
+            if (response == null)
             {
                 Assert.Null(response);
             }
@@ -112,7 +112,15 @@ namespace TimeKeeper.Test.TestControllers
                 var value = response.Value as ProjectModel;
                 Assert.AreEqual(200, response.StatusCode);
                 Assert.AreEqual("Updated!", value.Name);
-            }            
+            }
+            //var controller = new ProjectsController(context);
+            //Project project = new Project
+            //{
+            //    Id = id,
+            //    Name = "Updated!"
+            //};
+            //var response = controller.Put(id, project) as StatusCodeResult;
+            //Assert.AreEqual(404, response.StatusCode);
         }
         [TestCase(2), Order(7)]
         public void DeleteProject(int id)

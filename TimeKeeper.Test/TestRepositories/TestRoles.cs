@@ -1,9 +1,11 @@
-﻿using NUnit.Framework;
+﻿using Microsoft.AspNetCore.Mvc;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using TimeKeeper.API.Controllers;
 using TimeKeeper.DAL;
 using TimeKeeper.Domain;
 
@@ -72,14 +74,21 @@ namespace TimeKeeper.Test.TestRepositories
         [TestCase(11), Order(6)]
         public void UpdateRoleWithWrongId(int id)
         {
-            Role r = new Role
+            try
             {
-                Id = id,
-                Name = "Updated!"
-            };
-            unit.Roles.Update(r, id);
-            int N = unit.Save();
-            Assert.AreEqual(0, N);
+                Role r = new Role
+                {
+                    Id = id,
+                    Name = "Updated!"
+                };
+                unit.Roles.Update(r, id);
+                int N = unit.Save();
+                Assert.AreEqual(0, N);
+            }
+            catch (ArgumentNullException ae)
+            {
+                return;
+            }
         }
 
         [TestCase(1), Order(7)]
@@ -90,12 +99,19 @@ namespace TimeKeeper.Test.TestRepositories
             Assert.AreEqual(1, N);
         }
 
-        [TestCase(11), Order(8)]
+        [TestCase(21), Order(8)]
         public void WrongDelete(int id)
         {
-            unit.Roles.Delete(id);
-            int N = unit.Save();
-            Assert.AreEqual(0, N);
+            try
+            {
+                unit.Roles.Delete(id);
+                int N = unit.Save();
+                Assert.AreEqual(0, N);
+            }
+            catch (ArgumentNullException ae)
+            {
+                return;
+            }
         }
     }
 }
