@@ -15,12 +15,13 @@ namespace TimeKeeper.DAL
         {
             Employee old = Get(id);
 
-            if(old != null)
+            if (old != null)
             {
                 _context.Entry(old).CurrentValues.SetValues(employee);
                 old.Status = employee.Status;
                 old.Position = employee.Position;
             }
+            else throw new ArgumentNullException();
         }
     }
 }

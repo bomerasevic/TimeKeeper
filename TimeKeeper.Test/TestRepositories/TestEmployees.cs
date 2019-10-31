@@ -74,14 +74,21 @@ namespace TimeKeeper.Test.TestRepositories
         [TestCase(11), Order(6)]
         public void UpdateEmployeeWithWrongId(int id)
         {
-            Employee e = new Employee
+            try
             {
-                Id = id,
-                FirstName = "Updated!"
-            };
-            unit.Employees.Update(e, id);
-            int N = unit.Save();
-            Assert.AreEqual(0, N);
+                Employee e = new Employee
+                {
+                    Id = id,
+                    FirstName = "Updated!"
+                };
+                unit.Employees.Update(e, id);
+                int N = unit.Save();
+                Assert.AreEqual(0, N);
+            }
+            catch (ArgumentNullException ae)
+            {
+                return;
+            }
         }
 
         [TestCase(1), Order(7)]
@@ -95,9 +102,16 @@ namespace TimeKeeper.Test.TestRepositories
         [TestCase(11), Order(8)]
         public void WrongDelete(int id)
         {
-            unit.Employees.Delete(id);
-            int N = unit.Save();
-            Assert.AreEqual(0, N);
+            try
+            {
+                unit.Employees.Delete(id);
+                int N = unit.Save();
+                Assert.AreEqual(0, N);
+            }
+            catch (ArgumentNullException ae)
+            {
+                return;
+            }
         }
     }
 }

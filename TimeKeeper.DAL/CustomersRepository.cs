@@ -20,6 +20,7 @@ namespace TimeKeeper.DAL
                 old.Address = customer.Address;
                 old.Status = customer.Status;
             }
+            else throw new ArgumentNullException();
         }
     }
 }
