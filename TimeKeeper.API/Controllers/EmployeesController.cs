@@ -106,9 +106,11 @@ namespace TimeKeeper.API.Controllers
         /// <param name="employee"></param>
         /// <returns>Employee with Id=id is Updated</returns>
         /// <response status="200">Status 200 OK</response>
+        /// <response status="404">Status 404 Not Found</response>
         /// <response status="400">Status 400 Bad Request</response>
         [HttpPut("{id}")]
         [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
         [ProducesResponseType(400)]
         public IActionResult Put(int id, [FromBody] Employee employee)
         {
@@ -120,6 +122,11 @@ namespace TimeKeeper.API.Controllers
                 Unit.Save();
                 Log.Info($"Employee {employee.FirstName + " " + employee.LastName} with Id {employee.Id} has changes.");
                 return Ok(employee.Create());
+            }
+            catch (ArgumentNullException ae)
+            {
+                Log.Error($"There is no Employee with specified Id {id}");
+                return NotFound();
             }
             catch (Exception ex)
             {
@@ -133,9 +140,11 @@ namespace TimeKeeper.API.Controllers
         /// <param name="id"></param>
         /// <returns>Employee with Id=id is Deleted</returns>
         /// <response status="204">Status 204 No Content</response>
+        /// <response status="404">Status 404 Not Found</response>
         /// <response status="400">Status 400 Bad Request</response>
         [HttpDelete("{id}")]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
         [ProducesResponseType(400)]
         public IActionResult Delete(int id)
         {
@@ -146,7 +155,12 @@ namespace TimeKeeper.API.Controllers
                 Log.Info($"Attempt to delete Employee with Id {id}");
                 return NoContent();
             }
-            catch(Exception ex)
+            catch(ArgumentNullException ae)
+            {
+                Log.Error($"There is no Employee with specified Id {id}");
+                return NotFound();
+            }
+            catch (Exception ex)
             {
                 Log.Fatal("Server error");
                 return BadRequest(ex);

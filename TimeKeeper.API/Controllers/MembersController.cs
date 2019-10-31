@@ -69,7 +69,7 @@ namespace TimeKeeper.API.Controllers
             }
             catch (Exception ex)
             {
-                //Log.LogCritical(ex, "Server error");
+                Log.Fatal("Server error");
                 return BadRequest(ex);
             }
         }
@@ -109,9 +109,11 @@ namespace TimeKeeper.API.Controllers
         /// <param name="member"></param>
         /// <returns>Member with Id=id is Updated</returns>
         /// <response status="200">Status 200 OK</response>
+        /// <response status="404">Status 404 Not Found</response>
         /// <response status="400">Status 400 Bad Request</response>
         [HttpPut("{id}")]
         [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
         [ProducesResponseType(400)]
         public IActionResult Put(int id, [FromBody] Member member)
         {
@@ -126,6 +128,11 @@ namespace TimeKeeper.API.Controllers
                 Log.Info($"Member with id {member.Id} has changes.");
                 return Ok(member.Create());
             }
+            catch(ArgumentNullException ae)
+            {
+                Log.Error($"There is no Member with specified Id {id}");
+                return NotFound();
+            }
             catch(Exception ex)
             {
                 Log.Fatal("Server error");
@@ -138,9 +145,11 @@ namespace TimeKeeper.API.Controllers
         /// <param name="id"></param>
         /// <returns>Member with Id=id is Deleted</returns>
         /// <response status="204">Status 204 No Content</response>
+        /// <response status="404">Status 404 Not Found</response>
         /// <response status="400">Status 204 Bad Request</response>
         [HttpDelete("{id}")]
         [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
         [ProducesResponseType(400)]
         public IActionResult Delete(int id)
         {
@@ -150,6 +159,11 @@ namespace TimeKeeper.API.Controllers
                 Unit.Save();
                 Log.Info($"Attempt to delete project with id {id}");
                 return NoContent();
+            }
+            catch(ArgumentNullException ae)
+            {
+                Log.Error($"There is no Member with specified Id {id}");
+                return NotFound();
             }
             catch (Exception ex)
             {

@@ -21,6 +21,7 @@ namespace TimeKeeper.DAL
                 old.Role = member.Role;
                 old.Status = member.Status;
             }
+            else throw new ArgumentNullException();
         }
     }
 }
