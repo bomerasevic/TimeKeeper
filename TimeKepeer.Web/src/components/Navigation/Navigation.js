@@ -4,6 +4,7 @@ import logo from "../../assets/images/logo.svg";
 import logomodal from "../../assets/images/logomodal.png";
 import hamburger from "../../assets/images/hamburger.svg";
 import Modal from "react-modal";
+import swal from "sweetalert";
 
 import * as Yup from "yup";
 import { Formik, Form, Field } from "formik";
@@ -13,6 +14,7 @@ const SignupSchema = Yup.object().shape({
         .required("Required"),
     password: Yup.string().required("Required")
 });
+
 class Navigation extends React.Component {
     constructor() {
         super();
@@ -74,6 +76,7 @@ class Navigation extends React.Component {
                                         <h2 className="loginHeader2">
                                             Save time for doing great work.
                                         </h2>
+                                        <a href="#" class="close" onClick={this.closeModal}></a>
                                         <Formik
                                             initialValues={{
                                                 username: "",
@@ -81,7 +84,12 @@ class Navigation extends React.Component {
                                             }}
                                             validationSchema={SignupSchema}
                                             onSubmit={values => {
-                                                // same shape as initial values
+                                                swal(
+                                                    "Login success!",
+                                                    "",
+
+                                                    "success"
+                                                );
                                                 console.log(values);
                                             }}
                                         >
@@ -105,7 +113,7 @@ class Navigation extends React.Component {
                                                         <Field
                                                             name="password"
                                                             id="password"
-                                                            type="text"
+                                                            type="password"
                                                         />
                                                         {errors.password && touched.password ? (
                                                             <div className="errorPassword">
