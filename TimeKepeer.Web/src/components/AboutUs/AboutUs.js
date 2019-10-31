@@ -10,11 +10,13 @@ function AboutUs() {
             <img className="stopwatch-icon" src={stopwatch} />
             <div className="about-us-text">
                 <h6 className="about-us">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                    incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    The most impressive websites and app experiences are rooted in smart design,
+                    embody clear vision, and are backed by the right technology. Best-in-class
+                    digital projects require technology that perfectly supports the design and
+                    functionality. We rely on the right tools for the job, not a one-size-fits-all
+                    tech stack. We have refined user activity and also melded our Web development
+                    work with best practices. This makes our development programs the most
+                    competitive applications across the Globe.
                 </h6>
             </div>
         </div>

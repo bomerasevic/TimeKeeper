@@ -3,7 +3,6 @@ import "./Home.css";
 import Navigation from "../Navigation/Navigation";
 import logo from "../../assets/images/logo.svg";
 import MobileNavigation from "../MobileNavigation/MobileNavigation";
-import MobileLogin from "../MobileLogin/MobileLogin";
 
 //import Menu from "../MobileNavigation/menu";
 
@@ -12,7 +11,6 @@ function Home() {
         <div className="header " id="home">
             <Navigation />
             <MobileNavigation />
-            <MobileLogin className="mobile" />
             <div className="container header-text">
                 <img className="logo-large" src={logo} />
                 <h1>TimeKeeper</h1>

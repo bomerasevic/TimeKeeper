@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import "./Contact.css";
 import { Formik, Form, Field } from "formik";
-
+import axios from "axios";
 import * as Yup from "yup";
+import swal from "sweetalert";
 
 const SignupSchema = Yup.object().shape({
     name: Yup.string()
@@ -18,7 +19,7 @@ const SignupSchema = Yup.object().shape({
         .min(10, "Must be 10 characters or more")
         .required("Required")
 });
-
+const contactFormEndpoint = "http://192.168.60.72/TimeKeeper/api/contact";
 const Contact = () => {
     const [isSubmitionCompleted, setSubmitionCompleted] = useState(false);
     function handleClickOpen() {
@@ -41,11 +42,28 @@ const Contact = () => {
                                 message: ""
                             }}
                             validationSchema={SignupSchema}
-                            onSubmit={(values, { resetForm, setSubmitting }) => {
+                            onSubmit={(values, { setSubmitting }) => {
                                 setSubmitting(true);
-                                console.log(values);
-                                setSubmitionCompleted(true);
-                                resetForm();
+                                axios
+                                    .post(contactFormEndpoint, values, {
+                                        headers: {
+                                            "Access-Control-Allow-Origin": "*",
+                                            "Content-Type": "application/json"
+                                        }
+                                    })
+                                    .then(resp => {
+                                        console.log(resp);
+                                        setSubmitionCompleted(true);
+                                    })
+                                    .catch(err => {
+                                        console.log(err);
+                                        swal(
+                                            "Oops...",
+                                            "Something went wrong! Reload page.",
+                                            "error"
+                                        );
+                                        setSubmitionCompleted(false);
+                                    });
                             }}
                         >
                             {({ errors, touched }) => (
