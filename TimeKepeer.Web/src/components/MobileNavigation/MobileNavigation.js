@@ -5,9 +5,13 @@ import logomodal from "../../assets/images/logomodal.png";
 import Modal from "react-modal";
 import swal from "sweetalert";
 import * as Yup from "yup";
+
+import axios from "axios";
 import { Formik, Form, Field } from "formik";
 // Import Materialize
 import M from "materialize-css";
+const contactFormEndpoint = "http://192.168.60.72/TimeKeeper/api/users";
+
 const SignupSchema = Yup.object().shape({
     username: Yup.string()
         .min(5, "Too Short!")
@@ -74,14 +78,26 @@ class MobileNavigation extends Component {
                                     password: ""
                                 }}
                                 validationSchema={SignupSchema}
-                                onSubmit={values => {
-                                    swal(
-                                        "Login success!",
-                                        "",
-
-                                        "success"
-                                    );
-                                    console.log(values);
+                                onSubmit={(values, { setSubmitting }) => {
+                                    swal("Login success", "", "success");
+                                    axios
+                                        .post(contactFormEndpoint, values, {
+                                            headers: {
+                                                "Access-Control-Allow-Origin": "*",
+                                                "Content-Type": "application/json"
+                                            }
+                                        })
+                                        .then(resp => {
+                                            console.log(resp);
+                                        })
+                                        .catch(err => {
+                                            console.log(err);
+                                            swal(
+                                                "Oops...",
+                                                "Something went wrong! Reload page.",
+                                                "error"
+                                            );
+                                        });
                                 }}
                             >
                                 {({ errors, touched }) => (
