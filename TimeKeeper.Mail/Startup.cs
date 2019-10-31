@@ -13,7 +13,7 @@ namespace TimeKeeper.Mail
 {
     public class Startup
     {
-        public static IConfigurationRoot Configuration;
+        public static IConfigurationRoot Configuration1;
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
 
@@ -21,7 +21,7 @@ namespace TimeKeeper.Mail
         {
             var builder = new ConfigurationBuilder().SetBasePath(env.ContentRootPath)
                                                     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-            Configuration = builder.Build();
+            Configuration1 = builder.Build();
         }
         public void ConfigureServices(IServiceCollection services)
         {

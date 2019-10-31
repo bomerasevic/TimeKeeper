@@ -126,16 +126,8 @@ namespace TimeKeeper.Test.TestControllers
         public void WrongDelete(int id)
         {
             var controller = new ProjectsController(context);
-            var response = controller.Get(id) as ObjectResult;
-            if (response == null)
-            {
-                Assert.Null(response);  // 404 - not found
-            }
-            else
-            {
-                var rresponse = controller.Delete(id) as StatusCodeResult;
-                Assert.AreEqual(404, rresponse.StatusCode);
-            }            
+            var response = controller.Delete(id) as StatusCodeResult;
+            Assert.AreEqual(404, response.StatusCode);
         }
     }
 }

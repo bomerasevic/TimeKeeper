@@ -130,6 +130,11 @@ namespace TimeKeeper.API.Controllers
                 Log.Info($"Project {project.Name} with id {project.Id} has changes.");
                 return Ok(project.Create());
             }
+            catch(ArgumentNullException ae)
+            {
+                Log.Error($"There is no Project with specified Id {id}");
+                return NotFound();
+            }
             catch(Exception ex)
             {
                 Log.Fatal("Server error");
@@ -155,7 +160,12 @@ namespace TimeKeeper.API.Controllers
                 Log.Info($"Attempt to delete project with id {id}");
                 return NoContent();
             }
-            catch(Exception ex)
+            catch (ArgumentNullException ae)
+            {
+                Log.Error($"There is no Project with specified Id {id}");
+                return NotFound();
+            }
+            catch (Exception ex)
             {
                 Log.Fatal("Server error");
                 return BadRequest(ex);
