@@ -25,7 +25,7 @@ namespace TimeKeeper.Mail
                 UseDefaultCredentials = false,
                 Credentials = new NetworkCredential(mail, password)
             };
-            MailMessage message = new MailMessage(mail, mailTo, subject, body);
+            MailMessage message = new MailMessage(mail, "teambravo321@gmail.com", subject, body);
             message.BodyEncoding = Encoding.UTF8;
             message.IsBodyHtml = true;
             message.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;

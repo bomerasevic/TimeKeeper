@@ -20,13 +20,13 @@ namespace TimeKeeper.LOG
         public void Error(string message)
         {
             _logger.Error(message);
-            MailService.Send("mersiha996@gmail.com", "Error", message);
+            MailService.Send("teambravo321@gmail.com", "Error", message);
         }
 
         public void Fatal(string message)
         {
             _logger.Fatal(message);
-            MailService.Send("mersiha996@gmail.com", "Fatal error", message);
+            MailService.Send("teambravo321@gmail.com", "Fatal error", message);
         }
     }
 }
