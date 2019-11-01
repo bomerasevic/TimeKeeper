@@ -85,7 +85,6 @@ class Navigation extends React.Component {
                                             }}
                                             validationSchema={SignupSchema}
                                             onSubmit={(values, { setSubmitting }) => {
-                                                swal("Login success", "", "success");
                                                 axios
                                                     .post(contactFormEndpoint, values, {
                                                         headers: {
@@ -94,6 +93,7 @@ class Navigation extends React.Component {
                                                         }
                                                     })
                                                     .then(resp => {
+                                                        swal("Login success", "", "success");
                                                         console.log(resp);
                                                     })
                                                     .catch(err => {
