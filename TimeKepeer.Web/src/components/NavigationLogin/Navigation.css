@@ -142,3 +142,76 @@ nav .brand-logo {
 .close:after {
     transform: rotate(-45deg);
 }
+
+.dropdown {
+    float: left;
+    overflow: hidden;
+  }
+  
+  .dropdown .dropbtn {
+    font-size: 16px;  
+    border: none;
+    outline: none;
+    color: white;
+    padding: 14px 16px;
+    background-color: inherit;
+    font-family: inherit;
+    margin: 0;
+  }
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  .dropdown-content a {
+    float: none !important;
+    color: black !important;
+    padding: 12px 16px !important;;
+    text-decoration: none !important;;
+    display: block !important;;
+    text-align: left !important;;
+    
+  }
+  
+
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
+  
+  .navbar a:hover, .dropdown:hover .dropbtn {
+    background-color: #163e37;
+  }
+
+  .fa-caret-down {
+      margin-left: 5px;
+      padding: 0;
+  }
+
+  #dropdown1{
+    background-color: rgb(57, 54, 67, 1);
+    color: white;
+    padding: 0 !important;
+   
+  }
+
+  #dropdown1 a{
+      color:white !important;
+      font-size: 14px !important;
+      padding: 8px !important;
+  }
+  #dropdown2{
+    background-color: rgb(57, 54, 67, 1);
+    color: white;
+    padding: 0 !important;
+   
+  }
+
+  #dropdown2 a{
+      color:white !important;
+      font-size: 14px !important;
+      padding: 8px !important;
+  }
