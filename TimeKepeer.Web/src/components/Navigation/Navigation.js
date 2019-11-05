@@ -8,6 +8,7 @@ import swal from "sweetalert";
 import axios from "axios";
 import * as Yup from "yup";
 import { Formik, Form, Field } from "formik";
+import { withRouter } from "react-router-dom";
 const SignupSchema = Yup.object().shape({
     username: Yup.string()
         .min(5, "Too Short!")
@@ -94,7 +95,7 @@ class Navigation extends React.Component {
                                                     })
                                                     .then(resp => {
                                                         swal("Login success", "", "success");
-                                                        console.log(resp);
+                                                        this.props.history.push("/static");
                                                     })
                                                     .catch(err => {
                                                         console.log(err);

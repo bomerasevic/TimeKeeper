@@ -9,20 +9,30 @@ import Slider from "react-slick";
 import Services from "./components/Service/Services";
 import Contact from "./components/Contact/Contact";
 import Footer from "./components/Footer/Footer";
-//import "react-responsive-carousel/lib/styles/carousel.min.css";
+import Welcome from "./components/Welcome/Welcome";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 class App extends React.Component {
     render() {
         return (
-            <div className="App">
-                <Home />
-                <AboutUs />
-                <Services />
-                <Slider />
-                <Team />
-                <Contact />
-                <Footer />
-            </div>
+            <BrowserRouter>
+                <Switch>
+                    <Route exact path="/static">
+                        <div className="App">
+                            <Home />
+                            <AboutUs />
+                            <Services />
+                            <Slider />
+                            <Team />
+                            <Contact />
+                            <Footer />
+                        </div>
+                    </Route>
+                    <Route exact path="/app">
+                        <Welcome />
+                    </Route>
+                </Switch>
+            </BrowserRouter>
         );
     }
 }
