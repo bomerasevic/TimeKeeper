@@ -9,6 +9,9 @@
 *.userosscache
 *.sln.docstates
 
+Migrations/
+
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
@@ -77,7 +80,6 @@ StyleCopReport.xml
 *.tlh
 *.tmp
 *.tmp_proj
-*.log
 *.vspscc
 *.vssscc
 .builds
