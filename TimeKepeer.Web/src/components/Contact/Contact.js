@@ -19,6 +19,7 @@ const SignupSchema = Yup.object().shape({
         .min(10, "Must be 10 characters or more")
         .required("Required")
 });
+
 const contactFormEndpoint = "http://192.168.60.72/TimeKeeper/api/contact";
 const Contact = () => {
     const [isSubmitionCompleted, setSubmitionCompleted] = useState(false);
