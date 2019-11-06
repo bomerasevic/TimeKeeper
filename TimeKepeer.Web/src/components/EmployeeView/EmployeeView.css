@@ -1,24 +1,22 @@
 img {
-	position: relative !important;
-	height: 40px;
-	width: auto;
+    position: relative !important;
+    height: 40px;
+    width: auto;
 }
-.table-view {
-	width: 90% !important;
-	margin-left: auto;
-	margin-right: auto;
+.table-employee {
+    width: 90% !important;
+    margin-left: auto;
+    margin-right: auto;
 }
 .add-btn {
-	background-color: #26a69a;
-	float: right;
-	margin-right: 68px;
+    background-color: #26a69a;
+    float: right;
+    margin-right: 68px;
     margin-top: 40px;
-    text-align: center;
 }
 .table-name {
-	width: 300px;
-	padding-left: 65px;
-	padding-right: 0px !important;
-	float: left;
-	text-align: center;
+    width: 300px;
+    padding-left: 65px;
+    padding-right: 0px !important;
+    float: left;
 }

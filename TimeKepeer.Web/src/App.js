@@ -13,7 +13,6 @@ import Welcome from "./components/Welcome/Welcome";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import EmployeeView from "./components/EmployeeView/EmployeeView";
 import ProjectView from "./components/ProjectView/ProjectView";
-import CustomerView from "./components/CustomerView/CustomerView";
 
 class App extends React.Component {
     render() {
@@ -39,9 +38,6 @@ class App extends React.Component {
                     </Route>
                     <Route exact path="/app/projects">
                         <ProjectView />
-                    </Route>
-                    <Route exact path="/app/customers">
-                        <CustomerView />
                     </Route>
                 </Switch>
             </BrowserRouter>
