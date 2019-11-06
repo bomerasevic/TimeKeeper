@@ -44,7 +44,7 @@ class NavigationLogin extends React.Component {
 						</a>
 						<ul className="right hide-on-med-and-down">
 							<li>
-								<a className="dropdown-trigger" data-target="dropdown1">
+								<a className="dropdown-trigger hover" data-target="dropdown1">
 								
 									Database
 									<i className="fa fa-caret-down" />
@@ -71,6 +71,20 @@ class NavigationLogin extends React.Component {
                                 <a href="#">Annual report</a>
                                 <a href="#">Project history</a>
                                 <a href="#">Dashboard</a>
+                            </div>
+							</li>
+							<li>
+                                <a className="dropdown-trigger" data-target="dropdown3">
+								
+                                More
+                                <i className="fa fa-caret-down" />
+                            </a>
+                            <div className="dropdown-content" id="dropdown3" >
+                                <a href="#">About us</a>
+                                <a href="#">Services</a>
+                                <a href="#">Our staff</a>
+                                <a href="#">Contact</a>
+                                
                             </div>
 							</li>
 							<li>
