@@ -8,10 +8,11 @@ using Microsoft.Extensions.Logging;
 using TimeKeeper.DAL;
 using TimeKeeper.Domain;
 using TimeKeeper.API.Factory;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace TimeKeeper.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class MembersController : BaseController
