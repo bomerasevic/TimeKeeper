@@ -57,9 +57,7 @@ class MobileNavigation extends Component {
                     <a href="#contact">Contact us</a>
                 </li>
                 <li>
-                    <a className="waves-effect waves-light btn" onClick={this.openModal}>
-                        Login
-                    </a>
+                    <a className="waves-effect waves-light btn">Login</a>
                     <Modal
                         className="mobile-login"
                         isOpen={this.state.modalIsOpen}

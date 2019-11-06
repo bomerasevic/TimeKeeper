@@ -11,6 +11,8 @@ import Contact from "./components/Contact/Contact";
 import Footer from "./components/Footer/Footer";
 import Welcome from "./components/Welcome/Welcome";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
+import EmployeeView from "./components/EmployeeView/EmployeeView";
+import ProjectView from "./components/ProjectView/ProjectView";
 
 class App extends React.Component {
     render() {
@@ -30,6 +32,12 @@ class App extends React.Component {
                     </Route>
                     <Route exact path="/app">
                         <Welcome />
+                    </Route>
+                    <Route exact path="/app/employees">
+                        <EmployeeView />
+                    </Route>
+                    <Route exact path="/app/projects">
+                        <ProjectView />
                     </Route>
                 </Switch>
             </BrowserRouter>
