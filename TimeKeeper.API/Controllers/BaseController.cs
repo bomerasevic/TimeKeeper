@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using TimeKeeper.DAL;
-using TimeKeeper.LOG;
+using TimeKeeper.Utility;
 
 namespace TimeKeeper.API.Controllers
 {
@@ -19,6 +19,18 @@ namespace TimeKeeper.API.Controllers
         public BaseController(TimeKeeperContext context)
         {
             Unit = new UnitOfWork(context);
+        }
+
+        public IActionResult HandleException(Exception e)
+        {            
+            if (e is ArgumentException)
+            {
+                Log.Error(e.Message);
+                return NotFound(e.Message);
+            }
+
+            Log.Fatal(e.Message);
+            return BadRequest(e.Message);
         }
     }
 }

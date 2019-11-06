@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -11,6 +12,7 @@ using TimeKeeper.Domain;
 
 namespace TimeKeeper.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProjectsController : BaseController
@@ -35,8 +37,7 @@ namespace TimeKeeper.API.Controllers
             }
             catch (Exception ex)
             {
-                Log.Fatal("Server error");
-                return BadRequest(ex);
+                return HandleException(ex);
             }
         }
         /// <summary>
@@ -55,22 +56,13 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
-                Log.Info($"Try to fetch project with id {id}");
+                Log.Info($"Try to get Project with {id} ");
                 Project project = Unit.Projects.Get(id);
-                if (project == null)
-                {
-                    Log.Error($"There is no project with specified id {id}");
-                    return NotFound();
-                }
-                else
-                {
-                    return Ok(project.Create());
-                }
+                return Ok(project.Create());
             }
             catch (Exception ex)
             {
-                Log.Fatal("Server error");
-                return BadRequest(ex);
+                return HandleException(ex);
             }
         }
         /// <summary>
@@ -89,19 +81,14 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
-                project.Team = Unit.Teams.Get(project.Team.Id);
-                project.Customer = Unit.Customers.Get(project.Customer.Id);
-                project.Status = Unit.ProjectStatuses.Get(project.Status.Id);
-                project.Pricing = Unit.ProjectPrices.Get(project.Pricing.Id);
                 Unit.Projects.Insert(project);
                 Unit.Save();
                 Log.Info($"Project {project.Name} added with id {project.Id}");
                 return Ok(project.Create());
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                Log.Fatal("Server error");
-                return BadRequest(ex);
+                return HandleException(ex);
             }
         }
         /// <summary>
@@ -121,24 +108,14 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
-                project.Team = Unit.Teams.Get(project.Team.Id);
-                project.Customer = Unit.Customers.Get(project.Customer.Id);
-                project.Status = Unit.ProjectStatuses.Get(project.Status.Id);
-                project.Pricing = Unit.ProjectPrices.Get(project.Pricing.Id);
                 Unit.Projects.Update(project, id);
                 Unit.Save();
                 Log.Info($"Project {project.Name} with id {project.Id} has changes.");
                 return Ok(project.Create());
             }
-            catch(ArgumentNullException ae)
+            catch (Exception ex)
             {
-                Log.Error($"There is no Project with specified Id {id}");
-                return NotFound();
-            }
-            catch(Exception ex)
-            {
-                Log.Fatal("Server error");
-                return BadRequest(ex);
+                return HandleException(ex);
             }
         }
         /// <summary>
@@ -160,15 +137,9 @@ namespace TimeKeeper.API.Controllers
                 Log.Info($"Attempt to delete project with id {id}");
                 return NoContent();
             }
-            catch (ArgumentNullException ae)
-            {
-                Log.Error($"There is no Project with specified Id {id}");
-                return NotFound();
-            }
             catch (Exception ex)
             {
-                Log.Fatal("Server error");
-                return BadRequest(ex);
+                return HandleException(ex);
             }
         }
     }

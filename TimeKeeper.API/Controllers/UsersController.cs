@@ -13,7 +13,7 @@ using TimeKeeper.Domain;
 
 namespace TimeKeeper.API.Controllers
 {
-    [Authorize(Roles ="admin")]
+    [Authorize(Roles ="admin,user")]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : BaseController

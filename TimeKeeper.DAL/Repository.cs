@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TimeKeeper.Domain;
 
 namespace TimeKeeper.DAL
 {
@@ -16,30 +17,35 @@ namespace TimeKeeper.DAL
             _context = context;
             _dbSet = _context.Set<Entity>();
         }
+        public void ValidateUpdate(Entity newEntity, int id)
+        {
+            if (id != (newEntity as BaseClass).Id)
+                throw new ArgumentException($"Error! Id of the sent object: {(newEntity as BaseClass).Id} and id in url: {id} are not the same");
+        }
 
         public virtual IQueryable<Entity> Get() => _dbSet;
         public virtual IList<Entity> Get(Func<Entity, bool> where) => Get().Where(where).ToList();
-        public virtual Entity Get(int id) => _dbSet.Find(id);
+        public virtual Entity Get(int id)
+        {
+            Entity entity = _dbSet.Find(id);
+            if (entity == null)
+                throw new ArgumentException($"There is no object with id: {id} in database");
+
+            return entity;
+        }
         public virtual void Insert(Entity entity) => _dbSet.Add(entity);
         public virtual void Update(Entity entity, int id)
         {
             Entity old = Get(id);
-            if (old != null)
-                _context.Entry(old).CurrentValues.SetValues(entity);
-
-            else
-                throw new ArgumentNullException();
+            ValidateUpdate(entity, id);
+            _context.Entry(old).CurrentValues.SetValues(entity);
         }
 
         public void Delete(Entity entity) => _dbSet.Remove(entity);
-        public void Delete(int id)
+        public virtual void Delete(int id)
         {
-            Entity entity = Get(id);
-            if (entity != null)
-                Delete(entity);
-
-            else
-                throw new ArgumentNullException();
+            Entity old = Get(id);
+            Delete(old);
         }
     }
 }

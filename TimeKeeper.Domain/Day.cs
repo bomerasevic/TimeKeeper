@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using System.Text;
 
 namespace TimeKeeper.Domain
@@ -16,7 +17,13 @@ namespace TimeKeeper.Domain
         public virtual DayType DayType { get; set; }
         public DateTime Date { get; set; }
         [NotMapped]
-        public decimal TotalHours { get; set; }
+        public decimal TotalHours {
+            get {
+                if (DayType.Name != "workday")
+                    return 8;
+
+                return (Tasks.Sum(x => x.Hours));
+            }}
         public virtual IList<Assignment> Tasks { get; set; }
     }
 }
