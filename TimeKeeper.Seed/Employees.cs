@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using TimeKeeper.DAL;
 using TimeKeeper.Domain;
+using TimeKeeper.Utility;
 
 namespace TimeKeeper.Seed
 {
@@ -64,6 +65,8 @@ namespace TimeKeeper.Seed
                     Status = unit.EmployeeStatuses.Get(rawData.ReadInteger(row, 11) + 1),
                     Position = unit.EmployeePositions.Get(Utility.dicEmpPosition[rawData.ReadString(row, 12)])
                 };
+                User u = UsersUtility.CreateUser(e);
+                unit.Users.Insert(u);
                 unit.Employees.Insert(e);
                 unit.Save();
                 Utility.dicEmpl.Add(oldId, e.Id);

@@ -14,7 +14,7 @@ namespace TimeKeeper.Domain
         }
         public string Name { get; set; }
         public string Description { get; set; }
-        // dodati status
+        public bool Status { get; set; }       //false-inactive, true- active!
         public virtual IList<Project> Projects { get; set; }
         public virtual IList<Member> TeamMembers { get; set; }
     }
