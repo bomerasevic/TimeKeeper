@@ -1,0 +1,10 @@
+img {
+    position: relative !important;
+    height: 40px;
+    width: auto;
+}
+.table-project {
+    width: 80% !important;
+    margin-left: auto;
+    margin-right: auto;
+}
