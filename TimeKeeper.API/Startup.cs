@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json.Serialization;
 using TimeKeeper.API.Services;
 using TimeKeeper.DAL;
 
@@ -29,9 +30,28 @@ namespace TimeKeeper.API
         {
             services.AddCors();
             services.AddMvc();
+            services.AddMvc().AddJsonOptions(opt => opt.SerializerSettings.ContractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() });
+            services.AddMvc().AddJsonOptions(opt => opt.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented);
 
-            services.AddAuthentication("BasicAuthentication")
-                    .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
+            services.AddAuthentication(o =>
+            {
+               o.DefaultScheme = "Cookies";
+               o.DefaultChallengeScheme = "oidc";
+            }).AddCookie("Cookies")
+              .AddOpenIdConnect("oidc", o =>
+              {
+                  o.SignInScheme = "Cookies";
+                  o.Authority = "https://localhost:44300";
+                  o.ClientId = "tk2019";
+                  o.ClientSecret = "mistral_talents";
+                  o.ResponseType = "code id_token";
+                  o.Scope.Add("openid");
+                  o.Scope.Add("profile");
+                  o.SaveTokens = true;
+              });
+
+            //services.AddAuthentication("BasicAuthentication")
+            //        .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
 
             string connectionString = Configuration["ConnectionString"];
             services.AddDbContext<TimeKeeperContext>(o => { o.UseNpgsql(connectionString); });

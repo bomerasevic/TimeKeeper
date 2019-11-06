@@ -35,8 +35,7 @@ namespace TimeKeeper.API.Controllers
             }
             catch (Exception ex)
             {
-                Log.Fatal("Server error");
-                return BadRequest(ex);
+                return HandleException(ex);
             }
         }
         /// <summary>
@@ -55,22 +54,13 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
-                Log.Info($"Try to fetch role with id {id}");
+                Log.Info($"Try to get Role with {id} ");
                 Role role = Unit.Roles.Get(id);
-                if (role == null)
-                {
-                    Log.Error($"There is no role with specified id {id}");
-                    return NotFound();
-                }
-                else
-                {
-                    return Ok(role.Create());
-                }
+                return Ok(role.Create());
             }
             catch (Exception ex)
             {
-                Log.Fatal("Server error");
-                return BadRequest(ex);
+                return HandleException(ex);
             }
         }
         /// <summary>
@@ -96,8 +86,7 @@ namespace TimeKeeper.API.Controllers
             }
             catch (Exception ex)
             {
-                Log.Fatal("Server error");
-                return BadRequest(ex);
+                return HandleException(ex);
             }
         }
         /// <summary>
@@ -122,15 +111,9 @@ namespace TimeKeeper.API.Controllers
                 Log.Info($"Role {role.Name} with id {role.Id} has changes.");
                 return Ok(role.Create());
             }
-            catch (ArgumentNullException ae)
-            {
-                Log.Error($"There is no Role with specified Id {id}");
-                return NotFound();
-            }
             catch (Exception ex)
             {
-                Log.Fatal("Server error");
-                return BadRequest(ex);
+                return HandleException(ex);
             }
         }
         /// <summary>
@@ -152,15 +135,9 @@ namespace TimeKeeper.API.Controllers
                 Log.Info($"Attempt to delete role with id {id}");
                 return NoContent();
             }
-            catch (ArgumentNullException ae)
-            {
-                Log.Error($"There is no Role with specified Id {id}");
-                return NotFound();
-            }
             catch (Exception ex)
             {
-                Log.Fatal("Server error");
-                return BadRequest(ex);
+                return HandleException(ex);
             }
         }
     }

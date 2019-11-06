@@ -40,8 +40,9 @@ namespace TimeKeeper.API.Factory
             return new MasterModel
             {
                 Id = m.Id,
+                Name = (temp == "team") ? $"{m.Employee.FullName}, {m.Role.Name.Monogram()}" : $"{m.Employee.FullName}, {m.Team.Name}"
                 //Name = m.Employee.FirstName + " " + m.Employee.LastName + ", " + m.Role.Name.Monogram()
-                Name = (temp == "team") ? $"{m.Employee.FirstName + " " + m.Employee.LastName}, {m.Role.Name.Monogram()}" : $"{m.Employee.FirstName + " " + m.Employee.LastName}, {m.Team.Name}"
+                //Name = (temp == "team") ? $"{m.Employee.FirstName + " " + m.Employee.LastName}, {m.Role.Name.Monogram()}" : $"{m.Employee.FirstName + " " + m.Employee.LastName}, {m.Team.Name}"
             };
         }
 
@@ -68,7 +69,7 @@ namespace TimeKeeper.API.Factory
             return new MasterModel
             {
                 Id = e.Id,
-                Name = $"{e.FirstName + " " + e.LastName}, {e.Position}"
+                Name = $"{e.FullName}, {e.Position}"
             };
         }
         public static MasterModel Master(this Assignment a)

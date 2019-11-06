@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using TimeKeeper.API.Factory;
 using TimeKeeper.DAL;
 using TimeKeeper.Domain;
-using TimeKeeper.LOG;
 
 namespace TimeKeeper.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CustomersController : BaseController
@@ -35,8 +36,7 @@ namespace TimeKeeper.API.Controllers
             }
             catch (Exception ex)
             {
-                Log.Fatal("Server error!");
-                return BadRequest(ex);
+                return HandleException(ex);
             }
         }
         /// <summary>
@@ -55,22 +55,13 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
-                //Log.LogInformation($"Try to get Customer with {id} ");
+                Log.Info($"Try to get Customer with {id} ");
                 Customer customer = Unit.Customers.Get(id);
-                if (customer == null)
-                {
-                    Log.Info($"Customer with id {id} not found");
-                    return NotFound();
-                }
-                else
-                {
-                    return Ok(customer.Create());
-                }
+                return Ok(customer.Create());
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
-                Log.Fatal("Server error!");
-                return BadRequest(ex);
+                return HandleException(ex);
             }
         }
         /// <summary>
@@ -87,14 +78,6 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
-                customer.Status = Unit.CustomerStatuses.Get(customer.Status.Id);
-                customer.Address = new CustomerAddress
-                {
-                    Road = customer.Address.Road,
-                    ZipCode = customer.Address.ZipCode,
-                    City = customer.Address.City,
-                    Country = customer.Address.Country
-                };
                 Unit.Customers.Insert(customer);
                 Unit.Save();
                 Log.Info($"Customer {customer.Name} added with id {customer.Id}");
@@ -102,8 +85,7 @@ namespace TimeKeeper.API.Controllers
             }
             catch (Exception ex)
             {
-                Log.Fatal("Server error!");
-                return BadRequest(ex);
+                return HandleException(ex);
             }
         }
         /// <summary>
@@ -123,28 +105,14 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
-                customer.Status = Unit.CustomerStatuses.Get(customer.Status.Id);
-                customer.Address = new CustomerAddress
-                {
-                    Road = customer.Address.Road,
-                    ZipCode = customer.Address.ZipCode,
-                    City = customer.Address.City,
-                    Country = customer.Address.Country
-                };
                 Unit.Customers.Update(customer, id);
                 Unit.Save();
                 Log.Info($"Customer with id {id} updated with body {customer}");
                 return Ok(customer.Create());
             }
-            catch (ArgumentNullException ae)
-            {
-                Log.Error($"There is no Customer with specified Id {id}");
-                return NotFound();
-            }
             catch (Exception ex)
             {
-                Log.Fatal("Server error!");
-                return BadRequest(ex);
+                return HandleException(ex);
             }
         }
         /// <summary>
@@ -168,15 +136,9 @@ namespace TimeKeeper.API.Controllers
                 Log.Info($"Attempt to delete Customer with id {id}");
                 return NoContent();
             }
-            catch (ArgumentNullException ae)
-            {
-                Log.Error($"There is no Customer with Id {id}");
-                return NotFound();
-            }
             catch (Exception ex)
             {
-                Log.Fatal("Server error!");
-                return BadRequest(ex);
+                return HandleException(ex);
             }
         }
     }

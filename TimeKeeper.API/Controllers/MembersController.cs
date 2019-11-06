@@ -8,10 +8,11 @@ using Microsoft.Extensions.Logging;
 using TimeKeeper.DAL;
 using TimeKeeper.Domain;
 using TimeKeeper.API.Factory;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace TimeKeeper.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class MembersController : BaseController
@@ -33,10 +34,9 @@ namespace TimeKeeper.API.Controllers
                 Log.Info($"Try to get all Members");
                 return Ok(Unit.Members.Get().ToList().Select(x=>x.Create()).ToList());
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                Log.Fatal("Server error");
-                return BadRequest(ex);
+                return HandleException(ex);
             }
         }
         /// <summary>
@@ -55,22 +55,13 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
-                Log.Info($"Try to fetch member with id {id}");
+                Log.Info($"Try to get Member with {id} ");
                 Member member = Unit.Members.Get(id);
-                if (member == null)
-                {
-                    Log.Error($"There is no project with specified id {id}");
-                    return NotFound();
-                }
-                else
-                {
-                    return Ok(member.Create());
-                }
+                return Ok(member.Create());
             }
             catch (Exception ex)
             {
-                Log.Fatal("Server error");
-                return BadRequest(ex);
+                return HandleException(ex);
             }
         }
         /// <summary>
@@ -87,19 +78,14 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
-                member.Team = Unit.Teams.Get(member.Team.Id);
-                member.Employee = Unit.Employees.Get(member.Employee.Id);
-                member.Role = Unit.Roles.Get(member.Role.Id);
-                member.Status = Unit.MemberStatuses.Get(member.Status.Id);
                 Unit.Members.Insert(member);
                 Unit.Save();
                 Log.Info($"Member added with id {member.Id}");
                 return Ok(member.Create());
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                Log.Fatal("Server error");
-                return BadRequest(ex);
+                return HandleException(ex);
             }
         }
         /// <summary>
@@ -119,24 +105,14 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
-                member.Team = Unit.Teams.Get(member.Team.Id);
-                member.Employee = Unit.Employees.Get(member.Employee.Id);
-                member.Role = Unit.Roles.Get(member.Role.Id);
-                member.Status = Unit.MemberStatuses.Get(member.Status.Id);
                 Unit.Members.Update(member, id);
                 Unit.Save();
                 Log.Info($"Member with id {member.Id} has changes.");
                 return Ok(member.Create());
             }
-            catch(ArgumentNullException ae)
+            catch (Exception ex)
             {
-                Log.Error($"There is no Member with specified Id {id}");
-                return NotFound();
-            }
-            catch(Exception ex)
-            {
-                Log.Fatal("Server error");
-                return BadRequest(ex);
+                return HandleException(ex);
             }
         }
         /// <summary>
@@ -160,15 +136,9 @@ namespace TimeKeeper.API.Controllers
                 Log.Info($"Attempt to delete project with id {id}");
                 return NoContent();
             }
-            catch(ArgumentNullException ae)
-            {
-                Log.Error($"There is no Member with specified Id {id}");
-                return NotFound();
-            }
             catch (Exception ex)
             {
-                Log.Fatal("Server error");
-                return BadRequest(ex);
+                return HandleException(ex);
             }
         }
     }

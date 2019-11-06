@@ -41,7 +41,7 @@ namespace TimeKeeper.API.Factory
             return new DayModel
             {
                 Id = day.Id,
-                Employee = new MasterModel { Id = day.Employee.Id, Name = day.Employee.FirstName + " " + day.Employee.LastName },
+                Employee = new MasterModel { Id = day.Employee.Id, Name = day.Employee.FullName },
                 DayType = new MasterModel { Id = day.DayType.Id, Name = day.DayType.Name },
                 Date = day.Date,
                 TotalHours = day.TotalHours,
@@ -66,6 +66,7 @@ namespace TimeKeeper.API.Factory
                 Id = employee.Id,
                 FirstName = employee.FirstName,
                 LastName = employee.LastName,
+                FullName = employee.FullName,
                 Image = employee.Image,
                 Email = employee.Email,
                 Phone = employee.Phone,
@@ -111,7 +112,7 @@ namespace TimeKeeper.API.Factory
             return new MemberModel
             {
                 Id = member.Id,
-                Employee = new MasterModel { Id=member.Employee.Id, Name=$"{member.Employee.FirstName + " " + member.Employee.LastName}"},
+                Employee = new MasterModel { Id=member.Employee.Id, Name=$"{member.Employee.FullName}"},
                 Role = new MasterModel { Id=member.Role.Id, Name=member.Role.Name},
                 Team = new MasterModel { Id=member.Team.Id, Name=member.Team.Name},
                 Status = new MasterModel { Id = member.Status.Id, Name = member.Status.Name },

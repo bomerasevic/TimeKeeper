@@ -13,13 +13,18 @@ namespace TimeKeeper.DAL
         public override void Update(Day day, int id)
         {
             Day old = Get(id);
+            _context.Entry(old).CurrentValues.SetValues(day);
+            old.Employee = day.Employee;
+            old.DayType = day.DayType;
+        }
+        public override void Delete(int id)
+        {
+            Day old = Get(id);
 
-            if (old != null)
-            {
-                _context.Entry(old).CurrentValues.SetValues(day);
-                old.Employee = day.Employee;
-                old.DayType = day.DayType;
-            }
+            if (old.Tasks.Count != 0)
+                throw new Exception("Object cannot be deleted because it has children entities!");
+
+            Delete(old);
         }
     }
 }
