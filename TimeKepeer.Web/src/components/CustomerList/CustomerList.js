@@ -50,9 +50,9 @@ function getSorting(order, orderBy) {
 }
 
 const rows = [
-    { id: "projectName", numeric: false, disablePadding: true, label: "Project name" },
-    { id: "customerName", numeric: true, disablePadding: true, label: "Customer name" },
-    { id: "teamName", numeric: false, disablePadding: false, label: "Team Name" },
+    { id: "businessName", numeric: false, disablePadding: true, label: "Business name" },
+    { id: "contactName", numeric: true, disablePadding: true, label: "Contact name" },
+    { id: "email", numeric: false, disablePadding: false, label: "Email" },
     { id: "status", numeric: false, disablePadding: false, label: "Status" },
     { id: "action", numeric: false, disablePadding: false, label: "Actions" }
 ];
@@ -232,13 +232,13 @@ class EnhancedTable extends React.Component {
                                             selected={isSelected}
                                         >
                                             <TableCell component="th" scope="row" align="center">
-                                                Meet Experts Online
+                                                Mistral
                                             </TableCell>
-                                            <TableCell align="center"> Andromeda </TableCell>
+                                            <TableCell align="center"> Development Team</TableCell>
                                             <TableCell align="center">
-                                                Bravo Team
+                                                berina.omerasevic97@gmail.com
                                             </TableCell>
-                                            <TableCell align="center">Finished</TableCell>
+                                            <TableCell align="center">Client</TableCell>
                                             <TableCell align="center">
                                                 <Button
                                                     href="#text-buttons"
@@ -289,4 +289,3 @@ EnhancedTable.propTypes = {
 };
 
 export default withStyles(styles)(EnhancedTable);
-
