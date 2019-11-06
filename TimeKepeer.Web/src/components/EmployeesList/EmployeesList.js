@@ -16,10 +16,8 @@ import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Button from "@material-ui/core/Button";
-import FilterListIcon from "@material-ui/icons/FilterList";
 import { lighten } from "@material-ui/core/styles/colorManipulator";
-
-import NavigationLogin from "../NavigationLogin/NavigationLogin";
+import Modal from "@material-ui/core/Modal";
 
 let counter = 0;
 function createData(name, calories, fat, carbs, protein) {
@@ -74,7 +72,7 @@ class EnhancedTableHead extends React.Component {
                     {rows.map(
                         row => (
                             <TableCell
-                                style={{ color: "white" }}
+                                style={{ color: "white", paddingLeft: "30px" }}
                                 key={row.id}
                                 align={"center"}
                                 padding={row.disablePadding ? "none" : "default"}
@@ -136,56 +134,6 @@ const toolbarStyles = theme => ({
         flex: "0 0 auto"
     }
 });
-
-let EnhancedTableToolbar = props => {
-    const { numSelected, classes } = props;
-
-    return (
-        <Toolbar
-            className={classNames(classes.root, {
-                [classes.highlight]: numSelected > 0
-            })}
-        >
-            <div className={classes.title}>
-                {numSelected > 0 ? (
-                    <Typography color="inherit" variant="subtitle1">
-                        {numSelected} selected
-                    </Typography>
-                ) : (
-                    <Typography variant="h4" id="tableTitle">
-                        Employees
-                    </Typography>
-                )}
-            </div>
-            <div className={classes.spacer} />
-            <div className={classes.actions}>
-                {numSelected > 0 ? (
-                    <Tooltip title="Delete">
-                        <IconButton aria-label="Delete">
-                            <DeleteIcon />
-                        </IconButton>
-                    </Tooltip>
-                ) : (
-                    <Button
-                        style={{ backgroundColor: "#2bbbad" }}
-                        variant="contained"
-                        color="primary"
-                        className={classes.button}
-                    >
-                        Add
-                    </Button>
-                )}
-            </div>
-        </Toolbar>
-    );
-};
-
-EnhancedTableToolbar.propTypes = {
-    classes: PropTypes.object.isRequired,
-    numSelected: PropTypes.number.isRequired
-};
-
-EnhancedTableToolbar = withStyles(toolbarStyles)(EnhancedTableToolbar);
 
 const styles = theme => ({
     root: {
@@ -260,7 +208,6 @@ class EnhancedTable extends React.Component {
 
         return (
             <Paper className={classes.root}>
-                <EnhancedTableToolbar numSelected={selected.length} />
                 <div className={classes.tableWrapper}>
                     <Table className={classes.table} aria-labelledby="tableTitle">
                         <EnhancedTableHead
@@ -285,14 +232,29 @@ class EnhancedTable extends React.Component {
                                             key={n.id}
                                             selected={isSelected}
                                         >
-                                            <TableCell component="th" scope="row" padding="none">
-                                                {n.firstName}
+                                            <TableCell component="th" scope="row" align="center">
+                                                Berina
                                             </TableCell>
-                                            <TableCell align="right">{n.lastName}</TableCell>
-                                            <TableCell align="right">{n.age}</TableCell>
-                                            <TableCell align="right">{n.email}</TableCell>
-                                            <TableCell align="right">{n.phone}</TableCell>
-                                            <TableCell align="right">{n.actions}</TableCell>
+                                            <TableCell align="center"> Omerašević</TableCell>
+                                            <TableCell align="center">22</TableCell>
+                                            <TableCell align="center">
+                                                berina.omerasevic97@gmail.com
+                                            </TableCell>
+                                            <TableCell align="center">+387 61 513 321</TableCell>
+                                            <TableCell align="center">
+                                                <Button
+                                                    href="#text-buttons"
+                                                    className={classes.button}
+                                                >
+                                                    Edit
+                                                </Button>
+                                                <Button
+                                                    href="#text-buttons"
+                                                    className={classes.button}
+                                                >
+                                                    Delete
+                                                </Button>
+                                            </TableCell>
                                         </TableRow>
                                     );
                                 })}

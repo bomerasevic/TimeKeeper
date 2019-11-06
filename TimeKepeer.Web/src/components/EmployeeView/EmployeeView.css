@@ -8,3 +8,15 @@ img {
     margin-left: auto;
     margin-right: auto;
 }
+.add-btn {
+    background-color: #26a69a;
+    float: right;
+    margin-right: 68px;
+    margin-top: 40px;
+}
+.table-name {
+    width: 300px;
+    padding-left: 65px;
+    padding-right: 0px !important;
+    float: left;
+}
