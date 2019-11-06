@@ -16,8 +16,10 @@ import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Button from "@material-ui/core/Button";
+import FilterListIcon from "@material-ui/icons/FilterList";
 import { lighten } from "@material-ui/core/styles/colorManipulator";
-import Modal from "@material-ui/core/Modal";
+
+import NavigationLogin from "../NavigationLogin/NavigationLogin";
 
 let counter = 0;
 function createData(name, calories, fat, carbs, protein) {
@@ -51,8 +53,8 @@ function getSorting(order, orderBy) {
 
 const rows = [
     { id: "projectName", numeric: false, disablePadding: true, label: "Project name" },
-    { id: "customerName", numeric: true, disablePadding: true, label: "Customer name" },
-    { id: "teamName", numeric: false, disablePadding: false, label: "Team Name" },
+    { id: "costumerName", numeric: true, disablePadding: true, label: "Costumer name" },
+    { id: "teamName", numeric: false, disablePadding: false, label: "Team name" },
     { id: "status", numeric: false, disablePadding: false, label: "Status" },
     { id: "action", numeric: false, disablePadding: false, label: "Actions" }
 ];
@@ -71,7 +73,7 @@ class EnhancedTableHead extends React.Component {
                     {rows.map(
                         row => (
                             <TableCell
-                                style={{ color: "white", paddingLeft: "30px" }}
+                                style={{ color: "white" }}
                                 key={row.id}
                                 align={"center"}
                                 padding={row.disablePadding ? "none" : "default"}
@@ -134,10 +136,60 @@ const toolbarStyles = theme => ({
     }
 });
 
+let EnhancedTableToolbar = props => {
+    const { numSelected, classes } = props;
+
+    return (
+        <Toolbar
+            className={classNames(classes.root, {
+                [classes.highlight]: numSelected > 0
+            })}
+        >
+            <div className={classes.title}>
+                {numSelected > 0 ? (
+                    <Typography color="inherit" variant="subtitle1">
+                        {numSelected} selected
+                    </Typography>
+                ) : (
+                    <Typography variant="h4" id="tableTitle">
+                        Projects
+                    </Typography>
+                )}
+            </div>
+            <div className={classes.spacer} />
+            <div className={classes.actions}>
+                {numSelected > 0 ? (
+                    <Tooltip title="Delete">
+                        <IconButton aria-label="Delete">
+                            <DeleteIcon />
+                        </IconButton>
+                    </Tooltip>
+                ) : (
+                    <Button
+                        style={{ backgroundColor: "#2bbbad" }}
+                        variant="contained"
+                        color="primary"
+                        className={classes.button}
+                    >
+                        Add
+                    </Button>
+                )}
+            </div>
+        </Toolbar>
+    );
+};
+
+EnhancedTableToolbar.propTypes = {
+    classes: PropTypes.object.isRequired,
+    numSelected: PropTypes.number.isRequired
+};
+
+EnhancedTableToolbar = withStyles(toolbarStyles)(EnhancedTableToolbar);
+
 const styles = theme => ({
     root: {
         width: "100%",
-        marginTop: theme.spacing.unit * 8
+        marginTop: theme.spacing.unit * 3
     },
     table: {
         minWidth: 1020
@@ -207,6 +259,7 @@ class EnhancedTable extends React.Component {
 
         return (
             <Paper className={classes.root}>
+                <EnhancedTableToolbar numSelected={selected.length} />
                 <div className={classes.tableWrapper}>
                     <Table className={classes.table} aria-labelledby="tableTitle">
                         <EnhancedTableHead
@@ -231,28 +284,14 @@ class EnhancedTable extends React.Component {
                                             key={n.id}
                                             selected={isSelected}
                                         >
-                                            <TableCell component="th" scope="row" align="center">
-                                                Meet Experts Online
+                                            <TableCell component="th" scope="row" padding="none">
+                                                {n.firstName}
                                             </TableCell>
-                                            <TableCell align="center"> Andromeda </TableCell>
-                                            <TableCell align="center">
-                                                Bravo Team
-                                            </TableCell>
-                                            <TableCell align="center">Finished</TableCell>
-                                            <TableCell align="center">
-                                                <Button
-                                                    href="#text-buttons"
-                                                    className={classes.button}
-                                                >
-                                                    Edit
-                                                </Button>
-                                                <Button
-                                                    href="#text-buttons"
-                                                    className={classes.button}
-                                                >
-                                                    Delete
-                                                </Button>
-                                            </TableCell>
+                                            <TableCell align="right">{n.lastName}</TableCell>
+                                            <TableCell align="right">{n.age}</TableCell>
+                                            <TableCell align="right">{n.email}</TableCell>
+                                            <TableCell align="right">{n.phone}</TableCell>
+                                            <TableCell align="right">{n.actions}</TableCell>
                                         </TableRow>
                                     );
                                 })}
@@ -289,4 +328,3 @@ EnhancedTable.propTypes = {
 };
 
 export default withStyles(styles)(EnhancedTable);
-

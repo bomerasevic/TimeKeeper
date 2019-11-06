@@ -12,7 +12,7 @@ function EmployeeView() {
                 <h3 className="table-name">Employees</h3>
                 <a className=" btn modal-trigger add-btn">Add employee</a>
             </div>
-            <div class="table-view">
+            <div class="table-employee">
                 <EmployeesList />
             </div>
         </div>
