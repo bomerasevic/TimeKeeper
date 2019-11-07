@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using TimeKeeper.API.Factory;
 using TimeKeeper.DAL;
 using TimeKeeper.Domain;
+using TimeKeeper.Utility;
 
 namespace TimeKeeper.API.Controllers
 {
@@ -79,15 +80,7 @@ namespace TimeKeeper.API.Controllers
             try
             {
                 Unit.Employees.Insert(employee);
-                Unit.Save();
-                // create user
-                User user = new User
-                {
-                    Name = employee.FullName,
-                    Username = (employee.FirstName + employee.LastName.Substring(0, 2)).ToLower(),
-                    Password = "$ch00l",
-                    Role = "user"
-                };
+                User user = UsersUtility.CreateUser(employee);
                 Unit.Users.Insert(user);
                 Unit.Save();
                 Log.Info($"Employee {employee.FirstName + " " + employee.LastName} added with Id {employee.Id}");
