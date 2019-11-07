@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import NavigationLogin from "../NavigationLogin/NavigationLogin";
 import logo from "../../assets/images/puzzle.png";
-import "../EmployeeView/EmployeeView.css";
+import "./ProjectView.css";
 import ProjectsList from "../ProjectsList/ProjectList";
 
 function ProjectView() {
@@ -12,7 +12,7 @@ function ProjectView() {
                 <h3 className="table-name">Projects</h3>
                 <a className=" btn modal-trigger add-btn">Add Project</a>
             </div>
-            <div class="table-view">
+            <div class="table-projects">
                 <ProjectsList />
             </div>
         </div>
