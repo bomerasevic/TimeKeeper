@@ -86,11 +86,11 @@ nav .brand-logo {
 
 .row,
 #margin-group {
-    margin: 0 !important;
+    margin: 0;
 }
 .row {
-    margin-left: auto !important;
-    margin-right: auto !important;
+    margin-left: auto ;
+    margin-right: auto ;
 }
 
 .row .margin-form {
