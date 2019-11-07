@@ -6,6 +6,9 @@ import hamburger from "../../assets/images/hamburger.svg";
 import Modal from "react-modal";
 import swal from "sweetalert";
 import axios from "axios";
+import config from "../../config"
+
+import { withRouter } from "react-router-dom";
 import * as Yup from "yup";
 import { Formik, Form, Field } from "formik";
 const SignupSchema = Yup.object().shape({
@@ -86,7 +89,7 @@ class Navigation extends React.Component {
                                             validationSchema={SignupSchema}
                                             onSubmit={(values, { setSubmitting }) => {
                                                 axios
-                                                    .post(contactFormEndpoint, values, {
+                                                    .post(`${config.apiUrl}users`, values, {
                                                         headers: {
                                                             "Access-Control-Allow-Origin": "*",
                                                             "Content-Type": "application/json"
@@ -94,7 +97,10 @@ class Navigation extends React.Component {
                                                     })
                                                     .then(resp => {
                                                         swal("Login success", "", "success");
-                                                        console.log(resp);
+                                                        console.log(resp.data);
+                                                        config.token = "Basic " + resp.data.base64;
+                                                        console.log(config);
+                                                        this.props.history.push("/app");
                                                     })
                                                     .catch(err => {
                                                         console.log(err);
@@ -154,4 +160,10 @@ class Navigation extends React.Component {
     }
 }
 
-export default Navigation;
+export default (withRouter)(Navigation);
+/*
+headers:{
+    "Content-Type":"application/json",
+    "Authorization":config.token
+}
+*/

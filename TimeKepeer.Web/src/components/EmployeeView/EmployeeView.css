@@ -1,0 +1,74 @@
+img {
+    position: relative !important;
+    height: 40px;
+    width: auto;
+}
+.table-employee {
+    width: 90% !important;
+    margin-left: auto;
+    margin-right: auto;
+}
+.add-btn {
+    background-color: #26a69a;
+    float: right;
+    margin-right: 68px;
+    margin-top: 40px;
+}
+.table-name {
+    width: 300px;
+    padding-left: 65px;
+    padding-right: 0px !important;
+    float: left;
+}
+.modal-add-employee {
+    background-color: white !important;
+    width: 500px !important;
+}
+.aria-hidden {
+    background-color: white !important;
+}
+
+.ReactModal__Overlay--after-open {
+    z-index: 1000;
+    background-color: rgba(128, 128, 128, 0.397) !important;
+}
+.ReactModal__Content--after-open {
+    width: 950px;
+    height: 500px;
+    position: initial !important;
+    margin: 80px auto !important;
+    display: flex !important;
+}
+
+.employeeAddh1 {
+    font-size: 24px;
+    text-align: left;
+    font-weight: bold;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
+.employeeAddh2 {
+    padding-top: 0px;
+    margin-top: 10px;
+    font-size: 18px;
+    text-align: left;
+}
+.rowEmployee {
+    margin-left: 40px !important;
+    margin-right: 0px !important;
+    width: 200px !important;
+    height: 100px !important;
+ }
+
+.firstColumn{
+    position: absolute;
+    margin-left: -200px;
+    margin-top: 100px;
+    
+}
+
+.secondColumn{
+    position: absolute;
+    margin-top: 100px;
+    
+}
