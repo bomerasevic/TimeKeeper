@@ -13,6 +13,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Serialization;
 using TimeKeeper.API.Services;
 using TimeKeeper.DAL;
+using System.IdentityModel;
+using Microsoft.IdentityModel.Tokens;
+using IdentityModel;
 
 namespace TimeKeeper.API
 {
@@ -37,8 +40,8 @@ namespace TimeKeeper.API
 
             services.AddAuthentication(o =>
             {
-               o.DefaultScheme = "Cookies";
-               o.DefaultChallengeScheme = "oidc";  // trazi i id_token i token
+                o.DefaultScheme = "Cookies";
+                o.DefaultChallengeScheme = "oidc";  // trazi i id_token i token
             }).AddCookie("Cookies")
               .AddOpenIdConnect("oidc", o =>
               {
@@ -55,6 +58,11 @@ namespace TimeKeeper.API
                   o.GetClaimsFromUserInfoEndpoint = true;
                   o.ClaimActions.MapUniqueJsonKey("address", "address");
                   o.ClaimActions.MapUniqueJsonKey("role", "role");
+                  o.TokenValidationParameters = new TokenValidationParameters
+                  {
+                      NameClaimType = JwtClaimTypes.GivenName,
+                      RoleClaimType = JwtClaimTypes.Role
+                  };
               });
 
             //services.AddAuthentication("BasicAuthentication")
