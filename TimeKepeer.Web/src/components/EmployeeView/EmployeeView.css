@@ -113,3 +113,10 @@ img {
 .input-field {
     color: red;
 }
+
+#textarea1{
+
+    height: 60px !important;
+    color: black;
+    
+}

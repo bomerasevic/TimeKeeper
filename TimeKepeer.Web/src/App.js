@@ -14,6 +14,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import EmployeeView from "./components/EmployeeView/EmployeeView";
 import ProjectView from "./components/ProjectView/ProjectView";
 import CustomerView from "./components/CustomerView/CustomerView";
+import EmployeeTimeTracker from "./components/EmployeeTimeTracker/EmployeeTimeTracker";
 
 class App extends React.Component {
     render() {
@@ -43,6 +44,10 @@ class App extends React.Component {
                     <Route exact path="/app/customers">
                         <CustomerView />
                     </Route>
+                    <Route exact path="/app/profile">
+                        <EmployeeTimeTracker />
+                    </Route>
+                    
                 </Switch>
             </BrowserRouter>
         );

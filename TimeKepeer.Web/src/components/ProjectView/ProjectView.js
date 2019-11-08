@@ -16,7 +16,7 @@ const SignupSchema = Yup.object().shape({
         .required("Required"),
     description: Yup.string()
         .max(250, "Too long!")
-        .required("Required"),
+    
   
    
 });
@@ -42,7 +42,7 @@ class ProjectView extends React.Component {
                 <NavigationLogin />
                 <div className="row">
                     <h3 className="table-name">Projects</h3>
-                    <a className="btn modal-trigger add-btn" onClick={this.openModal}>
+                    <a className="btn add-btn" onClick={this.openModal}>
                         Add project
                     </a>
                 </div>
@@ -95,19 +95,23 @@ class ProjectView extends React.Component {
                                                         ) : null}
                                                         <label htmlFor="projectname">Project Name</label>
                                                     </div>
-                                                    <div className="materialize-textarea">
+                                                    <div className="input-field">
                                                         <Field
-                                                            name="description"
-                                                            id="textarea1"
-                                                            type="text"
+                                                           
+                                                           as="textarea"
+                                                           name="description"
+                                                           type="description"
+                                                           className="input-field materialize-textarea"
+                                                           id="textarea2"
                                                          
+                                                            
                                                         />
                                                         {errors.description && touched.description ? (
                                                             <div className="errorDescription">
                                                                 {errors.description}
                                                             </div>
                                                         ) : null}
-                                                        <label htmlFor="textarea1">Add Description</label>
+                                                        <label htmlFor="textarea">Describe role</label>
                                                     </div>
                                                   
                                                   
@@ -125,7 +129,7 @@ class ProjectView extends React.Component {
                                                                 {errors.datetime}
                                                             </div>
                                                         ) : null}
-                                                        <label  htmlFor="Datetime">Employee begin date</label>
+                                                        <label  htmlFor="Datetime"> Start date</label>
                                                     </div>
                                                      
                                                     <div className="input-field datetime">
@@ -139,7 +143,7 @@ class ProjectView extends React.Component {
                                                                 {errors.datetime}
                                                             </div>
                                                         ) : null}
-                                                        <label  htmlFor="Datetime">Employee end date</label>
+                                                        <label  htmlFor="Datetime">End date</label>
                                                     </div>
                                                     <div className="input-field select-dropdown">
                                                         <datalist id="status">
@@ -148,8 +152,8 @@ class ProjectView extends React.Component {
                                                         <option>Not a client</option>
                                                         </datalist>
                                                         <Field
-                                                            name="select"
-                                                            id="select"
+                                                            name="statusClient"
+                                                            id="client"
                                                             type="text"
                                                             list="status"
                                                             
@@ -159,7 +163,7 @@ class ProjectView extends React.Component {
                                                                 {errors.select}
                                                             </div>
                                                         ) : null}
-                                                        <label  htmlFor="select-dropdown">Status</label>
+                                                        <label  htmlFor="client">Status</label>
                                                     </div>
                                                     <div className="input-field select-dropdown">
                                                     <datalist id="team">
@@ -206,8 +210,8 @@ class ProjectView extends React.Component {
                                                       
                                                         </datalist>
                                                         <Field
-                                                            name="select"
-                                                            id="select"
+                                                            name="pricing"
+                                                            id="pricing"
                                                             type="text"
                                                             list="pricing"
                                                             
@@ -217,7 +221,7 @@ class ProjectView extends React.Component {
                                                                 {errors.select}
                                                             </div>
                                                         ) : null}
-                                                        <label  htmlFor="select-dropdown">Pricing</label>
+                                                        <label  htmlFor="pricing">Pricing</label>
                                                     </div>
                                                     <div className="input-field select-dropdown">
                                                         <datalist id="fixedbid">
@@ -226,8 +230,8 @@ class ProjectView extends React.Component {
                                                       
                                                         </datalist>
                                                         <Field
-                                                            name="select"
-                                                            id="select"
+                                                            name="fixedbid"
+                                                            id="fixedbid"
                                                             type="text"
                                                             list="fixedbid"
                                                             
@@ -237,7 +241,7 @@ class ProjectView extends React.Component {
                                                                 {errors.fixedbid}
                                                             </div>
                                                         ) : null}
-                                                        <label  htmlFor="select-dropdown">Fixed Bid</label>
+                                                        <label  htmlFor="fixed-bid">Fixed Bid</label>
                                                     </div>
                                                     <div className="buttonsProject">
                                                         <button className="btn" id="update">UPDATE</button>
