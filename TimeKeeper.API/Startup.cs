@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
@@ -24,6 +25,7 @@ namespace TimeKeeper.API
             var builder = new ConfigurationBuilder().SetBasePath(env.ContentRootPath)
                                                     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
             Configuration = builder.Build();
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -36,18 +38,23 @@ namespace TimeKeeper.API
             services.AddAuthentication(o =>
             {
                o.DefaultScheme = "Cookies";
-               o.DefaultChallengeScheme = "oidc";
+               o.DefaultChallengeScheme = "oidc";  // trazi i id_token i token
             }).AddCookie("Cookies")
               .AddOpenIdConnect("oidc", o =>
               {
                   o.SignInScheme = "Cookies";
                   o.Authority = "https://localhost:44300";
-                  o.ClientId = "tk2019";
+                  o.ClientId = "tk2019";  // klijent kojeg smo prijavili
                   o.ClientSecret = "mistral_talents";
                   o.ResponseType = "code id_token";
-                  o.Scope.Add("openid");
+                  o.Scope.Add("openid");  // identitet usera koji je prijavljen
                   o.Scope.Add("profile");
+                  o.Scope.Add("address");
+                  o.Scope.Add("roles");
                   o.SaveTokens = true;
+                  o.GetClaimsFromUserInfoEndpoint = true;
+                  o.ClaimActions.MapUniqueJsonKey("address", "address");
+                  o.ClaimActions.MapUniqueJsonKey("role", "role");
               });
 
             //services.AddAuthentication("BasicAuthentication")
