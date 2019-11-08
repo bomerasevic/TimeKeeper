@@ -6,19 +6,17 @@ import hamburger from "../../assets/images/hamburger.svg";
 import Modal from "react-modal";
 import swal from "sweetalert";
 import axios from "axios";
-import config from "../../config"
-
-import { withRouter } from "react-router-dom";
 import * as Yup from "yup";
 import { Formik, Form, Field } from "formik";
+import config from "../../config";
+import { withRouter } from "react-router-dom";
+
 const SignupSchema = Yup.object().shape({
     username: Yup.string()
         .min(5, "Too Short!")
         .required("Required"),
     password: Yup.string().required("Required")
 });
-const contactFormEndpoint = "http://192.168.60.72/TimeKeeper/api/users";
-
 class Navigation extends React.Component {
     constructor() {
         super();
@@ -160,10 +158,4 @@ class Navigation extends React.Component {
     }
 }
 
-export default (withRouter)(Navigation);
-/*
-headers:{
-    "Content-Type":"application/json",
-    "Authorization":config.token
-}
-*/
+export default withRouter(Navigation);

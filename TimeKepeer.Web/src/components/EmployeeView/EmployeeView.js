@@ -3,6 +3,7 @@ import NavigationLogin from "../NavigationLogin/NavigationLogin";
 import "./EmployeeView.css";
 import EmployeesList from "../EmployeesList/EmployeesList";
 import Modal from "react-modal";
+import Button from "@material-ui/core/Button";
 import * as Yup from "yup";
 import swal from "sweetalert";
 import axios from "axios";
@@ -74,8 +75,13 @@ class EmployeeView extends React.Component {
                                                 email: "",
                                                 phone:"",
                                                 birthday: "",
-                                                datetime: "",
-                                                status: ""
+                                                startdatetime: "",
+                                                enddatetime: "",
+                                                status: "",
+                                                jobtitle: "",
+                                                salary:"",
+                                                team: "",
+                                                description:""
                                             }}
                                             validationSchema={SignupSchema}
                                             onSubmit={(values, { setSubmitting }) => {
@@ -156,10 +162,30 @@ class EmployeeView extends React.Component {
                                                     </div>
                                                     </div>
                                                     <div className=" col m4 secondColumn" >
+                                                    <div className="input-field select-dropdown">
+                                                        <datalist id="status">
+                                                        <option>Intern</option>
+                                                        <option>Employed</option>
+                                                        <option>Leaver</option>
+                                                        </datalist>
+                                                        <Field
+                                                            name="select"
+                                                            id="select"
+                                                            type="text"
+                                                            list="status"
+                                                            
+                                                        />
+                                                        {errors.select && touched.select ? (
+                                                            <div className="errorSelect">
+                                                                {errors.select}
+                                                            </div>
+                                                        ) : null}
+                                                        <label  htmlFor="select-dropdown">Status</label>
+                                                    </div>
                                                     <div className="input-field datetime">
                                                         <Field
-                                                            name="datetime"
-                                                            id="datetime"
+                                                            name="startdatetime"
+                                                            id="startdatetime"
                                                             type="date"
                                                         />
                                                         {errors.datetime && touched.datetime ? (
@@ -169,10 +195,13 @@ class EmployeeView extends React.Component {
                                                         ) : null}
                                                         <label  htmlFor="Datetime">Employee begin date</label>
                                                     </div>
+                                                   
+                                                    
+                                                    
                                                     <div className="input-field datetime">
                                                         <Field
-                                                            name="datetime"
-                                                            id="datetime"
+                                                            name="enddatetime"
+                                                            id="enddatetime"
                                                             type="date"
                                                         />
                                                         {errors.datetime && touched.datetime ? (
@@ -182,9 +211,86 @@ class EmployeeView extends React.Component {
                                                         ) : null}
                                                         <label  htmlFor="Datetime">Employee end date</label>
                                                     </div>
-                                                 
+                                                    <div className="input-field select-dropdown">
+                                                    <datalist id="jobtitle">
+                                                        <option>DEV</option>
+                                                        <option>UI/UX</option>
+                                                        <option>QAE</option>
+                                                        <option>MGR</option>
+                                                        <option>HRM</option>
+                                                        <option>CEO</option>
+                                                        <option>CTO</option>
+                                                        <option>COO</option>
+                                                        </datalist>
+                                                        <Field
+                                                            name="jobtitle"
+                                                            id="jobtitle"
+                                                            type="text"
+                                                            list="jobtitle"
+                                                        />
+                                                        {errors.jobtitle && touched.jobtitle ? (
+                                                            <div className="errorJobtitle">
+                                                                {errors.jobtitle}
+                                                            </div>
+                                                        ) : null}
+                                                        <label htmlFor="select-dropdown">Job Title</label>
+                                                    </div>
+
+                                                    <div className="input-field">
+                                                        <Field
+                                                            name="salary"
+                                                            id="salary"
+                                                            type="number"
+                                                        />
+                                                        {errors.salary && touched.salary ? (
+                                                            <div className="errorSalary">
+                                                                {errors.salary}
+                                                            </div>
+                                                        ) : null}
+                                                        <label htmlFor="salary">Contracted salary</label>
+                                                    </div>
                                                </div>
-                                              
+                                               <div className=" col m4 thirdColumn" >
+
+                                                  <div className="imgBox">
+                                                      <button className="btn upload">Upload image</button>
+                                                  </div>
+                                                  <div className="input-field select-dropdown">
+                                                    <datalist id="team">
+                                                        <option>Alpha</option>
+                                                        <option>Bravo</option>
+                                                        <option>Charlie</option>
+                                                        <option>Delta</option>
+                                                       
+                                                        </datalist>
+                                                        <Field
+                                                            name="team"
+                                                            id="team"
+                                                            type="text"
+                                                            list="team"
+                                                        />
+                                                        {errors.team && touched.team ? (
+                                                            <div className="errorTeam">
+                                                                {errors.team}
+                                                            </div>
+                                                        ) : null}
+                                                        <label htmlFor="select-dropdown">Team</label>
+                                                    </div>
+                                                    <div className="input-field">
+                                                        <Field
+                                                            name="description"
+                                                            id="description"
+                                                            type="text"
+                                                        />
+                                                        {errors.description && touched.description ? (
+                                                            <div className="errorDescription">
+                                                                {errors.description}
+                                                            </div>
+                                                        ) : null}
+                                                        <label htmlFor="description">Describe role</label>
+                                                    </div>
+
+                                               </div>
                                                    
                                                 </Form>
                                                 

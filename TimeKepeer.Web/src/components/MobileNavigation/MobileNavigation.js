@@ -6,6 +6,9 @@ import Modal from "react-modal";
 import swal from "sweetalert";
 import * as Yup from "yup";
 
+import config from "../../config";
+import { withRouter } from "react-router-dom";
+
 import axios from "axios";
 import { Formik, Form, Field } from "formik";
 // Import Materialize
@@ -57,9 +60,7 @@ class MobileNavigation extends Component {
                     <a href="#contact">Contact us</a>
                 </li>
                 <li>
-                    <a className="waves-effect waves-light btn" onClick={this.openModal}>
-                        Login
-                    </a>
+                    <a className="waves-effect waves-light btn">Login</a>
                     <Modal
                         className="mobile-login"
                         isOpen={this.state.modalIsOpen}
@@ -80,7 +81,7 @@ class MobileNavigation extends Component {
                                 validationSchema={SignupSchema}
                                 onSubmit={(values, { setSubmitting }) => {
                                     axios
-                                        .post(contactFormEndpoint, values, {
+                                        .post(`${config.apiUrl}users`, values, {
                                             headers: {
                                                 "Access-Control-Allow-Origin": "*",
                                                 "Content-Type": "application/json"
@@ -88,7 +89,10 @@ class MobileNavigation extends Component {
                                         })
                                         .then(resp => {
                                             swal("Login success", "", "success");
-                                            console.log(resp);
+                                            console.log(resp.data);
+                                            config.token = "Basic " + resp.data.base64;
+                                            console.log(config);
+                                            this.props.history.push("/app");
                                         })
                                         .catch(err => {
                                             console.log(err);
@@ -137,4 +141,4 @@ class MobileNavigation extends Component {
     }
 }
 
-export default MobileNavigation;
+export default withRouter(MobileNavigation);
