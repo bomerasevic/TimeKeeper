@@ -81,7 +81,7 @@ class EmployeeView extends React.Component {
                                                 jobtitle: "",
                                                 salary:"",
                                                 team: "",
-                                                description:""
+                                                textarea2:""
                                             }}
                                             validationSchema={SignupSchema}
                                             onSubmit={(values, { setSubmitting }) => {
@@ -253,7 +253,7 @@ class EmployeeView extends React.Component {
                                                <div className=" col m4 thirdColumn" >
 
                                                   <div className="imgBox">
-                                                      <button className="btn upload">Upload image</button>
+                                                      <button className="btn upload">Add image</button>
                                                   </div>
                                                   <div className="input-field select-dropdown">
                                                     <datalist id="team">
@@ -278,9 +278,11 @@ class EmployeeView extends React.Component {
                                                     </div>
                                                     <div className="input-field">
                                                         <Field
-                                                            name="description"
+                                                           
+                                                            name="input-field materialize-textarea"
                                                             id="description"
                                                             type="text"
+                                                            
                                                         />
                                                         {errors.description && touched.description ? (
                                                             <div className="errorDescription">
@@ -288,6 +290,11 @@ class EmployeeView extends React.Component {
                                                             </div>
                                                         ) : null}
                                                         <label htmlFor="description">Describe role</label>
+                                                    </div>
+                                                    <div className="buttonsEmployee">
+                                                        <button className="btn" id="update">UPDATE</button>
+                                                        <button className="btn" id="close">CLOSE</button>
+
                                                     </div>
 
                                                </div>
