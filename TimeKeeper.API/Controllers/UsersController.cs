@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -43,7 +44,17 @@ namespace TimeKeeper.API.Controllers
                 control.Role,
                 base64
             });
-            //return Ok($"{control.Username}:{control.Password}");
+        }
+        [AllowAnonymous]
+        [Route("/api/logout")]
+        [HttpGet]
+        public async Task Logout()
+        {
+            if(User.Identity.IsAuthenticated)
+            {
+                await HttpContext.SignOutAsync("Cookies");
+                await HttpContext.SignOutAsync("oidc");
+            }            
         }
     }
 }

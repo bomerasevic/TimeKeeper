@@ -2,17 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using TimeKeeper.API.Factory;
 using TimeKeeper.DAL;
 using TimeKeeper.Domain;
 
 namespace TimeKeeper.API.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class TeamsController : BaseController
@@ -32,12 +34,24 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
+                LogIdentity();
+
                 Log.Info($"Try to get all Teams");
                 return Ok(Unit.Teams.Get().ToList().Select(x => x.Create()).ToList());
             }
             catch (Exception ex)
             {
                 return HandleException(ex);
+            }
+        }
+        [NonAction]
+        private void LogIdentity()
+        {
+            var identityToken = HttpContext.GetTokenAsync(OpenIdConnectParameterNames.IdToken);
+            Log.Info($"Identity token: {identityToken.Result}");
+            foreach (var claim in User.Claims)
+            {
+                Log.Info($"Claim type: {claim.Type} - value: {claim.Value}");
             }
         }
         /// <summary>

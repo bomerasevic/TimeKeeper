@@ -24,7 +24,8 @@ namespace TimeKeeper.IDP
                     {
                         new Claim("given name", "John"),
                         new Claim("family_name", "Doe"),
-                        new Claim("role", "user")
+                        new Claim("role", "user"),
+                        new Claim("address", "Sarajevo")
                     }                   
                 },
                  new TestUser
@@ -36,8 +37,9 @@ namespace TimeKeeper.IDP
                     {
                         new Claim("given name", "Jane"),
                         new Claim("family_name", "Doe"),
-                        new Claim("role", "admin")
-                    }
+                        new Claim("role", "admin"),
+                        new Claim("address", "Mostar")
+}
                  }
             };
         }
@@ -46,7 +48,9 @@ namespace TimeKeeper.IDP
             return new List<IdentityResource>
             {
                 new IdentityResources.OpenId(),
-                new IdentityResources.Profile()
+                new IdentityResources.Profile(),
+                new IdentityResources.Address(),
+                new IdentityResource("roles", "Your roles", new List<string>{ "role" })
             };
         }
 
@@ -60,10 +64,13 @@ namespace TimeKeeper.IDP
                     ClientId = "tk2019",
                     AllowedGrantTypes = GrantTypes.Hybrid,
                     RedirectUris = {"https://localhost:44350/signin-oidc"},
+                    PostLogoutRedirectUris = {"https://localhost:44350/signout-callback-oidc"},
                     AllowedScopes =
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Address,
+                        "roles"
                     },
                     ClientSecrets = { new Secret("mistral_talents".Sha256()) }
                 }
