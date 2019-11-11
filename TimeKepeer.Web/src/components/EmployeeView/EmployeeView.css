@@ -33,8 +33,8 @@ img {
     background-color: rgba(128, 128, 128, 0.397) !important;
 }
 .ReactModal__Content--after-open {
-    width: 950px;
-    height: 500px;
+    width: 900px;
+    height: 520px;
     position: initial !important;
     margin: 80px auto !important;
     display: flex !important;
@@ -63,14 +63,14 @@ img {
 .firstColumn{
     position: absolute;
     margin-left: -190px;
-    margin-top: 140px;
+    margin-top: 150px;
     
 }
 
 .secondColumn{
     position: absolute;
     margin-left: 62px;
-    margin-top: 140px;
+    margin-top: 150px;
     
 }
 
@@ -81,14 +81,42 @@ img {
 }
 
 .imgBox{
-    width: 250px;
-    height: 190px;
+    width: 200px;
+    height: 200px;
     border: 1px solid gray;
 }
 
 .upload{
-    margin-top: 142px;
+    margin-top: 150px;
     margin-left: 35px;
     background-color: #444444;
     width: 70%;
+}
+
+.buttonsEmployee{
+    margin-top: 80px;
+    padding: 10px;
+    
+    
+}
+
+#update{
+    width: 46%;
+}
+
+#close{
+    margin-left: 10px;
+    background-color: #444444;
+    width: 46%;
+}
+
+.input-field {
+    color: red;
+}
+
+#textarea1{
+
+    height: 60px !important;
+    color: black;
+    
 }

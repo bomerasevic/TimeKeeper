@@ -7,7 +7,7 @@ import swal from "sweetalert";
 import axios from "axios";
 import * as Yup from "yup";
 import { withRouter } from "react-router-dom";
-import config from "../../config"
+import config from "../../config";
 import M from "materialize-css";
 const SignupSchema = Yup.object().shape({
     username: Yup.string()
@@ -36,7 +36,7 @@ class NavigationLogin extends React.Component {
     handleClickLogout = () => {
         config.token = "";
         this.props.history.push("/");
-    }
+    };
     render() {
         return (
             <div className="navbar-fixed">
@@ -96,7 +96,9 @@ class NavigationLogin extends React.Component {
                                 </div>
                             </li>
                             <li>
-                                <a className=" btn modal-trigger" onClick={this.handleClickLogout}>Logout</a>
+                                <a className=" btn modal-trigger" onClick={this.handleClickLogout}>
+                                    Logout
+                                </a>
                             </li>
                         </ul>
                     </div>

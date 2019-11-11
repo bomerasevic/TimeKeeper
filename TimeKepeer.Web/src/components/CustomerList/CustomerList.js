@@ -117,13 +117,13 @@ const toolbarStyles = theme => ({
     highlight:
         theme.palette.type === "light"
             ? {
-                color: theme.palette.secondary.main,
-                backgroundColor: lighten(theme.palette.secondary.light, 0.85)
-            }
+                  color: theme.palette.secondary.main,
+                  backgroundColor: lighten(theme.palette.secondary.light, 0.85)
+              }
             : {
-                color: theme.palette.text.primary,
-                backgroundColor: theme.palette.secondary.dark
-            },
+                  color: theme.palette.text.primary,
+                  backgroundColor: theme.palette.secondary.dark
+              },
     spacer: {
         flex: "1 1 100%"
     },
@@ -240,9 +240,7 @@ class EnhancedTable extends React.Component {
                                                 {n.name}
                                             </TableCell>
                                             <TableCell align="center"> {n.contact}</TableCell>
-                                            <TableCell align="center">
-                                                {n.email}
-                                            </TableCell>
+                                            <TableCell align="center">{n.email}</TableCell>
                                             <TableCell align="center">{n.status.name}</TableCell>
                                             <TableCell align="center">
                                                 <Button

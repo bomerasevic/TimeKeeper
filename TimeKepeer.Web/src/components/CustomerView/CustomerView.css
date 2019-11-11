@@ -33,9 +33,82 @@ img {
     background-color: rgba(128, 128, 128, 0.397) !important;
 }
 .ReactModal__Content--after-open {
-    width: 950px;
-    height: 600px;
+    width: 900px;
+    height: 550px;
     position: initial !important;
     margin: 80px auto !important;
     display: flex !important;
+}
+.customerAddh1 {
+    font-size: 24px;
+    text-align: left;
+    font-weight: bold;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
+.customerAddh2 {
+    padding-top: 0px;
+    margin-top: 10px;
+    font-size: 18px;
+    text-align: left;
+}
+.rowCustomer {
+    margin-left: 40px !important;
+    margin-right: 0px !important;
+    width: 200px !important;
+    height: 100px !important;
+ }
+
+.firstColumnCustomer{
+    position: absolute;
+    margin-left: -200px;
+    margin-top: 156px;
+    
+}
+
+.secondColumnCustomer{
+    position: absolute;
+    margin-left: 62px;
+    margin-top: 150px;
+    
+}
+
+.thirdColumnCustomer{
+    position: absolute;
+    margin-top: 150px;
+    margin-left: 310px;
+}
+
+.imgBoxCustomer{
+    width: 200px;
+    height: 200px;
+    border: 1px solid gray;
+}
+
+.upload{
+    margin-top: 150px;
+    margin-left: 35px;
+    background-color: #444444;
+    width: 70%;
+}
+
+.buttonsCustomer{
+    margin-top: 20px;
+    padding: 10px;
+    
+    
+}
+
+.update{
+    width: 48%;
+}
+
+#close{
+    margin-left: 10px;
+    background-color: #444444;
+    width: 48%;
+}
+
+#input-field {
+    color: red;
 }

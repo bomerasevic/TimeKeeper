@@ -12,8 +12,8 @@ import Footer from "./components/Footer/Footer";
 import Welcome from "./components/Welcome/Welcome";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import EmployeeView from "./components/EmployeeView/EmployeeView";
-import ProjectsView from "./components/ProjectView/ProjectView"
-import CustomersView from "./components/CustomerView/CustomerView"
+import ProjectsView from "./components/ProjectView/ProjectView";
+import CustomersView from "./components/CustomerView/CustomerView";
 class App extends React.Component {
     render() {
         return (
