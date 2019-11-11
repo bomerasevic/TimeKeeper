@@ -8,15 +8,15 @@ import swal from "sweetalert";
 import axios from "axios";
 import * as Yup from "yup";
 import { Formik, Form, Field } from "formik";
+import config from "../../config";
 import { withRouter } from "react-router-dom";
+
 const SignupSchema = Yup.object().shape({
     username: Yup.string()
         .min(5, "Too Short!")
         .required("Required"),
     password: Yup.string().required("Required")
 });
-const contactFormEndpoint = "http://192.168.60.72/TimeKeeper/api/users";
-
 class Navigation extends React.Component {
     constructor() {
         super();
@@ -87,7 +87,7 @@ class Navigation extends React.Component {
                                             validationSchema={SignupSchema}
                                             onSubmit={(values, { setSubmitting }) => {
                                                 axios
-                                                    .post(contactFormEndpoint, values, {
+                                                    .post(`${config.apiUrl}users`, values, {
                                                         headers: {
                                                             "Access-Control-Allow-Origin": "*",
                                                             "Content-Type": "application/json"
@@ -95,7 +95,10 @@ class Navigation extends React.Component {
                                                     })
                                                     .then(resp => {
                                                         swal("Login success", "", "success");
-                                                        this.props.history.push("/static");
+                                                        console.log(resp.data);
+                                                        config.token = "Basic " + resp.data.base64;
+                                                        console.log(config);
+                                                        this.props.history.push("/app");
                                                     })
                                                     .catch(err => {
                                                         console.log(err);
@@ -155,4 +158,4 @@ class Navigation extends React.Component {
     }
 }
 
-export default Navigation;
+export default withRouter(Navigation);
