@@ -16,13 +16,12 @@ import ProjectView from "./components/ProjectView/ProjectView";
 import CustomerView from "./components/CustomerView/CustomerView";
 import EmployeeTimeTracker from "./components/EmployeeTimeTracker/EmployeeTimeTracker";
 import TeamsLogin from "./components/TeamsLogin/TeamsLogin";
-
 class App extends React.Component {
     render() {
         return (
             <BrowserRouter>
                 <Switch>
-                    <Route exact path="/static">
+                    <Route exact path="/">
                         <div className="App">
                             <Home />
                             <AboutUs />
@@ -40,7 +39,7 @@ class App extends React.Component {
                         <EmployeeView />
                     </Route>
                     <Route exact path="/app/projects">
-                        <ProjectView />
+                        <ProjectsView />
                     </Route>
                     <Route exact path="/app/customers">
                         <CustomerView />
@@ -48,8 +47,6 @@ class App extends React.Component {
                     <Route exact path="/app/teams">
                         <TeamsLogin />
                     </Route>
-                   
-                    
                 </Switch>
             </BrowserRouter>
         );

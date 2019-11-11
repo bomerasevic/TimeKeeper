@@ -46,6 +46,18 @@ namespace TimeKeeper.Seed
             }
         }
 
+        public static DateTime ReadDateProjects(this ExcelWorksheet sht, int row, int col)
+        {
+            try
+            {
+                return DateTime.Parse(sht.ReadString(row, col));
+            }
+            catch
+            {
+                return new DateTime(1, 1, 1);
+            }
+        }
+
         public static bool ReadBool(this ExcelWorksheet sht, int row, int col) => sht.ReadString(row, col) == "-1";
 
         public static decimal ReadDecimal(this ExcelWorksheet sht, int row, int col) => decimal.Parse(sht.ReadString(row, col));
