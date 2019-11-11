@@ -77,11 +77,11 @@ class EmployeeView extends React.Component {
                                                 birthday: "",
                                                 startdatetime: "",
                                                 enddatetime: "",
-                                                status: "",
+                                                employee: "",
                                                 jobtitle: "",
                                                 salary:"",
                                                 team: "",
-                                                description:""
+                                                textarea2:""
                                             }}
                                             validationSchema={SignupSchema}
                                             onSubmit={(values, { setSubmitting }) => {
@@ -163,24 +163,24 @@ class EmployeeView extends React.Component {
                                                     </div>
                                                     <div className=" col m4 secondColumn" >
                                                     <div className="input-field select-dropdown">
-                                                        <datalist id="status">
+                                                        <datalist id="employee">
                                                         <option>Intern</option>
                                                         <option>Employed</option>
                                                         <option>Leaver</option>
                                                         </datalist>
                                                         <Field
-                                                            name="select"
-                                                            id="select"
+                                                            name="employee"
+                                                            id="employee"
                                                             type="text"
-                                                            list="status"
+                                                            list="employee"
                                                             
                                                         />
-                                                        {errors.select && touched.select ? (
-                                                            <div className="errorSelect">
-                                                                {errors.select}
+                                                        {errors.status && touched.status ? (
+                                                            <div className="errorStatus">
+                                                                {errors.status}
                                                             </div>
                                                         ) : null}
-                                                        <label  htmlFor="select-dropdown">Status</label>
+                                                        <label  htmlFor="employee">Status</label>
                                                     </div>
                                                     <div className="input-field datetime">
                                                         <Field
@@ -253,7 +253,7 @@ class EmployeeView extends React.Component {
                                                <div className=" col m4 thirdColumn" >
 
                                                   <div className="imgBox">
-                                                      <button className="btn upload">Upload image</button>
+                                                      <button className="btn upload">Add image</button>
                                                   </div>
                                                   <div className="input-field select-dropdown">
                                                     <datalist id="team">
@@ -278,16 +278,26 @@ class EmployeeView extends React.Component {
                                                     </div>
                                                     <div className="input-field">
                                                         <Field
-                                                            name="description"
-                                                            id="description"
-                                                            type="text"
+                                                           
+                                                           as="textarea"
+                                                           name="description"
+                                                           type="description"
+                                                           className="input-field materialize-textarea"
+                                                           id="textarea1"
+                                                         
+                                                            
                                                         />
                                                         {errors.description && touched.description ? (
                                                             <div className="errorDescription">
                                                                 {errors.description}
                                                             </div>
                                                         ) : null}
-                                                        <label htmlFor="description">Describe role</label>
+                                                        <label htmlFor="textarea">Describe role</label>
+                                                    </div>
+                                                    <div className="buttonsEmployee">
+                                                        <button className="btn" id="update">UPDATE</button>
+                                                        <button className="btn" id="close">CLOSE</button>
+
                                                     </div>
 
                                                </div>

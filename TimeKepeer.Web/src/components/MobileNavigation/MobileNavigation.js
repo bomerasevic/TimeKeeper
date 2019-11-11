@@ -6,9 +6,6 @@ import Modal from "react-modal";
 import swal from "sweetalert";
 import * as Yup from "yup";
 
-import config from "../../config";
-import { withRouter } from "react-router-dom";
-
 import axios from "axios";
 import { Formik, Form, Field } from "formik";
 // Import Materialize
@@ -81,7 +78,7 @@ class MobileNavigation extends Component {
                                 validationSchema={SignupSchema}
                                 onSubmit={(values, { setSubmitting }) => {
                                     axios
-                                        .post(`${config.apiUrl}users`, values, {
+                                        .post(contactFormEndpoint, values, {
                                             headers: {
                                                 "Access-Control-Allow-Origin": "*",
                                                 "Content-Type": "application/json"
@@ -89,10 +86,7 @@ class MobileNavigation extends Component {
                                         })
                                         .then(resp => {
                                             swal("Login success", "", "success");
-                                            console.log(resp.data);
-                                            config.token = "Basic " + resp.data.base64;
-                                            console.log(config);
-                                            this.props.history.push("/app");
+                                            console.log(resp);
                                         })
                                         .catch(err => {
                                             console.log(err);
@@ -141,4 +135,4 @@ class MobileNavigation extends Component {
     }
 }
 
-export default withRouter(MobileNavigation);
+export default MobileNavigation;

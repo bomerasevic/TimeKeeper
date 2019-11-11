@@ -33,9 +33,89 @@ img {
     background-color: rgba(128, 128, 128, 0.397) !important;
 }
 .ReactModal__Content--after-open {
-    width: 950px;
-    height: 600px;
+    width: 900px;
+    height: 550px;
     position: initial !important;
     margin: 80px auto !important;
     display: flex !important;
+}
+
+.projectAddh1 {
+    font-size: 24px;
+    text-align: left;
+    font-weight: bold;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
+.projectAddh2 {
+    padding-top: 0px;
+    margin-top: 10px;
+    font-size: 18px;
+    text-align: left;
+}
+.rowProject {
+    margin-left: 40px !important;
+    margin-right: 0px !important;
+    width: 200px !important;
+    height: 100px !important;
+ }
+
+.firstColumnProject{
+    position: absolute;
+    margin-left: -200px;
+    margin-top: 156px;
+    
+}
+
+.secondColumnProject{
+    position: absolute;
+    margin-left: 100px;
+    margin-top: 156px;
+    
+}
+
+.thirdColumnProject{
+    position: absolute;
+    margin-top: 156px;
+    margin-left: 310px;
+}
+
+.imgBoxCustomer{
+    width: 200px;
+    height: 200px;
+    border: 1px solid gray;
+}
+
+.upload{
+    margin-top: 150px;
+    margin-left: 35px;
+    background-color: #444444;
+    width: 70%;
+}
+
+.buttonsProject{
+    margin-top: 5px;
+    padding: 10px;
+    
+    
+}
+
+.update{
+    width: 50%;
+}
+
+#close{
+    margin-left: 10px;
+    background-color: #444444;
+    width: 50%;
+}
+
+#input-field {
+    color: red;
+}
+#textarea2{
+
+    height: 114px !important;
+    color: black;
+    
 }
