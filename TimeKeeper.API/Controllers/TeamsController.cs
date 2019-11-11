@@ -14,7 +14,7 @@ using TimeKeeper.Domain;
 
 namespace TimeKeeper.API.Controllers
 {
-    [Authorize(Roles ="admin")]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TeamsController : BaseController
@@ -35,9 +35,10 @@ namespace TimeKeeper.API.Controllers
             try
             {
                 LogIdentity();
-
+                int userId = int.Parse(User.Claims.FirstOrDefault(x => x.Type == "sub").Value.ToString());
+                var query = Unit.Teams.Get(x => x.TeamMembers.Any(y => y.Employee.Id == userId));
                 Log.Info($"Try to get all Teams");
-                return Ok(Unit.Teams.Get().ToList().Select(x => x.Create()).ToList());
+                return Ok(query.ToList().Select(x => x.Create()).ToList());
             }
             catch (Exception ex)
             {
@@ -63,6 +64,7 @@ namespace TimeKeeper.API.Controllers
         /// <response status="404">Status 404 Not Found</response>
         /// <response status="400">Status 400 Bad Request</response>        
         [HttpGet("{id}")]
+        [Authorize(Policy ="IsMember")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]

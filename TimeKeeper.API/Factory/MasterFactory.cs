@@ -39,7 +39,7 @@ namespace TimeKeeper.API.Factory
         {
             return new MasterModel
             {
-                Id = m.Id,
+                Id = (temp == "team") ? m.Employee.Id : m.Team.Id,
                 Name = (temp == "team") ? $"{m.Employee.FullName}, {m.Role.Name.Monogram()}" : $"{m.Employee.FullName}, {m.Team.Name}"
                 //Name = m.Employee.FirstName + " " + m.Employee.LastName + ", " + m.Role.Name.Monogram()
                 //Name = (temp == "team") ? $"{m.Employee.FirstName + " " + m.Employee.LastName}, {m.Role.Name.Monogram()}" : $"{m.Employee.FirstName + " " + m.Employee.LastName}, {m.Team.Name}"
