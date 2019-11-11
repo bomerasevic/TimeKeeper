@@ -1,0 +1,18 @@
+@media screen and (min-width: 1200px) {
+    .slick-list {
+        position: relative !important;
+        display: block !important;
+        overflow: hidden !important;
+        margin: 0 auto !important;
+        width: 1000px !important;
+    }
+}
+
+.teams{
+  
+    display: inline-block;
+}
+.btn-teams{
+    margin-top: 62px;
+  float:right;
+}

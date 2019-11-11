@@ -86,7 +86,7 @@ img {
 }
 
 .upload{
-    margin-top: 150px;
+    margin-bottom: 60px;
     margin-left: 35px;
     background-color: #444444;
     width: 70%;
@@ -108,7 +108,13 @@ img {
     background-color: #444444;
     width: 48%;
 }
-
-#input-field {
+#input-field{
+    color: black;
+}
+ .errorEmail, .errorBusinessname, .errorContactname{
     color: red;
+} 
+
+#email{
+    color: black;
 }

@@ -15,6 +15,7 @@ import EmployeeView from "./components/EmployeeView/EmployeeView";
 import ProjectView from "./components/ProjectView/ProjectView";
 import CustomerView from "./components/CustomerView/CustomerView";
 import EmployeeTimeTracker from "./components/EmployeeTimeTracker/EmployeeTimeTracker";
+import TeamsLogin from "./components/TeamsLogin/TeamsLogin";
 
 class App extends React.Component {
     render() {
@@ -44,9 +45,10 @@ class App extends React.Component {
                     <Route exact path="/app/customers">
                         <CustomerView />
                     </Route>
-                    <Route exact path="/app/profile">
-                        <EmployeeTimeTracker />
+                    <Route exact path="/app/teams">
+                        <TeamsLogin />
                     </Route>
+                   
                     
                 </Switch>
             </BrowserRouter>

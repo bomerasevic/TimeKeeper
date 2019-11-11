@@ -11,9 +11,9 @@ import { Formik, Form, Field } from "formik";
 import { withRouter } from "react-router-dom";
 
 const SignupSchema = Yup.object().shape({
-    projectName: Yup.string()
+    projectname: Yup.string()
         .max(50, "Too long!")
-        .required("Required"),
+        .required("Required!"),
     description: Yup.string()
         .max(250, "Too long!")
     
@@ -82,7 +82,7 @@ class ProjectView extends React.Component {
                                                 <Form>
                                                 
                                                  <div className=" col m4 firstColumnProject">
-                                                 <div className="input-field">
+                                                 <div className="input-field project-name">
                                                         <Field
                                                             name="projectName"
                                                             id="projectname"
