@@ -23,9 +23,9 @@ import axios from "axios";
 import config from "../../config";
 
 let counter = 0;
-function createData(name, calories, fat, carbs, protein) {
+function createData(firstName, lastName, email, phone) {
     counter += 1;
-    return { id: counter, name, calories, fat, carbs, protein };
+    return { id: counter, firstName, lastName, email, phone };
 }
 
 function desc(a, b, orderBy) {
@@ -119,13 +119,13 @@ const toolbarStyles = theme => ({
     highlight:
         theme.palette.type === "light"
             ? {
-                  color: theme.palette.secondary.main,
-                  backgroundColor: lighten(theme.palette.secondary.light, 0.85)
-              }
+                color: theme.palette.secondary.main,
+                backgroundColor: lighten(theme.palette.secondary.light, 0.85)
+            }
             : {
-                  color: theme.palette.text.primary,
-                  backgroundColor: theme.palette.secondary.dark
-              },
+                color: theme.palette.text.primary,
+                backgroundColor: theme.palette.secondary.dark
+            },
     spacer: {
         flex: "1 1 100%"
     },

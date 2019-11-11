@@ -19,12 +19,13 @@ import Button from "@material-ui/core/Button";
 import { lighten } from "@material-ui/core/styles/colorManipulator";
 import Modal from "@material-ui/core/Modal";
 
+import axios from "axios";
+import config from "../../config";
 let counter = 0;
-function createData(name, calories, fat, carbs, protein) {
+function createData(name, contact, email, status) {
     counter += 1;
-    return { id: counter, name, calories, fat, carbs, protein };
+    return { id: counter, name, contact, email, status };
 }
-
 function desc(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
         return -1;
@@ -50,8 +51,8 @@ function getSorting(order, orderBy) {
 }
 
 const rows = [
-    { id: "businessName", numeric: false, disablePadding: true, label: "Business name" },
-    { id: "contactName", numeric: true, disablePadding: true, label: "Contact name" },
+    { id: "name", numeric: false, disablePadding: true, label: "Business name" },
+    { id: "contact", numeric: true, disablePadding: true, label: "Contact name" },
     { id: "email", numeric: false, disablePadding: false, label: "Email" },
     { id: "status", numeric: false, disablePadding: false, label: "Status" },
     { id: "action", numeric: false, disablePadding: false, label: "Actions" }
@@ -116,13 +117,13 @@ const toolbarStyles = theme => ({
     highlight:
         theme.palette.type === "light"
             ? {
-                  color: theme.palette.secondary.main,
-                  backgroundColor: lighten(theme.palette.secondary.light, 0.85)
-              }
+                color: theme.palette.secondary.main,
+                backgroundColor: lighten(theme.palette.secondary.light, 0.85)
+            }
             : {
-                  color: theme.palette.text.primary,
-                  backgroundColor: theme.palette.secondary.dark
-              },
+                color: theme.palette.text.primary,
+                backgroundColor: theme.palette.secondary.dark
+            },
     spacer: {
         flex: "1 1 100%"
     },
@@ -152,24 +153,28 @@ class EnhancedTable extends React.Component {
         order: "asc",
         orderBy: "calories",
         selected: [],
-        data: [
-            createData("Cupcake", 305, 3.7, 67, 4.3),
-            createData("Donut", 452, 25.0, 51, 4.9),
-            createData("Eclair", 262, 16.0, 24, 6.0),
-            createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-            createData("Gingerbread", 356, 16.0, 49, 3.9),
-            createData("Honeycomb", 408, 3.2, 87, 6.5),
-            createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-            createData("Jelly Bean", 375, 0.0, 94, 0.0),
-            createData("KitKat", 518, 26.0, 65, 7.0),
-            createData("Lollipop", 392, 0.2, 98, 0.0),
-            createData("Marshmallow", 318, 0, 81, 2.0),
-            createData("Nougat", 360, 19.0, 9, 37.0),
-            createData("Oreo", 437, 18.0, 63, 4.0)
-        ],
+        data: [],
         page: 0,
         rowsPerPage: 5
     };
+    componentDidMount() {
+        this.setState({ loading: true });
+        console.log(config.token);
+        axios(`${config.apiUrl}customers`, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: config.token
+            }
+        })
+            .then(res => {
+                console.log(res);
+                let fetchedData = res.data.map(r =>
+                    createData(r.name, r.contact, r.email, r.status)
+                );
+                this.setState({ data: fetchedData, loading: false });
+            })
+            .catch(err => this.setState({ loading: false }));
+    }
 
     handleRequestSort = (event, property) => {
         const orderBy = property;
@@ -232,13 +237,13 @@ class EnhancedTable extends React.Component {
                                             selected={isSelected}
                                         >
                                             <TableCell component="th" scope="row" align="center">
-                                                Mistral
+                                                {n.name}
                                             </TableCell>
-                                            <TableCell align="center"> Development Team</TableCell>
+                                            <TableCell align="center"> {n.contact}</TableCell>
                                             <TableCell align="center">
-                                                berina.omerasevic97@gmail.com
+                                                {n.email}
                                             </TableCell>
-                                            <TableCell align="center">Client</TableCell>
+                                            <TableCell align="center">{n.status.name}</TableCell>
                                             <TableCell align="center">
                                                 <Button
                                                     href="#text-buttons"

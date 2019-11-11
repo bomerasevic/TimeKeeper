@@ -12,12 +12,14 @@ import Footer from "./components/Footer/Footer";
 import Welcome from "./components/Welcome/Welcome";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import EmployeeView from "./components/EmployeeView/EmployeeView";
+import ProjectsView from "./components/ProjectView/ProjectView"
+import CustomersView from "./components/CustomerView/CustomerView"
 class App extends React.Component {
     render() {
         return (
             <BrowserRouter>
                 <Switch>
-                    <Route exact path="/static">
+                    <Route exact path="/">
                         <div className="App">
                             <Home />
                             <AboutUs />
@@ -33,6 +35,12 @@ class App extends React.Component {
                     </Route>
                     <Route exact path="/app/employees">
                         <EmployeeView />
+                    </Route>
+                    <Route exact path="/app/projects">
+                        <ProjectsView />
+                    </Route>
+                    <Route exact path="/app/customers">
+                        <CustomersView />
                     </Route>
                 </Switch>
             </BrowserRouter>

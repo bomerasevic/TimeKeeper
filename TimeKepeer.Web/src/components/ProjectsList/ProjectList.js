@@ -19,10 +19,12 @@ import Button from "@material-ui/core/Button";
 import { lighten } from "@material-ui/core/styles/colorManipulator";
 import Modal from "@material-ui/core/Modal";
 
+import axios from "axios";
+import config from "../../config";
 let counter = 0;
-function createData(name, calories, fat, carbs, protein) {
+function createData(name, team, customer, status) {
     counter += 1;
-    return { id: counter, name, calories, fat, carbs, protein };
+    return { id: counter, name, team, customer, status };
 }
 
 function desc(a, b, orderBy) {
@@ -50,9 +52,9 @@ function getSorting(order, orderBy) {
 }
 
 const rows = [
-    { id: "projectName", numeric: false, disablePadding: true, label: "Project name" },
-    { id: "customerName", numeric: true, disablePadding: true, label: "Customer name" },
-    { id: "teamName", numeric: false, disablePadding: false, label: "Team Name" },
+    { id: "name", numeric: false, disablePadding: true, label: "Project name" },
+    { id: "team", numeric: true, disablePadding: true, label: "Customer name" },
+    { id: "customer", numeric: false, disablePadding: false, label: "Team Name" },
     { id: "status", numeric: false, disablePadding: false, label: "Status" },
     { id: "action", numeric: false, disablePadding: false, label: "Actions" }
 ];
@@ -116,13 +118,13 @@ const toolbarStyles = theme => ({
     highlight:
         theme.palette.type === "light"
             ? {
-                  color: theme.palette.secondary.main,
-                  backgroundColor: lighten(theme.palette.secondary.light, 0.85)
-              }
+                color: theme.palette.secondary.main,
+                backgroundColor: lighten(theme.palette.secondary.light, 0.85)
+            }
             : {
-                  color: theme.palette.text.primary,
-                  backgroundColor: theme.palette.secondary.dark
-              },
+                color: theme.palette.text.primary,
+                backgroundColor: theme.palette.secondary.dark
+            },
     spacer: {
         flex: "1 1 100%"
     },
@@ -153,23 +155,28 @@ class EnhancedTable extends React.Component {
         orderBy: "calories",
         selected: [],
         data: [
-            createData("Cupcake", 305, 3.7, 67, 4.3),
-            createData("Donut", 452, 25.0, 51, 4.9),
-            createData("Eclair", 262, 16.0, 24, 6.0),
-            createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-            createData("Gingerbread", 356, 16.0, 49, 3.9),
-            createData("Honeycomb", 408, 3.2, 87, 6.5),
-            createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-            createData("Jelly Bean", 375, 0.0, 94, 0.0),
-            createData("KitKat", 518, 26.0, 65, 7.0),
-            createData("Lollipop", 392, 0.2, 98, 0.0),
-            createData("Marshmallow", 318, 0, 81, 2.0),
-            createData("Nougat", 360, 19.0, 9, 37.0),
-            createData("Oreo", 437, 18.0, 63, 4.0)
         ],
         page: 0,
         rowsPerPage: 5
     };
+    componentDidMount() {
+        this.setState({ loading: true });
+        console.log(config.token);
+        axios(`${config.apiUrl}projects`, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: config.token
+            }
+        })
+            .then(res => {
+                console.log(res);
+                let fetchedData = res.data.map(r =>
+                    createData(r.name, r.team, r.customer, r.status)
+                );
+                this.setState({ data: fetchedData, loading: false });
+            })
+            .catch(err => this.setState({ loading: false }));
+    }
 
     handleRequestSort = (event, property) => {
         const orderBy = property;
@@ -232,13 +239,13 @@ class EnhancedTable extends React.Component {
                                             selected={isSelected}
                                         >
                                             <TableCell component="th" scope="row" align="center">
-                                                Meet Experts Online
+                                                {n.name}
                                             </TableCell>
-                                            <TableCell align="center"> Andromeda </TableCell>
+                                            <TableCell align="center"> {n.team.name} </TableCell>
                                             <TableCell align="center">
-                                                Bravo Team
+                                                {n.customer.name}
                                             </TableCell>
-                                            <TableCell align="center">Finished</TableCell>
+                                            <TableCell align="center">{n.status.name}</TableCell>
                                             <TableCell align="center">
                                                 <Button
                                                     href="#text-buttons"

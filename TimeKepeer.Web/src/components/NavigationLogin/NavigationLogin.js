@@ -7,7 +7,7 @@ import swal from "sweetalert";
 import axios from "axios";
 import * as Yup from "yup";
 import { withRouter } from "react-router-dom";
-
+import config from "../../config"
 import M from "materialize-css";
 const SignupSchema = Yup.object().shape({
     username: Yup.string()
@@ -24,9 +24,19 @@ class NavigationLogin extends React.Component {
         M.AutoInit();
     }
 
-    handleClick = () => {
+    handleClickEmployees = () => {
         this.props.history.push("/app/employees");
     };
+    handleClickCustomers = () => {
+        this.props.history.push("/app/customers");
+    };
+    handleClickProjects = () => {
+        this.props.history.push("/app/projects");
+    };
+    handleClickLogout = () => {
+        config.token = "";
+        this.props.history.push("/");
+    }
     render() {
         return (
             <div className="navbar-fixed">
@@ -51,10 +61,10 @@ class NavigationLogin extends React.Component {
                                     <i className="fa fa-caret-down" />
                                 </a>
                                 <div className="dropdown-content" id="dropdown1">
-                                    <a onClick={this.handleClick}>Employees</a>
+                                    <a onClick={this.handleClickEmployees}>Employees</a>
                                     <a href="#">Teams</a>
-                                    <a href="#">Customers</a>
-                                    <a href="#">Projects</a>
+                                    <a onClick={this.handleClickCustomers}>Customers</a>
+                                    <a onClick={this.handleClickProjects}>Projects</a>
                                 </div>
                             </li>
                             <li>
@@ -86,7 +96,7 @@ class NavigationLogin extends React.Component {
                                 </div>
                             </li>
                             <li>
-                                <a className=" btn modal-trigger">Logout</a>
+                                <a className=" btn modal-trigger" onClick={this.handleClickLogout}>Logout</a>
                             </li>
                         </ul>
                     </div>
