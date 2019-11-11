@@ -8,14 +8,18 @@
     height: auto;
 }
 
-.input-field {
+.input-field  {
     color: white;
 }
 .after-message {
     margin-top: 50px;
 }
 
-#textarea2,
+#teaxtare{
+    color:white;
+}
+
+#textarea,
 #name,
 #email,
 #icon_telephone {

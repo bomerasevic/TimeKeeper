@@ -12,8 +12,10 @@ import Footer from "./components/Footer/Footer";
 import Welcome from "./components/Welcome/Welcome";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import EmployeeView from "./components/EmployeeView/EmployeeView";
-import ProjectsView from "./components/ProjectView/ProjectView";
-import CustomersView from "./components/CustomerView/CustomerView";
+import ProjectView from "./components/ProjectView/ProjectView";
+import CustomerView from "./components/CustomerView/CustomerView";
+import EmployeeTimeTracker from "./components/EmployeeTimeTracker/EmployeeTimeTracker";
+import TeamsLogin from "./components/TeamsLogin/TeamsLogin";
 class App extends React.Component {
     render() {
         return (
@@ -40,7 +42,10 @@ class App extends React.Component {
                         <ProjectsView />
                     </Route>
                     <Route exact path="/app/customers">
-                        <CustomersView />
+                        <CustomerView />
+                    </Route>
+                    <Route exact path="/app/teams">
+                        <TeamsLogin />
                     </Route>
                 </Switch>
             </BrowserRouter>

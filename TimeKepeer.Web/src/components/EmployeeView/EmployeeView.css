@@ -63,14 +63,14 @@ img {
 .firstColumn{
     position: absolute;
     margin-left: -190px;
-    margin-top: 150px;
+    margin-top: 140px;
     
 }
 
 .secondColumn{
     position: absolute;
     margin-left: 62px;
-    margin-top: 150px;
+    margin-top: 140px;
     
 }
 
@@ -111,7 +111,7 @@ img {
 }
 
 .input-field {
-    color: red;
+    color: #444444;
 }
 
 #textarea1{
@@ -119,4 +119,8 @@ img {
     height: 60px !important;
     color: black;
     
+}
+
+.errorSalary ,.errorlastname ,.errorfirstname{
+    color:red;
 }

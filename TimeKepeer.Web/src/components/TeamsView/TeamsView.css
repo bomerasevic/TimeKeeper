@@ -1,0 +1,32 @@
+.square{
+    height: 200px;
+    width: 200px;
+    margin: 0;
+    -webkit-box-shadow: 0px 9px 9px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 9px 9px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 9px 9px 0px rgba(207, 192, 192, 0.2);
+}
+
+
+
+.buttonsTeams{
+ 
+    margin-right: 5px;
+    padding: 10px;
+    
+}
+
+#edit{
+    margin-top: 150px;
+    margin-left: 10px;
+    background-color: #444444;
+
+}
+
+#delete{
+    margin-top: 150px;
+    margin-left: 10px;
+    color: #444444;
+    background-color: white;
+
+}

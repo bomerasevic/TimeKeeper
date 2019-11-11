@@ -11,15 +11,15 @@ import { Formik, Form, Field } from "formik";
 import { withRouter } from "react-router-dom";
 
 const SignupSchema = Yup.object().shape({
-    businessName: Yup.string()
+    businessname: Yup.string()
         .max(50, "Too long!")
-        .required("Required"),
-    customerName: Yup.string()
+        .required("Required!"),
+    contactname: Yup.string()
         .max(50, "Too long!")
-        .required("Required"),
+        .required("Required!"),
     email: Yup.string()
         .email("Invalid email")
-        .required("Required"),
+        .required("Required!"),
    
 });
 class CustomerView extends React.Component {
@@ -86,9 +86,10 @@ class CustomerView extends React.Component {
                                                  <div className=" col m4 firstColumnCustomer">
                                                      
                                                  <div className="imgBoxCustomer">
-                                                      <button className="btn upload">Add image</button>
+                                                 <button className="btn upload">Add image</button>
                                                   </div>
-                                                  <div className="input-field">
+                                                  
+                                                  <div className="input-field business">
                                                         <Field
                                                             name="businessName"
                                                             id="businessname"
@@ -104,7 +105,7 @@ class CustomerView extends React.Component {
 
                                                </div>
                                                <div className=" col m4 secondColumnCustomer">
-                                               <div className="input-field">
+                                               <div className="input-field customer">
                                                         <Field
                                                             name="contactName"
                                                             id="contactname"
