@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+/*import React, { Component } from 'react';
 import NavigationLogin from '../NavigationLogin/NavigationLogin';
 import { DatePicker, RangePicker, theme } from 'react-trip-date';
 import {ThemeProvider} from 'styled-components';
@@ -58,4 +58,4 @@ class Profile extends React.Component {
 
 
 
-export default Profile;
+export default Profile;*/
