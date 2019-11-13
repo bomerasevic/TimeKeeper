@@ -36,9 +36,22 @@ namespace TimeKeeper.API.Controllers
             {
                 LogIdentity();
                 int userId = int.Parse(User.Claims.FirstOrDefault(x => x.Type == "sub").Value.ToString());
-                var query = Unit.Teams.Get(x => x.TeamMembers.Any(y => y.Employee.Id == userId));
-                Log.Info($"Try to get all Teams");
-                return Ok(query.ToList().Select(x => x.Create()).ToList());
+                string role = User.Claims.FirstOrDefault(x => x.Type == "role").Value.ToString();
+                if (role == "admin" || role == "lead")
+                {
+                    Log.Info($"Try to get all Teams");
+                    return Ok(Unit.Teams.Get().ToList().Select(x => x.Create()).ToList());
+                }
+                else
+                {
+                    var query = Unit.Teams.Get(x => x.TeamMembers.Any(y => y.Employee.Id == userId));
+                    return Ok(query.ToList().Select(x => x.Create()).ToList());
+                }
+                //LogIdentity();
+                //int userId = int.Parse(User.Claims.FirstOrDefault(x => x.Type == "sub").Value.ToString());
+                //var query = Unit.Teams.Get(x => x.TeamMembers.Any(y => y.Employee.Id == userId));
+                //Log.Info($"Try to get all Teams");
+                //return Ok(query.ToList().Select(x => x.Create()).ToList());
             }
             catch (Exception ex)
             {
@@ -46,13 +59,29 @@ namespace TimeKeeper.API.Controllers
             }
         }
         [NonAction]
-        private void LogIdentity()
+        private IActionResult LogIdentity()
         {
-            var identityToken = HttpContext.GetTokenAsync(OpenIdConnectParameterNames.IdToken);
-            Log.Info($"Identity token: {identityToken.Result}");
-            foreach (var claim in User.Claims)
+            //var identityToken = HttpContext.GetTokenAsync(OpenIdConnectParameterNames.IdToken);
+            //Log.Info($"Identity token: {identityToken.Result}");
+            //foreach (var claim in User.Claims)
+            //{
+            //    Log.Info($"Claim type: {claim.Type} - value: {claim.Value}");
+            //}
+            if(User.Identity.IsAuthenticated)
             {
-                Log.Info($"Claim type: {claim.Type} - value: {claim.Value}");
+                var accessToken = HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
+                var response = new
+                {
+                    Id = User.Claims.FirstOrDefault(c => c.Type == "sub").Value.ToString(),
+                    Name = User.Claims.FirstOrDefault(c => c.Type == "given_name").Value.ToString(),
+                    Role = User.Claims.FirstOrDefault(c => c.Type == "role").Value.ToString(),
+                    accessToken  // Bearer {accessToken}
+                };
+                return Ok(response);
+            }
+            else
+            {
+                return NotFound();
             }
         }
         /// <summary>
@@ -65,6 +94,7 @@ namespace TimeKeeper.API.Controllers
         /// <response status="400">Status 400 Bad Request</response>        
         [HttpGet("{id}")]
         [Authorize(Policy ="IsMember")]
+        //[Authorize(Policy = "IsAdmin")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
@@ -90,6 +120,7 @@ namespace TimeKeeper.API.Controllers
         /// <response status="404">Status 404 Not Found</response>
         /// <response status="400">Status 400 Bad Request</response>
         [HttpPost]
+        [Authorize(Policy = "IsAdmin")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
@@ -117,6 +148,7 @@ namespace TimeKeeper.API.Controllers
         /// <response status="404">Status 404 Not Found</response>
         /// <response status="400">Status 400 Bad Request</response>
         [HttpPut("{id}")]
+        [Authorize(Policy = "IsAdmin")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
@@ -142,6 +174,7 @@ namespace TimeKeeper.API.Controllers
         /// <response status="204">Status 204 No Content</response>
         /// <response status="400">Status 400 Bad Request</response>
         [HttpDelete("{id}")]
+        [Authorize(Policy = "IsAdmin")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         public IActionResult Delete(int id)

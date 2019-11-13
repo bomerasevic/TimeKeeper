@@ -47,6 +47,14 @@ namespace TimeKeeper.API
                     builder.RequireAuthenticatedUser();
                     builder.AddRequirements(new IsMemberRequirement());
                 });
+                o.AddPolicy("IsAdmin", builder =>  // pravimo policy na osnovu role i attribute
+                {
+                    builder.RequireRole("admin");
+                });
+                o.AddPolicy("IsLead", builder =>  // pravimo policy na osnovu role i attribute
+                {
+                    builder.RequireRole("lead");
+                });
             });
 
             services.AddAuthentication(o =>
@@ -89,6 +97,7 @@ namespace TimeKeeper.API
             services.AddDbContext<TimeKeeperContext>(o => { o.UseNpgsql(connectionString); });
 
             services.AddScoped<IAuthorizationHandler, IsMemberHandler>();
+            services.AddScoped<IAuthorizationHandler, IsAdminHandler>();
             services.Configure<IISOptions>(o =>
               {
                   o.AutomaticAuthentication = false;  // vezana za windows; ne koristi se windows autentikacija/niti od internet information servera
