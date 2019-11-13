@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace TimeKeeper.API.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class MembersController : BaseController
@@ -109,6 +108,24 @@ namespace TimeKeeper.API.Controllers
                 Unit.Save();
                 Log.Info($"Member with id {member.Id} has changes.");
                 return Ok(member.Create());
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
+        }
+        [HttpPut("delete-member/{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(400)]
+        public IActionResult Put(int id)
+        {
+            try
+            {
+                Unit.Members.Get(id).Status.Name = "leaver";
+                Unit.Save();
+                //Log.Info($"Member with id {member.Id} has changes.");
+                return Ok(Unit.Members.Get(id));
             }
             catch (Exception ex)
             {

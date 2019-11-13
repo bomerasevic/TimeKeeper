@@ -13,7 +13,6 @@ using TimeKeeper.Utility;
 
 namespace TimeKeeper.API.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class EmployeesController : BaseController
