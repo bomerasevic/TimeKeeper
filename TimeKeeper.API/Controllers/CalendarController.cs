@@ -63,6 +63,19 @@ namespace TimeKeeper.API.Controllers
                 return HandleException(ex);
             }
         }
+
+        //[HttpGet("team-time-tracking/{teamId}/{year}/{month}")]
+        //public IActionResult GetTimeTracking(int teamId, int year, int month)
+        //{
+        //    try
+        //    {
+        //        return Ok(teamCalendarService.TeamMonthReport(teamId, month, year));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return HandleException(ex);
+        //    }
+        //}
         /// <summary>
         /// Inserts new Day
         /// </summary>
