@@ -61,7 +61,7 @@ namespace TimeKeeper.API.Controllers
         /// <response status="404">Status 404 Not Found</response>
         /// <response status="400">Status 400 Bad Request</response>        
         [HttpGet("{id}")]
-        [Authorize(Policy = "IsMember")]
+        [Authorize(Policy = "IsMemberOnProject")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]

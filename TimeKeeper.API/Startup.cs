@@ -40,7 +40,7 @@ namespace TimeKeeper.API
             services.AddMvc().AddJsonOptions(opt => opt.SerializerSettings.ContractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() });
             services.AddMvc().AddJsonOptions(opt => opt.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented);
 
-            services.AddAuthorization(o => 
+            services.AddAuthorization(o =>
             {
                 o.AddPolicy("IsMember", builder =>  // pravimo policy na osnovu role i attribute
                 {
@@ -55,13 +55,18 @@ namespace TimeKeeper.API
                 {
                     builder.RequireRole("lead");
                 });
+                o.AddPolicy("IsMemberOnProject", builder =>
+                {
+                    builder.RequireAuthenticatedUser();
+                    builder.AddRequirements(new HasAccessToProjects());
+                });
             });
 
             services.AddAuthentication(o =>
             {
                 o.DefaultScheme = "Cookies";
                 o.DefaultChallengeScheme = "oidc";  // trazi i id_token i token
-            }).AddCookie("Cookies", o => 
+            }).AddCookie("Cookies", o =>
             {
                 o.AccessDeniedPath = "/AccessDenied";
             })
@@ -98,6 +103,7 @@ namespace TimeKeeper.API
 
             services.AddScoped<IAuthorizationHandler, IsMemberHandler>();
             services.AddScoped<IAuthorizationHandler, IsAdminHandler>();
+            services.AddScoped<IAuthorizationHandler, IsMemberOnProjectHandler>();
             services.Configure<IISOptions>(o =>
               {
                   o.AutomaticAuthentication = false;  // vezana za windows; ne koristi se windows autentikacija/niti od internet information servera
