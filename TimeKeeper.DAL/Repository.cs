@@ -50,9 +50,8 @@ namespace TimeKeeper.DAL
         public void Delete(Entity entity) => _dbSet.Remove(entity);
         public virtual void Delete(int id)
         {
-            //Entity old = Get(id);
-            //Delete(old);
-
+            Entity old = Get(id);
+            Delete(old);
         }
     }
 }
