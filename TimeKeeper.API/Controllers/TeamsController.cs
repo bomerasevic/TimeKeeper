@@ -47,11 +47,6 @@ namespace TimeKeeper.API.Controllers
                     var query = Unit.Teams.Get(x => x.TeamMembers.Any(y => y.Employee.Id == userId));
                     return Ok(query.ToList().Select(x => x.Create()).ToList());
                 }
-                //LogIdentity();
-                //int userId = int.Parse(User.Claims.FirstOrDefault(x => x.Type == "sub").Value.ToString());
-                //var query = Unit.Teams.Get(x => x.TeamMembers.Any(y => y.Employee.Id == userId));
-                //Log.Info($"Try to get all Teams");
-                //return Ok(query.ToList().Select(x => x.Create()).ToList());
             }
             catch (Exception ex)
             {
@@ -61,12 +56,6 @@ namespace TimeKeeper.API.Controllers
         [NonAction]
         private IActionResult LogIdentity()
         {
-            //var identityToken = HttpContext.GetTokenAsync(OpenIdConnectParameterNames.IdToken);
-            //Log.Info($"Identity token: {identityToken.Result}");
-            //foreach (var claim in User.Claims)
-            //{
-            //    Log.Info($"Claim type: {claim.Type} - value: {claim.Value}");
-            //}
             if(User.Identity.IsAuthenticated)
             {
                 var accessToken = HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);

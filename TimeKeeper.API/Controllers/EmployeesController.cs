@@ -72,6 +72,7 @@ namespace TimeKeeper.API.Controllers
         /// <response status="200">Status 200 OK</response>
         /// <response status="400">Status 400 Bad Request</response>
         [HttpPost]
+        [Authorize(Policy = "IsAdmin")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         public IActionResult Post([FromBody] Employee employee)
@@ -82,7 +83,7 @@ namespace TimeKeeper.API.Controllers
                 User user = UsersUtility.CreateUser(employee);
                 Unit.Users.Insert(user);
                 Unit.Save();
-                Log.Info($"Employee {employee.FirstName + " " + employee.LastName} added with Id {employee.Id}");
+                Log.Info($"Employee {employee.FullName} added with Id {employee.Id}");
                 return Ok(employee.Create());
             }
             catch (Exception ex)
@@ -100,6 +101,7 @@ namespace TimeKeeper.API.Controllers
         /// <response status="404">Status 404 Not Found</response>
         /// <response status="400">Status 400 Bad Request</response>
         [HttpPut("{id}")]
+        [Authorize(Policy = "IsEmployee")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
@@ -109,7 +111,7 @@ namespace TimeKeeper.API.Controllers
             {
                 Unit.Employees.Update(employee, id);
                 Unit.Save();
-                Log.Info($"Employee {employee.FirstName + " " + employee.LastName} with Id {employee.Id} has changes.");
+                Log.Info($"Employee {employee.FullName} with Id {employee.Id} has changes.");
                 return Ok(employee.Create());
             }
             catch (Exception ex)
@@ -126,6 +128,7 @@ namespace TimeKeeper.API.Controllers
         /// <response status="404">Status 404 Not Found</response>
         /// <response status="400">Status 400 Bad Request</response>
         [HttpDelete("{id}")]
+        [Authorize(Policy = "IsAdmin")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
