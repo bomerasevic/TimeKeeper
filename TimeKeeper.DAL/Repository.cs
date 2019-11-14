@@ -27,6 +27,7 @@ namespace TimeKeeper.DAL
         public virtual IList<Entity> Get(Func<Entity, bool> where) => Get().Where(where).ToList();
         public virtual Entity Get(int id)
         {
+
             Entity entity = _dbSet.Find(id);
             if (entity == null)
                 throw new ArgumentException($"There is no object with id: {id} in database");
