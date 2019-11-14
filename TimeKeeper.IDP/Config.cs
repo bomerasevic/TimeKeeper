@@ -25,10 +25,10 @@ namespace TimeKeeper.IDP
                         Username = user.Username,
                         Password = user.Password,
                         Claims = new List<Claim>
-                    {
-                        new Claim("given_name", user.Name),
-                        new Claim("role", user.Role)
-                    }
+                        {
+                            new Claim("given_name", user.Name),
+                            new Claim("role", user.Role)
+                        }
                     });
                 }
             }

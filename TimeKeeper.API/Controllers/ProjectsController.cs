@@ -12,7 +12,6 @@ using TimeKeeper.Domain;
 
 namespace TimeKeeper.API.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProjectsController : BaseController
@@ -44,8 +43,6 @@ namespace TimeKeeper.API.Controllers
                     var query = Unit.Projects.Get(x => x.Team.TeamMembers.Any(y => y.Employee.Id == userId));
                     return Ok(query.ToList().Select(x => x.Create()).ToList());
                 }
-                //Log.Info($"Try to get all Projects");
-                //return Ok(Unit.Projects.Get().ToList().Select(x => x.Create()).ToList());
             }
             catch (Exception ex)
             {

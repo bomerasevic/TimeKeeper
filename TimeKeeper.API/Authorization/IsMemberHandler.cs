@@ -18,23 +18,6 @@ namespace TimeKeeper.API.Authorization
         }
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, IsMemberRequirement requirement)
         {
-            //var filterContext = context.Resource as AuthorizationFilterContext;
-            //var teamid = Convert.ToInt32(filterContext.RouteData.Values["id"]);
-            //var empid = context.User.Claims.FirstOrDefault(c => c.Type == "sub").Value;
-            //var team = await Unit.Teams.Get(teamid);
-            //if (filterContext == null || !int.TryParse(teamid.ToString(), out int teamId) || team == null ||
-            //    !int.TryParse(empid, out int empId))
-            //{
-            //    context.Fail();
-            //    await Task.CompletedTask;
-            //}
-            //if (team.Members.Any(x => x.Employee.Id == Convert.ToInt32(empid)))
-            //{
-            //    context.Succeed(requirement);
-            //    await Task.CompletedTask;
-            //}
-            //context.Fail();
-            //await Task.CompletedTask;
             var role = context.User.Claims.FirstOrDefault(c => c.Type == "role").Value.ToString();
             if (role == "admin" || role == "lead")
             {
