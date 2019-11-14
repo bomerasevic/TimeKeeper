@@ -13,6 +13,7 @@ using TimeKeeper.Domain;
 
 namespace TimeKeeper.API.Controllers
 {
+    [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
     public class CalendarController : BaseController
