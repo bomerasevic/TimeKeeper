@@ -65,6 +65,11 @@ namespace TimeKeeper.API
                     builder.RequireAuthenticatedUser();
                     builder.AddRequirements(new HasAccessToEmployee());
                 });
+                o.AddPolicy("IsMemberInTeam", builder =>
+                {
+                    builder.RequireAuthenticatedUser();
+                    builder.AddRequirements(new HasAccessToMembers());
+                });
             });
 
             services.AddAuthentication(o =>
