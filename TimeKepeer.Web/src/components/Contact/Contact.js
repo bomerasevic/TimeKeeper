@@ -4,7 +4,7 @@ import { Formik, Form, Field } from "formik";
 import axios from "axios";
 import * as Yup from "yup";
 import swal from "sweetalert";
-
+const phoneRegExp = /^[0-9]/;
 const SignupSchema = Yup.object().shape({
     name: Yup.string()
         .max(50, "Too long!")
@@ -15,6 +15,11 @@ const SignupSchema = Yup.object().shape({
     phoneNumber: Yup.string()
         .max(50, "Too long!")
         .required("Required"),
+    message: Yup.string()
+        .min(10, "Must be 10 characters or more")
+        .required("Required"),
+
+    phoneNumber: Yup.string().matches(phoneRegExp, 'Phone number is not valid'),
     message: Yup.string()
         .min(10, "Must be 10 characters or more")
         .required("Required")
@@ -59,8 +64,8 @@ const Contact = () => {
                                     .catch(err => {
                                         console.log(err);
                                         swal(
-                                            "Oops...",
-                                            "Something went wrong! Reload page.",
+                                            "Wrong password",
+                                            "",
                                             "error"
                                         );
                                         setSubmitionCompleted(false);
@@ -70,15 +75,16 @@ const Contact = () => {
                             {({ errors, touched }) => (
                                 <Form>
                                     <div className="col m4 s12">
-                                        <div className="input-field">
+                                        <div className="input-field static">
                                             <Field name="name" id="name" type="text" />
                                             {errors.name && touched.name ? (
                                                 <div>{errors.name}</div>
                                             ) : null}
                                             <label htmlFor="name">Name</label>
                                         </div>
-                                        <div className="input-field">
+                                        <div className="input-field static">
                                             <Field
+                                                className="validate"
                                                 name="phoneNumber"
                                                 id="icon_telephone"
                                                 type="tel"
@@ -88,8 +94,8 @@ const Contact = () => {
                                             ) : null}
                                             <label htmlFor="icon_telephone">Phone</label>
                                         </div>
-                                        <div className="input-field">
-                                            <Field name="email" type="email" id="email" />
+                                        <div className="input-field static">
+                                            <Field name="email" type="email" id="email1" />
                                             {errors.email && touched.email ? (
                                                 <div>{errors.email}</div>
                                             ) : null}
