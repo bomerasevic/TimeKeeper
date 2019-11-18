@@ -27,6 +27,9 @@ class NavigationLogin extends React.Component {
     handleClickEmployees = () => {
         this.props.history.push("/app/employees");
     };
+    handleClickTeams = () => {
+        this.props.history.push("/app/teams");
+    };
     handleClickCustomers = () => {
         this.props.history.push("/app/customers");
     };
@@ -62,7 +65,7 @@ class NavigationLogin extends React.Component {
                                 </a>
                                 <div className="dropdown-content" id="dropdown1">
                                     <a onClick={this.handleClickEmployees}>Employees</a>
-                                    <a href="#">Teams</a>
+                                    <a onClick={this.handleClickTeams}>Teams</a>
                                     <a onClick={this.handleClickCustomers}>Customers</a>
                                     <a onClick={this.handleClickProjects}>Projects</a>
                                 </div>
@@ -97,7 +100,7 @@ class NavigationLogin extends React.Component {
                             </li>
                             <li>
                                 <a className=" btn modal-trigger" onClick={this.handleClickLogout}>
-                                    Logout
+                                    Log Out
                                 </a>
                             </li>
                         </ul>

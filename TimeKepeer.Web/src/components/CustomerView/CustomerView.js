@@ -8,6 +8,7 @@ import * as Yup from "yup";
 import swal from "sweetalert";
 import axios from "axios";
 import { Formik, Form, Field } from "formik";
+
 import { withRouter } from "react-router-dom";
 
 const SignupSchema = Yup.object().shape({
@@ -39,7 +40,11 @@ class CustomerView extends React.Component {
     }
     render() {
         const { classes } = this.props;
+    
+
         return (
+          
+      
             <div>
                 <NavigationLogin />
                 <div className="row">
@@ -251,6 +256,8 @@ class CustomerView extends React.Component {
                     <CustomerList />
                 </div>
             </div>
+            
+             
         );
     }
 }

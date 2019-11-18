@@ -1,4 +1,4 @@
 export default {
-    token: "",
+    token: "Basic am9obmRvOiRjaDAwbA==",
     apiUrl: "http://192.168.60.72/TimeKeeper/api/"
 };

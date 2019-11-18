@@ -52,6 +52,11 @@
 nav .brand-logo {
     position: relative !important;
 }
+
+#time-keeper-logo{
+margin:0;
+}
+
 .ReactModal__Overlay--after-open {
     z-index: 1000;
     background-color: rgba(128, 128, 128, 0.397) !important;
