@@ -1,61 +1,33 @@
-/*import React, { Component } from 'react';
-import NavigationLogin from '../NavigationLogin/NavigationLogin';
-import { DatePicker, RangePicker, theme } from 'react-trip-date';
-import {ThemeProvider} from 'styled-components';
-import { withRouter } from "react-router-dom";
+//  import React, { Component } from 'react';
+//  import NavigationLogin from '../NavigationLogin/NavigationLogin';
+//  import { ScheduleComponent, Day, Week, Inject, ViewsDirective, ViewDirective } from '@syncfusion/ej2-react-schedule';
+//  import { extend } from '@syncfusion/ej2-base';
+//  import M from "materialize-css";
 
 
 
-const  handleResponsive  =  setNumberOfMonth  =>  {
-	let  width  =  document.querySelector('.tp-calendar').clientWidth;
-	if  (width  >  900)  {
-		setNumberOfMonth(1);
-	}  else  if  (width  <  900  &&  width  >  580)  {
-		setNumberOfMonth(1);
-	}  else  if  (width  <  580)  {
-		setNumberOfMonth(1);
-	}
-};
+//  class Profile extends React.Component {
 
-const  Day = ({  day  }) => {
-	return  (
-		<>
-			<p  className="date">{day.format('DD')}</p>
-		
-		</>
-		);
-	};
-	
-class Profile extends React.Component {
-    
+//  	constructor() {
+//          super(...arguments);
+//          this.data = extend([],  null, true);
+//      }
+//      render() {
+//          return (
+// 			<div>
+//  		<NavigationLogin />
+//  		<ScheduleComponent width='60%' height='550px' selectedDate={new Date()} eventSettings={{ dataSource: this.data }}>
+//        <ViewsDirective>
+//          <ViewDirective option='Day' interval={2} displayName='2 Days' startHour='08:30' endHour='17:00' timeScale={{ enable: true, slotCount: 5 }}/>
+//          <ViewDirective option='Week' interval={2} displayName='2 Weeks' showWeekend={false} isSelected={true}/>
+//        </ViewsDirective>
+//        <Inject services={[Day, Week]}/>
+//  		</ScheduleComponent>
+//  		</div> );
 
-  onChange = date => console.log(date)
-
-  render() {
-    return (
-       
-      <ThemeProvider theme={theme}>
-          <NavigationLogin />
-           <div className="boxCalendar">
-        <DatePicker
-          //handleChange={onChange}
-		  selectedDays={['2019-11-06']} //initial selected days
-		  jalali={false}
-		  numberOfMonths={3}
-		  numberOfSelectableDays={3} // number of days you need 
-		
-		  responsive={handleResponsive} // custom responsive, when using it, `numberOfMonths` props not working
-		  disabledBeforToday={true} 
-		  disabled={false} // disable calendar 
-		  dayComponent={Day} //custom day component 
-		  //titleComponent={Title} // custom title of days
-        />
-        </div>
-      </ThemeProvider>
-    );
-  }
-}
+//      }}
+//     }
 
 
 
-export default Profile;*/
+//  export default Profile;

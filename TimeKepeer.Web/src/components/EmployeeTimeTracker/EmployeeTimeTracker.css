@@ -7,3 +7,7 @@
     height: auto;
     width: 50%;
 }
+
+.e-schedule .e-vertical-view .e-all-day-appointment-wrapper .e-appointment{
+    background-color: #26a69a !important;
+}

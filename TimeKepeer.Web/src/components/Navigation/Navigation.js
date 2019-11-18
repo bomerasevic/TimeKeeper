@@ -63,7 +63,7 @@ class Navigation extends React.Component {
                                 <a href="#contact">Contact us</a>
                             </li>
                             <li>
-                                <a className=" btn modal-trigger" onClick={this.openModal}>
+                                <a className=" btn login-static modal-trigger" onClick={this.openModal}>
                                     Login
                                 </a>
                                 <Modal
@@ -140,7 +140,7 @@ class Navigation extends React.Component {
                                                         <label htmlFor="password">password</label>
                                                     </div>
                                                     <div id="loginbtn">
-                                                        <button type="submit" className=" btn ">
+                                                        <button type="submit" className=" btn Login-static ">
                                                             LOGIN
                                                         </button>
                                                     </div>

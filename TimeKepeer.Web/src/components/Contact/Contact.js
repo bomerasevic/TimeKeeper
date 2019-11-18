@@ -103,24 +103,24 @@ const Contact = () => {
                                         </div>
                                     </div>
                                     <div className="col m4 s12">
-                                        <div className="input-field static">
+                                        <div className="input-field msg">
                                             <Field
                                                 as="textarea"
                                                 name="message"
                                                 type="message"
                                                 className="input-field materialize-textarea"
-                                                id="textarea2"
+                                                id="textarea"
                                                 data-length="250"
                                             />
                                             {errors.message && touched.message ? (
                                                 <div>{errors.message}</div>
                                             ) : null}
-                                            <label htmlFor="textarea2">Message</label>
+                                            <label htmlFor="textarea">Message</label>
                                         </div>
 
                                         <button
                                             type="submit"
-                                            className=" btn"
+                                            className=" btn send-message"
                                             onClick={handleClickOpen}
                                         >
                                             Send message

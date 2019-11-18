@@ -12,22 +12,22 @@ import { withRouter } from "react-router-dom";
 
 
 const SignupSchema = Yup.object().shape({
-    firstName: Yup.string()
+    firstname: Yup.string()
         .max(50, "Too long!")
-        .required("Required"),
-    lastName: Yup.string()
+        .required("Required!"),
+    lastname: Yup.string()
         .max(50, "Too long!")
-        .required("Required"),
+        .required("Required!"),
     email: Yup.string()
         .email("Invalid email")
-        .required("Required"),
+        .required("Required!"),
     phoneNumber: Yup.string()
         .max(50, "Too long!")
-        .required("Required"),
+        .required("Required!"),
     jobTitle: Yup.string()
-    .required("Required"),
+    .required("Required!"),
     salary: Yup.string()
-    .required("Required"),
+    .required("Required!"),
 });
 class EmployeeView extends React.Component {
     constructor() {
@@ -100,8 +100,8 @@ class EmployeeView extends React.Component {
                                                             id="firstname"
                                                             type="text"
                                                         />
-                                                        {errors.username && touched.firstname ? (
-                                                            <div className="errorFirstname">
+                                                        {errors.firstname && touched.firstname ? (
+                                                            <div className="errorfirstname">
                                                                 {errors.firstname}
                                                             </div>
                                                         ) : null}
@@ -115,7 +115,7 @@ class EmployeeView extends React.Component {
                                                             type="text"
                                                         />
                                                         {errors.lastname && touched.lastname ? (
-                                                            <div className="errorLastname">
+                                                            <div className="errorlastname">
                                                                 {errors.lastname}
                                                             </div>
                                                         ) : null}
@@ -164,8 +164,8 @@ class EmployeeView extends React.Component {
                                                     <div className=" col m4 secondColumn" >
                                                     <div className="input-field select-dropdown">
                                                         <datalist id="employee">
-                                                        <option>Intern</option>
-                                                        <option>Employed</option>
+                                                        <option>Shadowing</option>
+                                                        <option>Active</option>
                                                         <option>Leaver</option>
                                                         </datalist>
                                                         <Field

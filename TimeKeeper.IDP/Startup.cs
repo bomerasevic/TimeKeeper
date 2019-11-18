@@ -5,7 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TimeKeeper.DAL;
 
 namespace TimeKeeper.IDP
 {
@@ -13,14 +16,28 @@ namespace TimeKeeper.IDP
     {
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+
+        public static IConfigurationRoot Configuration;
+        public Startup(IHostingEnvironment env)
+        {
+            var builder = new ConfigurationBuilder().SetBasePath(env.ContentRootPath)
+                                                    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+            Configuration = builder.Build();
+        }
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddMvc();
             services.AddIdentityServer()
                     .AddDeveloperSigningCredential()
                     .AddTestUsers(Config.GetUsers())
                     .AddInMemoryIdentityResources(Config.GetResources())
+                    .AddInMemoryApiResources(Config.GetApiResources())
+            
                     .AddInMemoryClients(Config.GetClients());  // da koristi nase kredencijale
+
+            string connectionString = Configuration["ConnectionString"];
+            services.AddDbContext<TimeKeeperContext>(o => { o.UseNpgsql(connectionString); });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

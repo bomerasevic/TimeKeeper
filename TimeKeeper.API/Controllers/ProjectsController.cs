@@ -12,7 +12,6 @@ using TimeKeeper.Domain;
 
 namespace TimeKeeper.API.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProjectsController : BaseController
@@ -32,8 +31,18 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
-                Log.Info($"Try to get all Projects");
-                return Ok(Unit.Projects.Get().ToList().Select(x => x.Create()).ToList());
+                int userId = int.Parse(User.Claims.FirstOrDefault(x => x.Type == "sub").Value.ToString());
+                string role = User.Claims.FirstOrDefault(x => x.Type == "role").Value.ToString();
+                if (role == "admin" || role == "lead")
+                {
+                    Log.Info($"Try to get all Projects");
+                    return Ok(Unit.Projects.Get().ToList().Select(x => x.Create()).ToList());
+                }
+                else
+                {
+                    var query = Unit.Projects.Get(x => x.Team.TeamMembers.Any(y => y.Employee.Id == userId));
+                    return Ok(query.ToList().Select(x => x.Create()).ToList());
+                }
             }
             catch (Exception ex)
             {
@@ -49,6 +58,7 @@ namespace TimeKeeper.API.Controllers
         /// <response status="404">Status 404 Not Found</response>
         /// <response status="400">Status 400 Bad Request</response>        
         [HttpGet("{id}")]
+        [Authorize(Policy = "IsMemberOnProject")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
@@ -74,6 +84,7 @@ namespace TimeKeeper.API.Controllers
         /// <response status="404">Status 404 Not Found</response>
         /// <response status="400">Status 400 Bad Request</response>
         [HttpPost]
+        [Authorize(Policy = "IsAdmin")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
@@ -101,6 +112,7 @@ namespace TimeKeeper.API.Controllers
         /// <response status="404">Status 404 Not Found</response>
         /// <response status="400">Status 400 Bad Request</response>
         [HttpPut("{id}")]
+        [Authorize(Policy = "IsAdmin")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
@@ -126,6 +138,7 @@ namespace TimeKeeper.API.Controllers
         /// <response status="204">Status 204 No Content</response>
         /// <response status="400">Status 400 Bad Request</response>
         [HttpDelete("{id}")]
+        [Authorize(Policy = "IsAdmin")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         public IActionResult Delete(int id)

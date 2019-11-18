@@ -110,12 +110,17 @@ img {
     width: 50%;
 }
 
-#input-field {
-    color: red;
+#input-field  {
+    color: #444444;
+
 }
 #textarea2{
 
     height: 114px !important;
     color: black;
     
+}
+
+.errorProjectname{
+    color: red;
 }

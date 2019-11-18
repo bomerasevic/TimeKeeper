@@ -12,7 +12,6 @@ using TimeKeeper.Domain;
 
 namespace TimeKeeper.API.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CustomersController : BaseController
@@ -31,8 +30,29 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
-                Log.Info("Try to get all Customers");
-                return Ok(Unit.Customers.Get().ToList().Select(x => x.Create()).ToList());
+                var role = User.Claims.FirstOrDefault(c => c.Type == "role").Value.ToString();
+                if (role == "user") return Unauthorized("Access denied!");
+                var query = Unit.Customers.Get();
+                if (role != "admin")
+                {
+                    var empid = (User.Claims.FirstOrDefault(c => c.Type == "sub").Value.ToString());
+                    var employee = Unit.Employees.Get(int.Parse(empid));
+                    var teams = employee.Memberships.GroupBy(x => x.Team.Id).Select(y => y.Key).ToList();
+                    List<Project> projects = new List<Project>();
+                    foreach (var team in teams)
+                    {
+                        // dodaje listu u listu
+                        projects.AddRange(Unit.Projects.Get(x => x.Team.Id == team));
+                    }
+                    List<Customer> customers = new List<Customer>();
+                    foreach (var project in projects)
+                    {
+                        customers.Add(project.Customer);
+                    }
+                    return Ok(customers.Select(x => x.Create()).ToList());
+                }
+                Log.Info("Fetching list of customers");
+                return Ok(query.ToList().Select(x => x.Create()).ToList());
             }
             catch (Exception ex)
             {

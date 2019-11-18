@@ -41,8 +41,8 @@ namespace TimeKeeper.Seed
                 {
                     Name = rawData.ReadString(row, 2),
                     Description = rawData.ReadString(row, 4),
-                    StartDate = rawData.ReadDate(row, 5),
-                    EndDate = rawData.ReadDate(row, 6),
+                    StartDate = rawData.ReadDateProjects(row, 5),
+                    EndDate = rawData.ReadDateProjects(row, 6),
                     Status = unit.ProjectStatuses.Get(rawData.ReadInteger(row, 7)), 
                     Customer = unit.Customers.Get(Utility.dicCust[rawData.ReadInteger(row, 8)]),
                     Team = unit.Teams.Get(Utility.dicTeam[rawData.ReadString(row, 9)]),

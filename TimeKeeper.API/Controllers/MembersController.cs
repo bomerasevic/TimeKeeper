@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace TimeKeeper.API.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class MembersController : BaseController
@@ -31,8 +30,18 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
-                Log.Info($"Try to get all Members");
-                return Ok(Unit.Members.Get().ToList().Select(x=>x.Create()).ToList());
+                int userId = int.Parse(User.Claims.FirstOrDefault(x => x.Type == "sub").Value.ToString());
+                string role = User.Claims.FirstOrDefault(x => x.Type == "role").Value.ToString();
+                if (role == "admin" || role == "lead")
+                {
+                    Log.Info($"Try to get all Members");
+                    return Ok(Unit.Members.Get().ToList().Select(x => x.Create()).ToList());
+                }
+                else
+                {
+                    var query = Unit.Members.Get(x => x.Team.TeamMembers.Any(y => y.Employee.Id == userId));
+                    return Ok(query.ToList().Select(x => x.Create()).ToList());
+                }
             }
             catch (Exception ex)
             {
@@ -48,6 +57,7 @@ namespace TimeKeeper.API.Controllers
         /// <response status="404">Status 404 Not Found</response>
         /// <response status="400">Status 400 Bad Request</response>
         [HttpGet("{id}")]
+        [Authorize(Policy ="IsMemberInTeam")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
@@ -109,6 +119,24 @@ namespace TimeKeeper.API.Controllers
                 Unit.Save();
                 Log.Info($"Member with id {member.Id} has changes.");
                 return Ok(member.Create());
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
+        }
+        [HttpPut("delete-member/{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(400)]
+        public IActionResult Put(int id)
+        {
+            try
+            {
+                Unit.Members.Get(id).Status.Name = "leaver";
+                Unit.Save();
+                //Log.Info($"Member with id {member.Id} has changes.");
+                return Ok(Unit.Members.Get(id));
             }
             catch (Exception ex)
             {

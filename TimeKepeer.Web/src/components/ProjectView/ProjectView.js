@@ -11,9 +11,9 @@ import { Formik, Form, Field } from "formik";
 import { withRouter } from "react-router-dom";
 
 const SignupSchema = Yup.object().shape({
-    projectName: Yup.string()
+    projectname: Yup.string()
         .max(50, "Too long!")
-        .required("Required"),
+        .required("Required!"),
     description: Yup.string()
         .max(250, "Too long!")
     
@@ -23,12 +23,15 @@ const SignupSchema = Yup.object().shape({
 class ProjectView extends React.Component {
     constructor() {
         super();
+      
         this.state = {
             modalIsOpen: false
         };
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
     }
+
+  
     openModal() {
         this.setState({ modalIsOpen: true });
     }
@@ -82,7 +85,7 @@ class ProjectView extends React.Component {
                                                 <Form>
                                                 
                                                  <div className=" col m4 firstColumnProject">
-                                                 <div className="input-field">
+                                                 <div className="input-field project-name">
                                                         <Field
                                                             name="projectName"
                                                             id="projectname"
@@ -165,18 +168,19 @@ class ProjectView extends React.Component {
                                                         ) : null}
                                                         <label  htmlFor="client">Status</label>
                                                     </div>
-                                                    <div className="input-field select-dropdown">
-                                                    <datalist id="team">
+                                                    <div className="input-field  select-dropdown" >
+                                                    <datalist  id="team">
                                                         <option>Alpha</option>
                                                         <option>Bravo</option>
                                                         <option>Charlie</option>
                                                         <option>Delta</option>
                                                        
                                                         </datalist>
-                                                        <Field
+                                                        <Field readOnly={this.state.readOnly}
+                                                        
                                                             name="team"
                                                             id="team"
-                                                            type="text"
+                                                           //type="text"
                                                             list="team"
                                                         />
                                                         {errors.team && touched.team ? (
@@ -191,7 +195,7 @@ class ProjectView extends React.Component {
                                                            <div className=" col m4 thirdColumnProject">
 
                                                            <div className="input-field">
-                                                            <Field
+                                                            <Field 
                                                             name="customer"
                                                             id="customer"
                                                             type="text"
@@ -203,7 +207,7 @@ class ProjectView extends React.Component {
                                                         ) : null}
                                                         <label htmlFor="customer">Customer</label>
                                                     </div>
-                                                    <div className="input-field select-dropdown">
+                                                    <div className="input-field select-dropdown disabled">
                                                         <datalist id="pricing">
                                                         <option>Fixed bid</option>
                                                         <option>Hourly rate</option>
@@ -230,6 +234,7 @@ class ProjectView extends React.Component {
                                                       
                                                         </datalist>
                                                         <Field
+                                                         
                                                             name="fixedbid"
                                                             id="fixedbid"
                                                             type="text"

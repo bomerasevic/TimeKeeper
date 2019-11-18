@@ -16,6 +16,8 @@ using TimeKeeper.DAL;
 using System.IdentityModel;
 using Microsoft.IdentityModel.Tokens;
 using IdentityModel;
+using TimeKeeper.API.Authorization;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TimeKeeper.API
 {
@@ -38,11 +40,46 @@ namespace TimeKeeper.API
             services.AddMvc().AddJsonOptions(opt => opt.SerializerSettings.ContractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() });
             services.AddMvc().AddJsonOptions(opt => opt.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented);
 
+            services.AddAuthorization(o =>
+            {
+                o.AddPolicy("IsMember", builder =>  // pravimo policy na osnovu role i attribute
+                {
+                    builder.RequireAuthenticatedUser();
+                    builder.AddRequirements(new IsMemberRequirement());
+                });
+                o.AddPolicy("IsAdmin", builder =>  // pravimo policy na osnovu role i attribute
+                {
+                    builder.RequireRole("admin");
+                });
+                o.AddPolicy("IsLead", builder =>  // pravimo policy na osnovu role i attribute
+                {
+                    builder.RequireRole("lead");
+                });
+                o.AddPolicy("IsMemberOnProject", builder =>
+                {
+                    builder.RequireAuthenticatedUser();
+                    builder.AddRequirements(new HasAccessToProjects());
+                });
+                o.AddPolicy("IsEmployee", builder =>
+                {
+                    builder.RequireAuthenticatedUser();
+                    builder.AddRequirements(new HasAccessToEmployee());
+                });
+                o.AddPolicy("IsMemberInTeam", builder =>
+                {
+                    builder.RequireAuthenticatedUser();
+                    builder.AddRequirements(new HasAccessToMembers());
+                });
+            });
+
             services.AddAuthentication(o =>
             {
                 o.DefaultScheme = "Cookies";
                 o.DefaultChallengeScheme = "oidc";  // trazi i id_token i token
-            }).AddCookie("Cookies")
+            }).AddCookie("Cookies", o =>
+            {
+                o.AccessDeniedPath = "/AccessDenied";
+            })
               .AddOpenIdConnect("oidc", o =>
               {
                   o.SignInScheme = "Cookies";
@@ -54,10 +91,13 @@ namespace TimeKeeper.API
                   o.Scope.Add("profile");
                   o.Scope.Add("address");
                   o.Scope.Add("roles");
+                  o.Scope.Add("timekeeper");
+                  o.Scope.Add("teams");
                   o.SaveTokens = true;
                   o.GetClaimsFromUserInfoEndpoint = true;
                   o.ClaimActions.MapUniqueJsonKey("address", "address");
                   o.ClaimActions.MapUniqueJsonKey("role", "role");
+                  o.ClaimActions.MapUniqueJsonKey("team", "team");
                   o.TokenValidationParameters = new TokenValidationParameters
                   {
                       NameClaimType = JwtClaimTypes.GivenName,
@@ -71,6 +111,9 @@ namespace TimeKeeper.API
             string connectionString = Configuration["ConnectionString"];
             services.AddDbContext<TimeKeeperContext>(o => { o.UseNpgsql(connectionString); });
 
+            services.AddScoped<IAuthorizationHandler, IsMemberHandler>();
+            services.AddScoped<IAuthorizationHandler, IsAdminHandler>();
+            services.AddScoped<IAuthorizationHandler, IsMemberOnProjectHandler>();
             services.Configure<IISOptions>(o =>
               {
                   o.AutomaticAuthentication = false;  // vezana za windows; ne koristi se windows autentikacija/niti od internet information servera
