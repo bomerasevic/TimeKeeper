@@ -89,6 +89,10 @@ margin:0;
     text-align: center;
 }
 
+#time-keeper-logo{
+    margin:0;
+}
+
 .row,
 #margin-group {
     margin: 0;

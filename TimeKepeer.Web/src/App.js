@@ -11,13 +11,11 @@ import Contact from "./components/Contact/Contact";
 import Footer from "./components/Footer/Footer";
 import Welcome from "./components/Welcome/Welcome";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import EmployeeView from "./components/EmployeeView/EmployeeView";
-import ProjectView from "./components/ProjectView/ProjectView";
-import CustomerView from "./components/CustomerView/CustomerView";
-import EmployeeTimeTracker from "./components/EmployeeTimeTracker/EmployeeTimeTracker";
-import TeamsPage from "./components/TeamsPage/TeamsPage";
-
-
+import EmployeesView from "./components/EmployeesView/EmployeesView";
+import ProjectsView from "./components/ProjectsView2/ProjectView";
+import CustomersView from "./components/CustomersView2/CustomersView";
+import TeamsView from "./components/TeamsPage/TeamsPage/TeamsPage"
+import TrackingView from "./components/TeamTimeTracking/TeamTimeTracking"
 class App extends React.Component {
     render() {
         return (
@@ -38,17 +36,20 @@ class App extends React.Component {
                         <Welcome />
                     </Route>
                     <Route exact path="/app/employees">
-                        <EmployeeView />
+                        <EmployeesView />
                     </Route>
                     <Route exact path="/app/projects">
-                        <ProjectView />
+                        <ProjectsView />
                     </Route>
                     <Route exact path="/app/customers">
-                        <CustomerView />
+                        <CustomersView />
                     </Route>
-                   <Route exact path="/app/teams">
-                      <TeamsPage />
-                   </Route>
+                    <Route exact path="/app/teams">
+                        <TeamsView />
+                    </Route>
+                    <Route exact path="/app/tracking">
+                        <TrackingView />
+                    </Route>
                 </Switch>
             </BrowserRouter>
         );

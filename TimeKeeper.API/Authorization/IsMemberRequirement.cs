@@ -8,5 +8,6 @@ namespace TimeKeeper.API.Authorization
 {
     public class IsMemberRequirement : IAuthorizationRequirement
     {
+
     }
 }

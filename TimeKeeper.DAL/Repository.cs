@@ -27,18 +27,25 @@ namespace TimeKeeper.DAL
         public virtual IList<Entity> Get(Func<Entity, bool> where) => Get().Where(where).ToList();
         public virtual Entity Get(int id)
         {
+
             Entity entity = _dbSet.Find(id);
             if (entity == null)
                 throw new ArgumentException($"There is no object with id: {id} in database");
 
             return entity;
         }
-        public virtual void Insert(Entity entity) => _dbSet.Add(entity);
+        public virtual void Insert(Entity entity)
+        {
+            entity.Build(_context);
+            _dbSet.Add(entity);
+        }
         public virtual void Update(Entity entity, int id)
         {
+            entity.Build(_context);
             Entity old = Get(id);
             ValidateUpdate(entity, id);
             _context.Entry(old).CurrentValues.SetValues(entity);
+            old.Relate(entity);
         }
 
         public void Delete(Entity entity) => _dbSet.Remove(entity);

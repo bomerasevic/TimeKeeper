@@ -9,12 +9,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using TimeKeeper.DAL;
 using TimeKeeper.Domain;
 
 namespace TimeKeeper.API.Controllers
 {
-    [Authorize(Roles ="admin,user")]
+    //[Authorize(Roles ="admin,user")]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : BaseController
@@ -30,21 +31,44 @@ namespace TimeKeeper.API.Controllers
             var users = Unit.Users.Get().ToList();
             return Ok(new { claims, users});
         }
-        [AllowAnonymous]
-        [HttpPost]
-        public IActionResult Login([FromBody] User user)
+        //[AllowAnonymous]
+        //[HttpPost]
+        //public IActionResult Login([FromBody] User user)
+        //{
+        //    User control = Unit.Users.Get(x => x.Username == user.Username && x.Password == user.Password).FirstOrDefault();
+        //    if (control == null) return NotFound();
+        //    byte[] bytes = Encoding.ASCII.GetBytes($"{control.Username}:{control.Password}");
+        //    string base64 = Convert.ToBase64String(bytes);
+        //    return Ok(new {
+        //        control.Id,
+        //        control.Name,
+        //        control.Role,
+        //        base64
+        //    });
+        //}
+        [HttpGet]
+        [Route("/login")]
+        [Authorize]
+        public IActionResult Login()
         {
-            User control = Unit.Users.Get(x => x.Username == user.Username && x.Password == user.Password).FirstOrDefault();
-            if (control == null) return NotFound();
-            byte[] bytes = Encoding.ASCII.GetBytes($"{control.Username}:{control.Password}");
-            string base64 = Convert.ToBase64String(bytes);
-            return Ok(new {
-                control.Id,
-                control.Name,
-                control.Role,
-                base64
-            });
+            if (User.Identity.IsAuthenticated)
+            {
+                var accessToken = HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken).Result;
+                var response = new
+                {
+                    Id = User.Claims.FirstOrDefault(c => c.Type == "sub").Value.ToString(),
+                    Name = User.Claims.FirstOrDefault(c => c.Type == "given_name").Value.ToString(),
+                    Role = User.Claims.FirstOrDefault(c => c.Type == "role").Value.ToString(),
+                    accessToken
+                };
+                return Ok(response);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
+
         [AllowAnonymous]
         [Route("/api/logout")]
         [HttpGet]

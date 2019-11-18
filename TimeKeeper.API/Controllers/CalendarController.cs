@@ -2,20 +2,27 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using TimeKeeper.API.Factory;
+using TimeKeeper.API.Services;
 using TimeKeeper.DAL;
 using TimeKeeper.Domain;
 
 namespace TimeKeeper.API.Controllers
 {
+    [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
     public class CalendarController : BaseController
     {
-        public CalendarController(TimeKeeperContext context) : base(context) { }
+        public TeamCalendarService teamCalendarService;
+        public CalendarController(TimeKeeperContext context) : base(context)
+        {
+            teamCalendarService = new TeamCalendarService(Unit);
+        } 
 
         /// <summary>
         /// This method returns all Days
@@ -57,6 +64,19 @@ namespace TimeKeeper.API.Controllers
                 Log.Info($"Try to get Day with {id} ");
                 Day day = Unit.Calendar.Get(id);
                 return Ok(day.Create());
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
+        }
+        [AllowAnonymous]
+        [HttpGet("team-time-tracking/{teamId}/{year}/{month}")]
+        public IActionResult GetTimeTracking(int teamId, int year, int month)
+        {
+            try
+            {
+                return Ok(teamCalendarService.TeamMonthReport(teamId, month, year));
             }
             catch (Exception ex)
             {

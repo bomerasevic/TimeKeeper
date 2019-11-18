@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace TimeKeeper.API.Authorization
 {
-    public class IsUserHandler
+    public class HasAccessToEmployee : IsRoleRequirement
     {
     }
 }

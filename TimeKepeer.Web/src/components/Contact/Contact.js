@@ -5,7 +5,6 @@ import axios from "axios";
 import * as Yup from "yup";
 import swal from "sweetalert";
 const phoneRegExp = /^[0-9]/;
-
 const SignupSchema = Yup.object().shape({
     name: Yup.string()
         .max(50, "Too long!")
@@ -15,6 +14,11 @@ const SignupSchema = Yup.object().shape({
         .required("Required"),
     phoneNumber: Yup.string().matches(phoneRegExp, 'Phone number is not valid'),
          message: Yup.string()
+        .min(10, "Must be 10 characters or more")
+        .required("Required"),
+
+    phoneNumber: Yup.string().matches(phoneRegExp, 'Phone number is not valid'),
+    message: Yup.string()
         .min(10, "Must be 10 characters or more")
         .required("Required")
 });
@@ -58,8 +62,8 @@ const Contact = () => {
                                     .catch(err => {
                                         console.log(err);
                                         swal(
-                                            "Oops...",
-                                            "Something went wrong! Reload page.",
+                                            "Wrong password",
+                                            "",
                                             "error"
                                         );
                                         setSubmitionCompleted(false);

@@ -15,6 +15,7 @@
     "material-ui": "^0.20.2",
     "material-ui-pickers": "^2.2.4",
     "materialize-css": "^1.0.0-rc.2",
+    "moment": "^2.24.0",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "react-material-ui-calendar": "^0.2.3",

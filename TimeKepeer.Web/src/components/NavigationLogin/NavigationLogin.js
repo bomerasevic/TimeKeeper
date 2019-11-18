@@ -36,10 +36,17 @@ class NavigationLogin extends React.Component {
     handleClickProjects = () => {
         this.props.history.push("/app/projects");
     };
+    handleClickTeams = () => {
+        this.props.history.push("/app/teams");
+    };
+    handleClickTracking = () => {
+        this.props.history.push("/app/tracking");
+    };
     handleClickLogout = () => {
         config.token = "";
         this.props.history.push("/");
     };
+
     render() {
         return (
             <div className="navbar-fixed">
@@ -71,7 +78,7 @@ class NavigationLogin extends React.Component {
                                 </div>
                             </li>
                             <li>
-                                <a href="#services">Time tracking</a>
+                                <a onClick={this.handleClickTracking}>Time tracking</a>
                             </li>
                             <li>
                                 <a className="dropdown-trigger" data-target="dropdown2">
