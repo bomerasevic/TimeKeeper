@@ -39,13 +39,10 @@ class App extends React.Component {
                         <EmployeesView />
                     </Route>
                     <Route exact path="/app/projects">
-                        <ProjectView />
+                        <ProjectsView />
                     </Route>
                     <Route exact path="/app/customers">
-                        <CustomerView />
-                    </Route>
-                    <Route exact path="/app/teams">
-                        <TeamsCards />
+                        <CustomersView />
                     </Route>
                     <Route exact path="/app/teams">
                         <TeamsView />

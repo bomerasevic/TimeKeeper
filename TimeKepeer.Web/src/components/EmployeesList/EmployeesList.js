@@ -18,7 +18,9 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import Button from "@material-ui/core/Button";
 import { lighten } from "@material-ui/core/styles/colorManipulator";
 import Modal from "@material-ui/core/Modal";
-
+import { Backdrop } from "@material-ui/core";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import LinearProgress from "@material-ui/core/LinearProgress";
 import axios from "axios";
 import config from "../../config";
 
@@ -67,8 +69,11 @@ class EnhancedTableHead extends React.Component {
 
     render() {
         const { onSelectAllClick, order, orderBy, numSelected, rowCount } = this.props;
+       
 
         return (
+            
+          
             <TableHead style={{ backgroundColor: "rgb(57, 54, 67, 0.9)" }}>
                 <TableRow>
                     {rows.map(
@@ -211,8 +216,18 @@ class EnhancedTable extends React.Component {
         const { classes } = this.props;
         const { data, order, orderBy, selected, rowsPerPage, page } = this.state;
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
+        const { loading} = this.state;
 
         return (
+            <React.Fragment>
+               {loading ? (
+                   <Backdrop open={loading}>
+                       <div className="classes.center">
+                           <LinearProgress size={100} className="classes.loader" />
+                           <h1 className="classes.loaderText">Loading...</h1>
+                       </div>
+                   </Backdrop>
+               ) : data ? (
             <Paper className={classes.root}>
                 <div className={classes.tableWrapper}>
                     <Table className={classes.table} aria-labelledby="tableTitle">
@@ -285,6 +300,9 @@ class EnhancedTable extends React.Component {
                     onChangeRowsPerPage={this.handleChangeRowsPerPage}
                 />
             </Paper>
+               ) : null}
+               </React.Fragment>
+       
         );
     }
 }

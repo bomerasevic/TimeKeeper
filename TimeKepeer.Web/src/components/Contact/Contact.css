@@ -42,8 +42,16 @@ h4 {
 .msg {
     margin-top: 22px;
 }
-textarea {
+#textarea {
     height: 178px !important;
+}
+
+#email1 {
+    color:white;
+}
+
+.input-field.static{
+    color:red;
 }
 #email1 {
     color:white;

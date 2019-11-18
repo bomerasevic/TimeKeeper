@@ -12,10 +12,8 @@ const SignupSchema = Yup.object().shape({
     email: Yup.string()
         .email("Invalid email")
         .required("Required"),
-    phoneNumber: Yup.string()
-        .max(50, "Too long!")
-        .required("Required"),
-    message: Yup.string()
+    phoneNumber: Yup.string().matches(phoneRegExp, 'Phone number is not valid'),
+         message: Yup.string()
         .min(10, "Must be 10 characters or more")
         .required("Required"),
 
@@ -83,6 +81,7 @@ const Contact = () => {
                                             <label htmlFor="name">Name</label>
                                         </div>
                                         <div className="input-field static">
+                                       
                                             <Field
                                                 className="validate"
                                                 name="phoneNumber"
@@ -92,6 +91,7 @@ const Contact = () => {
                                             {errors.phoneNumber && touched.phoneNumber ? (
                                                 <div>{errors.phoneNumber}</div>
                                             ) : null}
+                                          
                                             <label htmlFor="icon_telephone">Phone</label>
                                         </div>
                                         <div className="input-field static">
@@ -103,7 +103,7 @@ const Contact = () => {
                                         </div>
                                     </div>
                                     <div className="col m4 s12">
-                                        <div className="input-field msg">
+                                        <div className="input-field static msg">
                                             <Field
                                                 as="textarea"
                                                 name="message"
