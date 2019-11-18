@@ -48,6 +48,10 @@
     background-color: rgb(57, 54, 67, 0.9);
     border-bottom: 1px solid #163e37;
 }
+img {
+    border-style: none;
+    width: 80px;
+}
 
 nav .brand-logo {
     padding-top: 10px;

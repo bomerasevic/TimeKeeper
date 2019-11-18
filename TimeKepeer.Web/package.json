@@ -11,6 +11,7 @@
     "formik": "^2.0.3",
     "formik-material-fields": "0.0.6",
     "materialize-css": "^1.0.0-rc.2",
+    "moment": "^2.24.0",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "react-material-ui-calendar": "^0.2.3",
