@@ -114,6 +114,7 @@ namespace TimeKeeper.API
             services.AddScoped<IAuthorizationHandler, IsMemberHandler>();
             services.AddScoped<IAuthorizationHandler, IsAdminHandler>();
             services.AddScoped<IAuthorizationHandler, IsMemberOnProjectHandler>();
+            services.AddScoped<IAuthorizationHandler, IsMemberInTeamHandler>();
             services.Configure<IISOptions>(o =>
               {
                   o.AutomaticAuthentication = false;  // vezana za windows; ne koristi se windows autentikacija/niti od internet information servera
