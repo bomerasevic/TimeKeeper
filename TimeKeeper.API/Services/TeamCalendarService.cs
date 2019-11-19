@@ -44,7 +44,5 @@ namespace TimeKeeper.API.Services
             }
             return teamTimeTracking;
         }
-
-
     }
 }
