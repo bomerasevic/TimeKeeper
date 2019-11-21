@@ -70,6 +70,11 @@ namespace TimeKeeper.API
                     builder.RequireAuthenticatedUser();
                     builder.AddRequirements(new HasAccessToMembers());
                 });
+                o.AddPolicy("IsCustomer", builder =>
+                {
+                    builder.RequireAuthenticatedUser();
+                    builder.AddRequirements(new HasAccessToCustomers());
+                });
             });
 
             services.AddAuthentication(o =>
@@ -114,6 +119,10 @@ namespace TimeKeeper.API
             services.AddScoped<IAuthorizationHandler, IsMemberHandler>();
             services.AddScoped<IAuthorizationHandler, IsAdminHandler>();
             services.AddScoped<IAuthorizationHandler, IsMemberOnProjectHandler>();
+            services.AddScoped<IAuthorizationHandler, IsMemberInTeamHandler>();
+            services.AddScoped<IAuthorizationHandler, IsEmployeeHandler>();
+            services.AddScoped<IAuthorizationHandler, IsCustomerHandler>();
+            
             services.Configure<IISOptions>(o =>
               {
                   o.AutomaticAuthentication = false;  // vezana za windows; ne koristi se windows autentikacija/niti od internet information servera
