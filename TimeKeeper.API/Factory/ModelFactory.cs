@@ -64,19 +64,19 @@ namespace TimeKeeper.API.Factory
             return new EmployeeModel
             {
                 Id = employee.Id,
-                FirstName = employee.FirstName,
-                LastName = employee.LastName,
+                //FirstName = employee.FirstName,
+                //LastName = employee.LastName,
                 FullName = employee.FullName,
-                Image = employee.Image,
+                //Image = employee.Image,
                 Email = employee.Email,
-                Phone = employee.Phone,
-                Birthday = employee.Birthday,
-                BeginDate = employee.BeginDate,
-                EndDate = employee.EndDate,
-                Status = new MasterModel { Id = employee.Status.Id, Name = employee.Status.Name },
-                Position = new MasterModel { Id = employee.Position.Id, Name = employee.Position.Name },
-                Days = employee.Days.Select(x => x.Master()).ToList(),
-                Memberships = employee.Memberships.Select(x => x.Master("role")).ToList(),
+                //Phone = employee.Phone,
+                //Birthday = employee.Birthday,
+                //BeginDate = employee.BeginDate,
+                //EndDate = employee.EndDate,
+                //Status = new MasterModel { Id = employee.Status.Id, Name = employee.Status.Name },
+                //Position = new MasterModel { Id = employee.Position.Id, Name = employee.Position.Name },
+                //Days = employee.Days.Select(x => x.Master()).ToList(),
+                //Memberships = employee.Memberships.Select(x => x.Master("role")).ToList(),
             };
         }
 
@@ -117,6 +117,16 @@ namespace TimeKeeper.API.Factory
                 Team = new MasterModel { Id=member.Team.Id, Name=member.Team.Name},
                 Status = new MasterModel { Id = member.Status.Id, Name = member.Status.Name },
                 HoursWeekly = member.HoursWeekly
+            };
+        }
+
+        public static EmployeeTimeModel CreateTimeModel(this Employee employee)
+        {
+            return new EmployeeTimeModel{
+                Employee = employee.Create(),
+                HourTypes = new Dictionary<string, decimal>(),
+                OverTime = 0,
+                PTO = 0
             };
         }
 

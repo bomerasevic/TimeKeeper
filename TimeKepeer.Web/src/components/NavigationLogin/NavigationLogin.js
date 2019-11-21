@@ -27,16 +27,26 @@ class NavigationLogin extends React.Component {
     handleClickEmployees = () => {
         this.props.history.push("/app/employees");
     };
+    handleClickTeams = () => {
+        this.props.history.push("/app/teams");
+    };
     handleClickCustomers = () => {
         this.props.history.push("/app/customers");
     };
     handleClickProjects = () => {
         this.props.history.push("/app/projects");
     };
+    handleClickTeams = () => {
+        this.props.history.push("/app/teams");
+    };
+    handleClickTracking = () => {
+        this.props.history.push("/app/tracking");
+    };
     handleClickLogout = () => {
         config.token = "";
         this.props.history.push("/");
     };
+
     render() {
         return (
             <div className="navbar-fixed">
@@ -62,13 +72,13 @@ class NavigationLogin extends React.Component {
                                 </a>
                                 <div className="dropdown-content" id="dropdown1">
                                     <a onClick={this.handleClickEmployees}>Employees</a>
-                                    <a href="#">Teams</a>
+                                    <a onClick={this.handleClickTeams}>Teams</a>
                                     <a onClick={this.handleClickCustomers}>Customers</a>
                                     <a onClick={this.handleClickProjects}>Projects</a>
                                 </div>
                             </li>
                             <li>
-                                <a href="#services">Time tracking</a>
+                                <a onClick={this.handleClickTracking}>Time tracking</a>
                             </li>
                             <li>
                                 <a className="dropdown-trigger" data-target="dropdown2">
@@ -97,7 +107,7 @@ class NavigationLogin extends React.Component {
                             </li>
                             <li>
                                 <a className=" btn modal-trigger" onClick={this.handleClickLogout}>
-                                    Logout
+                                    Log Out
                                 </a>
                             </li>
                         </ul>

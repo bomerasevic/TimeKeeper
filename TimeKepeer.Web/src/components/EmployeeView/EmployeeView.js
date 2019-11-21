@@ -7,6 +7,9 @@ import Button from "@material-ui/core/Button";
 import * as Yup from "yup";
 import swal from "sweetalert";
 import axios from "axios";
+import { Backdrop } from "@material-ui/core";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import classNames from "classnames";
 import { Formik, Form, Field } from "formik";
 import { withRouter } from "react-router-dom";
 
@@ -46,7 +49,9 @@ class EmployeeView extends React.Component {
     }
     render() {
         const { classes } = this.props;
+        const { loading, data } = this.state;
         return (
+           
             <div>
                 <NavigationLogin />
                 <div className="row">
@@ -66,7 +71,7 @@ class EmployeeView extends React.Component {
                   </h2>
                </div>
                
-                   
+        (
                
                   <Formik 
                                             initialValues={{
@@ -311,12 +316,14 @@ class EmployeeView extends React.Component {
                                         
                                         
                 </Modal>
-                
-                 
+               
                 <div class="table-employee">
                     <EmployeesList />
+                  
                 </div>
+                 
             </div>
+           
         );
     }
 }

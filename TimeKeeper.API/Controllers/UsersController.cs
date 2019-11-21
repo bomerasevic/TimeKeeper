@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using TimeKeeper.API.Models;
 using TimeKeeper.DAL;
 using TimeKeeper.Domain;
 
@@ -29,7 +30,7 @@ namespace TimeKeeper.API.Controllers
             List<string> claims = new List<string>();
             foreach (Claim claim in currentUser.Claims) claims.Add(claim.Value);
             var users = Unit.Users.Get().ToList();
-            return Ok(new { claims, users});
+            return Ok(new { claims, users });
         }
         //[AllowAnonymous]
         //[HttpPost]
@@ -59,6 +60,7 @@ namespace TimeKeeper.API.Controllers
                     Id = User.Claims.FirstOrDefault(c => c.Type == "sub").Value.ToString(),
                     Name = User.Claims.FirstOrDefault(c => c.Type == "given_name").Value.ToString(),
                     Role = User.Claims.FirstOrDefault(c => c.Type == "role").Value.ToString(),
+                    //Team = Unit.Teams.Get(x => x.TeamMembers.Contains()).ToList(),
                     accessToken
                 };
                 return Ok(response);
@@ -74,11 +76,11 @@ namespace TimeKeeper.API.Controllers
         [HttpGet]
         public async Task Logout()
         {
-            if(User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated)
             {
                 await HttpContext.SignOutAsync("Cookies");
                 await HttpContext.SignOutAsync("oidc");
-            }            
+            }
         }
     }
 }

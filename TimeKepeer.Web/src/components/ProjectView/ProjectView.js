@@ -7,6 +7,7 @@ import Button from "@material-ui/core/Button";
 import * as Yup from "yup";
 import swal from "sweetalert";
 import axios from "axios";
+
 import { Formik, Form, Field } from "formik";
 import { withRouter } from "react-router-dom";
 
@@ -40,7 +41,9 @@ class ProjectView extends React.Component {
     }
     render() {
         const { classes } = this.props;
+       
         return (
+        
             <div>
                 <NavigationLogin />
                 <div className="row">
@@ -180,7 +183,7 @@ class ProjectView extends React.Component {
                                                         
                                                             name="team"
                                                             id="team"
-                                                           //type="text"
+                                                            type="text"
                                                             list="team"
                                                         />
                                                         {errors.team && touched.team ? (
@@ -264,11 +267,13 @@ class ProjectView extends React.Component {
                                         
                 </Modal>
                 
-                 
+              
                 <div class="table-employee">
+               
                     <ProjectList />
                 </div>
             </div>
+         
         );
     }
 }
