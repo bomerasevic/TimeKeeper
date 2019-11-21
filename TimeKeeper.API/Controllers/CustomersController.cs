@@ -68,6 +68,7 @@ namespace TimeKeeper.API.Controllers
         /// <response status="404">Status 404 Not Found</response>
         /// <response status="400">Status 400 Bad Request</response>
         [HttpGet("{id}")]
+        [Authorize(Policy = "IsCustomer")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
@@ -92,6 +93,7 @@ namespace TimeKeeper.API.Controllers
         /// <response status="200">Status 200 OK</response>
         /// <response status="400">Status 400 Bad Request</response>
         [HttpPost]
+        [Authorize(Policy = "IsAdmin")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         public IActionResult Post([FromBody] Customer customer)
@@ -118,6 +120,7 @@ namespace TimeKeeper.API.Controllers
         /// <response status="404">Status 404 Not Found</response>
         /// <response status="400">Status 400 Bad Request</response>
         [HttpPut("{id}")]
+        [Authorize(Policy = "IsAdmin")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
@@ -144,6 +147,7 @@ namespace TimeKeeper.API.Controllers
         /// <response status="404">Status 404 Not Not Found</response>
         /// <response status="400">Status 400 Bad Request</response>
         [HttpDelete("{id}")]
+        [Authorize(Policy = "IsAdmin")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
