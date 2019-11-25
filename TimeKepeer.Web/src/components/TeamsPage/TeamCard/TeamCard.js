@@ -51,10 +51,10 @@ state={
         </Typography>
        
 
-  <p> {description} </p>
+  <p className={classes.description}> {description} </p>
       </CardContent>
       <CardActions className={classes.pos}>
-        <Button className ="btn learnMore" size="medium" > Learn More </Button>
+        <Button className ="btn learnMore" size="medium" >Learn More</Button>
       </CardActions>
     </Card>
   );

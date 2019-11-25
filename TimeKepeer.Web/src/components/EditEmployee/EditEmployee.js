@@ -11,7 +11,6 @@ import {
     Button,
     TextField
 } from "@material-ui/core";
-import FormikTextField from "../MuiFormik/FormikTextField";
 import TableTK from "../TableTK/TableTK";
 import Config from "../../config";
 import axios from "axios";
@@ -270,8 +269,8 @@ class EditEmployee extends React.PureComponent {
                                                             />
                                                             <label htmlFor="endDate">Employee end date</label>
                                                         </div>
-                                                        <FormikTextField name="status" label="Status" />
-                                                        <FormikTextField
+                                                        <Field name="status" label="Status" />
+                                                        <Field
                                                             name="jobTitle"
                                                             label="Job Title"
                                                         />
