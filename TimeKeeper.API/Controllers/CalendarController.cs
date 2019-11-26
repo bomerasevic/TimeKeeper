@@ -46,6 +46,21 @@ namespace TimeKeeper.API.Controllers
                 return HandleException(ex);
             }
         }
+        [HttpGet("employee-report/{empId}/{year}/{month}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public IActionResult GetEmployeeReport(int empId, int year, int month)   // rutu dodati /employees/month/day/year
+        {
+            try
+            {
+                Log.Info($"Try to get report for employee with id:{empId}");
+                return Ok(calendarService.CreateEmployeeReport(empId, year, month));
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
+        }
         /// <summary>
         /// This method returns Day with specified Id
         /// </summary>

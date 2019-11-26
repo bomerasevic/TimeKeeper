@@ -33,7 +33,6 @@ namespace TimeKeeper.IDP
                     .AddTestUsers(Config.GetUsers())
                     .AddInMemoryIdentityResources(Config.GetResources())
                     .AddInMemoryApiResources(Config.GetApiResources())
-
                     .AddInMemoryClients(Config.GetClients());  // da koristi nase kredencijale
 
             string connectionString = Configuration["ConnectionString"];
