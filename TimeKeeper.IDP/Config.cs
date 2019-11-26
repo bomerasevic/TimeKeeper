@@ -12,13 +12,23 @@ namespace TimeKeeper.IDP
 {
     public static class Config
     {
+        private static string GetTeamIds(UnitOfWork unit, int id)
+        {
+            string userTeamIds = "";
+            //Team = employee.Memberships.FirstOrDefault(x => x.Id == employee.Id).Team.Id
+            foreach (var m in unit.Employees.Get(id).Memberships)
+            {
+                //userTeamIds += unit.Employees.Get(id).Memberships.FirstOrDefault(x => x.Id == id).Team.Id.ToString();
+            }
+            return userTeamIds;
+        }
         public static List<TestUser> GetUsers()
         {
             List<TestUser> users = new List<TestUser>();
             using (UnitOfWork unit = new UnitOfWork(new TimeKeeperContext()))
             {
                 foreach (var user in unit.Users.Get())
-                {
+                {                    
                     users.Add(new TestUser
                     {
                         SubjectId = user.Id.ToString(),
@@ -26,62 +36,16 @@ namespace TimeKeeper.IDP
                         Password = user.Password,
                         Claims = new List<Claim>
                         {
-                            new Claim("given_name", user.Name),
-                            new Claim("role", user.Role)
+                            new Claim("name", user.Name),
+                            new Claim("role", user.Role),
+                            new Claim("team", GetTeamIds(unit, user.Id))
                         }
                     });
                 }
             }
             return users;
         }
-        //public static List<TestUser> GetUsers()
-        //{
-        //    return new List<TestUser>
-        //    {
-        //        new TestUser
-        //        {
-        //            SubjectId = "1",
-        //            Username = "johndoe",
-        //            Password = "$ch00l",
-        //            Claims = new List<Claim>
-        //            {
-        //                new Claim("given name", "John"),
-        //                new Claim("family_name", "Doe"),
-        //                new Claim("role", "user"),
-        //                new Claim("address", "Sarajevo"),
-        //                new Claim("team", "Alpha")
-        //            }                   
-        //        },
-        //         new TestUser
-        //         {
-        //            SubjectId = "2",
-        //            Username = "janedoe",
-        //            Password = "$ch00l",
-        //            Claims = new List<Claim>
-        //            {
-        //                new Claim("given name", "Jane"),
-        //                new Claim("family_name", "Doe"),
-        //                new Claim("role", "admin"),
-        //                new Claim("address", "Mostar"),
-        //                new Claim("team", "Bravo")
-        //            }
-        //         },
-        //         new TestUser
-        //         {
-        //            SubjectId = "3",
-        //            Username = "gigi",
-        //            Password = "$ch00l",
-        //            Claims = new List<Claim>
-        //            {
-        //                new Claim("given name", "Gigi"),
-        //                new Claim("family_name", "Doe"),
-        //                new Claim("role", "lead"),
-        //                new Claim("address", "Mostar"),
-        //                new Claim("team", "Charlie")
-        //            }
-        //         }
-        //    };
-        //}
+        
         public static IEnumerable<IdentityResource> GetResources()
         {
             return new List<IdentityResource>
@@ -90,6 +54,7 @@ namespace TimeKeeper.IDP
                 new IdentityResources.Profile(),
                 new IdentityResources.Address(),
                 new IdentityResource("roles", "Your roles", new List<string>{ "role" }),
+                new IdentityResource("names", "Your names", new List<string>{ "name" }),
                 new IdentityResource("teams", "Your engagement(s)", new List<string>{ "team" })
             };
         }
@@ -110,19 +75,28 @@ namespace TimeKeeper.IDP
                 {
                     ClientName = "TimeKeeper",
                     ClientId = "tk2019",
-                    AllowedGrantTypes = GrantTypes.Hybrid,
-                    RedirectUris = {"https://localhost:44350/signin-oidc"},
-                    PostLogoutRedirectUris = {"https://localhost:44350/signout-callback-oidc"},
+                    ClientSecrets = { new Secret("mistral_talents".Sha256()) },
+                    AllowedGrantTypes = GrantTypes.Implicit,                    
+                    RequireConsent = false, // da ne izlazi svaki put da li se slazete... :)
+                    //RedirectUris = {"https://localhost:44350/signin-oidc"},
+                    RedirectUris = {"http://localhost:3000/auth-callback"},
+                    //PostLogoutRedirectUris = {"https://localhost:44350/signout-callback-oidc"},
+                    PostLogoutRedirectUris = {"http://localhost:3000/"},
                     AllowedScopes =
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
                         IdentityServerConstants.StandardScopes.Address,
                         "roles",
+                        "names",
                         "timekeeper",
                         "teams"
                     },
-                    ClientSecrets = { new Secret("mistral_talents".Sha256()) }
+                    AllowOfflineAccess= true,
+                    AllowAccessTokensViaBrowser = true,
+                    //AllowedCorsOrigins = {"http://localhost:44350/" },
+                    AllowedCorsOrigins = { "http://localhost:3300/", "https://localhost:3000/", "https://localhost:44350/" },
+                    AccessTokenLifetime = 3600 // 1h trajanje tokena                   
                 }
             };
         }

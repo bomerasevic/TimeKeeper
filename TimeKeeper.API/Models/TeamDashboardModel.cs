@@ -19,8 +19,8 @@ namespace TimeKeeper.API.Models
         public int TotalHours { get; set; }
         public int WorkingHours { get; set; }
 
-        List<EmployeeTimeModel> EmployeeTimes { get; set; }
-        Dictionary<EmployeeModel, decimal> EmployeePTO { get; set; }
-        Dictionary<EmployeeModel, decimal> EmployeeOvertime { get; set; }
+        public List<EmployeeTimeModel> EmployeeTimes { get; set; }
+        public Dictionary<EmployeeModel, decimal> EmployeePTO { get; set; }
+        public Dictionary<EmployeeModel, decimal> EmployeeOvertime { get; set; }
     }
 }

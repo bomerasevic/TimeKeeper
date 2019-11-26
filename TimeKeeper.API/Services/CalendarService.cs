@@ -16,35 +16,7 @@ namespace TimeKeeper.API.Services
         {
             Unit = unit;
         }
-        //public List<TeamTimeTrackingModel> TeamMonthReport(int teamId, int month, int year)
-        //{
-        //    List<TeamTimeTrackingModel> teamTimeTracking = new List<TeamTimeTrackingModel>();
-
-        //    List<Day> days = Unit.Calendar.Get(x => x.Date.Year == year && x.Date.Month == month).ToList();
-        //    List<DayType> dayTypes = Unit.DayTypes.Get().ToList();
-        //    Team team = Unit.Teams.Get(x => x.Id == teamId).FirstOrDefault();
-
-        //    foreach (Member member in team.TeamMembers)
-        //    {
-        //        teamTimeTracking.Add(new TeamTimeTrackingModel { Employee = member.Employee.Master() });
-
-        //        List<Day> employeeDays = days.FindAll(x => x.Employee.Id == member.Employee.Id);
-
-        //        int missingEntries = employeeDays.Count * 8;
-
-        //        foreach (DayType dt in dayTypes)
-        //        {
-        //            List<Day> dayTypeDays = employeeDays.FindAll(x => x.DayType.Id == dt.Id);
-
-        //            int sum = (int)dayTypeDays.Sum(x => x.TotalHours);
-        //            missingEntries -= sum;
-        //            teamTimeTracking[teamTimeTracking.Count() - 1].hourTypes.Add(dt.Name, sum);
-        //        }
-        //        teamTimeTracking[teamTimeTracking.Count() - 1].hourTypes.Add("Missing entries", missingEntries);
-        //    }
-        //    return teamTimeTracking;
-        //}
-
+        
         public List<EmployeeTimeModel> TeamMonthReport(int teamId, int year, int month)
         {
             Team team = Unit.Teams.Get(teamId);
@@ -64,20 +36,28 @@ namespace TimeKeeper.API.Services
             EmployeeTimeModel employeePersonalReport = employee.CreateTimeModel();
             List<DayModel> calendar = GetEmployeeMonth(employeeId, year, month);
 
-            SetDayTypes(employeePersonalReport.HourTypes);
-            Dictionary<string, decimal> hours = employeePersonalReport.HourTypes;
+            //SetDayTypes(employeePersonalReport.HourTypes);
+            //Dictionary<string, decimal> hours = employeePersonalReport.HourTypes;
 
-            hours.Add("Total hours", 0);
+            //hours.Add("Total hours", 0);
+            List<DayType> dayTypes = Unit.DayTypes.Get().ToList();
+            int totalHours = 0;
 
-            foreach (DayModel day in calendar)
+            foreach (DayType day in dayTypes)
             {
-                //Adds the day's total hours to the appropriate place in the dictionary (to the appropriate day type)
-                //hours[day.DayType.Name] += day.JobDetails.Where(x => x.Project.Id == project.Id).Sum(jd => jd.Hours); 
-                hours[day.DayType.Name] += day.TotalHours;//CalculateHoursOnProject(day, project);
-                hours["Total hours"] += day.TotalHours;
+                ////Adds the day's total hours to the appropriate place in the dictionary (to the appropriate day type)
+                ////hours[day.DayType.Name] += day.JobDetails.Where(x => x.Project.Id == project.Id).Sum(jd => jd.Hours); 
+                ////hours[day.DayType.Name] += day.TotalHours;//CalculateHoursOnProject(day, project);
+                //hours["Total hours"] += day.TotalHours;
                 //hours["Missing entries"] -= day.TotalHours;
+                int sumHoursPerDay = (int)calendar.FindAll(x => x.DayType.Id == day.Id).Sum(x => x.TotalHours);
+                employeePersonalReport.HourTypes.Add(day.Name, sumHoursPerDay);
+                totalHours += sumHoursPerDay;
             }
-            hours.Add("Missing entries", calendar.FindAll(x => x.DayType.Name == "Empty").Sum(x => x.TotalHours));
+            int MissingEntries = calendar.FindAll(x => x.DayType.Name == "Empty").Count() * 8;
+            employeePersonalReport.HourTypes.Add("MissingEntries", MissingEntries);
+            employeePersonalReport.HourTypes.Add("TotalHours", totalHours + MissingEntries);
+            //hours.Add("Missing entries", calendar.FindAll(x => x.DayType.Name == "Empty").Sum(x => x.TotalHours));
             return employeePersonalReport;
         }
 
@@ -99,25 +79,17 @@ namespace TimeKeeper.API.Services
             hourTypes.Add(na.Name, 0);
         }
 
-
-
         public List<DayModel> GetEmployeeMonth(int empId, int year, int month)
         {
             List<DayModel> calendar = new List<DayModel>();
-
-            if (!ValidateGetEmployeeMonth(year, month)) throw new Exception("Invalid data! Check year and month again!");
-
-
-            DayType future = new DayType { Id = 10, Name = "Future" };
+            if (!ValidateGetEmployeeMonth(year, month)) throw new Exception("Invalid data! Check year and month again.");
+            DayType future = new DayType { Id = 10, Name = "Future" }; // svaki dan naredni od danasnjeg
             DayType weekend = new DayType { Id = 11, Name = "Weekend" };
             DayType empty = new DayType { Id = 12, Name = "Empty" };
-            //REFACTOR
+            //to rethink name
             DayType na = new DayType { Id = 13, Name = "N/A" };
-
             DateTime day = new DateTime(year, month, 1);
-
             Employee emp = Unit.Employees.Get(empId);
-
             while (day.Month == month)
             {
                 DayModel newDay = new DayModel
@@ -126,26 +98,65 @@ namespace TimeKeeper.API.Services
                     Date = day,
                     DayType = empty.Master()
                 };
-
                 if (day.DayOfWeek == DayOfWeek.Sunday || day.DayOfWeek == DayOfWeek.Saturday) newDay.DayType = weekend.Master();
-
-                if (day > DateTime.Today) newDay.DayType = future.Master(); else newDay.DayType = empty.Master();
-
-                if (day < emp.BeginDate || (emp.EndDate != null && emp.EndDate != new DateTime(1 / 1 / 1) && day > emp.EndDate)) newDay.DayType = na.Master();
-
-                //TODO: Uslov kad je uposlenik poceo raditi
+                if (day > DateTime.Today) newDay.DayType = future.Master();
+                if (day < emp.BeginDate || (emp.EndDate != null && emp.EndDate != new DateTime(1, 1, 1) && day > emp.EndDate)) newDay.DayType = na.Master();
                 calendar.Add(newDay);
                 day = day.AddDays(1);
             }
-
             List<DayModel> employeeDays = Unit.Calendar.Get(x => x.Employee.Id == empId && x.Date.Year == year && x.Date.Month == month).ToList().Select(x => x.Create()).ToList();
-
             foreach (var d in employeeDays)
             {
                 calendar[d.Date.Day - 1] = d;
             }
             return calendar;
         }
+
+        //public List<DayModel> GetEmployeeMonth(int empId, int year, int month)
+        //{
+        //    List<DayModel> calendar = new List<DayModel>();
+
+        //    if (!ValidateGetEmployeeMonth(year, month)) throw new Exception("Invalid data! Check year and month again!");
+
+
+        //    DayType future = new DayType { Id = 10, Name = "Future" };
+        //    DayType weekend = new DayType { Id = 11, Name = "Weekend" };
+        //    DayType empty = new DayType { Id = 12, Name = "Empty" };
+        //    //REFACTOR
+        //    DayType na = new DayType { Id = 13, Name = "N/A" };
+
+        //    DateTime day = new DateTime(year, month, 1);
+
+        //    Employee emp = Unit.Employees.Get(empId);
+
+        //    while (day.Month == month)
+        //    {
+        //        DayModel newDay = new DayModel
+        //        {
+        //            Employee = emp.Master(),
+        //            Date = day,
+        //            DayType = empty.Master()
+        //        };
+
+        //        if (day.DayOfWeek == DayOfWeek.Sunday || day.DayOfWeek == DayOfWeek.Saturday) newDay.DayType = weekend.Master();
+
+        //        if (day > DateTime.Today) newDay.DayType = future.Master(); else newDay.DayType = empty.Master();
+
+        //        if (day < emp.BeginDate || (emp.EndDate != null && emp.EndDate != new DateTime(1 / 1 / 1) && day > emp.EndDate)) newDay.DayType = na.Master();
+
+        //        //TODO: Uslov kad je uposlenik poceo raditi
+        //        calendar.Add(newDay);
+        //        day = day.AddDays(1);
+        //    }
+
+        //    List<DayModel> employeeDays = Unit.Calendar.Get(x => x.Employee.Id == empId && x.Date.Year == year && x.Date.Month == month).ToList().Select(x => x.Create()).ToList();
+
+        //    foreach (var d in employeeDays)
+        //    {
+        //        calendar[d.Date.Day - 1] = d;
+        //    }
+        //    return calendar;
+        //}
 
         //private Dictionary<EmployeeTimeModel, decimal> GetPaidTimeOff(List<EmployeeTimeModel> employeeTimes)
         //{
@@ -177,7 +188,7 @@ namespace TimeKeeper.API.Services
 
         private decimal GetMonthlyWorkingHours(int empId, int year, int month)
         {
-            List<DayModel> calendar = new List<DayModel>();
+            //List<DayModel> calendar = new List<DayModel>();
             int daysInMonth = DateTime.DaysInMonth(year, month);
 
             int workingDays = 0;
