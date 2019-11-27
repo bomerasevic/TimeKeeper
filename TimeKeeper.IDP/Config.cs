@@ -95,7 +95,7 @@ namespace TimeKeeper.IDP
                     AllowOfflineAccess= true,
                     AllowAccessTokensViaBrowser = true,
                     //AllowedCorsOrigins = {"http://localhost:44350/" },
-                    AllowedCorsOrigins = { "http://localhost:3300/", "https://localhost:3000/", "https://localhost:44350/" },
+                    AllowedCorsOrigins = { "http://localhost:3000/", "http://localhost:3000/", "https://localhost:44350/" },
                     AccessTokenLifetime = 3600 // 1h trajanje tokena                   
                 }
             };
