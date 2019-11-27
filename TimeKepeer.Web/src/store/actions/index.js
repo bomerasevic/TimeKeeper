@@ -1,3 +1,3 @@
-export {loadEmployees} from './employeesActions';
-export {loadProjects} from './projectsActions';
-export {loadCustomers} from './customersActions';
+export { fetchEmployees, employeeSelect } from "./employeesActions";
+export { fetchProjects, projectSelect } from "./projectsActions";
+export { fetchCustomers, customerSelect } from "./customersActions";

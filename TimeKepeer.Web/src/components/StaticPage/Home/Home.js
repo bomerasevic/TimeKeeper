@@ -1,3 +1,4 @@
+
 import React, { Component } from "react";
 import "./Home.css";
 import Navigation from "../../StaticPage/Navigation/Navigation";

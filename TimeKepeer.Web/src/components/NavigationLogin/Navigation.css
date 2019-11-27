@@ -210,6 +210,17 @@ nav .brand-logo {
 	padding: 0 !important;
 }
 
+#dropdown1 a {
+	color: white !important;
+	font-size: 14px !important;
+	padding: 8px !important;
+}
+#dropdown2 {
+	background-color: rgb(57, 54, 67, 1);
+	color: white;
+	padding: 0 !important;
+}
+
 #dropdown2 a {
 	color: white !important;
 	font-size: 14px !important;
@@ -226,3 +237,4 @@ nav .brand-logo {
 	font-size: 14px !important;
 	padding: 8px !important;
 }
+

@@ -1,12 +1,15 @@
-// import { createStore, applyMiddleware, combineReducers} from 'redux';
-// import { composeWithDevTools} from 'redux-devtools-extension';
-// import thunk from "redux-thunk";
+ import { createStore, applyMiddleware, combineReducers } from "redux";
+ import { composeWithDevTools } from "redux-devtools-extension";
+ import thunk from "redux-thunk";
 
-// const rootReducer = combineReducers({});
+ import { userReducer, employeesReducer, customersReducer, projectsReducer } from "./reducers/index";
+ //import { customersReducer } from "./reducers/customersReducer";
 
-// const configureStore = () = {
-//     return: createStore (rootReducer, composeWithDevTools(applyMiddleware(thunk))) ;
 
-// };
+const rootReducer = combineReducers({ user: userReducer, employees: employeesReducer, customers: customersReducer,projects: projectsReducer });
 
-// export default configureStore;
+ const configureStore = () => {
+ 	return createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
+};
+
+ export default configureStore;
