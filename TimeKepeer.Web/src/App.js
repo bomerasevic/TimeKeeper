@@ -3,31 +3,34 @@ import "./App.css";
 import "materialize-css/dist/css/materialize.min.css";
 import Home from "./components/StaticPage/Home/Home";
 import AboutUs from "./components/StaticPage/AboutUs/AboutUs";
-//import services from "./data/services.json";
+import { connect } from "react-redux";
 import Team from "./components/StaticPage/Team/Team";
 import Slider from "react-slick";
 import Services from "./components/StaticPage/Service/Services";
 import Contact from "./components/StaticPage/Contact/Contact";
 import Footer from "./components/StaticPage/Footer/Footer";
 import Welcome from "./components/Welcome/Welcome";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
-//import EmployeesView from "./components/EmployeesView/EmployeesView";
-//import ProjectsView from "./components/ProjectsView/ProjectsView";
-//import CustomersView from "./components/CustomersView/CustomersView";
+import { BrowserRouter, Switch, Route, withRouter } from "react-router-dom";
 import TeamsView from "./components/TeamsPage/TeamsPage";
 import TrackingView from "./components/TeamTimeTracking/TeamTimeTracking";
 import EmployeesPage from "./components/red/EmployeesPage";
 import ProjectsPage from "./components/red/ProjectsPage";
 import CustomersPage from "./components/red/CustomersPage";
+import {Callback} from "./components/auth/callback";
+import {Logout} from "./components/auth/logout";
+import {LogoutCallback} from "./components/auth/logoutCallback";
+import { SilentRenew } from "./components/auth/silentRenew";
+
 //import EmployeesView from "./components/EmployeesView/EmployeesView";
 //import ProjectsView from "./components/ProjectsView/ProjectView";
 //import CustomersView from "./components/CustomersView/CustomersView";
-//import EmployeesList from "./components/red/EmployeesList";
+
 
 class App extends React.Component {
 	render() {
 		return (
 			<BrowserRouter>
+		
 				<Switch>
 					<Route exact path="/">
 						<div className="App">
@@ -40,6 +43,10 @@ class App extends React.Component {
 							<Footer />
 						</div>
 					</Route>
+					<Route exact={true} path="/auth-callback" component={Callback} />
+			        <Route exact={true} path="/logout" component={Logout} />
+				    <Route exact={true} path="/logout/callback" component={LogoutCallback} />
+				    <Route exact={true} path="/silentrenew" component={SilentRenew} />
 					<Route exact path="/app">
 						<Welcome />
 					</Route>
@@ -60,10 +67,21 @@ class App extends React.Component {
 					<Route exact path="/app/tracking">
 						<TrackingView />
 					</Route>
+				
+						
+					
 				</Switch>
 			</BrowserRouter>
+
+			
 		);
 	}
 }
+
+// const mapStateToProps = (state) => {
+// 	return { user: state.user };
+// };
+
+// export default connect(mapStateToProps)(withRouter(App));
 
 export default App;

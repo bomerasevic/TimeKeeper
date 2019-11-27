@@ -1,4 +1,4 @@
-import { IDENTITY_CONFIG } from "../utils/authConst";
+import { IDENTITY_CONFIG, METADATA_OIDC } from "../utils/authConst";
 import { UserManager, WebStorageStateStore, Log } from "oidc-client";
 
 export default class AuthService {
@@ -8,8 +8,10 @@ export default class AuthService {
   constructor() {
     this.UserManager = new UserManager({
       ...IDENTITY_CONFIG,
-     
-     
+      userStore: new WebStorageStateStore({ store: window.localStorage }),
+      metadata: {
+        ...METADATA_OIDC
+      }
     });
     // Logger
     Log.logger = console;
@@ -17,8 +19,12 @@ export default class AuthService {
 
     this.UserManager.events.addUserLoaded(user => {
       this.accessToken = user.access_token;
-  
-   
+      localStorage.setItem("access_token", user.access_token);
+      localStorage.setItem("id_token", user.id_token);
+      this.setUserInfo({
+        accessToken: this.accessToken,
+        idToken: user.id_token
+      });
       if (window.location.href.indexOf("signin-oidc") !== -1) {
         this.navigateToScreen();
       }
@@ -33,10 +39,11 @@ export default class AuthService {
     });
   }
 
-   signinRedirectCallback = () => {
-    this.UserManager.signinRedirectCallback().then(() => {
-      "";
-     });
+  signinRedirectCallback = () => {
+    this.UserManager.signinRedirectCallback().then((res) => {
+      console.log(res);
+      window.location.href="/app"
+    });
   };
 
   getUser = async () => {
@@ -60,10 +67,10 @@ export default class AuthService {
     this.setUser(data);
   };
 
-//   signinRedirect = () => {
-//     localStorage.setItem("redirectUri", window.location.pathname);
-//     this.UserManager.signinRedirect({});
-//   };
+  signinRedirect = () => {
+    localStorage.setItem("redirectUri", window.location.pathname);
+    this.UserManager.signinRedirect({});
+  };
 
   setUser = data => {
     localStorage.setItem("userId", data.sub);
@@ -88,22 +95,22 @@ export default class AuthService {
     return !!access_token;
   };
 
-//   signinSilent = () => {
-//     this.UserManager.signinSilent()
-//       .then(user => {
-//         console.log("signed in", user);
-//       })
-//       .catch(err => {
-//         console.log(err);
-//       });
-//   };
-//   signinSilentCallback = () => {
-//     this.UserManager.signinSilentCallback();
-//   };
+  signinSilent = () => {
+    this.UserManager.signinSilent()
+      .then(user => {
+        console.log("signed in", user);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+  signinSilentCallback = () => {
+    this.UserManager.signinSilentCallback();
+  };
 
-//   createSigninRequest = () => {
-//     return this.UserManager.createSigninRequest();
-//   };
+  createSigninRequest = () => {
+    return this.UserManager.createSigninRequest();
+  };
 
   logout = () => {
     this.UserManager.signoutRedirect({

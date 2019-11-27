@@ -10,6 +10,7 @@ import * as Yup from "yup";
 import { Formik, Form, Field } from "formik";
 import config from "../../../config";
 import { withRouter } from "react-router-dom";
+import AuthService from "../../../services/authService";
 
 const SignupSchema = Yup.object().shape({
 	username: Yup.string().min(5, "Too Short!").required("Required"),
@@ -57,7 +58,9 @@ class Navigation extends React.Component {
 								<a href="#contact">Contact us</a>
 							</li>
 							<li>
-								<a className=" btn login-static modal-trigger" onClick={this.openModal}>
+								<a className=" btn login-static modal-trigger" onClick={()=>{ let authService = new AuthService();
+								authService.signinRedirect();
+								}}>
 									Login
 								</a>
 								<Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal}>
@@ -113,7 +116,8 @@ class Navigation extends React.Component {
 														<label htmlFor="password">password</label>
 													</div>
 													<div id="loginbtn">
-														<button type="submit" className=" btn Login-static ">
+														<button type="submit" className=" btn Login-static "
+														>
 															LOGIN
 														</button>
 													</div>
