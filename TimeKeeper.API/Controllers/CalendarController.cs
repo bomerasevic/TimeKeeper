@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using TimeKeeper.API.Factory;
+using TimeKeeper.API.Models;
 using TimeKeeper.API.Services;
 using TimeKeeper.DAL;
 using TimeKeeper.Domain;
@@ -18,11 +19,11 @@ namespace TimeKeeper.API.Controllers
     [ApiController]
     public class CalendarController : BaseController
     {
-        public TeamCalendarService teamCalendarService;
+        public CalendarService calendarService;
         public CalendarController(TimeKeeperContext context) : base(context)
         {
-            teamCalendarService = new TeamCalendarService(Unit);
-        } 
+            calendarService = new CalendarService(Unit);
+        }
 
         /// <summary>
         /// This method returns all Days
@@ -30,15 +31,30 @@ namespace TimeKeeper.API.Controllers
         /// <returns>Returns all Days</returns>
         /// <response status="200">Status 200 OK</response>
         /// <response status="400">Status 400 Bad Request</response>
-        [HttpGet]
+        [HttpGet("{empId}/{year}/{month}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public IActionResult Get()   // rutu dodati /employees/month/day/year
+        public IActionResult Get(int empId, int year, int month)   // rutu dodati /employees/month/day/year
         {
             try
             {
                 Log.Info("Try to get all Days");
-                return Ok(Unit.Calendar.Get().ToList().Select(x => x.Create()).ToList());
+                return Ok(calendarService.GetEmployeeMonth(empId, year, month));
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
+        }
+        [HttpGet("employee-report/{empId}/{year}/{month}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public IActionResult GetEmployeeReport(int empId, int year, int month)   // rutu dodati /employees/month/day/year
+        {
+            try
+            {
+                Log.Info($"Try to get report for employee with id:{empId}");
+                return Ok(calendarService.CreateEmployeeReport(empId, year, month));
             }
             catch (Exception ex)
             {
@@ -76,7 +92,7 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
-                return Ok(teamCalendarService.TeamMonthReport(teamId, month, year));
+                return Ok(calendarService.TeamMonthReport(teamId, year, month));
             }
             catch (Exception ex)
             {

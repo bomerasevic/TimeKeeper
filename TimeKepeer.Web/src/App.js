@@ -19,6 +19,10 @@ import TrackingView from "./components/TeamTimeTracking/TeamTimeTracking";
 import EmployeesPage from "./components/red/EmployeesPage";
 import ProjectsPage from "./components/red/ProjectsPage";
 import CustomersPage from "./components/red/CustomersPage";
+//import EmployeesView from "./components/EmployeesView/EmployeesView";
+//import ProjectsView from "./components/ProjectsView/ProjectView";
+//import CustomersView from "./components/CustomersView/CustomersView";
+//import EmployeesList from "./components/red/EmployeesList";
 
 class App extends React.Component {
 	render() {
@@ -47,7 +51,9 @@ class App extends React.Component {
 					</Route>
 					<Route exact path="/app/customers">
 						<CustomersPage />
+						
 					</Route>
+				
 					<Route exact path="/app/teams">
 						<TeamsView />
 					</Route>
