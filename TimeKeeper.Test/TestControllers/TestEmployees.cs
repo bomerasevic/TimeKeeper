@@ -31,7 +31,7 @@ namespace TimeKeeper.Test.TestControllers
         public void GetAllEmployees()
         {
             var controller = new EmployeesController(context);
-            var response = controller.Get() as ObjectResult;
+            var response = controller.GetAll() as ObjectResult;
             var value = response.Value as List<EmployeeModel>;
             Assert.AreEqual(200, response.StatusCode);
             Assert.AreEqual(6, value.Count);
