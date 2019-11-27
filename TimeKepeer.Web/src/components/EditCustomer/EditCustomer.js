@@ -11,7 +11,6 @@ import {
     Button,
     TextField
 } from "@material-ui/core";
-import FormikTextField from "../MuiFormik/FormikTextField";
 import TableTK from "../TableTK/TableTK";
 import Config from "../../config";
 import axios from "axios";
@@ -174,7 +173,7 @@ class EditCustomer extends React.PureComponent {
                                                     </Grid>
 
                                                     <Grid item xs={12} sm={6}>
-                                                        <FormikTextField name="status" label="Status" />
+                                                        <Field name="status" label="Status" />
 
 
 

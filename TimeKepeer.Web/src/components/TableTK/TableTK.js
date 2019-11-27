@@ -6,6 +6,8 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
+//import { connect } from "react-redux";
+//import { loadEmployees } from "../../store/actions";
 import "./TableTK.css";
 
 
@@ -44,4 +46,3 @@ function TableTK(props) {
 }
 
 export default TableTK;
-
