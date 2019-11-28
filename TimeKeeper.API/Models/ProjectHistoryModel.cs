@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TimeKeeper.Domain;
 
 namespace TimeKeeper.API.Models
 {
@@ -9,11 +10,11 @@ namespace TimeKeeper.API.Models
     {
         public ProjectHistoryModel()
         {
-            Projects = new List<MasterModel>();
             Employees = new List<EmployeeProjectModel>();
+            TotalYearlyProjectHours = new Dictionary<int, decimal>();
         }
-        public List<MasterModel> Projects { get; set; }
         public List<EmployeeProjectModel> Employees { get; set; }
-        public Dictionary<int, decimal> TotalHoursPerProject { get; set; }
+        public Dictionary<int, decimal> TotalYearlyProjectHours { get; set; }
+        public decimal TotalHoursPerProject { get; set; }
     }
 }

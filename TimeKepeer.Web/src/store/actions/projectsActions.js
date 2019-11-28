@@ -1,7 +1,6 @@
-import axios from "axios";
-
 import { PROJECTS_FETCH_START, PROJECTS_FETCH_SUCCESS, PROJECTS_FETCH_FAIL, PROJECT_SELECTED } from "./actionTypes";
-import config from "../../config";
+
+import { projectsUrl, apiGetAllRequest } from "../../utils/api";
 
 const projectsFetchStart = () => {
 	return {
@@ -26,14 +25,10 @@ const projectsFetchFail = (error) => {
 export const fetchProjects = () => {
 	return (dispatch) => {
 		dispatch(projectsFetchStart());
-		axios(`${config.apiUrl}projects`, {
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: config.token
-			}
-		})
+		apiGetAllRequest(projectsUrl)
 			.then((res) => {
-				dispatch(projectsFetchSuccess(res.data));
+				console.log(res);
+				dispatch(projectsFetchSuccess(res.data.data));
 			})
 			.catch((err) => dispatch(projectsFetchFail(err)));
 	};

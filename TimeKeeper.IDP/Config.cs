@@ -7,7 +7,6 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using TimeKeeper.DAL;
-
 namespace TimeKeeper.IDP
 {
     public static class Config
@@ -37,7 +36,7 @@ namespace TimeKeeper.IDP
             }
             return users;
         }
-        
+
         public static IEnumerable<IdentityResource> GetResources()
         {
             return new List<IdentityResource>
@@ -50,15 +49,13 @@ namespace TimeKeeper.IDP
                 new IdentityResource("teams", "Your engagement(s)", new List<string>{ "team" })
             };
         }
-
         public static IEnumerable<ApiResource> GetApiResources()
         {
             return new List<ApiResource>
             {
-                new ApiResource("timekeeper", "Time Keeper API", new List<string> { "role"})
+                new ApiResource("timekeeper", "Time Keeper API"/*, new List<string> { "role"}*/)
             };
         }
-
         public static IEnumerable<Client> GetClients()
         {
             return new List<Client>
@@ -68,12 +65,12 @@ namespace TimeKeeper.IDP
                     ClientName = "TimeKeeper",
                     ClientId = "tk2019",
                     ClientSecrets = { new Secret("mistral_talents".Sha256()) },
-                    AllowedGrantTypes = GrantTypes.Implicit,                    
+                    AllowedGrantTypes = GrantTypes.Implicit,
                     RequireConsent = false, // da ne izlazi svaki put da li se slazete... :)
                     //RedirectUris = {"https://localhost:44350/signin-oidc"},
                     RedirectUris = {"http://localhost:3000/auth-callback"},
                     //PostLogoutRedirectUris = {"https://localhost:44350/signout-callback-oidc"},
-                    PostLogoutRedirectUris = {"http://localhost:3000/"},
+                    PostLogoutRedirectUris = {"http://localhost:3000"},
                     AllowedScopes =
                     {
                         IdentityServerConstants.StandardScopes.OpenId,

@@ -17,7 +17,7 @@ namespace TimeKeeper.API.Services
             Unit = unit;
         }
 
-        public List<EmployeeTimeModel> TeamMonthReport(int teamId, int year, int month)
+        public List<EmployeeTimeModel> GetTeamMonthReport(int teamId, int year, int month)
         {
             Team team = Unit.Teams.Get(teamId);
             List<EmployeeTimeModel> employeeTimeModels = new List<EmployeeTimeModel>();
@@ -33,50 +33,52 @@ namespace TimeKeeper.API.Services
         public EmployeeTimeModel CreateEmployeeReport(int employeeId, int year, int month)
         {
             Employee employee = Unit.Employees.Get(employeeId);
-            EmployeeTimeModel employeePersonalReport = employee.CreateTimeModel();
+            EmployeeTimeModel employeePersonalReport = employee.CreateEmployeeTimeModel();
             List<DayModel> calendar = GetEmployeeMonth(employeeId, year, month);
-
-            //SetDayTypes(employeePersonalReport.HourTypes);
-            //Dictionary<string, decimal> hours = employeePersonalReport.HourTypes;
-
-            //hours.Add("Total hours", 0);
             List<DayType> dayTypes = Unit.DayTypes.Get().ToList();
+
             int totalHours = 0;
+            decimal overtime = 0;
 
             foreach (DayType day in dayTypes)
             {
-                ////Adds the day's total hours to the appropriate place in the dictionary (to the appropriate day type)
-                ////hours[day.DayType.Name] += day.JobDetails.Where(x => x.Project.Id == project.Id).Sum(jd => jd.Hours); 
-                ////hours[day.DayType.Name] += day.TotalHours;//CalculateHoursOnProject(day, project);
-                //hours["Total hours"] += day.TotalHours;
-                //hours["Missing entries"] -= day.TotalHours;
                 int sumHoursPerDay = (int)calendar.FindAll(x => x.DayType.Id == day.Id).Sum(x => x.TotalHours);
+
+                if (day.Name == "workday" || day.Name == "weekend")
+                {
+                    overtime = GetOvertimeHours(calendar.FindAll(x => x.DayType.Name == "workday").ToList());
+                }
+
                 employeePersonalReport.HourTypes.Add(day.Name, sumHoursPerDay);
                 totalHours += sumHoursPerDay;
             }
-            int MissingEntries = calendar.FindAll(x => x.DayType.Name == "Empty").Count() * 8;
-            employeePersonalReport.HourTypes.Add("MissingEntries", MissingEntries);
-            employeePersonalReport.HourTypes.Add("TotalHours", totalHours + MissingEntries);
-            //hours.Add("Missing entries", calendar.FindAll(x => x.DayType.Name == "Empty").Sum(x => x.TotalHours));
+            int missingEntries = calendar.FindAll(x => x.DayType.Name == "Empty").Count() * 8;
+
+            employeePersonalReport.HourTypes.Add("missingEntries", missingEntries);
+            employeePersonalReport.OverTime = overtime;
+            employeePersonalReport.HourTypes.Add("totalHours", totalHours + missingEntries);
+            employeePersonalReport.PTO = employeePersonalReport.HourTypes["totalHours"] - employeePersonalReport.HourTypes["missingEntries"] - employeePersonalReport.HourTypes["workday"];
+
             return employeePersonalReport;
         }
 
-        private void SetDayTypes(Dictionary<string, decimal> hourTypes)
+        private decimal GetOvertimeHours(List<DayModel> workDays)
         {
-            List<DayType> dayTypes = Unit.DayTypes.Get().ToList();
-            DayType future = new DayType { Id = 10, Name = "Future" };
-            DayType weekend = new DayType { Id = 11, Name = "Weekend" };
-            DayType empty = new DayType { Id = 12, Name = "Empty" };
-            //REFACTOR
-            DayType na = new DayType { Id = 13, Name = "N/A" };
-            foreach (DayType day in dayTypes)
+            decimal overtime = 0;
+            foreach (DayModel day in workDays)
             {
-                hourTypes.Add(day.Name, 0);
+                if (day.DayType.Name == "weekend" && day.TotalHours <= 5)
+                {
+                    overtime += day.TotalHours;
+                }
+
+                if (day.DayType.Name == "workday" && day.TotalHours > 8 && day.TotalHours <= 12)
+                {
+                    overtime += day.TotalHours - 8;
+                }
             }
-            hourTypes.Add(future.Name, 0);
-            hourTypes.Add(empty.Name, 0);
-            hourTypes.Add(weekend.Name, 0);
-            hourTypes.Add(na.Name, 0);
+
+            return overtime;
         }
 
         public List<DayModel> GetEmployeeMonth(int empId, int year, int month)
@@ -112,112 +114,104 @@ namespace TimeKeeper.API.Services
             return calendar;
         }
 
-        public ProjectHistoryModel GetProjectHistoryModel(int projectId)
+        public bool ValidateGetEmployeeMonth(int year, int month)
         {
-            ProjectHistoryModel projectHistory = new ProjectHistoryModel();
-            projectHistory.Projects = Unit.Projects.Get().Select(x => x.Master()).ToList();
+            if (month > 12 || month < 1)
+                return false;
 
-            foreach (MasterModel p in projectHistory.Projects)
-            {
-                if (p.Id == projectId)
-                {
+            if (year < 2010)//Founding year
+                return false;
 
-                }
-            }
-            return projectHistory;
+            DateTime date = new DateTime(year, month, 1);
+
+            //User can not see more than 6 months in advance
+            if (date > DateTime.Today.AddMonths(6))
+                return false;
+
+            return true;
         }
+        public bool IsWeekend(DateTime day)
+        {
+            if (day.DayOfWeek == DayOfWeek.Sunday || day.DayOfWeek == DayOfWeek.Saturday) return true;
+            return false;
+        }
+        public int GetMonthWeekDays(int month, int year)
+        {
+            DateTime day = new DateTime(year, month, 1);
+            int monthWeekDays = 0;
+            while (day.Month == month)
+            {
+                if (IsWeekend(day)) { day = day.AddDays(1); continue; }
+                monthWeekDays++;
+                day = day.AddDays(1);
+            }
+            return monthWeekDays;
+        }
+        public TeamDashboardModel GetTeamDashboardInfo(int teamId, int year, int month)
+        {
+            TeamDashboardModel teamDashboardModel = new TeamDashboardModel();
 
-        //public List<DayModel> GetEmployeeMonth(int empId, int year, int month)
-        //{
-        //    List<DayModel> calendar = new List<DayModel>();
+            List<EmployeeTimeModel> teamMonthReport = GetTeamMonthReport(teamId, year, month);
 
-        //    if (!ValidateGetEmployeeMonth(year, month)) throw new Exception("Invalid data! Check year and month again!");
+            teamDashboardModel.EmployeesCount = teamMonthReport.Count(); //get this from team
+            teamDashboardModel.ProjectsCount = Unit.Teams.Get(teamId).Projects.Count();
+            teamDashboardModel.BaseTotalHours = GetMonthWeekDays(month, year) * 8; //base Total Hours
+            teamDashboardModel.TotalHours = teamDashboardModel.BaseTotalHours * teamDashboardModel.EmployeesCount; // base total hours multiplied by number of employees
 
 
-        //    DayType future = new DayType { Id = 10, Name = "Future" };
-        //    DayType weekend = new DayType { Id = 11, Name = "Weekend" };
-        //    DayType empty = new DayType { Id = 12, Name = "Empty" };
-        //    //REFACTOR
-        //    DayType na = new DayType { Id = 13, Name = "N/A" };
+            teamDashboardModel.WorkingHours = teamMonthReport.Sum(x => x.HourTypes["workday"]);
 
-        //    DateTime day = new DateTime(year, month, 1);
+            foreach (EmployeeTimeModel report in teamMonthReport)
+            {
+                //PTO
+                teamDashboardModel.EmployeePTO.Add(new EmployeeKeyDictionary(report.Employee, report.PTO));
 
-        //    Employee emp = Unit.Employees.Get(empId);
+                //Overtime
+                teamDashboardModel.EmployeeOvertime.Add(new EmployeeKeyDictionary(report.Employee, report.OverTime));
 
-        //    while (day.Month == month)
-        //    {
-        //        DayModel newDay = new DayModel
-        //        {
-        //            Employee = emp.Master(),
-        //            Date = day,
-        //            DayType = empty.Master()
-        //        };
+                //MissingEntries
+                teamDashboardModel.EmployeeMissingEntries.Add(new EmployeeKeyDictionary(report.Employee, report.HourTypes["missingEntries"]));
+            }
 
-        //        if (day.DayOfWeek == DayOfWeek.Sunday || day.DayOfWeek == DayOfWeek.Saturday) newDay.DayType = weekend.Master();
+            return teamDashboardModel;
+        }
+        public int GetNumberOfEmployeesForTimePeriod(int month, int year)
+        {
+            return Unit.Employees.Get(x => x.BeginDate < new DateTime(year, month, DateTime.DaysInMonth(year, month)) //if employees begin date is in required month
+                            && (x.EndDate == null || x.EndDate == new DateTime(1, 1, 1) || x.EndDate > new DateTime(year, month, DateTime.DaysInMonth(year, month)))).Count(); // still works in company, or left company after required month
+        }
+        public int GetNumberOfProjectsForTimePeriod(int month, int year)
+        {
+            return Unit.Projects.Get(x => x.StartDate < new DateTime(year, month, DateTime.DaysInMonth(year, month)) //if project began is in required month
+                            && (x.EndDate == null || x.EndDate == new DateTime(1, 1, 1) || x.EndDate > new DateTime(year, month, DateTime.DaysInMonth(year, month)))).Count(); // project still in progress, or ended after the required month
+        }
+        public AdminDashboardModel GetAdminDashboardModel(int year, int month)
+        {
+            AdminDashboardModel adminDashboardModel = new AdminDashboardModel();
 
-        //        if (day > DateTime.Today) newDay.DayType = future.Master(); else newDay.DayType = empty.Master();
+            adminDashboardModel.NumberOfEmployees = GetNumberOfEmployeesForTimePeriod(month, year);
+            adminDashboardModel.NumberOfProjects = GetNumberOfProjectsForTimePeriod(month, year);
 
-        //        if (day < emp.BeginDate || (emp.EndDate != null && emp.EndDate != new DateTime(1 / 1 / 1) && day > emp.EndDate)) newDay.DayType = na.Master();
+            adminDashboardModel.BaseTotalHours = GetMonthWeekDays(month, year) * 8;
+            adminDashboardModel.TotalHours = adminDashboardModel.BaseTotalHours * adminDashboardModel.NumberOfEmployees;
 
-        //        //TODO: Uslov kad je uposlenik poceo raditi
-        //        calendar.Add(newDay);
-        //        day = day.AddDays(1);
-        //    }
+            List<int> teamIds = Unit.Teams.Get().Select(x => x.Id).ToList();
 
-        //    List<DayModel> employeeDays = Unit.Calendar.Get(x => x.Employee.Id == empId && x.Date.Year == year && x.Date.Month == month).ToList().Select(x => x.Create()).ToList();
+            foreach (int teamId in teamIds)
+            {
+                MasterModel team = Unit.Teams.Get(teamId).Master();
+                TeamDashboardModel teamDashboardModel = GetTeamDashboardInfo(teamId, year, month);
 
-        //    foreach (var d in employeeDays)
-        //    {
-        //        calendar[d.Date.Day - 1] = d;
-        //    }
-        //    return calendar;
-        //}
+                //missing entries by team
+                adminDashboardModel.MissingEntries.Add(new TeamKeyDictionary(team, teamDashboardModel.EmployeeMissingEntries.Sum(x => x.Value)));
+                //pto hours by team
+                adminDashboardModel.PTOHours.Add(new TeamKeyDictionary(team, teamDashboardModel.EmployeePTO.Sum(x => x.Value)));
+                //overtime horus by team
+                adminDashboardModel.OvertimeHours.Add(new TeamKeyDictionary(team, teamDashboardModel.EmployeeOvertime.Sum(x => x.Value)));
+            }
 
-        //private Dictionary<EmployeeTimeModel, decimal> GetPaidTimeOff(List<EmployeeTimeModel> employeeTimes)
-        //{
-        //    Dictionary<EmployeeModel, decimal> paidTimeOff = new Dictionary<EmployeeModel, decimal>();
-        //    foreach (EmployeeTimeModel employeeTime in employeeTimes)
-        //    {
-        //        decimal PTO = employeeTime.HourTypes["Total Hours"]
-        //                    - employeeTime.HourTypes["Missing entries"]
-        //                    - employeeTime.HourTypes["Workday"];
-        //        paidTimeOff.Add(employeeTime.Employee, PTO);
-        //    }
-
-        //    return paidTimeOff;
-        //}
-
-        //private Dictionary<EmployeeTimeModel, decimal> GetOvertime(List<EmployeeTimeModel> employeeTimes)
-        //{
-        //    Dictionary<EmployeeModel, decimal> overtime = new Dictionary<EmployeeModel, decimal>();
-        //    foreach (EmployeeTimeModel employeeTime in employeeTimes)
-        //    {
-        //        decimal PTO = employeeTime.HourTypes["Total Hours"]
-        //                    - employeeTime.HourTypes["Missing entries"]
-        //                    - employeeTime.HourTypes["Workday"];
-        //        overtime.Add(employeeTime.Employee, PTO);
-        //    }
-
-        //    return overtime;
-        //}
-
-        //private decimal GetMonthlyWorkingHours(int empId, int year, int month)
-        //{
-        //    //List<DayModel> calendar = new List<DayModel>();
-        //    int daysInMonth = DateTime.DaysInMonth(year, month);
-
-        //    int workingDays = 0;
-        //    for (int i = 1; i < daysInMonth; i++)
-        //    {
-        //        DateTime thisDay = new DateTime(year, month, i);
-        //        if (thisDay.DayOfWeek != DayOfWeek.Saturday && thisDay.DayOfWeek != DayOfWeek.Sunday)
-        //        {
-        //            workingDays += 1;
-        //        }
-        //    }
-
-        //    return workingDays;
-        //}
+            return adminDashboardModel;
+        }
 
         public MonthlyOverviewModel GetMonthlyOverview(int year, int month)
         {
@@ -240,7 +234,7 @@ namespace TimeKeeper.API.Services
 
             foreach (Assignment task in tasks)
             {
-                if (!IsDuplicateEmployee(employees, task.Day.Employee))
+                if (!IsDuplicateEmployeeInMonthlyOverview(employees, task.Day.Employee))
                 {
                     employees.Add(task.Day.Employee.Create());
                 }
@@ -307,14 +301,14 @@ namespace TimeKeeper.API.Services
             List<Project> projectsInYear = Unit.Projects.Get().ToList();
             totalAnnualOverview.Months = SetMonths();
 
-            foreach(Project projectInYear in projectsInYear)
+            foreach (Project projectInYear in projectsInYear)
             {
                 List<Assignment> tasksInYear = Unit.Assignments.Get().Where(x => x.Project.Id == projectInYear.Id && x.Day.Date.Year == year).ToList();
                 ProjectAnnualOverviewModel projectOverview = GetProjectAnnualOverview(projectInYear.Id, year);
                 annualList.Add(projectOverview);
                 totalAnnualOverview.Projects = annualList.ToList();
 
-                foreach(Assignment taskInYear in tasksInYear)
+                foreach (Assignment taskInYear in tasksInYear)
                 {
                     totalAnnualOverview.Months[taskInYear.Day.Date.Month] += taskInYear.Hours;
                     totalAnnualOverview.SumTotal += taskInYear.Hours;
@@ -360,21 +354,84 @@ namespace TimeKeeper.API.Services
             }
             return workingDays;
         }
-        public bool ValidateGetEmployeeMonth(int year, int month)
+        public Dictionary<int, decimal> SetYearsColumns(int projectId)
         {
-            if (month > 12 || month < 1)
-                return false;
+            Dictionary<int, decimal> yearColumns = new Dictionary<int, decimal>();
+            List<Assignment> tasks = Unit.Projects.Get().ToList().FirstOrDefault(x => x.Id == projectId).Tasks.ToList();
 
-            if (year < 2010)//Founding year
-                return false;
+            foreach (Assignment a in tasks)
+            {
+                if (!IsDuplicateYear(yearColumns, a.Day.Date.Year))
+                    yearColumns.Add(a.Day.Date.Year, 0);
+            }
+            return yearColumns;
+        }
+        public bool IsDuplicateEmployee(List<Employee> employees, Employee employee)
+        {
+            if (employees.Count == 0) return false;
+            foreach (Employee emp in employees)
+            {
+                if (emp.Id == employee.Id)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public bool IsDuplicateYear(Dictionary<int, decimal> yearColumns, int year)
+        {
+            if (yearColumns.ContainsKey(year))
+                return true;
 
-            DateTime date = new DateTime(year, month, 1);
+            return false;
+        }
+        public ProjectHistoryModel GetProjectHistoryModel(int projectId)
+        {
+            ProjectHistoryModel projectHistory = new ProjectHistoryModel();
 
-            //User can not see more than 6 months in advance
-            if (date > DateTime.Today.AddMonths(6))
-                return false;
+            List<Assignment> tasks = Unit.Projects.Get().ToList().FirstOrDefault(x => x.Id == projectId).Tasks.ToList();
+            List<Employee> employees = new List<Employee>();
 
-            return true;
+            foreach (Assignment a in tasks)
+            {
+                if (Unit.Employees.Get().ToList().FirstOrDefault(x => x.Id == a.Day.Employee.Id) != null && !IsDuplicateEmployee(employees, a.Day.Employee))
+                {
+                    employees.Add(Unit.Employees.Get(a.Day.Employee.Id));
+                }
+            }
+
+            foreach (Employee emp in employees)
+            {
+                EmployeeProjectModel e = new EmployeeProjectModel
+                {
+                    EmployeeName = emp.FullName,
+                    HoursPerYears = SetYearsColumns(projectId),
+                    TotalHoursPerProjectPerEmployee = 0
+                };
+                foreach (Assignment a in tasks)
+                {
+                    if (a.Day.Employee.Id == emp.Id && e.HoursPerYears.ContainsKey(a.Day.Date.Year))
+                    {
+                        e.HoursPerYears[a.Day.Date.Year] += a.Hours;
+                    }
+                }
+                foreach (KeyValuePair<int, decimal> keyValuePair in e.HoursPerYears)
+                {
+                    e.TotalHoursPerProjectPerEmployee += keyValuePair.Value;
+                }
+                projectHistory.Employees.Add(e);
+            }
+            projectHistory.TotalYearlyProjectHours = SetYearsColumns(projectId);
+
+            foreach (EmployeeProjectModel empProjectModel in projectHistory.Employees)
+            {
+                foreach (KeyValuePair<int, decimal> keyValuePair in empProjectModel.HoursPerYears)
+                {
+                    projectHistory.TotalYearlyProjectHours[keyValuePair.Key] += keyValuePair.Value;
+                }
+                projectHistory.TotalHoursPerProject += empProjectModel.TotalHoursPerProjectPerEmployee;
+            }
+            return projectHistory;
         }
 
         public bool IsDuplicateProject(List<Project> projects, Project project)
@@ -389,7 +446,7 @@ namespace TimeKeeper.API.Services
             return false;
         }
 
-        public bool IsDuplicateEmployee(List<EmployeeModel> employees, Employee employee)
+        public bool IsDuplicateEmployeeInMonthlyOverview(List<EmployeeModel> employees, Employee employee)
         {
             foreach (EmployeeModel emp in employees)
             {

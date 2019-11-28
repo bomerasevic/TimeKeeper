@@ -10,7 +10,7 @@ import * as Yup from "yup";
 import { Formik, Form, Field } from "formik";
 import config from "../../../config";
 import { withRouter } from "react-router-dom";
-import AuthService from "../../../services/authService";
+import userManager from "../../../utils/userManager"
 
 const SignupSchema = Yup.object().shape({
 	username: Yup.string().min(5, "Too Short!").required("Required"),
@@ -58,12 +58,13 @@ class Navigation extends React.Component {
 								<a href="#contact">Contact us</a>
 							</li>
 							<li>
-								<a className=" btn login-static modal-trigger" onClick={()=>{ let authService = new AuthService();
-								authService.signinRedirect();
+								<a className=" btn login-static modal-trigger" onClick={() => {
+									alert("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+									userManager.signinRedirect();
 								}}>
 									Login
 								</a>
-								<Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal}>
+								{/* <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal}>
 									<div className="row">
 										<img className="logo-modal" src={logomodal} />
 
@@ -125,7 +126,7 @@ class Navigation extends React.Component {
 											)}
 										</Formik>
 									</div>
-								</Modal>
+								</Modal> */}
 							</li>
 						</ul>
 					</div>
