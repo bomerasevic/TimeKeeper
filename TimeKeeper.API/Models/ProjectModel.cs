@@ -23,6 +23,5 @@ namespace TimeKeeper.API.Models
         public MasterModel Pricing { get; set; }
         public decimal Amount { get; set; }
         public List<MasterModel> Tasks { get; set; }
-
     }
 }
