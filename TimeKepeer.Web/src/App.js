@@ -16,10 +16,9 @@ import TrackingView from "./components/TeamTimeTracking/TeamTimeTracking";
 import EmployeesPage from "./components/red/EmployeesPage";
 import ProjectsPage from "./components/red/ProjectsPage";
 import CustomersPage from "./components/red/CustomersPage";
-import {Callback} from "./components/auth/callback";
-import {Logout} from "./components/auth/logout";
-import {LogoutCallback} from "./components/auth/logoutCallback";
-import { SilentRenew } from "./components/auth/silentRenew";
+
+import Callback from "./components/LoginCallback";
+
 
 //import EmployeesView from "./components/EmployeesView/EmployeesView";
 //import ProjectsView from "./components/ProjectsView/ProjectView";
@@ -30,8 +29,9 @@ class App extends React.Component {
 	render() {
 		return (
 			<BrowserRouter>
-		
+
 				<Switch>
+					<Route exact path="/auth-callback" component={Callback} />
 					<Route exact path="/">
 						<div className="App">
 							<Home />
@@ -44,9 +44,6 @@ class App extends React.Component {
 						</div>
 					</Route>
 					<Route exact={true} path="/auth-callback" component={Callback} />
-			        <Route exact={true} path="/logout" component={Logout} />
-				    <Route exact={true} path="/logout/callback" component={LogoutCallback} />
-				    <Route exact={true} path="/silentrenew" component={SilentRenew} />
 					<Route exact path="/app">
 						<Welcome />
 					</Route>
@@ -58,22 +55,22 @@ class App extends React.Component {
 					</Route>
 					<Route exact path="/app/customers">
 						<CustomersPage />
-						
+
 					</Route>
-				
+
 					<Route exact path="/app/teams">
 						<TeamsView />
 					</Route>
 					<Route exact path="/app/tracking">
 						<TrackingView />
 					</Route>
-				
-						
-					
+
+
+
 				</Switch>
 			</BrowserRouter>
 
-			
+
 		);
 	}
 }
@@ -84,4 +81,4 @@ class App extends React.Component {
 
 // export default connect(mapStateToProps)(withRouter(App));
 
-export default App;
+export default withRouter(App);

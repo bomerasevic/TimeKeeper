@@ -7,28 +7,19 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using TimeKeeper.DAL;
-
 namespace TimeKeeper.IDP
 {
     public static class Config
     {
-        private static string GetTeamIds(UnitOfWork unit, int id)
-        {
-            string userTeamIds = "";
-            //Team = employee.Memberships.FirstOrDefault(x => x.Id == employee.Id).Team.Id
-            foreach (var m in unit.Employees.Get(id).Memberships)
-            {
-                //userTeamIds += unit.Employees.Get(id).Memberships.FirstOrDefault(x => x.Id == id).Team.Id.ToString();
-            }
-            return userTeamIds;
-        }
         public static List<TestUser> GetUsers()
         {
             List<TestUser> users = new List<TestUser>();
             using (UnitOfWork unit = new UnitOfWork(new TimeKeeperContext()))
             {
                 foreach (var user in unit.Users.Get())
-                {                    
+                {
+                    List<string> teamList = unit.Members.Get().Where(m => m.Employee.Id == user.Id).Select(t => t.Id.ToString()).ToList();
+                    string teams = string.Join(",", teamList);
                     users.Add(new TestUser
                     {
                         SubjectId = user.Id.ToString(),
@@ -38,14 +29,14 @@ namespace TimeKeeper.IDP
                         {
                             new Claim("name", user.Name),
                             new Claim("role", user.Role),
-                            new Claim("team", GetTeamIds(unit, user.Id))
+                            new Claim("team", teams)
                         }
                     });
                 }
             }
             return users;
         }
-        
+
         public static IEnumerable<IdentityResource> GetResources()
         {
             return new List<IdentityResource>
@@ -58,15 +49,13 @@ namespace TimeKeeper.IDP
                 new IdentityResource("teams", "Your engagement(s)", new List<string>{ "team" })
             };
         }
-
         public static IEnumerable<ApiResource> GetApiResources()
         {
             return new List<ApiResource>
             {
-                new ApiResource("timekeeper", "Time Keeper API", new List<string> { "role"})
+                new ApiResource("timekeeper", "Time Keeper API"/*, new List<string> { "role"}*/)
             };
         }
-
         public static IEnumerable<Client> GetClients()
         {
             return new List<Client>
@@ -76,12 +65,12 @@ namespace TimeKeeper.IDP
                     ClientName = "TimeKeeper",
                     ClientId = "tk2019",
                     ClientSecrets = { new Secret("mistral_talents".Sha256()) },
-                    AllowedGrantTypes = GrantTypes.Implicit,                    
+                    AllowedGrantTypes = GrantTypes.Implicit,
                     RequireConsent = false, // da ne izlazi svaki put da li se slazete... :)
                     //RedirectUris = {"https://localhost:44350/signin-oidc"},
                     RedirectUris = {"http://localhost:3000/auth-callback"},
                     //PostLogoutRedirectUris = {"https://localhost:44350/signout-callback-oidc"},
-                    PostLogoutRedirectUris = {"http://localhost:3000/"},
+                    PostLogoutRedirectUris = {"http://localhost:3000"},
                     AllowedScopes =
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
@@ -95,7 +84,7 @@ namespace TimeKeeper.IDP
                     AllowOfflineAccess= true,
                     AllowAccessTokensViaBrowser = true,
                     //AllowedCorsOrigins = {"http://localhost:44350/" },
-                    AllowedCorsOrigins = { "http://localhost:3000/", "http://localhost:3000/", "https://localhost:44350/" },
+                    AllowedCorsOrigins = { "http://localhost:3000", "http://localhost:3000", "https://localhost:44350" },
                     AccessTokenLifetime = 3600 // 1h trajanje tokena                   
                 }
             };

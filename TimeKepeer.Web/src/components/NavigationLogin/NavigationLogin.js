@@ -9,6 +9,7 @@ import * as Yup from "yup";
 import { withRouter } from "react-router-dom";
 import config from "../../config";
 import M from "materialize-css";
+import userManager from "../../utils/userManager"
 const SignupSchema = Yup.object().shape({
     username: Yup.string()
         .min(5, "Too Short!")
@@ -43,8 +44,8 @@ class NavigationLogin extends React.Component {
         this.props.history.push("/app/tracking");
     };
     handleClickLogout = () => {
-        config.token = "";
-        this.props.history.push("/");
+        userManager.signoutRedirect();
+
     };
 
     render() {
