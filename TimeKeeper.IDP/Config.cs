@@ -12,23 +12,15 @@ namespace TimeKeeper.IDP
 {
     public static class Config
     {
-        private static string GetTeamIds(UnitOfWork unit, int id)
-        {
-            string userTeamIds = "";
-            //Team = employee.Memberships.FirstOrDefault(x => x.Id == employee.Id).Team.Id
-            foreach (var m in unit.Employees.Get(id).Memberships)
-            {
-                //userTeamIds += unit.Employees.Get(id).Memberships.FirstOrDefault(x => x.Id == id).Team.Id.ToString();
-            }
-            return userTeamIds;
-        }
         public static List<TestUser> GetUsers()
         {
             List<TestUser> users = new List<TestUser>();
             using (UnitOfWork unit = new UnitOfWork(new TimeKeeperContext()))
             {
                 foreach (var user in unit.Users.Get())
-                {                    
+                {
+                    List<string> teamList = unit.Members.Get().Where(m => m.Employee.Id == user.Id).Select(t => t.Id.ToString()).ToList();
+                    string teams = string.Join(",", teamList);
                     users.Add(new TestUser
                     {
                         SubjectId = user.Id.ToString(),
@@ -38,7 +30,7 @@ namespace TimeKeeper.IDP
                         {
                             new Claim("name", user.Name),
                             new Claim("role", user.Role),
-                            new Claim("team", GetTeamIds(unit, user.Id))
+                            new Claim("team", teams)
                         }
                     });
                 }
@@ -95,7 +87,7 @@ namespace TimeKeeper.IDP
                     AllowOfflineAccess= true,
                     AllowAccessTokensViaBrowser = true,
                     //AllowedCorsOrigins = {"http://localhost:44350/" },
-                    AllowedCorsOrigins = { "http://localhost:3000/", "http://localhost:3000/", "https://localhost:44350/" },
+                    AllowedCorsOrigins = { "http://localhost:3000", "http://localhost:3000", "https://localhost:44350" },
                     AccessTokenLifetime = 3600 // 1h trajanje tokena                   
                 }
             };

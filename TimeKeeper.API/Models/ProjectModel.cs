@@ -8,6 +8,10 @@ namespace TimeKeeper.API.Models
 {
     public class ProjectModel
     {
+        public ProjectModel()
+        {
+            Tasks = new List<MasterModel>();
+        }
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
@@ -18,5 +22,6 @@ namespace TimeKeeper.API.Models
         public MasterModel Status { get; set; }
         public MasterModel Pricing { get; set; }
         public decimal Amount { get; set; }
+        public List<MasterModel> Tasks { get; set; }
     }
 }
