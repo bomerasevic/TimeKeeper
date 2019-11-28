@@ -26,14 +26,14 @@ import DeleteIcon from "@material-ui/icons/Delete";
 const CustomersPage = (props) => {
 	const { classes } = props;
 	const { data, loading, error } = props;
-	const { fetchCustomers,  customerSelect } = props;
+	const { fetchCustomers, customerSelect } = props;
 	let customers = data;
 	useEffect(() => {
 		fetchCustomers();
 		customers = data;
 	}, []);
 	return (
-		
+
 		<React.Fragment>
 			<NavigationLogin />
 			{loading ? (
@@ -54,77 +54,86 @@ const CustomersPage = (props) => {
 					</div>
 				</Backdrop>
 			) : (
-			
-				<Paper className={classes.root}>
-						
-					<Toolbar className={classes.toolbar}>
-						<div>
-							<Typography variant="h4" id="tableTitle" style={{ color: "white" }}>
-								Customers:
+
+						<Paper className={classes.root}>
+
+							<Toolbar className={classes.toolbar}>
+								<div>
+									<Typography variant="h4" id="tableTitle" style={{ color: "white" }}>
+										Customers:
 							</Typography>
-						</div>
-						<div>
-							<Tooltip title="Add">
-								<IconButton
-									aria-label="Add"
-									onClick={() => this.handleOpen(666, false)}
-									className={classes.hover}
-								>
-									<AddIcon fontSize="large" style={{ fill: "white" }} />
-								</IconButton>
-							</Tooltip>
-						</div>
-					</Toolbar>
-					<Table className={classes.table}>
-						<TableHead>
-							<TableRow>
-								<CustomTableCell className={classes.tableHeadFontsize} style={{ width: "8%" }}>
-									No.
-								</CustomTableCell>
-								<CustomTableCell className={classes.tableHeadFontsize}>Name</CustomTableCell>
-								<CustomTableCell className={classes.tableHeadFontsize}>Contact</CustomTableCell>
-								<CustomTableCell className={classes.tableHeadFontsize}>E-mail</CustomTableCell>
-								<CustomTableCell className={classes.tableHeadFontsize} style={{ width: "13%" }}>
-									Phone
-								</CustomTableCell>
-                                <CustomTableCell className={classes.tableHeadFontsize} style={{ width: "13%" }}>
-									Status
-								</CustomTableCell>
-								<CustomTableCell className={classes.tableHeadFontsize} align="center">
-									Actions
-								</CustomTableCell>
-							</TableRow>
-						</TableHead>
-						<TableBody>
-							{customers.map((c, i) => (
-								<TableRow key={c.id}>
-									<CustomTableCell>{c.id}</CustomTableCell>
-									<CustomTableCell>{c.name}</CustomTableCell>
-									<CustomTableCell>{c.contact}</CustomTableCell>
-									<CustomTableCell>{c.email}</CustomTableCell>
-									<CustomTableCell>{c.phone}</CustomTableCell>
-                                    <CustomTableCell>{c.status.name}</CustomTableCell>
-									<CustomTableCell align="center">
-										<IconButton aria-label="View">
-											<VisibilityIcon />
-										</IconButton>
+								</div>
+								<div>
+									<Tooltip title="Add">
 										<IconButton
-											aria-label="Edit"
-											className={classes.editButton}
-											onClick={() => customerSelect(c.id)}
+											aria-label="Add"
+											onClick={() => this.handleOpen(666, false)}
+											className={classes.hover}
 										>
-											<EditIcon style={{ fill: "green" }} />
+											<AddIcon fontSize="large" style={{ fill: "white" }} />
 										</IconButton>
-										<IconButton aria-label="Delete" className={classes.deleteButton}>
-											<DeleteIcon color="error" />
-										</IconButton>
-									</CustomTableCell>
-								</TableRow>
-							))}
-						</TableBody>
-					</Table>
-				</Paper>
-			)}
+									</Tooltip>
+								</div>
+							</Toolbar>
+							<Table className={classes.table}>
+								<TableHead>
+									<TableRow>
+										<CustomTableCell className={classes.tableHeadFontsize} style={{ width: "8%" }}>
+											No.
+								</CustomTableCell>
+										<CustomTableCell className={classes.tableHeadFontsize}>Name</CustomTableCell>
+										<CustomTableCell className={classes.tableHeadFontsize}>Contact</CustomTableCell>
+										<CustomTableCell className={classes.tableHeadFontsize}>E-mail</CustomTableCell>
+										<CustomTableCell className={classes.tableHeadFontsize} style={{ width: "13%" }}>
+											Phone
+								</CustomTableCell>
+										<CustomTableCell className={classes.tableHeadFontsize} style={{ width: "13%" }}>
+											Status
+								</CustomTableCell>
+										<CustomTableCell className={classes.tableHeadFontsize} align="center">
+											Actions
+								</CustomTableCell>
+									</TableRow>
+								</TableHead>
+								{props.user ? (
+									<TableBody>
+										{customers.map((c, i) => (
+											<TableRow key={c.id}>
+												<CustomTableCell>{c.id}</CustomTableCell>
+												<CustomTableCell>{c.name}</CustomTableCell>
+												<CustomTableCell>{c.contact}</CustomTableCell>
+												<CustomTableCell>{c.email}</CustomTableCell>
+												<CustomTableCell>{c.phone}</CustomTableCell>
+												<CustomTableCell>{c.status.name}</CustomTableCell>
+												<CustomTableCell align="center">
+
+													<Button aria-label="View" className=" deleteButton a-btn delete">
+														View
+</Button>
+													{props.user.profile.role === "admin" ? (
+														<Button
+															aria-label="Edit"
+															className=" editButton add a-btn"
+
+														>
+															Edit
+</Button>) : null}
+													{props.user.profile.role === "admin" ? (
+														<Button aria-label="Delete" className=" deleteButton a-btn delete">
+															Delete
+</Button>) : null}
+												</CustomTableCell>
+											</TableRow>
+										))}
+									</TableBody>
+
+
+
+								) : null}
+
+							</Table>
+						</Paper>
+					)}
 		</React.Fragment>
 	);
 };
@@ -140,6 +149,7 @@ const CustomTableCell = withStyles((theme) => ({
 }))(TableCell);
 const mapStateToProps = (state) => {
 	return {
+		user: state.user.user,
 		data: state.customers.data,
 		loading: state.customers.loading,
 		error: state.customers.error

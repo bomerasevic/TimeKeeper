@@ -53,7 +53,7 @@ namespace TimeKeeper.IDP
         {
             return new List<ApiResource>
             {
-                new ApiResource("timekeeper", "Time Keeper API"/*, new List<string> { "role"}*/)
+                new ApiResource("timekeeper", "Time Keeper API", new List<string> { "role"})
             };
         }
         public static IEnumerable<Client> GetClients()
