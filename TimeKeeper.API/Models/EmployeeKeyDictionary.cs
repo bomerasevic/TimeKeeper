@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TimeKeeper.Domain;
 
 namespace TimeKeeper.API.Models
 {
-    public class TeamKeyDictionary
+    public class EmployeeKeyDictionary
     {
-        public TeamKeyDictionary(MasterModel team, decimal value)
+        public EmployeeKeyDictionary(MasterModel employee, decimal value)
         {
-            Team = team;
+            Employee = employee;
             Value = value;
         }
-        public MasterModel Team { get; set; }
+        public MasterModel Employee { get; set; }
         public decimal Value { get; set; }
     }
 }
