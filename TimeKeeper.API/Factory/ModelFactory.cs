@@ -123,8 +123,9 @@ namespace TimeKeeper.API.Factory
         public static EmployeeTimeModel CreateEmployeeTimeModel(this Employee employee)
         {
             return new EmployeeTimeModel{
-                Id = employee.Id,
-                Name = employee.FullName,
+                //Id = employee.Id,
+                //Name = employee.FullName,
+                Employee = new MasterModel { Id = employee.Id, Name = employee.FullName },
                 HourTypes = new Dictionary<string, decimal>(),
                 OverTime = 0,
                 PTO = 0

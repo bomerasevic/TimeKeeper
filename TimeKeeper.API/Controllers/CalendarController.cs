@@ -79,12 +79,27 @@ namespace TimeKeeper.API.Controllers
         [HttpGet("admin-dashboard/{year}/{month}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public IActionResult GetAdminDashboard(int year, int month)   // rutu dodati /employees/month/day/year
+        public IActionResult GetAdminDashboard(int year, int month)   
         {
             try
             {
-                //Log.Info($"Try to get report for employee with id:{empId}");
+                Log.Info($"Try to get dashboard for admin");
                 return Ok(calendarService.GetAdminDashboardModel(year, month));
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
+        }
+        [HttpGet("team-dashboard/{teamId}/{year}/{month}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public IActionResult GetTeamDashboard(int teamId, int year, int month)   
+        {
+            try
+            {
+                Log.Info($"Try to get dashboard for team with id:{teamId}");
+                return Ok(calendarService.GetTeamDashboardInfo(teamId, year, month));
             }
             catch (Exception ex)
             {
