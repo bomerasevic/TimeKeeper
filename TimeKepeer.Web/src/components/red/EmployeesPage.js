@@ -33,7 +33,7 @@ const EmployeesPage = (props) => {
 		employees = data;
 	}, []);
 	return (
-		
+
 		<React.Fragment>
 			<NavigationLogin />
 			{loading ? (
@@ -54,72 +54,85 @@ const EmployeesPage = (props) => {
 					</div>
 				</Backdrop>
 			) : (
-			
-				<Paper className={classes.root}>
-						
-					<Toolbar className={classes.toolbar}>
-						<div>
-							<Typography variant="h4" id="tableTitle" style={{ color: "white" }}>
-								Employees
-							</Typography>
-						</div>
-						<div>
-							<Tooltip title="Add">
-								<IconButton
-									aria-label="Add"
-									onClick={() => this.handleOpen(666, false)}
-									className={classes.hover}
-								>
-									<AddIcon fontSize="large" style={{ fill: "white" }} />
-								</IconButton>
-							</Tooltip>
-						</div>
-					</Toolbar>
-					<Table className={classes.table}>
-						<TableHead>
-							<TableRow>
-								<CustomTableCell className={classes.tableHeadFontsize} style={{ width: "8%" }}>
-									No.
-								</CustomTableCell>
-								<CustomTableCell className={classes.tableHeadFontsize}>First Name</CustomTableCell>
-								<CustomTableCell className={classes.tableHeadFontsize}>Last Name</CustomTableCell>
-								<CustomTableCell className={classes.tableHeadFontsize}>E-mail</CustomTableCell>
-								<CustomTableCell className={classes.tableHeadFontsize} style={{ width: "13%" }}>
-									Phone
-								</CustomTableCell>
-								<CustomTableCell className={classes.tableHeadFontsize} align="center">
-									Actions
-								</CustomTableCell>
-							</TableRow>
-						</TableHead>
-						<TableBody>
-							{employees.map((e, i) => (
-								<TableRow key={e.id}>
-									<CustomTableCell>{e.id}</CustomTableCell>
-									<CustomTableCell>{e.firstName}</CustomTableCell>
-									<CustomTableCell>{e.lastName}</CustomTableCell>
-									<CustomTableCell>{e.email}</CustomTableCell>
-									<CustomTableCell>{e.phone}</CustomTableCell>
-									<CustomTableCell align="center">
-										
-										<Button
-											aria-label="Edit"
-											className=" editButton add a-btn"
-											onClick={() => employeeSelect(e.id)}
-										>
-									      Edit
-										</Button>
 
-										<Button aria-label="Delete" className=" deleteButton a-btn delete">
-										 Delete
+						<Paper className={classes.root}>
+
+							<Toolbar className={classes.toolbar}>
+								<div>
+									<Typography variant="h4" id="tableTitle" style={{ color: "white" }}>
+										Employees
+							</Typography>
+								</div>
+								<div>
+									<Tooltip title="Add">
+										<IconButton
+											aria-label="Add"
+											onClick={() => this.handleOpen(666, false)}
+											className={classes.hover}
+										>
+											<AddIcon fontSize="large" style={{ fill: "white" }} />
+										</IconButton>
+									</Tooltip>
+								</div>
+							</Toolbar>
+							<Table className={classes.table}>
+								<TableHead>
+									<TableRow>
+										<CustomTableCell className={classes.tableHeadFontsize} style={{ width: "8%" }}>
+											No.
+								</CustomTableCell>
+										<CustomTableCell className={classes.tableHeadFontsize}>First Name</CustomTableCell>
+										<CustomTableCell className={classes.tableHeadFontsize}>Last Name</CustomTableCell>
+										<CustomTableCell className={classes.tableHeadFontsize}>E-mail</CustomTableCell>
+										<CustomTableCell className={classes.tableHeadFontsize} style={{ width: "13%" }}>
+											Phone
+								</CustomTableCell>
+										<CustomTableCell className={classes.tableHeadFontsize} align="center">
+											Actions
+								</CustomTableCell>
+									</TableRow>
+								</TableHead>
+								{props.user ? (<TableBody>
+									{employees.map((e, i) => (
+										<TableRow key={e.id}>
+											<CustomTableCell>{e.id}</CustomTableCell>
+											<CustomTableCell>{e.firstName}</CustomTableCell>
+											<CustomTableCell>{e.lastName}</CustomTableCell>
+											<CustomTableCell>{e.email}</CustomTableCell>
+											<CustomTableCell>{e.phone}</CustomTableCell>
+											<CustomTableCell align="center">
+
+
+												<Button aria-label="View" className=" deleteButton a-btn delete">
+													View
 										</Button>
-									</CustomTableCell>
-								</TableRow>
-							))}
-						</TableBody>
-					</Table>
-				</Paper>
-			)}
+												{props.user.profile.role === "admin" ? (
+													<Button
+														aria-label="Edit"
+														className=" editButton add a-btn"
+														onClick={() => employeeSelect(e.id)}
+													>
+														Edit
+								</Button>) : null}
+												{props.user.profile.role === "admin" ? (
+													<Button aria-label="Delete" className=" deleteButton a-btn delete">
+														Delete
+										</Button>) : null}
+
+
+
+											</CustomTableCell>
+										</TableRow>
+									))}
+								</TableBody>
+
+
+
+								) : null}
+
+							</Table>
+						</Paper>
+					)}
 		</React.Fragment>
 	);
 };
@@ -135,6 +148,7 @@ const CustomTableCell = withStyles((theme) => ({
 }))(TableCell);
 const mapStateToProps = (state) => {
 	return {
+		user: state.user.user,
 		data: state.employees.data,
 		loading: state.employees.loading,
 		error: state.employees.error

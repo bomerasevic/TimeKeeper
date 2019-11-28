@@ -9,6 +9,7 @@ import * as Yup from "yup";
 import { withRouter } from "react-router-dom";
 import config from "../../config";
 import M from "materialize-css";
+import { connect } from "react-redux";
 import userManager from "../../utils/userManager"
 const SignupSchema = Yup.object().shape({
     username: Yup.string()
@@ -26,6 +27,7 @@ class NavigationLogin extends React.Component {
     }
 
     handleClickEmployees = () => {
+        console.log(this.props.user.profile.role);
         this.props.history.push("/app/employees");
     };
     handleClickTeams = () => {
@@ -50,73 +52,92 @@ class NavigationLogin extends React.Component {
 
     render() {
         return (
+
+
+
             <div className="navbar-fixed">
-                <nav className="custom-navbar ">
-                    <div className="nav-wrapper">
-                        <a href="#home" className="left brand-logo">
-                            <img id="time-keeper-logo" src={logo} />
-                        </a>
-                        <a
-                            href="#"
-                            data-target="mobile-demo"
-                            className="sidenav-trigger button-collapse"
-                        >
-                            <i className="material-icons">
-                                <img src={hamburger} />
-                            </i>
-                        </a>
-                        <ul className="right hide-on-med-and-down">
-                            <li>
-                                <a className="dropdown-trigger hover" data-target="dropdown1">
-                                    Database
+                {this.props.user ? (
+                    <nav className="custom-navbar ">
+                        <div className="nav-wrapper">
+                            <a href="#home" className="left brand-logo">
+                                <img id="time-keeper-logo" src={logo} />
+                            </a>
+                            <a
+                                href="#"
+                                data-target="mobile-demo"
+                                className="sidenav-trigger button-collapse"
+                            >
+                                <i className="material-icons">
+                                    <img src={hamburger} />
+                                </i>
+                            </a>
+                            <ul className="right hide-on-med-and-down">
+                                <li>
+                                    <a className="dropdown-trigger hover" data-target="dropdown1">
+                                        Database
                                     <i className="fa fa-caret-down" />
-                                </a>
-                                <div className="dropdown-content" id="dropdown1">
-                                    <a onClick={this.handleClickEmployees}>Employees</a>
-                                    <a onClick={this.handleClickTeams}>Teams</a>
-                                    <a onClick={this.handleClickCustomers}>Customers</a>
-                                    <a onClick={this.handleClickProjects}>Projects</a>
-                                </div>
-                            </li>
-                            <li>
-                                <a onClick={this.handleClickTracking}>Time tracking</a>
-                            </li>
-                            <li>
-                                <a className="dropdown-trigger" data-target="dropdown2">
-                                    Reports
+                                    </a>
+
+                                    <div className="dropdown-content" id="dropdown1">
+                                        <a onClick={this.handleClickEmployees}>Employees</a>
+                                        <a onClick={this.handleClickTeams}>Teams</a>
+                                        {this.props.user.profile.role === "user" ? null : (
+                                            <a onClick={this.handleClickCustomers}>Customers</a>)}
+
+                                        <a onClick={this.handleClickProjects}>Projects</a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a onClick={
+                                        this.handleClickTracking}>Time tracking</a>
+                                </li>
+                                <li>
+                                    <a className="dropdown-trigger" data-target="dropdown2">
+                                        Reports
                                     <i className="fa fa-caret-down" />
-                                </a>
-                                <div className="dropdown-content" id="dropdown2">
-                                    <a href="#">Personal report</a>
-                                    <a href="#">Monthly report</a>
-                                    <a href="#">Annual report</a>
-                                    <a href="#">Project history</a>
-                                    <a href="#">Dashboard</a>
-                                </div>
-                            </li>
-                            <li>
-                                <a className="dropdown-trigger" data-target="dropdown3">
-                                    More
+                                    </a>
+                                    <div className="dropdown-content" id="dropdown2">
+                                        <a href="#">Personal report</a>
+                                        <a href="#">Monthly report</a>
+                                        <a href="#">Annual report</a>
+                                        <a href="#">Project history</a>
+                                        <a href="#">Dashboard</a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a className="dropdown-trigger" data-target="dropdown3">
+                                        More
                                     <i className="fa fa-caret-down" />
+                                    </a>
+                                    <div className="dropdown-content" id="dropdown3">
+                                        <a href="#">About us</a>
+                                        <a href="#">Services</a>
+                                        <a href="#">Our staff</a>
+                                        <a href="#">Contact</a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a className=" btn modal-trigger" onClick={this.handleClickLogout}>
+                                        Log Out
                                 </a>
-                                <div className="dropdown-content" id="dropdown3">
-                                    <a href="#">About us</a>
-                                    <a href="#">Services</a>
-                                    <a href="#">Our staff</a>
-                                    <a href="#">Contact</a>
-                                </div>
-                            </li>
-                            <li>
-                                <a className=" btn modal-trigger" onClick={this.handleClickLogout}>
-                                    Log Out
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+
+
+                ) : null}
             </div>
+
+
         );
     }
 }
+const mapStateToProps = state => {
+    return {
+        user: state.user.user
+    };
+}
 
-export default withRouter(NavigationLogin);
+export default connect(mapStateToProps, {})(withRouter(NavigationLogin));
+
