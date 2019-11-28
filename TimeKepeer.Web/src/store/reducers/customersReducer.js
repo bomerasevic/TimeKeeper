@@ -36,7 +36,7 @@ export const customersReducer = (state = initialUserState, action) => {
 				...state,
 				selectedCustomer: action.id
 			};
-		 default:
+		default:
 			return state;
 	}
 };

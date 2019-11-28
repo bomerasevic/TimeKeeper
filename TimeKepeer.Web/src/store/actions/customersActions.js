@@ -1,7 +1,5 @@
-import axios from "axios";
-
 import { CUSTOMERS_FETCH_START, CUSTOMERS_FETCH_SUCCESS, CUSTOMERS_FETCH_FAIL, CUSTOMER_SELECTED } from "./actionTypes";
-import config from "../../config";
+import { customersUrl, apiGetAllRequest } from "../../utils/api";
 
 const customersFetchStart = () => {
 	return {
@@ -26,14 +24,10 @@ const customersFetchFail = (error) => {
 export const fetchCustomers = () => {
 	return (dispatch) => {
 		dispatch(customersFetchStart());
-		axios(`${config.apiUrl}customers`, {
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: config.token
-			}
-		})
+		apiGetAllRequest(customersUrl)
 			.then((res) => {
-				dispatch(customersFetchSuccess(res.data));
+				console.log(res);
+				dispatch(customersFetchSuccess(res.data.data));
 			})
 			.catch((err) => dispatch(customersFetchFail(err)));
 	};

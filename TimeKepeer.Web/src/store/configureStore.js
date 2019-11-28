@@ -1,15 +1,23 @@
- import { createStore, applyMiddleware, combineReducers } from "redux";
- import { composeWithDevTools } from "redux-devtools-extension";
- import thunk from "redux-thunk";
+import { createStore, applyMiddleware, combineReducers } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
+import { reducer as oidcReducer } from "redux-oidc";
+import createOidcMiddleware from "redux-oidc";
+import thunk from "redux-thunk";
 
- import { userReducer, employeesReducer, customersReducer, projectsReducer } from "./reducers/index";
- //import { customersReducer } from "./reducers/customersReducer";
+import userManager from "../utils/userManager";
+import { employeesReducer, customersReducer, projectsReducer } from "./reducers/index";
 
+const oidcMiddleware = createOidcMiddleware(userManager);
 
-const rootReducer = combineReducers({ user: userReducer, employees: employeesReducer, customers: customersReducer,projects: projectsReducer });
+const rootReducer = combineReducers({
+	employees: employeesReducer,
+	user: oidcReducer,
+	customers: customersReducer,
+	projects: projectsReducer
+});
 
- const configureStore = () => {
- 	return createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
+const configureStore = () => {
+	return createStore(rootReducer, composeWithDevTools(applyMiddleware(oidcMiddleware, thunk)));
 };
 
- export default configureStore;
+export default configureStore;
