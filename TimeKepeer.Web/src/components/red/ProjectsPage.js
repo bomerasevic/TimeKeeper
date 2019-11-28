@@ -33,7 +33,7 @@ const ProjectsPage = (props) => {
 		projects = data;
 	}, []);
 	return (
-		
+
 		<React.Fragment>
 			<NavigationLogin />
 			{loading ? (
@@ -54,76 +54,91 @@ const ProjectsPage = (props) => {
 					</div>
 				</Backdrop>
 			) : (
-			
-				<Paper className={classes.root}>
-						
-					<Toolbar className={classes.toolbar}>
-						<div>
-							<Typography variant="h4" id="tableTitle" style={{ color: "white" }}>
-								Projects:
+
+						<Paper className={classes.root}>
+
+							<Toolbar className={classes.toolbar}>
+								<div>
+									<Typography variant="h4" id="tableTitle" style={{ color: "white" }}>
+										Projects:
 							</Typography>
-						</div>
-						<div>
-							<Tooltip title="Add">
-								<IconButton
-									aria-label="Add"
-									onClick={() => this.handleOpen(666, false)}
-									className={classes.hover}
-								>
-									<AddIcon fontSize="large" style={{ fill: "white" }} />
-								</IconButton>
-							</Tooltip>
-						</div>
-					</Toolbar>
-					<Table className={classes.table}>
-						<TableHead>
-							<TableRow>
-								<CustomTableCell className={classes.tableHeadFontsize} style={{ width: "8%" }}>
-									No.
-								</CustomTableCell>
-								<CustomTableCell className={classes.tableHeadFontsize}>Name</CustomTableCell>
-								<CustomTableCell className={classes.tableHeadFontsize}>Customer</CustomTableCell>
-								<CustomTableCell className={classes.tableHeadFontsize}>Team</CustomTableCell>
-								
-                                <CustomTableCell className={classes.tableHeadFontsize} align="center">
-									Status
-								</CustomTableCell>
-								<CustomTableCell className={classes.tableHeadFontsize} style={{ width: "13%" }}align="center" >
-									Actions
-								</CustomTableCell>
-							</TableRow>
-						</TableHead>
-						<TableBody>
-							{projects.map((p, i) => (
-								<TableRow key={p.id}>
-									<CustomTableCell>{p.id}</CustomTableCell>
-									<CustomTableCell>{p.name}</CustomTableCell>
-									<CustomTableCell>{p.customer.name}</CustomTableCell>
-									<CustomTableCell>{p.team.name}</CustomTableCell>
-                                    <CustomTableCell>{p.status.name}</CustomTableCell>
-                                 
-									<CustomTableCell align="center">
-										<IconButton aria-label="View">
-											<VisibilityIcon />
-										</IconButton>
+								</div>
+								<div>
+									<Tooltip title="Add">
 										<IconButton
-											aria-label="Edit"
-											className={classes.editButton}
-											onClick={() => projectSelect(p.id)}
+											aria-label="Add"
+											onClick={() => this.handleOpen(666, false)}
+											className={classes.hover}
 										>
-											<EditIcon style={{ fill: "green" }} />
+											<AddIcon fontSize="large" style={{ fill: "white" }} />
 										</IconButton>
-										<IconButton aria-label="Delete" className={classes.deleteButton}>
-											<DeleteIcon color="error" />
-										</IconButton>
-									</CustomTableCell>
-								</TableRow>
-							))}
-						</TableBody>
-					</Table>
-				</Paper>
-			)}
-		</React.Fragment>
+									</Tooltip>
+								</div>
+							</Toolbar>
+							<Table className={classes.table}>
+								<TableHead>
+									<TableRow>
+										<CustomTableCell className={classes.tableHeadFontsize} style={{ width: "8%" }}>
+											No.
+								</CustomTableCell>
+										<CustomTableCell className={classes.tableHeadFontsize}>Name</CustomTableCell>
+										<CustomTableCell className={classes.tableHeadFontsize}>Customer</CustomTableCell>
+										<CustomTableCell className={classes.tableHeadFontsize}>Team</CustomTableCell>
+
+										<CustomTableCell className={classes.tableHeadFontsize} align="center">
+											Status
+								</CustomTableCell>
+										<CustomTableCell className={classes.tableHeadFontsize} style={{ width: "13%" }} align="center" >
+											Actions
+								</CustomTableCell>
+									</TableRow>
+								</TableHead>
+								{props.user ? (
+									<TableBody>
+										{projects.map((p, i) => (
+											<TableRow key={p.id}>
+												<CustomTableCell>{p.id}</CustomTableCell>
+												<CustomTableCell>{p.name}</CustomTableCell>
+												<CustomTableCell>{p.customer.name}</CustomTableCell>
+												<CustomTableCell>{p.team.name}</CustomTableCell>
+												<CustomTableCell align="center">{p.status.name}</CustomTableCell>
+
+												<CustomTableCell align="center">
+
+
+													<Button aria-label="View" className=" deleteButton a-btn delete">
+														View
+</Button>
+													{props.user.profile.role === "admin" ? (
+														<Button
+															aria-label="Edit"
+															className=" editButton add a-btn"
+
+														>
+															Edit
+</Button>) : null}
+													{props.user.profile.role === "admin" ? (
+														<Button aria-label="Delete" className=" deleteButton a-btn delete">
+															Delete
+</Button>) : null}
+
+
+
+
+												</CustomTableCell>
+											</TableRow>
+										))}
+									</TableBody>
+
+
+
+								) : null}
+
+							</Table>
+						</Paper>
+					)
+			}
+		</React.Fragment >
 	);
 };
 const CustomTableCell = withStyles((theme) => ({
@@ -138,6 +153,7 @@ const CustomTableCell = withStyles((theme) => ({
 }))(TableCell);
 const mapStateToProps = (state) => {
 	return {
+		user: state.user.user,
 		data: state.projects.data,
 		loading: state.projects.loading,
 		error: state.projects.error

@@ -59,7 +59,7 @@ class Navigation extends React.Component {
 							</li>
 							<li>
 								<a className=" btn login-static modal-trigger" onClick={() => {
-									alert("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+
 									userManager.signinRedirect();
 								}}>
 									Login
