@@ -10,20 +10,20 @@ import icon from "../../assets/images/computer.svg";
 function AccessDenied() {
     return (
         <div className="header-access " id="home">
-            <Navigation />
+
             <div className="container header-access-text">
                 <img className="logo-large1" src={icon} />
-                <h1>Unatuhorized Access!</h1>
+                <h1>Access Denied!</h1>
                 <h3>
-                   Please contact the Administrator
+                    Please contact the Administrator
                 </h3>
-              
+
             </div>
-          
+
         </div>
-         
-       
-         
+
+
+
     );
 }
 export default AccessDenied;

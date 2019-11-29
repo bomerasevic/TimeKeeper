@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./Navigation.css";
 import logo from "../../assets/images/logo.svg";
+import userLogo from "../../assets/images/user.svg"
 import hamburger from "../../assets/images/hamburger.svg";
 import Modal from "react-modal";
 import swal from "sweetalert";
@@ -80,11 +81,11 @@ class NavigationLogin extends React.Component {
 
                                     <div className="dropdown-content" id="dropdown1">
                                         <a onClick={this.handleClickEmployees}>Employees</a>
-                                        <a onClick={this.handleClickTeams}>Teams</a>
                                         {this.props.user.profile.role === "user" ? null : (
                                             <a onClick={this.handleClickCustomers}>Customers</a>)}
 
                                         <a onClick={this.handleClickProjects}>Projects</a>
+                                        <a onClick={this.handleClickTeams}>Teams</a>
                                     </div>
                                 </li>
                                 <li>
@@ -115,6 +116,15 @@ class NavigationLogin extends React.Component {
                                         <a href="#">Our staff</a>
                                         <a href="#">Contact</a>
                                     </div>
+                                </li>
+                                <li>
+                                    <a style={{ padding: "0px" }}><img src={userLogo} style={{
+                                        height: "40px",
+                                        width: "auto", marginTop: "15px"
+                                    }}></img></a>
+                                </li>
+                                <li>
+                                    <a style={{ paddingLeft: "10px" }}>{this.props.user.profile.name} ({this.props.user.profile.role})</a>
                                 </li>
                                 <li>
                                     <a className=" btn modal-trigger" onClick={this.handleClickLogout}>

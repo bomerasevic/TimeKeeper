@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Redirect } from 'react-router-dom'
 import { connect } from "react-redux";
 import { fetchCustomers, customerSelect } from "../../store/actions/index";
 import { withStyles } from "@material-ui/core/styles";
@@ -25,16 +26,23 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 const CustomersPage = (props) => {
 	const { classes } = props;
+	const { user } = props;
+	const { history } = props;
 	const { data, loading, error } = props;
 	const { fetchCustomers, customerSelect } = props;
 	let customers = data;
 	useEffect(() => {
-		fetchCustomers();
-		customers = data;
+		if (user) {
+			fetchCustomers();
+			customers = data;
+		}
+
 	}, []);
+
 	return (
 
 		<React.Fragment>
+
 			<NavigationLogin />
 			{loading ? (
 				<Backdrop open={loading}>
@@ -55,83 +63,90 @@ const CustomersPage = (props) => {
 				</Backdrop>
 			) : (
 
+
 						<Paper className={classes.root}>
 
-							<Toolbar className={classes.toolbar}>
+							{props.user ? (
+
 								<div>
-									<Typography variant="h4" id="tableTitle" style={{ color: "white" }}>
-										Customers:
+									<Toolbar className={classes.toolbar}>
+										<div>
+											<Typography variant="h4" id="tableTitle" style={{ color: "white" }}>
+												Customers:
 							</Typography>
-								</div>
-								<div>
-								<Button aria-label="Add" className=" addButton btn add" style={{ color: "white" , backgroundColor:"#26a69a"}}>
-															Add
+										</div>
+										<div>
+											<Button aria-label="Add" className=" addButton btn add" style={{ color: "white", backgroundColor: "#26a69a" }}>
+												Add
                                              </Button>
-							
-								</div>
-								
-							</Toolbar>
-							<Table className={classes.table}>
-								<TableHead>
-									<TableRow>
-										<CustomTableCell className={classes.tableHeadFontsize} style={{ width: "1%" }}>
-											No.
-								</CustomTableCell>
-										<CustomTableCell className={classes.tableHeadFontsize} >Name</CustomTableCell>
-										<CustomTableCell className={classes.tableHeadFontsize}>Contact</CustomTableCell>
-										<CustomTableCell className={classes.tableHeadFontsize}>E-mail</CustomTableCell>
-										<CustomTableCell className={classes.tableHeadFontsize} style={{ width: "10%" }}>
-											Phone
-								</CustomTableCell>
-										<CustomTableCell className={classes.tableHeadFontsize} style={{ width: "1%" }}>
-											Status
-								</CustomTableCell>
-										<CustomTableCell className={classes.tableHeadFontsize} align="center">
-											Actions
-								</CustomTableCell>
-									</TableRow>
-								</TableHead>
-								{props.user ? (
-									<TableBody>
-										{customers.map((c, i) => (
-											<TableRow key={c.id}>
-												<CustomTableCell>{c.id}</CustomTableCell>
-												<CustomTableCell>{c.name}</CustomTableCell>
-												<CustomTableCell>{c.contact}</CustomTableCell>
-												<CustomTableCell>{c.email}</CustomTableCell>
-												<CustomTableCell>{c.phone}</CustomTableCell>
-												<CustomTableCell>{c.status.name}</CustomTableCell>
-												<CustomTableCell align="center">
 
-													<Button aria-label="View" className=" button deleteButton a-btn delete">
-														View
-</Button>
-													{props.user.profile.role === "admin" ? (
-														<Button
-															aria-label="Edit"
-															className=" editButton add a-btn"
-															style={{ color: "#1cba85" }}
+										</div>
 
-														>
-															Edit
-</Button>) : null}
-													{props.user.profile.role === "admin" ? (
-														<Button aria-label="Delete" className=" button deleteButton a-btn delete"
-														style={{ color: "#9e1c13" }}>
-															Delete
-</Button>) : null}
-												</CustomTableCell>
+									</Toolbar>
+									<Table className={classes.table}>
+										<TableHead>
+											<TableRow>
+												<CustomTableCell className={classes.tableHeadFontsize} style={{ width: "1%" }}>
+													No.
+								</CustomTableCell>
+												<CustomTableCell className={classes.tableHeadFontsize} >Name</CustomTableCell>
+												<CustomTableCell className={classes.tableHeadFontsize}>Contact</CustomTableCell>
+												<CustomTableCell className={classes.tableHeadFontsize}>E-mail</CustomTableCell>
+												<CustomTableCell className={classes.tableHeadFontsize} style={{ width: "10%" }}>
+													Phone
+								</CustomTableCell>
+												<CustomTableCell className={classes.tableHeadFontsize} style={{ width: "1%" }}>
+													Status
+								</CustomTableCell>
+												<CustomTableCell className={classes.tableHeadFontsize} align="center">
+													Actions
+								</CustomTableCell>
 											</TableRow>
-										))}
-									</TableBody>
+										</TableHead>
+
+										<TableBody>
+											{customers.map((c, i) => (
+												<TableRow key={c.id}>
+													<CustomTableCell>{c.id}</CustomTableCell>
+													<CustomTableCell>{c.name}</CustomTableCell>
+													<CustomTableCell>{c.contact}</CustomTableCell>
+													<CustomTableCell>{c.email}</CustomTableCell>
+													<CustomTableCell>{c.phone}</CustomTableCell>
+													<CustomTableCell>{c.status.name}</CustomTableCell>
+													<CustomTableCell align="center">
+
+														<Button aria-label="View" className=" button deleteButton a-btn delete">
+															View
+</Button>
+														{props.user.profile.role === "admin" ? (
+															<Button
+																aria-label="Edit"
+																className=" editButton add a-btn"
+																style={{ color: "#1cba85" }}
+
+															>
+																Edit
+</Button>) : null}
+														{props.user.profile.role === "admin" ? (
+															<Button aria-label="Delete" className=" button deleteButton a-btn delete"
+																style={{ color: "#9e1c13" }}>
+																Delete
+</Button>) : null}
+													</CustomTableCell>
+												</TableRow>
+											))}
+										</TableBody>
 
 
 
-								) : null}
 
-							</Table>
+
+									</Table>
+								</div>
+							) : <Redirect to='/app/access' />}
 						</Paper>
 					)}
+
 		</React.Fragment>
 	);
 };
