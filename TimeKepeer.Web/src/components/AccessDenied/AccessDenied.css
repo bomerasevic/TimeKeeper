@@ -1,0 +1,75 @@
+  
+.header-access nav img {
+    height: 40px;
+    width: auto;
+}
+.header-access {
+    font-family: Roboto;
+    background-image: linear-gradient( rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8) ), url("../../assets/images/accessdenied.jpg");
+    background-attachment: fixed;
+    background-size: cover;
+    min-height: 100vh;
+    height: auto;
+    
+}
+.header-access .container {
+    text-align: center;
+    color: white;
+    padding-top: 100px;
+}
+
+.header-access .container h1 {
+    font-size: 96px;
+    padding-top: 10px;
+    margin-top: 0px;
+    font-weight: 300;
+}
+.header-access .container h2 {
+    font-size: 30px;
+    font-weight: 100;
+}
+.header-access .container h6 {
+    font-weight: 500;
+    margin-top: 30px;
+}
+
+.logo-large1{
+    
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 130px;
+    height: auto;
+}
+@media screen and (max-width: 600px) {
+    .header-access .container h1 {
+        font-size: 48px;
+    }
+
+    .header-access .container h2 {
+        font-size: 24px;
+    }
+
+    .header-access-text br {
+        display: none;
+    }
+
+    .header-access {
+        min-height: 60vh;
+        height: auto;
+    }
+
+    .header-access .container {
+        padding: 0;
+    }
+    .header-access .header-access-text .logo-large {
+        display: block;
+        width: 30%;
+        margin: 0 auto;
+        margin-top: 20px;
+    }
+}
+@media screen and (min-width: 600px) {
+    .header-access .header-access-text .logo-large {
+        display: none;
+    }
+}

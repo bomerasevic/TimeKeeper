@@ -64,15 +64,9 @@ const EmployeesPage = (props) => {
 							</Typography>
 								</div>
 								<div>
-									<Tooltip title="Add">
-										<IconButton
-											aria-label="Add"
-											onClick={() => this.handleOpen(666, false)}
-											className={classes.hover}
-										>
-											<AddIcon fontSize="large" style={{ fill: "white" }} />
-										</IconButton>
-									</Tooltip>
+								<Button aria-label="Add" className=" addButton btn add" style={{ color: "white" , backgroundColor:"#26a69a"}}>
+															Add
+                                             </Button>
 								</div>
 							</Toolbar>
 							<Table className={classes.table}>
@@ -111,11 +105,12 @@ const EmployeesPage = (props) => {
 														aria-label="Edit"
 														className=" editButton add a-btn"
 														onClick={() => employeeSelect(e.id)}
+														style={{ color: "#1cba85" }}
 													>
 														Edit
 								</Button>) : null}
 												{props.user.profile.role === "admin" ? (
-													<Button aria-label="Delete" className=" deleteButton a-btn delete">
+													<Button aria-label="Delete" className=" deleteButton a-btn delete" style={{ color: "#9e1c13" }}>
 														Delete
 										</Button>) : null}
 

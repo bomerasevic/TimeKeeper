@@ -64,30 +64,26 @@ const CustomersPage = (props) => {
 							</Typography>
 								</div>
 								<div>
-									<Tooltip title="Add">
-										<IconButton
-											aria-label="Add"
-											onClick={() => this.handleOpen(666, false)}
-											className={classes.hover}
-										>
-											<AddIcon fontSize="large" style={{ fill: "white" }} />
-										</IconButton>
-									</Tooltip>
+								<Button aria-label="Add" className=" addButton btn add" style={{ color: "white" , backgroundColor:"#26a69a"}}>
+															Add
+                                             </Button>
+							
 								</div>
+								
 							</Toolbar>
 							<Table className={classes.table}>
 								<TableHead>
 									<TableRow>
-										<CustomTableCell className={classes.tableHeadFontsize} style={{ width: "8%" }}>
+										<CustomTableCell className={classes.tableHeadFontsize} style={{ width: "1%" }}>
 											No.
 								</CustomTableCell>
-										<CustomTableCell className={classes.tableHeadFontsize}>Name</CustomTableCell>
+										<CustomTableCell className={classes.tableHeadFontsize} >Name</CustomTableCell>
 										<CustomTableCell className={classes.tableHeadFontsize}>Contact</CustomTableCell>
 										<CustomTableCell className={classes.tableHeadFontsize}>E-mail</CustomTableCell>
-										<CustomTableCell className={classes.tableHeadFontsize} style={{ width: "13%" }}>
+										<CustomTableCell className={classes.tableHeadFontsize} style={{ width: "10%" }}>
 											Phone
 								</CustomTableCell>
-										<CustomTableCell className={classes.tableHeadFontsize} style={{ width: "13%" }}>
+										<CustomTableCell className={classes.tableHeadFontsize} style={{ width: "1%" }}>
 											Status
 								</CustomTableCell>
 										<CustomTableCell className={classes.tableHeadFontsize} align="center">
@@ -107,19 +103,21 @@ const CustomersPage = (props) => {
 												<CustomTableCell>{c.status.name}</CustomTableCell>
 												<CustomTableCell align="center">
 
-													<Button aria-label="View" className=" deleteButton a-btn delete">
+													<Button aria-label="View" className=" button deleteButton a-btn delete">
 														View
 </Button>
 													{props.user.profile.role === "admin" ? (
 														<Button
 															aria-label="Edit"
 															className=" editButton add a-btn"
+															style={{ color: "#1cba85" }}
 
 														>
 															Edit
 </Button>) : null}
 													{props.user.profile.role === "admin" ? (
-														<Button aria-label="Delete" className=" deleteButton a-btn delete">
+														<Button aria-label="Delete" className=" button deleteButton a-btn delete"
+														style={{ color: "#9e1c13" }}>
 															Delete
 </Button>) : null}
 												</CustomTableCell>

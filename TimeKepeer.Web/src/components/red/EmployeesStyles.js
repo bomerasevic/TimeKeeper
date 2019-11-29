@@ -1,3 +1,5 @@
+import { ActionImportantDevices } from "material-ui/svg-icons";
+
 const styles = (theme) => ({
 	root: {
 		width: "90%",
@@ -12,7 +14,7 @@ const styles = (theme) => ({
 		backgroundColor: "#40454F"
 	},
 	table: {
-		minWidth: 700
+		minWidth: 1000
 	},
 	button: {
 		color: "white",

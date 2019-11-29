@@ -16,8 +16,8 @@ import TrackingView from "./components/TeamTimeTracking/TeamTimeTracking";
 import EmployeesPage from "./components/red/EmployeesPage";
 import ProjectsPage from "./components/red/ProjectsPage";
 import CustomersPage from "./components/red/CustomersPage";
-
 import Callback from "./components/LoginCallback";
+import AccessDenied from "./components/AccessDenied/AccessDenied";
 
 
 //import EmployeesView from "./components/EmployeesView/EmployeesView";
@@ -43,10 +43,12 @@ class App extends React.Component {
 							<Footer />
 						</div>
 					</Route>
+					
 					<Route exact={true} path="/auth-callback" component={Callback} />
 					<Route exact path="/app">
 						<Welcome />
 					</Route>
+					
 					<Route exact path="/app/employees">
 						<EmployeesPage />
 					</Route>
@@ -66,7 +68,9 @@ class App extends React.Component {
 					</Route>
 
 
-
+					<Route exact path="/app/access">
+						<AccessDenied />
+					</Route>
 				</Switch>
 			</BrowserRouter>
 
