@@ -60,35 +60,30 @@ const ProjectsPage = (props) => {
 							<Toolbar className={classes.toolbar}>
 								<div>
 									<Typography variant="h4" id="tableTitle" style={{ color: "white" }}>
-										Projects:
+										Projects
 							</Typography>
 								</div>
 								<div>
-									<Tooltip title="Add">
-										<IconButton
-											aria-label="Add"
-											onClick={() => this.handleOpen(666, false)}
-											className={classes.hover}
-										>
-											<AddIcon fontSize="large" style={{ fill: "white" }} />
-										</IconButton>
-									</Tooltip>
+								<Button aria-label="Add" className=" addButton btn add" style={{ color: "white" , backgroundColor:"#26a69a"}}>
+															Add
+                                             </Button>
+							
 								</div>
 							</Toolbar>
 							<Table className={classes.table}>
 								<TableHead>
 									<TableRow>
-										<CustomTableCell className={classes.tableHeadFontsize} style={{ width: "8%" }}>
+										<CustomTableCell className={classes.tableHeadFontsize} style={{ width: "4%" }}>
 											No.
 								</CustomTableCell>
-										<CustomTableCell className={classes.tableHeadFontsize}>Name</CustomTableCell>
+										<CustomTableCell className={classes.tableHeadFontsize} style={{ width: "10%" }}>Name</CustomTableCell>
 										<CustomTableCell className={classes.tableHeadFontsize}>Customer</CustomTableCell>
 										<CustomTableCell className={classes.tableHeadFontsize}>Team</CustomTableCell>
 
-										<CustomTableCell className={classes.tableHeadFontsize} align="center">
+										<CustomTableCell className={classes.tableHeadFontsize} align="center" style={{ width: "5%" }} >
 											Status
 								</CustomTableCell>
-										<CustomTableCell className={classes.tableHeadFontsize} style={{ width: "13%" }} align="center" >
+										<CustomTableCell className={classes.tableHeadFontsize}  align="center"  >
 											Actions
 								</CustomTableCell>
 									</TableRow>
@@ -113,12 +108,13 @@ const ProjectsPage = (props) => {
 														<Button
 															aria-label="Edit"
 															className=" editButton add a-btn"
+															style={{ color: "#1cba85" }}
 
 														>
 															Edit
 </Button>) : null}
 													{props.user.profile.role === "admin" ? (
-														<Button aria-label="Delete" className=" deleteButton a-btn delete">
+														<Button aria-label="Delete" className=" deleteButton a-btn delete"  style={{ color: "#9e1c13" }}>
 															Delete
 </Button>) : null}
 
