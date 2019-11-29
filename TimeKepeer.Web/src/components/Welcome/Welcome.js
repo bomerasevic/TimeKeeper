@@ -3,7 +3,7 @@ import "./Welcome.css";
 import NavigationLogin from "../NavigationLogin/NavigationLogin";
 import Navigation from "../StaticPage/Navigation/Navigation";
 import logo from "../../assets/images/puzzle.png";
-
+import "../StaticPage/Navigation/Navigation.css";
 import { connect } from "react-redux";
 //import FooterBar from "../FooterBar/FooterBar";
 
