@@ -148,7 +148,7 @@ namespace TimeKeeper.API.Services
             return monthWeekDays;
         }
         public TeamDashboardModel GetTeamDashboardInfo(int teamId, int year, int month)
-        {
+        {            
             TeamDashboardModel teamDashboardModel = new TeamDashboardModel();
 
             List<EmployeeTimeModel> teamMonthReport = GetTeamMonthReport(teamId, year, month);
@@ -389,7 +389,7 @@ namespace TimeKeeper.API.Services
         {
             ProjectHistoryModel projectHistory = new ProjectHistoryModel();
 
-            List<Assignment> tasks = Unit.Projects.Get().ToList().FirstOrDefault(x => x.Id == projectId).Tasks.ToList();
+            List<Assignment> tasks = Unit.Projects.Get(projectId).Tasks.ToList();
             List<Employee> employees = new List<Employee>();
 
             foreach (Assignment a in tasks)
