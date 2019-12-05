@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
-using TimeKeeper.API.Models;
+using TimeKeeper.DTO.Models;
 using TimeKeeper.DAL;
 using TimeKeeper.Domain;
 

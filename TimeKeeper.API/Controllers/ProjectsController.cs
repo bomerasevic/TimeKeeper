@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using TimeKeeper.API.Factory;
+using TimeKeeper.DTO.Factory;
 using TimeKeeper.DAL;
 using TimeKeeper.Domain;
 
