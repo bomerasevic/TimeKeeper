@@ -2,16 +2,18 @@ import React, { Component } from 'react';
 import { View, Image, Text, ImageBackground } from 'react-native';
 import { Button } from '../components';
 import { Input } from '../components'
-
+import Puzzle from '../../assets/puzzle.png'
+import BackgroundImage from '../../assets/loggedin_header.png'
+ 
 export default class Welcome extends Component {
 
     render() {
         return (
             <View >
-                <ImageBackground source={require('../../assets/loggedin_header.png')} style={styles.background}>
+                <ImageBackground source={BackgroundImage} style={styles.background}>
 
                     <Image style={styles.logo}
-                        source={require('../../assets/puzzle.png')}
+                        source={Puzzle}
                     />
                     <Text style={styles.mainTitle}>Welcome</Text>
                     <Text style={styles.title}> This is your TimeKeeper.</Text>
