@@ -10,14 +10,15 @@ export default class Login extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Image  style={styles.logo}   
+
+         <Image  style={styles.logo}   
           source={require('../../assets/logomodal.png')}
         />
         <Text style={styles.mainTitle}>Login to your account</Text>
         <Text style={styles.title}> Save time for doing great work.</Text>
         <Input style={styles.username} placeholder={"Name"} autoCompleteType={'username'}></Input>
         <Input style={styles.password}  placeholder={"Password"} autoCompleteType={'password'}></Input>
-        <Button onPress={this._login} outline>Login</Button>
+        <Button onPress={this._login} outline>Login</Button> 
       </View>
     )
   }

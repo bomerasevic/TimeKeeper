@@ -15,9 +15,9 @@ const Input = ({
     <View style={styles.container}>
       <TextInput
         style={[styles.inputBox, style]}
-        underlineColorAndroid="rgb(57, 54, 67, 0.9)"
+        underlineColorAndroid="rgb(57, 54, 67)"
         placeholder={placeholder}
-        placeholderTextColor="rgb(57, 54, 67, 0.9)"
+        placeholderTextColor="rgb(57, 54, 67)"
         secureTextEntry={secureTextEntry}
         onChangeText={onChangeText}
         name={name}
