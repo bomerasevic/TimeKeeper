@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using TimeKeeper.DAL;
 using TimeKeeper.Domain;
-using TimeKeeper.API.Factory;
+using TimeKeeper.DTO.Factory;
 using Microsoft.AspNetCore.Authorization;
 
 namespace TimeKeeper.API.Controllers

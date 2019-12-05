@@ -6,11 +6,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using TimeKeeper.API.Factory;
 using TimeKeeper.DAL;
 using TimeKeeper.Domain;
 using TimeKeeper.Utility;
 using Newtonsoft.Json;
+using TimeKeeper.DTO.Factory;
 
 namespace TimeKeeper.API.Controllers
 {
