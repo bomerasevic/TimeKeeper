@@ -17,93 +17,8 @@ namespace TimeKeeper.API.Controllers
     [ApiController]
     public class CalendarController : BaseController
     {
-        //public CalendarService calendarService;
-        public CalendarController(TimeKeeperContext context) : base(context)
-        {
-            //calendarService = new CalendarService(Unit);
-        }
+        public CalendarController(TimeKeeperContext context) : base(context) { }
 
-        ///// <summary>
-        ///// This method returns all Days
-        ///// </summary>
-        ///// <returns>Returns all Days</returns>
-        ///// <response status="200">Status 200 OK</response>
-        ///// <response status="400">Status 400 Bad Request</response>
-        //[HttpGet("{empId}/{year}/{month}")]
-        //[ProducesResponseType(200)]
-        //[ProducesResponseType(400)]
-        //public IActionResult Get(int empId, int year, int month)   
-        //{
-        //    try
-        //    {
-        //        Log.Info("Try to get all Days");
-        //        return Ok(calendarService.GetEmployeeMonth(empId, year, month));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return HandleException(ex);
-        //    }
-        //}
-        //[HttpGet("employee-report/{empId}/{year}/{month}")]
-        //[ProducesResponseType(200)]
-        //[ProducesResponseType(400)]
-        //public IActionResult GetEmployeeReport(int empId, int year, int month)   
-        //{
-        //    try
-        //    {
-        //        Log.Info($"Try to get report for employee with id:{empId}");
-        //        return Ok(calendarService.CreateEmployeeReport(empId, year, month));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return HandleException(ex);
-        //    }
-        //}
-        //[HttpGet("project-history/{projectId}")]
-        //[ProducesResponseType(200)]
-        //[ProducesResponseType(400)]
-        //public IActionResult GetProjectHistory(int projectId)   
-        //{
-        //    try
-        //    {
-        //        Log.Info($"Try to get project history for project with id:{projectId}");
-        //        return Ok(calendarService.GetProjectHistoryModel(projectId));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return HandleException(ex);
-        //    }
-        //}
-        //[HttpGet("admin-dashboard/{year}/{month}")]
-        //[ProducesResponseType(200)]
-        //[ProducesResponseType(400)]
-        //public IActionResult GetAdminDashboard(int year, int month)   
-        //{
-        //    try
-        //    {
-        //        Log.Info($"Try to get dashboard for admin");
-        //        return Ok(calendarService.GetAdminDashboardModel(year, month));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return HandleException(ex);
-        //    }
-        //}
-        //[HttpGet("team-dashboard/{teamId}/{year}/{month}")]
-        //[ProducesResponseType(200)]
-        //[ProducesResponseType(400)]
-        //public IActionResult GetTeamDashboard(int teamId, int year, int month)   
-        //{
-        //    try
-        //    {
-        //        Log.Info($"Try to get dashboard for team with id:{teamId}");
-        //        return Ok(calendarService.GetTeamDashboardInfo(teamId, year, month));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return HandleException(ex);
-        //    }
-        //}
         /// <summary>
         /// This method returns Day with specified Id
         /// </summary>
@@ -129,43 +44,6 @@ namespace TimeKeeper.API.Controllers
                 return HandleException(ex);
             }
         }
-        //[AllowAnonymous]
-        //[HttpGet("team-time-tracking/{teamId}/{year}/{month}")]
-        //public IActionResult GetTimeTracking(int teamId, int year, int month)
-        //{
-        //    try
-        //    {
-        //        return Ok(calendarService.GetTeamMonthReport(teamId, year, month));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return HandleException(ex);
-        //    }
-        //}
-        //[HttpGet("monthly-overview/{year}/{month}")]
-        //public IActionResult GetMonthlyOverview(int year, int month)
-        //{
-        //    try
-        //    {
-        //        return Ok(calendarService.GetMonthlyOverview(year, month));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return HandleException(ex);
-        //    }
-        //}
-        //[HttpGet("projects-annual/{year}")]
-        //public IActionResult AnnualProjectOverview(int year)
-        //{
-        //    try
-        //    {
-        //        return Ok(calendarService.GetTotalAnnualOverview(year));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return HandleException(ex);
-        //    }
-        //}
         /// <summary>
         /// Inserts new Day
         /// </summary>
@@ -199,7 +77,7 @@ namespace TimeKeeper.API.Controllers
         /// <response status="200">Status 200 OK</response>
         /// <response status="404">Status 404 Not Found</response>
         /// <response status="400">Status 400 Bad Request</response>
-        [HttpPut("{id}")]
+        [HttpPut("put-method/{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]

@@ -45,7 +45,7 @@ namespace TimeKeeper.DAL
             Entity old = Get(id);
             ValidateUpdate(entity, id);
             _context.Entry(old).CurrentValues.SetValues(entity);
-            old.Relate(entity);
+            entity.Relate(entity);  // duboka kopija
         }
 
         public void Delete(Entity entity) => _dbSet.Remove(entity);
