@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TimeKeeper.Domain;
 
 namespace TimeKeeper.DTO.Models
 {
@@ -10,10 +11,15 @@ namespace TimeKeeper.DTO.Models
         public EmployeeTimeModel()
         {
             HourTypes = new Dictionary<string, decimal>();
+            //for (DayType d = DayType.Workday; d <= DayType.Other; d++)
+            //{
+            //    HourTypes.Add(d.ToString(), 0);
+            //}
         }
         public MasterModel Employee { get; set; }
-        public decimal PTO { get; set; }  // paidtimeoff
-        public decimal OverTime { get; set; }
-        public Dictionary<string,decimal> HourTypes { get; set; }        
+        public decimal PTOHours { get; set; }
+        public decimal Overtime { get; set; }
+        public decimal TotalHours { get; set; }
+        public Dictionary<string, decimal> HourTypes { get; set; }
     }
 }

@@ -15,10 +15,14 @@ namespace TimeKeeper.API.Controllers
     [ApiController]
     public class ReportController : BaseController
     {
-        public ReportService reportService;
+        //public ReportService reportService;
+        public MonthlyReport monthlyReport;
+        public AnnualReport annualReport;
         public ReportController(TimeKeeperContext context) : base(context)
         {
-            reportService = new ReportService(Unit);
+            //reportService = new ReportService(Unit);
+            monthlyReport = new MonthlyReport(Unit);
+            annualReport = new AnnualReport(Unit);
         }
         [HttpGet("project-history-report/{projectId}")]
         [ProducesResponseType(200)]
@@ -28,7 +32,8 @@ namespace TimeKeeper.API.Controllers
             try
             {
                 Log.Info($"Try to get project history for project with id:{projectId}");
-                return Ok(reportService.GetProjectHistoryModel(projectId));
+                // return Ok(reportService.GetProjectHistoryModel(projectId));
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -40,7 +45,19 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
-                return Ok(reportService.GetMonthlyOverview(year, month));
+                return Ok(monthlyReport.GetMonthly(year, month));
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
+        }
+        [HttpGet("monthly-overview-stored/{year}/{month}")]
+        public IActionResult GetStored(int year, int month)
+        {
+            try
+            {
+                return Ok(monthlyReport.GetStored(year, month));
             }
             catch (Exception ex)
             {
@@ -52,7 +69,23 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
-                return Ok(reportService.GetTotalAnnualOverview(year));
+                return Ok(annualReport.GetAnnual(year));
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
+        }
+        [HttpGet("annual-overview-stored/{year}")]
+        public IActionResult GetStored(int year)
+        {
+            try
+            {
+                DateTime start = DateTime.Now;
+                var ar = (new AnnualReport(Unit)).GetStored(year);
+                DateTime final = DateTime.Now;
+                return Ok(new { dif = (final - start), ar });
             }
             catch (Exception ex)
             {
