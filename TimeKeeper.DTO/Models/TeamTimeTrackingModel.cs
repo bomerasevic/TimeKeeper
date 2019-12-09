@@ -9,9 +9,9 @@ namespace TimeKeeper.DTO.Models
     {
         public TeamTimeTrackingModel()
         {
-            hourTypes = new Dictionary<string, int>();
+            Employees = new List<EmployeeTimeModel>();
         }
-        public MasterModel Employee { get; set; }
-        public Dictionary<string, int> hourTypes { get; set; }
+        public MasterModel Team { get; set; }
+        public IList<EmployeeTimeModel> Employees { get; set; }
     }
 }

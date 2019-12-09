@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TimeKeeper.API.Models
+namespace TimeKeeper.DTO.Models
 {
-    public class EmployeeProjectModel
+    public class EmployeeProjectModelll
     {
         public string EmployeeName { get; set; }
         // years -> hours

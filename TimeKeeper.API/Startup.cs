@@ -11,7 +11,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Serialization;
-using TimeKeeper.API.Services;
 using TimeKeeper.DAL;
 using System.IdentityModel;
 using Microsoft.IdentityModel.Tokens;
