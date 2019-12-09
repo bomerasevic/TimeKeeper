@@ -6,7 +6,14 @@ import {
 	EMPLOYEE_FETCH_START,
 	EMPLOYEE_FETCH_SUCCESS,
 	EMPLOYEE_SELECT,
-	EMPLOYEE_EDIT_CANCEL
+	EMPLOYEE_CANCEL,
+	EMPLOYEE_EDIT_SUCCESS,
+	EMPLOYEE_ADD_START,
+	EMPLOYEE_ADD_FAIL,
+	EMPLOYEE_ADD_SUCCESS,
+	EMPLOYEE_DELETE_FAIL,
+	EMPLOYEE_DELETE_START,
+	EMPLOYEE_DELETE_SUCCESS
 } from "../actions/actionTypes";
 
 const initialUserState = {
@@ -14,7 +21,8 @@ const initialUserState = {
 	loading: false,
 	selected: false,
 	employee: null,
-	error: null
+	error: null,
+	reload: false
 };
 
 export const employeesReducer = (state = initialUserState, action) => {
@@ -49,7 +57,6 @@ export const employeesReducer = (state = initialUserState, action) => {
 				...state
 			};
 		case EMPLOYEE_FETCH_SUCCESS:
-			console.log(action.data);
 			return {
 				...state,
 				employee: action.data
@@ -58,7 +65,39 @@ export const employeesReducer = (state = initialUserState, action) => {
 			return {
 				...state
 			};
-		case EMPLOYEE_EDIT_CANCEL:
+		case EMPLOYEE_EDIT_SUCCESS:
+			return {
+				...state,
+				reload: action.reload
+			};
+		case EMPLOYEE_ADD_START:
+			return {
+				...state
+			};
+		case EMPLOYEE_ADD_SUCCESS:
+			return {
+				...state,
+				reload: action.reload
+			};
+		case EMPLOYEE_ADD_FAIL:
+			return {
+				...state
+			};
+		case EMPLOYEE_DELETE_START:
+			return {
+				...state
+			};
+		case EMPLOYEE_DELETE_SUCCESS:
+			return {
+				...state,
+				reload: action.reload
+			};
+		case EMPLOYEE_DELETE_FAIL:
+			return {
+				...state,
+				error: action.error
+			};
+		case EMPLOYEE_CANCEL:
 			return {
 				...state,
 				employee: null,

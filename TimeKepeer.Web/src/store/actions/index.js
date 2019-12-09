@@ -1,3 +1,24 @@
-export { fetchEmployees, employeeSelect } from "./employeesActions";
-export { fetchProjects, projectSelect } from "./projectsActions";
-export { fetchCustomers, customerSelect } from "./customersActions";
+export {
+	fetchEmployees,
+	employeeSelect,
+	fetchEmployee,
+	employeeCancel,
+	employeePut,
+	employeeAdd,
+	employeeDelete
+} from "./employeesActions";
+export { fetchCustomers, 
+	customerSelect, 
+	fetchCustomer, 
+	customerCancel, 
+	customerPut, 
+	customerAdd, 
+	customerDelete } from "./customersActions";
+export { 
+	 fetchProjects,
+	 projectSelect, 
+	 fetchProject, 
+	 projectCancel,
+	 projectPut,
+	 projectAdd, 
+	 projectDelete } from "./projectsActions";
