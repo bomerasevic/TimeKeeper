@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { fetchProjects, projectSelect } from "../../store/actions/index";
+import { fetchProjects, projectSelect, projectDelete} from "../../store/actions/index";
 import { withStyles } from "@material-ui/core/styles";
 import {
 	Table,
@@ -23,10 +23,11 @@ import AddIcon from "@material-ui/icons/Add";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
+import ProjectsModal from "./ProjectsModal";
 const ProjectsPage = (props) => {
 	const { classes } = props;
-	const { data, loading, error } = props;
-	const { fetchProjects, projectSelect } = props;
+    const { data, loading, error, selected, user, reload } = props;
+    const { fetchProjects, projectSelect, projectDelete } = props;
 	let projects = data;
 	useEffect(() => {
 		fetchProjects();
@@ -56,19 +57,23 @@ const ProjectsPage = (props) => {
 			) : (
 
 						<Paper className={classes.root}>
-
+                            {selected ? <ProjectsModal selected={selected} open={true} /> : null}
 							<Toolbar className={classes.toolbar}>
 								<div>
 									<Typography variant="h4" id="tableTitle" style={{ color: "white" }}>
 										Projects
 							</Typography>
 								</div>
+								{user.profile.role === "admin" ? (
+                          
 								<div>
-								<Button aria-label="Add" className=" addButton btn add" style={{ color: "white" , backgroundColor:"#26a69a"}}>
+								<Button aria-label="Add" className=" addButton btn add" style={{ color: "white" , backgroundColor:"#26a69a"}}
+								   onClick={() => projectSelect(null, "add")}>
 															Add
                                              </Button>
 							
 								</div>
+						     ) : null}
 							</Toolbar>
 							<Table className={classes.table}>
 								<TableHead>
@@ -152,7 +157,9 @@ const mapStateToProps = (state) => {
 		user: state.user.user,
 		data: state.projects.data,
 		loading: state.projects.loading,
-		error: state.projects.error
+		error: state.projects.error,
+		selected: state.projects.selected,
+        reload: state.projects.reload
 	};
 };
-export default connect(mapStateToProps, { fetchProjects, projectSelect })(withStyles(styles)(ProjectsPage));
+export default connect(mapStateToProps, { fetchProjects, projectSelect, projectDelete })(withStyles(styles)(ProjectsPage));

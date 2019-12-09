@@ -119,8 +119,8 @@ class NavigationLogin extends React.Component {
                                 </li>
                                 <li>
                                     <a style={{ padding: "0px" }}><img src={userLogo} style={{
-                                        height: "40px",
-                                        width: "auto", marginTop: "15px"
+                                        height: "30px",
+                                        width: "auto", marginTop: "18px"
                                     }}></img></a>
                                 </li>
                                 <li>

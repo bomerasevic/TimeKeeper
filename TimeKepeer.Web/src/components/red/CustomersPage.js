@@ -36,13 +36,12 @@ const CustomersPage = (props) => {
 			fetchCustomers();
 			customers = data;
 		}
-
-	}, []);
+}, []);
 
 	return (
 
-		<React.Fragment>
-
+<React.Fragment>
+​
 			<NavigationLogin />
 			{loading ? (
 				<Backdrop open={loading}>
@@ -63,25 +62,24 @@ const CustomersPage = (props) => {
 				</Backdrop>
 			) : (
 
-
 						<Paper className={classes.root}>
-
+​
 							{props.user ? (
 
 								<div>
 									<Toolbar className={classes.toolbar}>
 										<div>
 											<Typography variant="h4" id="tableTitle" style={{ color: "white" }}>
-												Customers:
+												Customers
 							</Typography>
 										</div>
 										<div>
 											<Button aria-label="Add" className=" addButton btn add" style={{ color: "white", backgroundColor: "#26a69a" }}>
 												Add
                                              </Button>
-
+​
 										</div>
-
+​
 									</Toolbar>
 									<Table className={classes.table}>
 										<TableHead>
@@ -103,7 +101,7 @@ const CustomersPage = (props) => {
 								</CustomTableCell>
 											</TableRow>
 										</TableHead>
-
+​
 										<TableBody>
 											{customers.map((c, i) => (
 												<TableRow key={c.id}>
@@ -114,7 +112,7 @@ const CustomersPage = (props) => {
 													<CustomTableCell>{c.phone}</CustomTableCell>
 													<CustomTableCell>{c.status.name}</CustomTableCell>
 													<CustomTableCell align="center">
-
+​
 														<Button aria-label="View" className=" button deleteButton a-btn delete">
 															View
 </Button>
@@ -123,7 +121,6 @@ const CustomersPage = (props) => {
 																aria-label="Edit"
 																className=" editButton add a-btn"
 																style={{ color: "#1cba85" }}
-
 															>
 																Edit
 </Button>) : null}
@@ -136,17 +133,17 @@ const CustomersPage = (props) => {
 												</TableRow>
 											))}
 										</TableBody>
-
-
-
-
-
+​
+​
+​
+​
+​
 									</Table>
 								</div>
 							) : <Redirect to='/app/access' />}
 						</Paper>
 					)}
-
+​
 		</React.Fragment>
 	);
 };
