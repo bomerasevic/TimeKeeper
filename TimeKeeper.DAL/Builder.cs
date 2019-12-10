@@ -12,6 +12,12 @@ namespace TimeKeeper.DAL
             if (typeof(T) == typeof(Project)) Create(entity as Project, context);
             if (typeof(T) == typeof(Day)) Create(entity as Day, context);
         }
+        
+        //private static void BuildPassword(User user)
+        //{
+        //    if (!string.IsNullOrWhiteSpace(user.Password)) user.Password = user.Username.HashWith(user.Password);
+        //}
+
         public static void Relate<T>(this T oldEntity, T newEntity)
         {
             if (typeof(T) == typeof(Project)) Modify(oldEntity as Project, newEntity as Project);

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using TimeKeeper.BLL.Services;
 using TimeKeeper.DAL;
 using TimeKeeper.Utility;
 
@@ -17,10 +18,13 @@ namespace TimeKeeper.API.Controllers
     public class BaseController : ControllerBase
     {
         protected UnitOfWork Unit;
-        public LoggerService Log = new LoggerService();
+        public LoggerService Log;
+        protected readonly AccessHandler Access;
         public BaseController(TimeKeeperContext context)
         {
             Unit = new UnitOfWork(context);
+            Log = new LoggerService();
+            Access = new AccessHandler(Unit);
         }
 
         public IActionResult HandleException(Exception e)
