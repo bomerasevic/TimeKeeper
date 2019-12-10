@@ -140,5 +140,15 @@ namespace TimeKeeper.DTO.Factory
                 Name = baseStatus.Name
             };
         }
+        public static UserModel Create(this User user)
+        {
+            return new UserModel
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Username = user.Username,
+                Role = user.Role,
+            };
+        }
     }
 }

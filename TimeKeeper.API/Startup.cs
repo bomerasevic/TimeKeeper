@@ -19,6 +19,7 @@ using TimeKeeper.API.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
+using TimeKeeper.BLL.Services;
 
 namespace TimeKeeper.API
 {
@@ -77,6 +78,10 @@ namespace TimeKeeper.API
                     builder.AddRequirements(new HasAccessToCustomers());
                 });
             });
+
+            services.AddAuthentication("TokenAuthentication")
+                   .AddScheme<AuthenticationSchemeOptions, TokenAuthenticationHandler>("TokenAuthentication", null);
+            
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -88,43 +93,7 @@ namespace TimeKeeper.API
                 o.RequireHttpsMetadata = false;
             });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            //services.AddAuthentication(o =>
-            //{
-            //    o.DefaultScheme = "Cookies";
-            //    o.DefaultChallengeScheme = "oidc";  // trazi i id_token i token
-            //}).AddCookie("Cookies", o =>
-            //{
-            //    o.AccessDeniedPath = "/AccessDenied";
-            //});
-              //.AddOpenIdConnect("oidc", o =>
-              //{
-              //    o.SignInScheme = "Cookies";
-              //    o.Authority = "https://localhost:44300";
-              //    o.ClientId = "tk2019";  // klijent kojeg smo prijavili
-              //    o.ClientSecret = "mistral_talents";
-              //    o.ResponseType = "code id_token";
-              //    o.Scope.Add("openid");  // identitet usera koji je prijavljen
-              //    o.Scope.Add("profile");
-              //    //o.Scope.Add("address");
-              //    o.Scope.Add("roles");
-              //    o.Scope.Add("timekeeper");
-              //    o.Scope.Add("teams");
-              //    o.SaveTokens = true;
-              //    o.GetClaimsFromUserInfoEndpoint = true;
-              //    o.ClaimActions.MapUniqueJsonKey("address", "address");
-              //    o.ClaimActions.MapUniqueJsonKey("role", "role");
-              //    o.ClaimActions.MapUniqueJsonKey("team", "team");
-              //    //o.TokenValidationParameters = new TokenValidationParameters
-              //    //{
-              //    //    NameClaimType = JwtClaimTypes.Name,
-              //    //    RoleClaimType = JwtClaimTypes.Role
-              //    //};
-              //})
-              
-
-            //services.AddAuthentication("BasicAuthentication")
-            //        .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
-
+            
             string connectionString = Configuration["ConnectionString"];
             services.AddDbContext<TimeKeeperContext>(o => { o.UseNpgsql(connectionString); });
 
