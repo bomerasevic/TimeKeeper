@@ -15,8 +15,8 @@ namespace TimeKeeper.DTO.Models
         }
         public int NumberOfEmployees { get; set; }
         public int NumberOfProjects { get; set; }
-        public int BaseTotalHours { get; set; }
-        public int TotalHours { get; set; }
+        public decimal BaseTotalHours { get; set; }
+        public decimal TotalHours { get; set; }
         public List<TeamKeyDictionary> PTOHours { get; set; }
         public List<TeamKeyDictionary> OvertimeHours { get; set; }
         public List<TeamKeyDictionary> MissingEntries { get; set; }
