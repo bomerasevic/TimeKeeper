@@ -1,15 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using TimeKeeper.DAL;
 using TimeKeeper.Domain;
+using TimeKeeper.DTO.Factory;
 using TimeKeeper.DTO.Models;
 using TimeKeeper.DTO.Models.DomainModels;
 
 namespace TimeKeeper.BLL.Services
 {
-    public static class Providers
+    public class Providers
     {
+        protected UnitOfWork Unit;
+        public Providers(UnitOfWork unit)
+        {
+            Unit = unit;
+        }
         public static decimal GetOvertimeHours(List<DayModel> workDays)
         {
             decimal overtime = 0;
@@ -65,6 +72,15 @@ namespace TimeKeeper.BLL.Services
             }
             return workingDays;
         }
+        public static int GetYearlyWorkingDays(int year)
+        {
+            int workingDays = 0;
+            for (int i = 1; i <= 12; i++)
+            {
+                workingDays += GetMonthlyWorkingDays(year, i);
+            }
+            return workingDays;
+        }
         public static Dictionary<string, decimal> SetMonthlyOverviewColumns(List<Project> projects)
         {
             Dictionary<string, decimal> projectColumns = new Dictionary<string, decimal>();
@@ -84,6 +100,14 @@ namespace TimeKeeper.BLL.Services
                     yearColumns.Add(a.Day.Date.Year, 0);
             }
             return yearColumns;
+        }
+        public List<DayModel> GetEmployeeCalendar(int employeeId, int year, int month)
+        {
+            return Unit.Calendar.Get().Where(x => x.Date.Year == year && x.Date.Month == month && x.Employee.Id == employeeId).Select(x => x.Create()).ToList();
+        }
+        public List<Day> GetEmployeeCalendar(int employeeId, int year)
+        {
+            return Unit.Calendar.Get().Where(x => x.Date.Year == year && x.Employee.Id == employeeId).ToList();
         }
     }
 }

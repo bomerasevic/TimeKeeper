@@ -21,6 +21,7 @@ namespace TimeKeeper.DTO.Models.ReportModels
         public decimal PTO { get; set; }
         public decimal Overtime { get; set; }
         public decimal TotalHours { get; set; }
+        public decimal PaidTimeOff { get; set; }
         public Dictionary<string, decimal> HourTypes { get; set; }
     }
 }

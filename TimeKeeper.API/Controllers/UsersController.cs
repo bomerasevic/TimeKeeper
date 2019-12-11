@@ -19,7 +19,7 @@ using TimeKeeper.DTO.Models.DomainModels;
 namespace TimeKeeper.API.Controllers
 {
     //[Authorize(Roles ="admin,user")]
-    [Authorize(AuthenticationSchemes = "TokenAuthentication")]
+    //[Authorize(AuthenticationSchemes = "TokenAuthentication")]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : BaseController

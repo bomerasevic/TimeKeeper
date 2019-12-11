@@ -23,7 +23,8 @@ namespace TimeKeeper.BLL.Services
         public User Check(string username, string password)
         {
             User user = (Unit.Users.Get(u => u.Username == username)).FirstOrDefault();
-            if (user == null || user.Password != username.HashWith(password)) user = null;
+            string p = username.HashWith(password);
+            if (user == null || user.Password != p) user = null;
             return user;
         }
         public string GetToken(User user)
