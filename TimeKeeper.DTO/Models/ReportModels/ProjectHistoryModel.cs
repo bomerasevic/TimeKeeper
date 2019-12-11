@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TimeKeeper.Domain;
 
-namespace TimeKeeper.DTO.Models
+namespace TimeKeeper.DTO.Models.ReportModels
 {
     public class ProjectHistoryModel
     {

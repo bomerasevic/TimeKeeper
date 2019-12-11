@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TimeKeeper.DTO.Models
+namespace TimeKeeper.DTO.Models.DomainModels
 {
     public class RoleModel
     {
