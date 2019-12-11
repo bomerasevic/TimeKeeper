@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TimeKeeper.DTO.Models
+namespace TimeKeeper.DTO.Models.DomainModels
 {
     public class UserModel
     {
