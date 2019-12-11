@@ -18,11 +18,13 @@ namespace TimeKeeper.API.Controllers
         //public ReportService reportService;
         public MonthlyReport monthlyReport;
         public AnnualReport annualReport;
+        public ProjectHistoryReport projectHistoryReport;
         public ReportController(TimeKeeperContext context) : base(context)
         {
             //reportService = new ReportService(Unit);
             monthlyReport = new MonthlyReport(Unit);
             annualReport = new AnnualReport(Unit);
+            projectHistoryReport = new ProjectHistoryReport(Unit);
         }
         [HttpGet("project-history-report/{projectId}")]
         [ProducesResponseType(200)]
@@ -33,7 +35,7 @@ namespace TimeKeeper.API.Controllers
             {
                 Log.Info($"Try to get project history for project with id:{projectId}");
                 // return Ok(reportService.GetProjectHistoryModel(projectId));
-                return Ok();
+                return Ok(projectHistoryReport.GetStoredProjectHistory(projectId));
             }
             catch (Exception ex)
             {
@@ -70,7 +72,6 @@ namespace TimeKeeper.API.Controllers
             try
             {
                 return Ok(annualReport.GetAnnual(year));
-                return Ok();
             }
             catch (Exception ex)
             {
