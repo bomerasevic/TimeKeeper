@@ -10,11 +10,10 @@ namespace TimeKeeper.DTO.Models.ReportModels
     {
         public ProjectHistoryModel()
         {
-            Employees = new List<EmployeeProjectModel>();
-            TotalYearlyProjectHours = new Dictionary<int, decimal>();
+            Employees = new List<EmployeeProjectHistoryModel>();
+            Years = new List<int>();
         }
-        public List<EmployeeProjectModel> Employees { get; set; }
-        public Dictionary<int, decimal> TotalYearlyProjectHours { get; set; }
-        public decimal TotalHoursPerProject { get; set; }
+        public List<int> Years { get; set; }
+        public List<EmployeeProjectHistoryModel> Employees { get; set; }
     }
 }
