@@ -17,7 +17,7 @@ namespace TimeKeeper.DTO.Models
             //}
         }
         public MasterModel Employee { get; set; }
-        public decimal PTOHours { get; set; }
+        public decimal PTO { get; set; }
         public decimal Overtime { get; set; }
         public decimal TotalHours { get; set; }
         public Dictionary<string, decimal> HourTypes { get; set; }
