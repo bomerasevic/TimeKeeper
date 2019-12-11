@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TimeKeeper.Domain;
 using TimeKeeper.DTO.Models;
+using TimeKeeper.DTO.Models.DomainModels;
 
 namespace TimeKeeper.BLL.Services
 {

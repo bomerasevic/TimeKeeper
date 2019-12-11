@@ -14,6 +14,7 @@ using TimeKeeper.Domain;
 using TimeKeeper.DTO.Factory;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using TimeKeeper.DTO.Models.DomainModels;
 
 namespace TimeKeeper.API.Controllers
 {

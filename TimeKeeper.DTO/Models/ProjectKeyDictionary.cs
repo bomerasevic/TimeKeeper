@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TimeKeeper.DTO.Models.DomainModels;
 
 namespace TimeKeeper.DTO.Models
 {
