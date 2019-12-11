@@ -323,7 +323,7 @@
 
 //            foreach (Assignment a in tasks)
 //            {
-//                if(!yearColumns.ContainsKey(a.Day.Date.Year))
+//                if (!yearColumns.ContainsKey(a.Day.Date.Year))
 //                    yearColumns.Add(a.Day.Date.Year, 0);
 //            }
 //            return yearColumns;

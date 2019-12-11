@@ -6,9 +6,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using TimeKeeper.API.Controllers;
-using TimeKeeper.API.Models;
 using TimeKeeper.DAL;
 using TimeKeeper.Domain;
+using TimeKeeper.DTO.Models.DomainModels;
 
 namespace TimeKeeper.Test.TestControllers
 {
