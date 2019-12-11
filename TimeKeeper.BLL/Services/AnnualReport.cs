@@ -9,6 +9,8 @@ using TimeKeeper.DAL;
 using TimeKeeper.Domain;
 using TimeKeeper.DTO.Factory;
 using TimeKeeper.DTO.Models;
+using TimeKeeper.DTO.Models.DomainModels;
+using TimeKeeper.DTO.Models.ReportModels;
 
 namespace TimeKeeper.BLL.Services
 {

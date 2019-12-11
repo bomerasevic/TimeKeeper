@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TimeKeeper.DTO.Models.DomainModels;
 
 namespace TimeKeeper.DTO.Models.ReportModels
 {
