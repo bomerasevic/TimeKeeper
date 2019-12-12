@@ -1,28 +1,25 @@
 import React from 'react';
 import {
-  SafeAreaView,
   TouchableOpacity,
-  FlatList,
   StyleSheet,
   Text, Image
 } from 'react-native';
-import Constants from 'expo-constants';
-
-function Item({ id, title, description, selected, onSelect }) {
+function Item({ item, openItem }) {
+  const {id,firstName,email} = item;
   return (
     <TouchableOpacity
-      onPress={() => onSelect(id)}
+      onPress={() => openItem(item)}
       style={[
         styles.item,
-        { backgroundColor: selected ? '#bae2e3' : 'lightcyan' },
+        { backgroundColor:  'white' },
       ]}
     >
       <Image
         style={styles.image}
         source={{ uri: 'https://cdn1.iconfinder.com/data/icons/technology-devices-2/100/Profile-512.png' }}
       />
-      <Text style={styles.title}>{title}</Text>
-      <Text style={styles.description}>{description}</Text>
+      <Text style={styles.title}>{firstName}</Text>
+      <Text style={styles.description}>{email}</Text>
 
 
     </TouchableOpacity>
@@ -40,28 +37,27 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 3,
-    height: 100
+    height: 70
   },
   title: {
-    fontSize: 28,
+    fontSize: 20,
+    fontWeight: 'bold',
     position: "absolute",
-    top: 0,
-    left: 100,
+    top: 10,
+    left: 80,
     color: 'black'
   },
   description: {
-    fontSize: 16,
+    fontSize: 14,
     color: 'black',
     position: "absolute",
-    top: 60,
-    left: 100,
+    top: 40,
+    left: 80,
   },
   image: {
-    width: 50,
-    height: 50
+    width: 40,
+    height: 40,
+    marginBottom: 20,
   },
-
-
-
 });
 export { Item };
