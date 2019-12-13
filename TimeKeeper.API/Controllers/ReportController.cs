@@ -47,7 +47,10 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
-                return Ok(monthlyReport.GetMonthly(year, month));
+                DateTime start = DateTime.Now;
+                var ar = (new MonthlyReport(Unit)).GetMonthly(year, month);
+                DateTime final = DateTime.Now;
+                return Ok(new { dif = (final - start), ar });
             }
             catch (Exception ex)
             {
@@ -59,7 +62,10 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
-                return Ok(monthlyReport.GetStored(year, month));
+                DateTime start = DateTime.Now;
+                var ar = (new MonthlyReport(Unit)).GetStored(year, month);
+                DateTime final = DateTime.Now;
+                return Ok(new { dif = (final - start), ar });
             }
             catch (Exception ex)
             {
