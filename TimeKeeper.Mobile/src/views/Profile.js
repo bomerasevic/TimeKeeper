@@ -30,10 +30,10 @@ export default class Profile extends Component {
     const data = [
       {
         id: "1",
-        title: "Berina Omerasevic",
-        description: "berkica@gmail.com",
-        position: "Developer",
-        phone: "061244555"
+        title: "Sarah Evans",
+        description: "sevans@school.edu",
+        position: "UIX",
+        phone: "062553674"
       }
     ]
     return (

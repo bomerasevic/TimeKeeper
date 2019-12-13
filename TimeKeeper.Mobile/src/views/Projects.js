@@ -1,61 +1,33 @@
 import React, { Component } from "react";
 import { getNews } from "../server";
 import { SafeAreaView, View, FlatList, Text } from "react-native";
-import Lista from "../components/List";
+import Lista from "../components/ListProject";
 import Constants from 'expo-constants';
 
 import { Icon, Header, Left } from 'native-base'
 import theme from '../assets/Theme';
-const DATA = [
-  {
-    id: '1',
-    title: 'DCS',
-    description: 'Team: Alpha'
-  },
-  {
-    id: '2',
-    title: 'LB',
-    description: 'Team: Bravo'
-  },
-  {
-    id: '3',
-    title: 'IMP',
-    description: 'Team: Charlie'
-  },
-  {
-    id: '4',
-    title: 'TW',
-    description: 'Team: Delta'
-  },
-  {
-    id: '5',
-    title: 'TDS',
-    description: 'Team: Theta'
-  },
-];
 
-const Item = ({ title }) => (
-  <View>
-    <Text>{title}</Text>
-  </View>
-);
+import { projects } from "../services/api";
+
 
 export default class Projects extends Component {
+  static navigationOptions = {
+    header: null
+  }
   state = {
-    result: [],
+    data: [],
   };
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: DATA
-    };
-  }
-
+  
   async componentDidMount() {
-    const result = await getNews();
-    this.setState({ result });
+    const data = await projects();
+    if (data.length > 0) {
+      this.setState({ data });
+    }
   }
-
+  openItem = (item) => {
+    console.log('inside open item method');
+    this.props.navigation.navigate("ProjectProfile", { item });
+  }
 
   render() {
     const { result } = this.state;

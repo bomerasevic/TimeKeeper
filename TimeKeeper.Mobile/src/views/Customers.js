@@ -1,59 +1,33 @@
 import React, { Component } from "react";
 import { getNews } from "../server";
 import { SafeAreaView, View, FlatList, Text } from "react-native";
-import Lista from "../components/List";
+import Lista from "../components/ListCustomer";
 import Constants from 'expo-constants';
 
 import { Icon, Header, Left } from 'native-base'
 import theme from '../assets/Theme';
-const DATA = [
-  {
-    id: '1',
-    title: 'ImageNetConsulting',
-    description: 'Project: TK.Mobile'
-  },
-  {
-    id: '2',
-    title: 'Big Data Scoring',
-    description: 'Project: TK.Web'
-  },
-  {
-    id: '3',
-    title: 'New York Times',
-    description: 'Project: TK.API'
-  },
-  {
-    id: '4',
-    title: 'Fine Art Limited',
-    description: 'Project: TK.IDP'
-  },
-  {
-    id: '5',
-    title: 'Art Colony',
-    description: 'Project: TK.DLL'
-  },
-];
 
-const Item = ({ title }) => (
-  <View>
-    <Text>{title}</Text>
-  </View>
-);
+import { customers } from "../services/api";
 
 export default class Customers extends Component {
-  state = {
-    result: [],
-  };
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: DATA
-    };
+  static navigationOptions = {
+    header: null
   }
+  state = {
+    data: [],
+  };
+  
 
   async componentDidMount() {
-    const result = await getNews();
-    this.setState({ result });
+    const data = await customers();
+    if (data.length > 0) {
+      this.setState({ data });
+    }
+  }
+
+  openItem = (item) => {
+    console.log('inside open item method');
+    this.props.navigation.navigate("CustomerProfile", { item });
   }
 
 
@@ -71,6 +45,7 @@ export default class Customers extends Component {
         </Header>
         <Lista
           data={this.state.data}
+          openItem={this.openItem}
         />
       </View>
     );

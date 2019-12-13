@@ -9,41 +9,26 @@ import {
 import { Divider } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { LinearGradient } from 'expo-linear-gradient';
-import  Company  from '../../assets/2.mistral.jpg';
-export default class Customer extends Component {
-
+import Teams  from '../../assets/project.png';
+export default class Team extends Component {
     render() {
         const item = this.props.navigation.getParam('item');
-
         return (
             <View style={styles.container}>
                 <View ><LinearGradient style={styles.header}
                     colors={['#a8edea', '#fed6e3']}
                 /></View>
-                <Image style={styles.avatar} source={Company} />
+                <Image style={styles.avatar} source={Teams} />
                 <View style={styles.body}>
                     <Text style={styles.name}> {item.name}</Text>
                     <Divider style={styles.divider} />
-                    <Text style={styles.info}> <Icon name='email' size={30} color="white" /> {item.contact}</Text>
+                    <Text style={styles.description}> {item.description}</Text>
                     <Divider style={styles.divider} />
-                    <Text style={styles.info}> <Icon name='account' size={30} color="white" /> {item.email}</Text>
-                    <Divider style={styles.divider} />
-                    <Text style={styles.info}>{item.status.name}</Text>
-                    <Divider style={styles.divider} />
-                    <Text style={styles.info}> <Icon name='phone' size={30} color="white" /> {item.phone}</Text>
-
-
-
-
                 </View>
-
             </View>
-
         );
     }
 }
-
-
 const styles = {
     container: {
         flex: 1,
@@ -79,7 +64,7 @@ const styles = {
     },
     body: {
         paddingTop: 44,
-         paddingBottom: 200,
+        paddingBottom: 250,
         //alignItems: "center",
         justifyContent: 'center',
         backgroundColor: 'rgb(57, 54, 62)',
@@ -142,6 +127,9 @@ const styles = {
         marginTop: 90,
         fontSize: 20,
         zIndex: 1,
+
+
+
 
     }
 

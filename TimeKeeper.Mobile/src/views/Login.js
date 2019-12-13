@@ -25,7 +25,7 @@ export default class Login extends Component {
     const val = await login(data);
     if (val) {
       this.props.navigation.navigate('HOME')
-      a
+      
     }
   }
 

@@ -4,11 +4,11 @@ import {
   StyleSheet,
 } from 'react-native';
 import Constants from 'expo-constants';
-import { Item } from './Item';
+import { ItemTeams } from './ItemTeams';
 
 import theme from '../assets/Theme';
 
-export default function List (props) {
+export default function ListTeam (props) {
  
   const { data, openItem } = props;
   console.log("Dataaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa: ",data[0])
@@ -17,7 +17,7 @@ export default function List (props) {
       data={data}
       
       renderItem={({ item }) => (
-        <Item
+        <ItemTeams
           style={styles.item}
           item={item}
           openItem={openItem}

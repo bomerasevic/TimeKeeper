@@ -9,7 +9,9 @@ import Customers  from "../views/Customers";
 import Teams from "../views/Teams";
 import Calendar from "../views/Calendar";
 import Welcome from "../views/Welcome";
-import EmployeeProfile from "../views/EmployeeProfile"
+import EmployeeProfile from "../views/EmployeeProfile";
+import TeamProfile from "../views/TeamProfile"
+import CustomerProfile from "../views/CustomerProfile";
 import {createDrawerNavigator} from "react-navigation-drawer"
 import theme from '../assets/Theme';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -17,8 +19,8 @@ const StackNavigator = createStackNavigator({
   Profile: {
     screen: Profile
   },
-  Calendar: {
-    screen: Calendar
+  EMPLOYEES: {
+    screen: People
   }
 },
 {
@@ -34,6 +36,34 @@ const StackNavigatorEmployee = createStackNavigator({
   },
   EmployeeProfile: {
     screen: EmployeeProfile
+  },
+  Calendar: {
+    screen: Calendar
+  }
+});
+const StackNavigatorCustomer = createStackNavigator({
+  CUSTOMERS: {
+    screen: Customers
+  },
+  CustomerProfile: {
+    screen: CustomerProfile
+  }
+});
+
+const StackNavigatorTeam = createStackNavigator({
+  TEAMS: {
+    screen: Teams
+  },
+  TeamProfile: {
+    screen: TeamProfile
+  }
+});
+const StackNavigatorProject = createStackNavigator({
+  TEAMS: {
+    screen: Teams
+  },
+  EmployeeProfile: {
+    screen: EmployeeProfile
   }
 });
 
@@ -43,13 +73,13 @@ const DrawerNavigator=createDrawerNavigator({
     screen: StackNavigatorEmployee
   },
   CUSTOMERS: {
-    screen: Customers
+    screen: StackNavigatorCustomer
   },
   PROJECTS: {
     screen: Projects
   },
   TEAMS: {
-    screen: Teams
+    screen: StackNavigatorTeam
   }, 
 })
 
