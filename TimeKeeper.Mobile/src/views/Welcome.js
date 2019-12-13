@@ -43,7 +43,7 @@ export default class Welcome extends Component {
                     <Image style={styles.logo}
                         source={Puzzle}
                     />
-                    <Text style={styles.mainTitle}>{this.state.message} User</Text>
+                    <Text style={styles.mainTitle}>{this.state.message} Sarah Evans</Text>
                     <Text style={styles.title}> This is your TimeKeeper.</Text>
                     <Text style={styles.title}> Keep doing a great job.</Text>
                     <Text style={styles.date}>{this.state.date}</Text>

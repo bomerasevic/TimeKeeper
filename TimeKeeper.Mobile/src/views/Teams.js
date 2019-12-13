@@ -1,66 +1,33 @@
 import React, { Component } from "react";
 import { getNews } from "../server";
 import { SafeAreaView, View, FlatList, Text } from "react-native";
-import Lista from "../components/List";
+import Lista from "../components/ListTeam";
 import Constants from 'expo-constants';
+import { teams } from "../services/api";
 
 import { Icon, Header, Left } from 'native-base'
 import theme from '../assets/Theme';
-const DATA = [
-  {
-    id: '1',
-    title: 'Alpha',
-    description: 'Project: TK.Mobile'
-  },
-  {
-    id: '2',
-    title: 'Bravo',
-    description: 'Project: TK.Web'
-  },
-  {
-    id: '3',
-    title: 'Charlie',
-    description: 'Project: TK.API'
-  },
-  {
-    id: '4',
-    title: 'Delta',
-    description: 'Project: TK.IDP'
-  },
-  {
-    id: '5',
-    title: 'Foxtrot',
-    description: 'Project: TK.DLL'
-  },
-  {
-    id: '6',
-    title: 'Sierra',
-    description: 'Project: TK.DLL'
-  },
-];
-
-const Item = ({ title }) => (
-  <View>
-    <Text>{title}</Text>
-  </View>
-);
 
 export default class Teams extends Component {
-  state = {
-    result: [],
-  };
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: DATA
-    };
+  static navigationOptions = {
+    header: null
   }
+  state = {
+    data: [],
+  };
+  
 
   async componentDidMount() {
-    const result = await getNews();
-    this.setState({ result });
+    const data = await teams();
+    if (data.length > 0) {
+      this.setState({ data });
+    }
   }
 
+  openItem = (item) => {
+    console.log('inside open item method');
+    this.props.navigation.navigate("TeamProfile", { item });
+  }
 
   render() {
     const { result } = this.state;
@@ -75,7 +42,8 @@ export default class Teams extends Component {
           <Text style={styles.header}>TEAMS</Text>
         </Header>
         <Lista
-          data={this.state.data}
+          data={this.state.data}          
+          openItem={this.openItem}
         />
       </View>
     );

@@ -4,8 +4,8 @@ import {
   StyleSheet,
   Text, Image
 } from 'react-native';
-function Item({ item, openItem }) {
-  const {id,firstName,email, lastName} = item;
+function ItemTeams({ item, openItem }) {
+  const {id,name, description} = item;
   return (
     <TouchableOpacity
       onPress={() => openItem(item)}
@@ -16,10 +16,11 @@ function Item({ item, openItem }) {
     >
       <Image
         style={styles.image}
-        source={{ uri: 'https://cdn1.iconfinder.com/data/icons/technology-devices-2/100/Profile-512.png' }}
+        source={{ uri: 'http://www.newdesignfile.com/postpic/2009/03/employee-benefits-clip-art-icon_303858.png' }}
       />
-      <Text style={styles.title}>{firstName} {lastName}</Text>
-      <Text style={styles.description}>{email}</Text>
+      <Text style={styles.title}>{name}</Text>
+      <Text style={styles.description}>{description}</Text>
+     
 
 
     </TouchableOpacity>
@@ -60,4 +61,4 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
 });
-export { Item };
+export { ItemTeams };

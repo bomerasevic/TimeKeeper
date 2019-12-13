@@ -8,10 +8,6 @@ import theme from '../assets/Theme';
 import { Icon, Header, Left } from 'native-base'
 
 import { employees } from "../services/api";
-// _employees = async () => {  
-//    const val = await employees();
-//    //console.log("value", val)
-// }
 
 
 export default class People extends Component {

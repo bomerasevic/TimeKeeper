@@ -11,23 +11,52 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { LinearGradient } from 'expo-linear-gradient';
 import {Button} from '../components/Button';
 import RNModal from '../components/Modal';
-import Photo from '../../assets/Beri.jpg'
+import Photo from '../../assets/person3.jpg'
+import Calendar from '../views/Calendar'
+import moment from "moment";
+import DateTimePicker from "react-native-modal-datetime-picker";
 
 //import BackgroundImage from '../../assets/abstract-beads-blur-bright-276218.jpg'
  
  
 export default class Profile extends Component {
   state = {
-    open: false
+    open: false,
+    isDateTimePickerVisible: false,
+    stringDate: null,
+    date: null,
+    employeeData: this.props.navigation.getParam('item')
   };
   handleOpen = () => {
     this.setState({ open: true });
   };
+
   handleClose = () => {
     this.setState({ open: false });
   };
+  handleOpenCalendar = () => {
+    this.setState({ open: false });
+    this.props.navigation.navigate("Calendar", {
+      date: this.state.date,
+      id: this.state.employeeData.id
+    });
+  };
+  showDateTimePicker = () => {
+    this.setState({ isDateTimePickerVisible: true });
+  };
+  hideDateTimePicker = () => {
+    this.setState({ isDateTimePickerVisible: false });
+  };
+
+  handleDatePicked = date => {
+    this.setState({ date: date });
+    console.log("A date picked: ", date);
+    stringDate = JSON.parse(JSON.stringify(moment(date).format("MMM Do YY")));
+    this.setState({ stringDate: stringDate });
+    this.hideDateTimePicker();
+  };
   render() {
-    const item = this.props.navigation.getParam('item');
+    const employeeData = this.props.navigation.getParam('item');
     
     return (
       <View style={styles.container}>
@@ -37,15 +66,36 @@ export default class Profile extends Component {
           <Image style={styles.avatar} source={Photo}/> 
           <View style={styles.body}>
             
-              <Text style={styles.name}> {item.title}</Text>
+              <Text style={styles.name}> {employeeData.firstName} {employeeData.lastName}</Text>
               <Divider style={styles.divider} />
-              <Text style={styles.info}> <Icon  name='email' size={30} color="white" /> {item.description}</Text>
+              <Text style={styles.info}> <Icon  name='email' size={30} color="white" /> {employeeData.email}</Text>
               <Divider style={styles.divider } />
-              <Text style={styles.info}> <Icon  name='account' size={30} color="white" /> "Developer"</Text>
+              <Text style={styles.info}> <Icon  name='account' size={30} color="white" /> {employeeData.status.name}</Text>
               <Divider style={styles.divider} />
-              <Text style={styles.info}> <Icon  name='phone' size={30} color="white" />"061 513 321"</Text>
-              <Button title="Calendar" onPress={this.handleOpen}>Calendar</Button>
-        <RNModal visible={this.state.open} onClose={this.handleClose} />
+              <Text style={styles.info}> <Icon  name='phone' size={30} color="white" />{employeeData.phone}</Text>
+              <Button onPress={this.handleOpen} outline>
+          View calendar
+        </Button>
+        <RNModal visible={this.state.open} onClose={this.handleClose}>
+          <View style={styles.modal}>
+            <Button onPress={this.showDateTimePicker}>
+              {!this.state.date ? "Select date" : "Change date"}
+            </Button>
+            <DateTimePicker
+              isVisible={this.state.isDateTimePickerVisible}
+              onConfirm={this.handleDatePicked}
+              onCancel={this.hideDateTimePicker}
+            />
+            <View style={styles.pickedDate}>
+              {!this.state.date ? null : (
+                <Text>Picked date {this.state.stringDate}</Text>
+              )}
+            </View>
+            {this.state.date ? (
+              <Button onPress={this.handleOpenCalendar}>Open</Button>
+            ) : null}
+          </View>
+        </RNModal>
         </View>
       </View>
     );

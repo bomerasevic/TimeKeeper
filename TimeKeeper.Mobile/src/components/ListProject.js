@@ -4,11 +4,11 @@ import {
   StyleSheet,
 } from 'react-native';
 import Constants from 'expo-constants';
-import { Item } from './Item';
+import { ItemProjects } from './ItemProjects';
 
 import theme from '../assets/Theme';
 
-export default function List (props) {
+export default function ListProject (props) {
  
   const { data, openItem } = props;
   console.log("Dataaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa: ",data[0])
@@ -17,7 +17,7 @@ export default function List (props) {
       data={data}
       
       renderItem={({ item }) => (
-        <Item
+        <ItemProjects
           style={styles.item}
           item={item}
           openItem={openItem}
@@ -26,7 +26,7 @@ export default function List (props) {
 
         />
       )}
-      keyExtractor={item => item.id+""}
+      keyExtractor={item => item.id + ""}
     //extraData={selected}
     />
   );
