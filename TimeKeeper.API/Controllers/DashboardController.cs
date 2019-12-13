@@ -28,7 +28,7 @@ namespace TimeKeeper.API.Controllers
             try
             {
                 Log.Info($"Try to get dashboard for admin");
-                return Ok(dashboardService.GetAdminDashboardModel(year, month));
+                return Ok(dashboardService.GetAdminDashboardInfo(year, month));
             }
             catch (Exception ex)
             {
@@ -87,7 +87,7 @@ namespace TimeKeeper.API.Controllers
                 return HandleException(ex);
             }
         }
-        [AllowAnonymous]
+        //[AllowAnonymous]
         [HttpGet("team-time-tracking/{teamId}/{year}/{month}")]
         public IActionResult GetTimeTracking(int teamId, int year, int month)
         {

@@ -14,9 +14,11 @@
 //    public class ReportService
 //    {
 //        protected UnitOfWork Unit;
+//        protected Providers Providers;
 //        public ReportService(UnitOfWork unit)
 //        {
 //            Unit = unit;
+//            Providers = new Providers(Unit);
 //        }
 //        public EmployeeMonthlyProjectModel GetEmployeeMonthlyOverview(List<Project> projects, EmployeeModel employee, List<Assignment> tasks)
 //        {

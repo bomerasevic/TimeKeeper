@@ -17,7 +17,7 @@ namespace TimeKeeper.BLL.Services
         {
             Unit = unit;
         }
-        public static decimal GetOvertimeHours(List<DayModel> workDays)
+        public decimal GetOvertimeHours(List<DayModel> workDays)
         {
             decimal overtime = 0;
             foreach (DayModel day in workDays)
@@ -35,7 +35,7 @@ namespace TimeKeeper.BLL.Services
 
             return overtime;
         }
-        public static int GetMonthWeekDays(int month, int year)
+        public int GetMonthWeekDays(int month, int year)
         {
             DateTime day = new DateTime(year, month, 1);
             int monthWeekDays = 0;
@@ -47,7 +47,7 @@ namespace TimeKeeper.BLL.Services
             }
             return monthWeekDays;
         }
-        public static Dictionary<int, decimal> SetMonths()
+        public Dictionary<int, decimal> SetMonths()
         {
             Dictionary<int, decimal> HoursPerMonth = new Dictionary<int, decimal>();
 
@@ -57,7 +57,7 @@ namespace TimeKeeper.BLL.Services
             }
             return HoursPerMonth;
         }
-        public static int GetMonthlyWorkingDays(int year, int month)
+        public int GetMonthlyWorkingDays(int year, int month)
         {
             int daysInMonth = DateTime.DaysInMonth(year, month);
             int workingDays = 0;
@@ -72,7 +72,7 @@ namespace TimeKeeper.BLL.Services
             }
             return workingDays;
         }
-        public static int GetYearlyWorkingDays(int year)
+        public int GetYearlyWorkingDays(int year)
         {
             int workingDays = 0;
             for (int i = 1; i <= 12; i++)
@@ -81,7 +81,7 @@ namespace TimeKeeper.BLL.Services
             }
             return workingDays;
         }
-        public static Dictionary<string, decimal> SetMonthlyOverviewColumns(List<Project> projects)
+        public Dictionary<string, decimal> SetMonthlyOverviewColumns(List<Project> projects)
         {
             Dictionary<string, decimal> projectColumns = new Dictionary<string, decimal>();
             foreach (Project project in projects)
@@ -90,7 +90,7 @@ namespace TimeKeeper.BLL.Services
             }
             return projectColumns;
         }
-        public static Dictionary<int, decimal> SetYearsColumns(List<Assignment> tasks)
+        public Dictionary<int, decimal> SetYearsColumns(List<Assignment> tasks)
         {
             Dictionary<int, decimal> yearColumns = new Dictionary<int, decimal>();
 
@@ -105,9 +105,19 @@ namespace TimeKeeper.BLL.Services
         {
             return Unit.Calendar.Get().Where(x => x.Date.Year == year && x.Date.Month == month && x.Employee.Id == employeeId).Select(x => x.Create()).ToList();
         }
-        public List<Day> GetEmployeeCalendar(int employeeId, int year)
+        public List<DayModel> GetEmployeeCalendar(int employeeId, int year)
         {
-            return Unit.Calendar.Get().Where(x => x.Date.Year == year && x.Employee.Id == employeeId).ToList();
+            return Unit.Calendar.Get().Where(x => x.Date.Year == year && x.Employee.Id == employeeId).Select(x => x.Create()).ToList();
+        }
+        public int GetNumberOfEmployeesForTimePeriod(int month, int year)
+        {
+            return Unit.Employees.Get(x => x.BeginDate < new DateTime(year, month, DateTime.DaysInMonth(year, month)) //if employees begin date is in required month
+                            && (x.EndDate == null || x.EndDate == new DateTime(1, 1, 1) || x.EndDate > new DateTime(year, month, DateTime.DaysInMonth(year, month)))).Count(); // still works in company, or left company after required month          
+        }
+        public int GetNumberOfProjectsForTimePeriod(int month, int year)
+        {
+            return Unit.Projects.Get(x => x.StartDate < new DateTime(year, month, DateTime.DaysInMonth(year, month)) //if project began is in required month
+                            && (x.EndDate == null || x.EndDate == new DateTime(1, 1, 1) || x.EndDate > new DateTime(year, month, DateTime.DaysInMonth(year, month)))).Count(); // project still in progress, or ended after the required month          
         }
     }
 }
