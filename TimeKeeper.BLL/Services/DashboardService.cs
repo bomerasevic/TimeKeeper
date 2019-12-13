@@ -15,27 +15,20 @@ namespace TimeKeeper.BLL.Services
     public class DashboardService
     {
         protected UnitOfWork Unit;
+        protected Providers Providers;
         public DashboardService(UnitOfWork unit)
         {
             Unit = unit;
+            Providers = new Providers(Unit);
         }
-        public int GetNumberOfEmployeesForTimePeriod(int month, int year)
-        {
-            return Unit.Employees.Get(x => x.BeginDate < new DateTime(year, month, DateTime.DaysInMonth(year, month)) //if employees begin date is in required month
-                            && (x.EndDate == null || x.EndDate == new DateTime(1, 1, 1) || x.EndDate > new DateTime(year, month, DateTime.DaysInMonth(year, month)))).Count(); // still works in company, or left company after required month          
-        }
-        public int GetNumberOfProjectsForTimePeriod(int month, int year)
-        {
-            return Unit.Projects.Get(x => x.StartDate < new DateTime(year, month, DateTime.DaysInMonth(year, month)) //if project began is in required month
-                            && (x.EndDate == null || x.EndDate == new DateTime(1, 1, 1) || x.EndDate > new DateTime(year, month, DateTime.DaysInMonth(year, month)))).Count(); // project still in progress, or ended after the required month          
-        }
+        
         public AdminDashboardModel GetAdminDashboardInfo(int year, int month)
         {
             AdminDashboardModel adminDashboard = new AdminDashboardModel();
 
-            adminDashboard.NumberOfEmployees = GetNumberOfEmployeesForTimePeriod(month, year);
+            adminDashboard.NumberOfEmployees = Providers.GetNumberOfEmployeesForTimePeriod(month, year);
 
-            adminDashboard.NumberOfProjects = GetNumberOfProjectsForTimePeriod(month, year);
+            adminDashboard.NumberOfProjects = Providers.GetNumberOfProjectsForTimePeriod(month, year);
 
             decimal monthlyBaseHours = Providers.GetMonthlyWorkingDays(year, month) * 8;
             adminDashboard.BaseTotalHours = monthlyBaseHours * adminDashboard.NumberOfEmployees;
@@ -195,14 +188,14 @@ namespace TimeKeeper.BLL.Services
         
         public PersonalDashboardModel GetEmployeeDashboard(int employeeId, int year)
         {
-            List<DayModel> calendar = GetEmployeeCalendar(employeeId, year);
+            List<DayModel> calendar = Providers.GetEmployeeCalendar(employeeId, year);
             decimal totalHours = Providers.GetYearlyWorkingDays(year) * 8;
 
             return CreatePersonalDashboard(employeeId, year, totalHours, calendar);
         }
         public PersonalDashboardModel GetEmployeeDashboard(int employeeId, int year, int month)
         {
-            List<DayModel> calendar = GetEmployeeCalendar(employeeId, year, month);
+            List<DayModel> calendar = Providers.GetEmployeeCalendar(employeeId, year, month);
             decimal totalHours = Providers.GetMonthlyWorkingDays(year, month) * 8;
 
             return CreatePersonalDashboard(employeeId, year, totalHours, calendar);
@@ -223,7 +216,7 @@ namespace TimeKeeper.BLL.Services
 
         public decimal GetBradfordFactor(int employeeId, int year)
         {
-            List<DayModel> calendar = GetEmployeeCalendar(employeeId, year);
+            List<DayModel> calendar = Providers.GetEmployeeCalendar(employeeId, year);
             //an absence instance are any number of consecutive absence days. 3 consecutive absence days make an instance.
             int absenceInstances = 0;
             int absenceDays = 0;

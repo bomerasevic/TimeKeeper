@@ -9,8 +9,8 @@ namespace TimeKeeper.DTO.Models.DashboardModels
     {
         public TeamMemberDashboardModel()
         {
-            WorkingHours = new Dictionary<string, decimal>();
-            MissingEntries = new Dictionary<int, decimal>();
+            //WorkingHours = new Dictionary<string, decimal>();
+            //MissingEntries = new Dictionary<int, decimal>();
         }
         public MasterModel Employee { get; set; }
         public decimal TotalHours { get; set; }
