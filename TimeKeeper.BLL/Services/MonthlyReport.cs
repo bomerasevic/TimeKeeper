@@ -101,18 +101,62 @@ namespace TimeKeeper.BLL.Services
 
             return pmm;
         }
+        //public ProjectMonthlyModel GetStored(int year, int month)
+        //{
+        //    ProjectMonthlyModel result = new ProjectMonthlyModel();
+        //    var cmd = _unit.Context.Database.GetDbConnection().CreateCommand();  // pokrecemo query definisan u bazi
+        //    cmd.CommandType = CommandType.Text;
+        //    cmd.CommandText = $"select * from MonthlyReport({year},{month})";
+        //    if (cmd.Connection.State == ConnectionState.Closed) cmd.Connection.Open();
+        //    DbDataReader sql = cmd.ExecuteReader();
+        //    List<MonthlyRawData> rawData = new List<MonthlyRawData>();
+        //    if(sql.HasRows)
+        //    {
+        //        while(sql.Read())
+        //        {
+        //            rawData.Add(new MonthlyRawData
+        //            {
+        //                EmpId = sql.GetInt32(0),
+        //                EmpName = sql.GetString(1),
+        //                ProjId = sql.GetInt32(2),
+        //                ProjName = sql.GetString(3),
+        //                Hours = sql.GetDecimal(4)
+        //            });
+        //        }
+        //        result.Projects = rawData.GroupBy(x => new { x.ProjId, x.ProjName })
+        //                                 .Select(x => new MasterModel { Id = x.Key.ProjId, Name = x.Key.ProjName}).ToList();
+        //        List<int> projList = result.Projects.Select(x => x.Id).ToList();
+        //        EmployeeProjectModel epm = new EmployeeProjectModel(projList) {Employee = new MasterModel { Id = 0 } };
+        //        foreach (MonthlyRawData item in rawData)
+        //        {
+        //            if(item.EmpId != epm.Employee.Id)
+        //            {
+        //                if (epm.Employee.Id != 0) result.Employees.Add(epm);
+        //                epm = new EmployeeProjectModel(projList)
+        //                {
+        //                    Employee = new MasterModel { Id = item.EmpId, Name = item.EmpName }
+        //                };
+        //            }
+        //            epm.Hours[item.ProjId] = item.Hours;
+        //            epm.TotalHours += item.Hours;
+        //        }
+        //        if (epm.Employee.Id != 0) result.Employees.Add(epm);
+        //    }
+        //    return result;
+        //}
+
         public ProjectMonthlyModel GetStored(int year, int month)
         {
             ProjectMonthlyModel result = new ProjectMonthlyModel();
-            var cmd = _unit.Context.Database.GetDbConnection().CreateCommand();  // pokrecemo query definisan u bazi
+            var cmd = _unit.Context.Database.GetDbConnection().CreateCommand();
             cmd.CommandType = CommandType.Text;
             cmd.CommandText = $"select * from MonthlyReport({year},{month})";
             if (cmd.Connection.State == ConnectionState.Closed) cmd.Connection.Open();
             DbDataReader sql = cmd.ExecuteReader();
             List<MonthlyRawData> rawData = new List<MonthlyRawData>();
-            if(sql.HasRows)
+            if (sql.HasRows)
             {
-                while(sql.Read())
+                while (sql.Read())
                 {
                     rawData.Add(new MonthlyRawData
                     {
@@ -124,12 +168,15 @@ namespace TimeKeeper.BLL.Services
                     });
                 }
                 result.Projects = rawData.GroupBy(x => new { x.ProjId, x.ProjName })
-                                         .Select(x => new MasterModel { Id = x.Key.ProjId, Name = x.Key.ProjName}).ToList();
+                                         .Select(x => new MasterModel { Id = x.Key.ProjId, Name = x.Key.ProjName }).ToList();
                 List<int> projList = result.Projects.Select(x => x.Id).ToList();
-                EmployeeProjectModel epm = new EmployeeProjectModel(projList) {Employee = new MasterModel { Id = 0 } };
+                EmployeeProjectModel total = new EmployeeProjectModel(projList) { Employee = new MasterModel { Id = 0, Name = "TOTAL" } };
+                EmployeeProjectModel epm = new EmployeeProjectModel(projList) { Employee = new MasterModel { Id = 0 } };
+                epm.TotalHours = 0;
                 foreach (MonthlyRawData item in rawData)
                 {
-                    if(item.EmpId != epm.Employee.Id)
+                    //is it new employee?
+                    if (item.EmpId != epm.Employee.Id)
                     {
                         if (epm.Employee.Id != 0) result.Employees.Add(epm);
                         epm = new EmployeeProjectModel(projList)
@@ -137,10 +184,13 @@ namespace TimeKeeper.BLL.Services
                             Employee = new MasterModel { Id = item.EmpId, Name = item.EmpName }
                         };
                     }
-                    epm.Hours[item.ProjId] = item.Hours;
+                    epm.Hours[item.ProjId] += item.Hours;
                     epm.TotalHours += item.Hours;
+                    total.Hours[item.ProjId] += item.Hours;
+                    total.TotalHours += item.Hours;
                 }
                 if (epm.Employee.Id != 0) result.Employees.Add(epm);
+                result.Employees.Add(total);
             }
             return result;
         }

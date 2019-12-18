@@ -5,6 +5,12 @@ using TimeKeeper.DTO.Models.DomainModels;
 
 namespace TimeKeeper.DTO.Models.DashboardModels
 {
+    public class AdminTeamRawModel
+    {
+        public int TeamId { get; set; }
+        public string TeamName { get; set; }
+        public decimal PTOHours { get; set; }
+    }
     public class AdminTeamDashboardModel
     {
         public MasterModel Team { get; set; }
