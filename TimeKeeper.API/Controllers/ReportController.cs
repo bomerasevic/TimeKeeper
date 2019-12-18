@@ -15,18 +15,16 @@ namespace TimeKeeper.API.Controllers
     [ApiController]
     public class ReportController : BaseController
     {
-        //public ReportService reportService;
         public MonthlyReport monthlyReport;
         public AnnualReport annualReport;
         public ProjectHistoryReport projectHistoryReport;
         public ReportController(TimeKeeperContext context) : base(context)
         {
-            //reportService = new ReportService(Unit);
             monthlyReport = new MonthlyReport(Unit);
             annualReport = new AnnualReport(Unit);
             projectHistoryReport = new ProjectHistoryReport(Unit);
         }
-        [HttpGet("project-history-report/{projectId}")]
+        [HttpGet("project-history-report-stored/{projectId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         public IActionResult GetProjectHistory(int projectId)
