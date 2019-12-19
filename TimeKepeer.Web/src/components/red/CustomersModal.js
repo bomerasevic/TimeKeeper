@@ -50,36 +50,7 @@ const Schema = Yup.object().shape({
   project: Yup.string().required("Project is Required!")
 });
 
-// fetchEmployee = id => {
-//   if (id === 666) {
-//     this.setState({ finish: true });
-//   } else {
-//     axios(`${config.apiUrl}employees/${id}`, {
-//       headers: {
-//         "Content-Type": "application/json",
-//         Authorization: config.token
-//       }
-//     })
-//       .then(res => {
-//         //console.log(res.data.members);
-//         let fetchedName = [];
-//         res.data.members.forEach(r => {
-//           let team = test(r.name);
-//           let id = r.id;
-//           let data = { id, team };
-//           fetchedName.push(data);
-//         });
-//         console.log(fetchedName);
 
-//         this.setState({
-//           employee: res.data,
-//           rows: fetchedName,
-//           finish: true
-//         });
-//       })
-//       .catch(() => this.setState({ finish: true }));
-//   }
-// };
 
 
 const CustomersModal = (props) => {
@@ -162,34 +133,7 @@ const CustomersModal = (props) => {
                 customerAdd(values)
               }
 
-            
-              // if (employee) {
-              //   values.id = employee.id;
-              //   axios
-              //     .put(
-              //       `${config.apiUrl}employees/${id}`,
-              //       values,
-              //       config.authHeader
-              //     )
-              //     .then(res => {
-              //       handleClose();
-              //     })
-              //     .catch(err => {
-              //       this.setState({ loading: false });
-              //       console.log("error");
-              //     });
-              // } else {
-              //   console.log(values);
-              //   axios
-              //     .post(`${config.apiUrl}employees`, values, config.authHeader)
-              //     .then(res => {
-              //       handleClose();
-              //     })
-              //     .catch(err => {
-              //       this.setState({ loading: false });
-              //       console.log("error");
-              //     });
-              // }
+         
             }}
           >
             {({ errors, touched }) => (

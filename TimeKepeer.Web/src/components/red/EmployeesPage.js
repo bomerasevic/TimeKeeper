@@ -18,16 +18,12 @@ import {
     Typography
 } from "@material-ui/core";
 import styles from "./EmployeesStyles";
-import AddIcon from "@material-ui/icons/Add";
 import VisibilityIcon from "@material-ui/icons/Visibility";
-import EditIcon from "@material-ui/icons/Edit";
-import DeleteIcon from "@material-ui/icons/Delete";
 import NavigationLogin from "../NavigationLogin/NavigationLogin";
 import EmployeesModal from "./EmployeesModal";
 const EmployeesPage = (props) => {
-    const { classes } = props;
-    const { data, loading, error, selected, user, reload } = props;
-    const { fetchEmployees, employeeSelect, employeeDelete } = props;
+    const { classes, data, loading, error, selected, user, reload,fetchEmployees, employeeSelect, employeeDelete } = props;
+    
     let employees = data;
     useEffect(() => {
         fetchEmployees();
