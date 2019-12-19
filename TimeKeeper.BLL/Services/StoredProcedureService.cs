@@ -6,6 +6,7 @@ using System.Data.Common;
 using System.Text;
 using TimeKeeper.DAL;
 using TimeKeeper.DTO.Models;
+using TimeKeeper.DTO.Models.DashboardModels;
 
 namespace TimeKeeper.BLL.Services
 {
@@ -54,6 +55,13 @@ namespace TimeKeeper.BLL.Services
                     cmd.Connection.Close();
                     return rawData as List<Entity>;
                 }
+                if(typeof(Entity) == typeof(TeamRawPTOModel))   // racunanje pto po memberu
+                {
+                    List<TeamRawPTOModel> rawData = new List<TeamRawPTOModel>();
+                    while (sql.Read()) rawData.Add(CreateTeamRawPTOModel(sql));
+                    cmd.Connection.Close();
+                    return rawData as List<Entity>;
+                }
             }
             return null;
         }
@@ -84,6 +92,14 @@ namespace TimeKeeper.BLL.Services
                 Value = sql.GetDecimal(2)
             };
         }
-
+        public TeamRawPTOModel CreateTeamRawPTOModel(DbDataReader sql)
+        {
+            return new TeamRawPTOModel
+            {
+                MemberId = sql.GetInt32(0),
+                MemberName = sql.GetString(1),
+                PaidTimeOff = sql.GetDecimal(2)
+            };
+        }
     }
 }

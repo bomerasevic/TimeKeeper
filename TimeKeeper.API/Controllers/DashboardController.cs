@@ -28,7 +28,24 @@ namespace TimeKeeper.API.Controllers
             try
             {
                 Log.Info($"Try to get dashboard for admin");
-                return Ok(dashboardService.GetAdminDashboardInfo(year, month));
+                //return Ok(dashboardService.GetAdminDashboardInfo(year, month));
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
+        }
+        [HttpGet("admin-dashboard-stored/{year}/{month}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public IActionResult GetAdminDashboardStored(int year, int month)
+        {
+            try
+            {
+                Log.Info($"Try to get dashboard for admin");
+                return Ok(dashboardService.GetAdminDashboardStored(year, month));
+                //return Ok();
             }
             catch (Exception ex)
             {
@@ -43,7 +60,24 @@ namespace TimeKeeper.API.Controllers
             try
             {
                 Log.Info($"Try to get dashboard for team with id:{teamId}");
-                return Ok(dashboardService.GetTeamDashboard(teamId, year, month));
+                //return Ok(dashboardService.GetTeamDashboard(teamId, year, month));
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
+        }
+        [HttpGet("team-dashboard-stored/{teamId}/{year}/{month}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public IActionResult GetTeamDashboardStored(int teamId, int year, int month)
+        {
+            try
+            {
+                Log.Info($"Try to get dashboard for team with id:{teamId}");
+                return Ok(dashboardService.GetTeamDashboardStored(Unit.Teams.Get(teamId), year, month));
+                //return Ok();
             }
             catch (Exception ex)
             {
@@ -93,7 +127,7 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
-                return Ok(dashboardService.GetTeamMonthReport(teamId, year, month));
+                return Ok(dashboardService.GetTeamMonthReport(Unit.Teams.Get(teamId), year, month));
             }
             catch (Exception ex)
             {

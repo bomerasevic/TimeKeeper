@@ -54,7 +54,7 @@ namespace TimeKeeper.BLL.Services
         public List<AnnualTimeModel> GetStored(int year)
         {
             List<AnnualTimeModel> result = new List<AnnualTimeModel>();
-            AnnualTimeModel total = new AnnualTimeModel { Project = new MasterModel { Id = 0, Name = "TOTAL" } };
+            
 
             var cmd = _unit.Context.Database.GetDbConnection().CreateCommand();  // pokrecemo query definisan u bazi
             cmd.CommandType = CommandType.Text;
@@ -74,6 +74,7 @@ namespace TimeKeeper.BLL.Services
                         Hours = sql.GetDecimal(3)
                     });
                 }
+                AnnualTimeModel total = new AnnualTimeModel { Project = new MasterModel { Id = 0, Name = "TOTAL" } };
                 AnnualTimeModel atm = new AnnualTimeModel { Project = new MasterModel { Id = 0 } };
                 foreach(AnnualRawModel item in rawData)
                 {
@@ -81,7 +82,6 @@ namespace TimeKeeper.BLL.Services
                     {
                         if (atm.Project.Id != 0) result.Add(atm);
                         atm = new AnnualTimeModel { Project = new MasterModel { Id = item.Id, Name = item.Name } };
-                        total.Project.Id++;
                     }
                     atm.Hours[item.Month - 1] = item.Hours;
                     atm.Total += item.Hours;
@@ -89,8 +89,9 @@ namespace TimeKeeper.BLL.Services
                     total.Total += item.Hours;
                 }
                 if (atm.Project.Id != 0) result.Add(atm);
+                result.Add(total);
             }
-            result.Add(total);
+            
             return result;
         }
     }
