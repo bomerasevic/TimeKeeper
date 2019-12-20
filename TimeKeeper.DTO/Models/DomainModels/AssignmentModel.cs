@@ -11,5 +11,6 @@ namespace TimeKeeper.DTO.Models.DomainModels
         public string Description { get; set; }
         public decimal Hours { get; set; }
         public MasterModel Project { get; set; }
+        public MasterModel Day { get; set; }
     }
 }

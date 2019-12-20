@@ -78,7 +78,7 @@ namespace TimeKeeper.API.Controllers
         /// <summary>
         /// This method sets values of new Project
         /// </summary>
-        /// <param name="role">Data which comes from frontend</param>
+        /// <param name="project">Data which comes from frontend</param>
         /// <returns>New Role values</returns>
         /// <response status="200">Status 200 OK</response>
         /// <response status="404">Status 404 Not Found</response>

@@ -15,7 +15,6 @@ namespace TimeKeeper.DTO.Models.DashboardModels
     {
         public TeamDashboardModel()
         {
-            //TotalMissingEntries = new Dictionary<string, decimal>();
             EmployeeTimes = new List<TeamMemberDashboardModel>();
         }
 
@@ -23,7 +22,7 @@ namespace TimeKeeper.DTO.Models.DashboardModels
         public int NumberOfProjects { get; set; }
         public decimal TotalHours { get; set; }
         public decimal TotalWorkingHours { get; set; }
-        //public Dictionary<string, decimal> TotalMissingEntries { get; set; }
+        public decimal TotalMissingEntries { get; set; }
         public List<TeamMemberDashboardModel> EmployeeTimes { get; set; }
     }
 }

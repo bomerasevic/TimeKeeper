@@ -12,6 +12,7 @@ using TimeKeeper.DTO.Factory;
 
 namespace TimeKeeper.API.Controllers
 {
+    //Treba mijenjat, ne bi trebalo da bude AllowAnon, trebo bi handler?
     [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
@@ -77,7 +78,7 @@ namespace TimeKeeper.API.Controllers
         /// <response status="200">Status 200 OK</response>
         /// <response status="404">Status 404 Not Found</response>
         /// <response status="400">Status 400 Bad Request</response>
-        [HttpPut("put-method/{id}")]
+        [HttpPut("{id}")] //Prije bilo put-method/{id}, ako bude trebalo vratit
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]

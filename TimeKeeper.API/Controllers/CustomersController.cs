@@ -26,7 +26,7 @@ namespace TimeKeeper.API.Controllers
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public IActionResult Get()
+        public IActionResult Get() //MOGUCE BOLJI HANDLER STAVIT/NAPRAVIT, MOZDA GENERIC READ HANDLER
         {
             try
             {
