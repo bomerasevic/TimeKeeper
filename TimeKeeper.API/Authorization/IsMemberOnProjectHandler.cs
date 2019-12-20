@@ -41,9 +41,11 @@ namespace TimeKeeper.API.Authorization
                     context.Fail();
                     return Task.CompletedTask;
                 }
-                                
-                Project project = Unit.Projects.Get(projectId);
 
+                Project project = Unit.Projects.Get(projectId);
+                //Handle non-existing
+                if (project == null)
+                    throw new ArgumentNullException();
                 if (!int.TryParse(context.User.Claims.FirstOrDefault(c => c.Type == "sub").Value, out int empId))
                 {
                     context.Fail();
@@ -59,7 +61,7 @@ namespace TimeKeeper.API.Authorization
                 context.Fail();
                 return Task.CompletedTask;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 context.Fail();
                 return Task.CompletedTask;

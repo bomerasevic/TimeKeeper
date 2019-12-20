@@ -12,6 +12,7 @@ using TimeKeeper.DTO.Factory;
 
 namespace TimeKeeper.API.Controllers
 {
+    //Treba mijenjat, ne bi trebalo da bude AllowAnon, trebo bi handler?
     [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]

@@ -88,7 +88,8 @@ namespace TimeKeeper.DTO.Factory
                 Id = assignment.Id,
                 Description = assignment.Description,
                 Hours = assignment.Hours,
-                Project = new MasterModel { Id = assignment.Project.Id, Name = assignment.Project.Name }
+                Project = new MasterModel { Id = assignment.Project.Id, Name = assignment.Project.Name },
+                Day = new MasterModel { Id = assignment.Day.Id, Name = assignment.Day.Date.ToString() }
             };
         }
 
