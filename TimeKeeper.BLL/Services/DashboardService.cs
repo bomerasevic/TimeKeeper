@@ -32,7 +32,7 @@ namespace TimeKeeper.BLL.Services
             List<string> roles = Unit.Roles.Get().Select(x => x.Name).ToList();
             AdminDashboardModel adminDashboard = new AdminDashboardModel(roles);
 
-            List<RawCountModel> rawData = StoredProcedureService.GetStoredProcedure<RawCountModel>("AdminDashboard", new int[] { year, month });
+            List<AdminRawCountModel> rawData = StoredProcedureService.GetStoredProcedure<AdminRawCountModel>("AdminDashboard", new int[] { year, month });
 
             adminDashboard.NumberOfEmployees = rawData.GroupBy(x => x.EmployeeId).Count();
             adminDashboard.NumberOfProjects = rawData.GroupBy(x => x.ProjectId).Count();
@@ -63,18 +63,33 @@ namespace TimeKeeper.BLL.Services
         public TeamDashboardModel GetTeamDashboardStored(Team team, int year, int month)
         {
             TeamDashboardModel teamDashboard = new TeamDashboardModel();
-            List<RawCountModel> rawData = StoredProcedureService.GetStoredProcedure<RawCountModel>("TeamDashboard", new int[] { team.Id, year, month });
-            
-            teamDashboard.NumberOfEmployees = rawData.GroupBy(x => x.EmployeeId).Count();
-            teamDashboard.NumberOfProjects = rawData.GroupBy(x => x.ProjectId).Count();
+            List<TeamRawModel> rawData = StoredProcedureService.GetStoredProcedure<TeamRawModel>("TeamDashboard", new int[] { team.Id, year, month });
+            List<TeamRawNonWorkingHoursModel> rawDataPTO = StoredProcedureService.GetStoredProcedure<TeamRawNonWorkingHoursModel>("GetMemberPTOHours", new int[] { team.Id, year, month });
+            List<TeamRawNonWorkingHoursModel> rawDataOvertime = StoredProcedureService.GetStoredProcedure<TeamRawNonWorkingHoursModel>("GetMemberOvertimeHours", new int[] { team.Id, year, month });
+
+            teamDashboard.Year = year;
+            teamDashboard.Month = month;
+            teamDashboard.Team = new MasterModel { Id = team.Id, Name = team.Name };
+            teamDashboard.NumberOfEmployees = rawData.GroupBy(x => x.EmployeeId).Count();            
             teamDashboard.TotalWorkingHours = rawData.Sum(x => x.WorkingHours);
 
-            List<Member> members = Unit.Members.Get().Where(x => x.Team.Id == team.Id).ToList();  // memberi koji pripadaju ovom timu
-            teamDashboard.EmployeeTimes = GetTeamMembersDashboard(team, year, month);
-            foreach (Member member in members)
+            List<TeamRawCountModel> rawDataProjectsCount = StoredProcedureService.GetStoredProcedure<TeamRawCountModel>("CountProjects", new int[] { team.Id, year, month });
+
+            teamDashboard.NumberOfProjects = rawDataProjectsCount.Count;
+
+            decimal baseTotalHours = Providers.GetMonthlyWorkingDays(year, month) * 8;
+
+            foreach (TeamRawModel r in rawData)
             {
-                teamDashboard.EmployeeTimes = GetTeamMembersDashboard(team, year, month);
-                //.TotalMissingEntries = GetEmployeeMissingEntries(member.Employee, year, month);
+                teamDashboard.EmployeeTimes.Add(new TeamMemberDashboardModel
+                {
+                    Employee = new MasterModel { Id = r.EmployeeId, Name = r.EmployeeName},
+                    TotalHours = baseTotalHours,
+                    Overtime = (rawDataOvertime == null || rawDataOvertime.FirstOrDefault(x => x.MemberId == r.EmployeeId) == null) ? 0 : rawDataOvertime.FirstOrDefault(x => x.MemberId == r.EmployeeId).Value,
+                    PaidTimeOff = (rawDataPTO == null || rawDataPTO.FirstOrDefault(x => x.MemberId == r.EmployeeId) == null) ? 0 : rawDataPTO.FirstOrDefault(x => x.MemberId == r.EmployeeId).Value,
+                    WorkingHours = r.WorkingHours,
+                    MissingEntries = 0
+                });
             }
             return teamDashboard;
         }
