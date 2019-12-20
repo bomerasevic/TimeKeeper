@@ -5,13 +5,7 @@ using System.Threading.Tasks;
 using TimeKeeper.DTO.Models.DomainModels;
 
 namespace TimeKeeper.DTO.Models.DashboardModels
-{
-    public class TeamRawPTOModel
-    {
-        public int MemberId { get; set; }
-        public string MemberName { get; set; }
-        public decimal PaidTimeOff { get; set; }
-    }
+{    
     public class TeamMissingEntries
     {
         public TeamMissingEntries()
@@ -34,7 +28,6 @@ namespace TimeKeeper.DTO.Models.DashboardModels
         public int NumberOfProjects { get; set; }
         public decimal TotalHours { get; set; }
         public decimal TotalWorkingHours { get; set; }
-        //public EmployeeMissingEntries TotalMissingEntries { get; set; }
         public List<TeamMemberDashboardModel> EmployeeTimes { get; set; }
     }
 }

@@ -5,25 +5,7 @@ using System.Threading.Tasks;
 using TimeKeeper.DTO.Models.DashboardModels;
 
 namespace TimeKeeper.DTO.Models
-{
-    public class RawMasterModel
-    {
-        public int Id { get; set; }
-        public int Name { get; set; }
-        public decimal Value { get; set; }
-    }
-    public class RawCountModel
-    {
-        public int EmployeeId { get; set; }
-        public int ProjectId { get; set; }
-        public decimal WorkingHours { get; set; }
-    }
-    public class AdminRawPTOModel
-    {
-        public int TeamId { get; set; }
-        public string TeamName { get; set; }
-        public decimal PaidTimeOff { get; set; }
-    }
+{    
     public class AdminDashboardModel
     {
         public AdminDashboardModel(List<string> roles)
