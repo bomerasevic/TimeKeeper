@@ -78,7 +78,7 @@ namespace TimeKeeper.API.Controllers
         /// <response status="200">Status 200 OK</response>
         /// <response status="404">Status 404 Not Found</response>
         /// <response status="400">Status 400 Bad Request</response>
-        [HttpPut("{id}")] //Prije bilo put-method/{id}, ako bude trebalo vratit
+        [HttpPut("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]

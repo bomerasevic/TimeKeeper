@@ -6,6 +6,7 @@ using System.Data.Common;
 using System.Text;
 using TimeKeeper.DAL;
 using TimeKeeper.DTO.Models;
+using TimeKeeper.DTO.Models.DashboardModels;
 
 namespace TimeKeeper.BLL.Services
 {
@@ -26,10 +27,10 @@ namespace TimeKeeper.BLL.Services
             DbDataReader sql = cmd.ExecuteReader();
             if (sql.HasRows)
             {
-                if (typeof(Entity) == typeof(RawCountModel))  // arminov adminrawmodel
+                if (typeof(Entity) == typeof(AdminRawCountModel))  // arminov adminrawmodel
                 {
-                    List<RawCountModel> rawData = new List<RawCountModel>();
-                    while(sql.Read())CreateRawCountModel(sql);
+                    List<AdminRawCountModel> rawData = new List<AdminRawCountModel>();
+                    while(sql.Read()) CreateAdminRawCountModel(sql);
                     cmd.Connection.Close();
                     return rawData as List<Entity>;
                 }
@@ -54,15 +55,36 @@ namespace TimeKeeper.BLL.Services
                     cmd.Connection.Close();
                     return rawData as List<Entity>;
                 }
+                if(typeof(Entity) == typeof(TeamRawNonWorkingHoursModel))   // racunanje pto po memberu
+                {
+                    List<TeamRawNonWorkingHoursModel> rawData = new List<TeamRawNonWorkingHoursModel>();
+                    while (sql.Read()) rawData.Add(CreateTeamRawNonWorkingHoursModel(sql));
+                    cmd.Connection.Close();
+                    return rawData as List<Entity>;
+                }
+                if (typeof(Entity) == typeof(TeamRawModel))   // racunanje pto po memberu
+                {
+                    List<TeamRawModel> rawData = new List<TeamRawModel>();
+                    while (sql.Read()) rawData.Add(CreateTeamRawModel(sql));
+                    cmd.Connection.Close();
+                    return rawData as List<Entity>;
+                }
+                if (typeof(Entity) == typeof(TeamRawCountModel))   // racunanje pto po memberu
+                {
+                    List<TeamRawCountModel> rawData = new List<TeamRawCountModel>();
+                    while (sql.Read()) rawData.Add(CreateTeamRawCountModel(sql));
+                    cmd.Connection.Close();
+                    return rawData as List<Entity>;
+                }
             }
             return null;
         }
-        public RawCountModel CreateRawCountModel(DbDataReader sql)  // koristit ce se isti za admin/team
+        public AdminRawCountModel CreateAdminRawCountModel(DbDataReader sql)  // koristit ce se isti za admin/team
         {
-            return new RawCountModel
+            return new AdminRawCountModel
             {
                 EmployeeId = sql.GetInt32(0),
-                ProjectId = sql.GetInt32(1),
+                ProjectId = sql.GetInt32(2),
                 WorkingHours = sql.GetDecimal(3)
             };
         }
@@ -80,10 +102,34 @@ namespace TimeKeeper.BLL.Services
             return new RawMasterModel
             {
                 Id = sql.GetInt32(0),
-                Name = sql.GetInt32(1),
+                Name = sql.GetString(1),
                 Value = sql.GetDecimal(2)
             };
         }
-
+        public TeamRawNonWorkingHoursModel CreateTeamRawNonWorkingHoursModel(DbDataReader sql)
+        {
+            return new TeamRawNonWorkingHoursModel
+            {
+                MemberId = sql.GetInt32(0),
+                Value = sql.GetDecimal(1)
+            };
+        }
+        public TeamRawModel CreateTeamRawModel(DbDataReader sql)
+        {
+            return new TeamRawModel
+            {
+                EmployeeId = sql.GetInt32(0),
+                EmployeeName = sql.GetString(1),
+                //ProjectId = sql.GetInt32(2),
+                WorkingHours = sql.GetDecimal(2)
+            };
+        }
+        public TeamRawCountModel CreateTeamRawCountModel(DbDataReader sql)
+        {
+            return new TeamRawCountModel
+            {
+                ProjectId = sql.GetInt32(0)
+            };
+        }
     }
 }

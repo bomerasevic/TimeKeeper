@@ -7,6 +7,12 @@ namespace TimeKeeper.DTO.Models.DashboardModels
 {
     public class TeamMemberDashboardModel
     {
+        public TeamMemberDashboardModel()
+        {
+            Overtime = 0;
+            PaidTimeOff = 0;
+            MissingEntries = 0;
+        }
         public MasterModel Employee { get; set; }
         public decimal TotalHours { get; set; }
         public decimal Overtime { get; set; }

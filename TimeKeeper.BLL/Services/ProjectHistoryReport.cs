@@ -47,23 +47,27 @@ namespace TimeKeeper.BLL.Services
 
                 result.Years = rawData.Select(x => x.Year).Distinct().ToList();
 
-                EmployeeProjectHistoryModel projHistory = new EmployeeProjectHistoryModel(result.Years)
-                { Employee = new MasterModel { Id = 0 } };
+                EmployeeProjectHistoryModel total = new EmployeeProjectHistoryModel(result.Years)
+                { Employee = new MasterModel { Id = 0, Name = "TOTAL" } };
 
+                EmployeeProjectHistoryModel eph = new EmployeeProjectHistoryModel(result.Years) { Employee = new MasterModel { Id = 0 } };
                 foreach (ProjectHistoryRawData item in rawData)
                 {
-                    if (item.EmployeeId != projHistory.Employee.Id)
+                    if (item.EmployeeId != eph.Employee.Id)
                     {
-                        if (projHistory.Employee.Id != 0) result.Employees.Add(projHistory);
-                        projHistory = new EmployeeProjectHistoryModel(result.Years)
+                        if (eph.Employee.Id != 0) result.Employees.Add(eph);
+                        eph = new EmployeeProjectHistoryModel(result.Years)
                         {
                             Employee = new MasterModel { Id = item.EmployeeId, Name = item.EmployeeName }
                         };
                     }
-                    projHistory.TotalYearlyProjectHours[item.Year] = item.Hours;
-                    projHistory.TotalHoursPerProject += item.Hours;
+                    eph.TotalYearlyProjectHours[item.Year] = item.Hours;
+                    eph.TotalHoursPerProject += item.Hours;
+                    total.TotalYearlyProjectHours[item.Year] += item.Hours;
+                    total.TotalHoursPerProject += item.Hours;
                 }
-                if (projHistory.Employee.Id != 0) result.Employees.Add(projHistory);
+                if (eph.Employee.Id != 0) result.Employees.Add(eph);
+                result.Employees.Add(total);
             }
             return result;
         }
