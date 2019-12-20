@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
 import "materialize-css/dist/css/materialize.min.css";
+import { authCheckState } from "./store/actions/index";
 import Home from "./components/StaticPage/Home/Home";
 import AboutUs from "./components/StaticPage/AboutUs/AboutUs";
 import { connect } from "react-redux";
@@ -26,6 +27,23 @@ import AccessDenied from "./components/AccessDenied/AccessDenied";
 
 
 class App extends React.Component {
+	componentDidMount() {
+        this.props.authCheckState();
+        this.handleLogin();
+    }
+    componentDidUpdate(prevProps) {
+        if (prevProps.token !== this.props.token) {
+            this.handleLogin();
+        }
+    }
+    handleLogin = () => {
+        const { token, history } = this.props;
+        if (token) {
+            history.push("/app");
+        } else {
+            history.push("/");
+        }
+    };
 	render() {
 		return (
 			<BrowserRouter>
@@ -78,11 +96,12 @@ class App extends React.Component {
 		);
 	}
 }
+const mapStateToProps = (state) => {
+    return {
+        token: state.user.token
+    };
+};
+export default connect(mapStateToProps, { authCheckState })(withRouter(App));
 
-// const mapStateToProps = (state) => {
-// 	return { user: state.user };
-// };
 
-// export default connect(mapStateToProps)(withRouter(App));
-
-export default withRouter(App);
+//export default withRouter(App);

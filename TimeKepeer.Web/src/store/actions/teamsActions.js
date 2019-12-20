@@ -4,7 +4,7 @@ import {
     DROPDOWNTEAM_FETCH_FAIL,
     DROPDOWNTEAM_SELECT
   } from "./actionTypes";
-  import { dropDownTeamsUrl, apiGetTeamTracking, apiGetAllRequest } from "../../utils/api";
+  import { dropDownTeamsUrl,  apiGetAllRequest } from "../../utils/api";
   
   const dropdownTeamFetchStart = () => {
     return {
@@ -32,6 +32,7 @@ import {
       dispatch(dropdownTeamFetchStart());
       apiGetAllRequest(dropDownTeamsUrl)
         .then((res) => {
+          console.log("timovi", res)
           dispatch(dropdownTeamFetchSuccess(res.data.data));
         })
         .catch((err) => dispatch(dropdownTeamFetchFail(err)));

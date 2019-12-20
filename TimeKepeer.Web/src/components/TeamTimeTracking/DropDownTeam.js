@@ -43,7 +43,7 @@ const DropDownTeam = (props) => {
     fetchDropDownTeam();
     setTeams(data);
   }, [reload]);
-
+console.log(teams);
   return (
     <form className={classes.root} autoComplete="off">
       <FormControl className={classes.formControl}>

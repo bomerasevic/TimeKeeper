@@ -26,7 +26,7 @@ const TeamTimeTracking = (props) => {
 
   useEffect(() => {
     fetchTeamTracking(teams.selectedTeam, year, month);
-  }, [teams.selectedTeam, year, month]);
+  }, [teams.selectedTeam, year, month, fetchTeamTracking]);
 
   return (
     <React.Fragment>
@@ -110,7 +110,8 @@ const TeamTimeTracking = (props) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {data.data.map((r, i) => (
+              {data.data !== undefined ?
+              data.data.map((r, i) => (
                 <TableRow key={r.id}>
                   <CustomTableCell>{r.employee.name}</CustomTableCell>
                   <CustomTableCell>{r.hourTypes.Workday}</CustomTableCell>
@@ -120,7 +121,7 @@ const TeamTimeTracking = (props) => {
                   <CustomTableCell>{r.hourTypes.Sick}</CustomTableCell>
                   <CustomTableCell>{r.hourTypes.Other}</CustomTableCell>
                 </TableRow>
-              ))}
+              )) : null}
             </TableBody>
           </Table>
         </Paper>
