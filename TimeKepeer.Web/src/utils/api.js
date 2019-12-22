@@ -1,10 +1,11 @@
 import axios from "axios";
 
 import { store } from "../index";
+export const loginUrl = "http://192.168.60.72/timekeeper/login"
+export const employeesUrl = "http://192.168.60.72/timekeeper/api/employees";
+export const customersUrl = "http://192.168.60.72/timekeeper/api/customers";
+export const projectsUrl = "http://192.168.60.72/timekeeper/api/projects";
 
-export const employeesUrl = "https://localhost:44350/api/employees";
-export const customersUrl = "https://localhost:44350/api/customers";
-export const projectsUrl = "https://localhost:44350/api/projects";
 
 export const apiGetAllRequest = (url, method = "GET") => {
 	const token = store.getState().user.user.access_token;
@@ -97,4 +98,11 @@ export const apiDeleteRequest = (url, id, method = "POST") => {
 	};
 
 	return axios.delete(newUrl, options).then((data) => ({ data })).catch((error) => ({ error }));
+};
+
+export const login = (url, credentials) => {
+	return axios
+		.post(url, credentials)
+		.then((data) => ({ data }))
+		.catch((error) => ({ error }));
 };

@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 import "./Home.css";
 import Navigation from "../../StaticPage/Navigation/Navigation";
-import logo from "../../../assets/images/logo.svg";
+import logo from "../../../assets/images/";
 import MobileNavigation from "../../StaticPage/MobileNavigation/MobileNavigation";
 
 //import Menu from "../MobileNavigation/menu";
@@ -14,13 +14,12 @@ function Home() {
 			<MobileNavigation />
 			<div className="container header-text">
 				<img className="logo-large" src={logo} />
-				<h1>TimeKeeper</h1>
+				<h1>STUDINGO</h1>
 				<h2>
-					Save time for doing great work.
-					<br />
-					Keep progressing. Keep Time.
+					Vodič za studente.
 				</h2>
-				<h6>This is the tool for productive people.</h6>
+				<h6>Olakšajte svoj studentski život.
+</h6>
 			</div>
 		</div>
 	);

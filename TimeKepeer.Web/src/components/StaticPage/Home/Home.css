@@ -6,6 +6,7 @@
 }
 .header {
 	font-family: Roboto;
+	background-image:linear-gradient(rgba(0, 0, 0, 0.7),rgba(0, 0, 0, 0.7)),url("../../../assets/");
 	background-image: url("../../../assets/images/header_image.png");
 	background-attachment: fixed;
 	background-size: cover;
@@ -13,23 +14,29 @@
 	height: auto;
 }
 .header .container {
-	text-align: center;
+	text-align: left;
 	color: white;
 	padding-top: 200px;
+	
 }
 
 .header .container h1 {
 	font-size: 96px;
+	text-align: left;
 
 	font-weight: 400;
 }
 .header .container h2 {
 	font-size: 30px;
 	font-weight: 100;
+	text-align: left;
+
 }
 .header .container h6 {
 	font-weight: 500;
 	margin-top: 30px;
+	text-align: left;
+
 }
 @media screen and (max-width: 600px) {
 	.header .container h1 {

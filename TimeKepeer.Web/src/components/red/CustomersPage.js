@@ -36,12 +36,12 @@ const CustomersPage = (props) => {
 			fetchCustomers();
 			customers = data;
 		}
-}, []);
+	}, []);
 
 	return (
 
-<React.Fragment>
-​
+		<React.Fragment>
+
 			<NavigationLogin />
 			{loading ? (
 				<Backdrop open={loading}>
@@ -63,7 +63,7 @@ const CustomersPage = (props) => {
 			) : (
 
 						<Paper className={classes.root}>
-​
+
 							{props.user ? (
 
 								<div>
@@ -77,9 +77,9 @@ const CustomersPage = (props) => {
 											<Button aria-label="Add" className=" addButton btn add" style={{ color: "white", backgroundColor: "#26a69a" }}>
 												Add
                                              </Button>
-​
+
 										</div>
-​
+
 									</Toolbar>
 									<Table className={classes.table}>
 										<TableHead>
@@ -101,7 +101,7 @@ const CustomersPage = (props) => {
 								</CustomTableCell>
 											</TableRow>
 										</TableHead>
-​
+
 										<TableBody>
 											{customers.map((c, i) => (
 												<TableRow key={c.id}>
@@ -112,11 +112,11 @@ const CustomersPage = (props) => {
 													<CustomTableCell>{c.phone}</CustomTableCell>
 													<CustomTableCell>{c.status.name}</CustomTableCell>
 													<CustomTableCell align="center">
-​
+
 														<Button aria-label="View" className=" button deleteButton a-btn delete">
 															View
 </Button>
-														{props.user.profile.role === "admin" ? (
+														{props.user.user.role === "admin" ? (
 															<Button
 																aria-label="Edit"
 																className=" editButton add a-btn"
@@ -124,7 +124,7 @@ const CustomersPage = (props) => {
 															>
 																Edit
 </Button>) : null}
-														{props.user.profile.role === "admin" ? (
+														{props.user.user.role === "admin" ? (
 															<Button aria-label="Delete" className=" button deleteButton a-btn delete"
 																style={{ color: "#9e1c13" }}>
 																Delete
@@ -133,17 +133,17 @@ const CustomersPage = (props) => {
 												</TableRow>
 											))}
 										</TableBody>
-​
-​
-​
-​
-​
+
+
+
+
+
 									</Table>
 								</div>
 							) : <Redirect to='/app/access' />}
 						</Paper>
 					)}
-​
+
 		</React.Fragment>
 	);
 };

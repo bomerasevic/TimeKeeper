@@ -18,10 +18,7 @@ import {
     Typography
 } from "@material-ui/core";
 import styles from "./EmployeesStyles";
-import AddIcon from "@material-ui/icons/Add";
 import VisibilityIcon from "@material-ui/icons/Visibility";
-import EditIcon from "@material-ui/icons/Edit";
-import DeleteIcon from "@material-ui/icons/Delete";
 import NavigationLogin from "../NavigationLogin/NavigationLogin";
 import EmployeesModal from "./EmployeesModal";
 const EmployeesPage = (props) => {
@@ -34,9 +31,9 @@ const EmployeesPage = (props) => {
         employees = data;
     }, [reload]);
     return (
-	
+
         <React.Fragment>
-		<NavigationLogin />
+            <NavigationLogin />
 
             {loading ? (
                 <Backdrop open={loading}>
@@ -56,88 +53,88 @@ const EmployeesPage = (props) => {
                     </div>
                 </Backdrop>
             ) : (
-                <Paper className={classes.root}>
-                    {selected ? <EmployeesModal selected={selected} open={true} /> : null}
-                    <Toolbar className={classes.toolbar}>
-                        <div>
-                            <Typography variant="h4" id="tableTitle" style={{ color: "white" }}>
-                                Employees
+                        <Paper className={classes.root}>
+                            {selected ? <EmployeesModal selected={selected} open={true} /> : null}
+                            <Toolbar className={classes.toolbar}>
+                                <div>
+                                    <Typography variant="h4" id="tableTitle" style={{ color: "white" }}>
+                                        Employees
                             </Typography>
-                        </div>
-                        {user.profile.role === "admin" ? (
-                            <div>
-                                <Tooltip title="Add">
-                                    <Button
-										aria-label="Add"
-										className=" addButton btn add" style={{ color: "white", backgroundColor: "#26a69a" }}
-                                        onClick={() => employeeSelect(null, "add")}
-                                        //className={classes.hover}
-                                    >
-                                       Add
+                                </div>
+                                {user.user.role === "admin" ? (
+                                    <div>
+                                        <Tooltip title="Add">
+                                            <Button
+                                                aria-label="Add"
+                                                className=" addButton btn add" style={{ color: "white", backgroundColor: "#26a69a" }}
+                                                onClick={() => employeeSelect(null, "add")}
+                                            //className={classes.hover}
+                                            >
+                                                Add
                                     </Button>
-                                </Tooltip>
-                            </div>
-                        ) : null}
-                    </Toolbar>
-                    <Table className={classes.table}>
-                        <TableHead>
-                            <TableRow>
-                                <CustomTableCell className={classes.tableHeadFontsize} style={{ width: "9%" }}>
-                                    No.
+                                        </Tooltip>
+                                    </div>
+                                ) : null}
+                            </Toolbar>
+                            <Table className={classes.table}>
+                                <TableHead>
+                                    <TableRow>
+                                        <CustomTableCell className={classes.tableHeadFontsize} style={{ width: "9%" }}>
+                                            No.
                                 </CustomTableCell>
-                                <CustomTableCell className={classes.tableHeadFontsize}>First Name</CustomTableCell>
-                                <CustomTableCell className={classes.tableHeadFontsize}>Last Name</CustomTableCell>
-                                <CustomTableCell className={classes.tableHeadFontsize}>E-mail</CustomTableCell>
-                                <CustomTableCell className={classes.tableHeadFontsize} style={{ width: "13%" }}>
-                                    Phone
+                                        <CustomTableCell className={classes.tableHeadFontsize}>First Name</CustomTableCell>
+                                        <CustomTableCell className={classes.tableHeadFontsize}>Last Name</CustomTableCell>
+                                        <CustomTableCell className={classes.tableHeadFontsize}>E-mail</CustomTableCell>
+                                        <CustomTableCell className={classes.tableHeadFontsize} style={{ width: "13%" }}>
+                                            Phone
                                 </CustomTableCell>
-                                <CustomTableCell className={classes.tableHeadFontsize} align="center">
-                                    Actions
+                                        <CustomTableCell className={classes.tableHeadFontsize} align="center">
+                                            Actions
                                 </CustomTableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {employees.map((e, i) => (
-                                <TableRow key={e.id}>
-                                    <CustomTableCell>{i + 1}</CustomTableCell>
-                                    <CustomTableCell>{e.firstName}</CustomTableCell>
-                                    <CustomTableCell>{e.lastName}</CustomTableCell>
-                                    <CustomTableCell>{e.email}</CustomTableCell>
-                                    <CustomTableCell>{e.phone}</CustomTableCell>
-                                    {user.profile.role === "admin" ? (
-                                        <CustomTableCell align="center">
-                                            <Button
-                                                aria-label="Edit"
-												//className={classes.editButton}
-												className=" editButton add a-btn"
-																style={{ color: "#1cba85" }}
-                                                onClick={() => employeeSelect(e.id, "edit")}
-                                            >
-                                                Edit
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {employees.map((e, i) => (
+                                        <TableRow key={e.id}>
+                                            <CustomTableCell>{i + 1}</CustomTableCell>
+                                            <CustomTableCell>{e.firstName}</CustomTableCell>
+                                            <CustomTableCell>{e.lastName}</CustomTableCell>
+                                            <CustomTableCell>{e.email}</CustomTableCell>
+                                            <CustomTableCell>{e.phone}</CustomTableCell>
+                                            {user.user.role === "admin" ? (
+                                                <CustomTableCell align="center">
+                                                    <Button
+                                                        aria-label="Edit"
+                                                        //className={classes.editButton}
+                                                        className=" editButton add a-btn"
+                                                        style={{ color: "#1cba85" }}
+                                                        onClick={() => employeeSelect(e.id, "edit")}
+                                                    >
+                                                        Edit
                                             </Button>
-                                            <Button
-                                                aria-label="Delete"
-												//className={classes.deleteButton}
-												className=" button deleteButton a-btn delete"
-																style={{ color: "#9e1c13" }}
-                                                onClick={() => employeeDelete(e.id)}
-                                            >
-                                                Delete
+                                                    <Button
+                                                        aria-label="Delete"
+                                                        //className={classes.deleteButton}
+                                                        className=" button deleteButton a-btn delete"
+                                                        style={{ color: "#9e1c13" }}
+                                                        onClick={() => employeeDelete(e.id)}
+                                                    >
+                                                        Delete
                                             </Button>
-                                        </CustomTableCell>
-                                    ) : (
-                                        <CustomTableCell align="center">
-                                            <IconButton aria-label="View" onClick={() => employeeSelect(e.id, "view")}>
-                                                <VisibilityIcon />
-                                            </IconButton>
-                                        </CustomTableCell>
-                                    )}
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </Paper>
-            )}
+                                                </CustomTableCell>
+                                            ) : (
+                                                    <CustomTableCell align="center">
+                                                        <IconButton aria-label="View" onClick={() => employeeSelect(e.id, "view")}>
+                                                            <VisibilityIcon />
+                                                        </IconButton>
+                                                    </CustomTableCell>
+                                                )}
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </Paper>
+                    )}
         </React.Fragment>
     );
 };

@@ -82,7 +82,7 @@ class DropDownYear extends React.Component {
             </MenuItem>
             <MenuItem key={2018} value={2018}>
               {"2018"}
-            </MenuItem>
+            </MenuItem >
             <MenuItem key={2017} value={2017}>
               {"2017"}
             </MenuItem>
