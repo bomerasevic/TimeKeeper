@@ -5,9 +5,6 @@ import Navigation from "../StaticPage/Navigation/Navigation";
 import logo from "../../assets/images/puzzle.png";
 import "../StaticPage/Navigation/Navigation.css";
 import { connect } from "react-redux";
-//import FooterBar from "../FooterBar/FooterBar";
-
-//import Menu from "../MobileNavigation/menu";
 
 function Welcome(props) {
 	return (
