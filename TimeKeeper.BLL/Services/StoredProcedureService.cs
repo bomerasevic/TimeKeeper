@@ -41,13 +41,6 @@ namespace TimeKeeper.BLL.Services
                     cmd.Connection.Close();
                     return rawData as List<Entity>;
                 }
-                //if (typeof(Entity) == typeof(AnnualRawModel))
-                //{
-                //    List<AnnualRawModel> rawData = new List<AnnualRawModel>();
-                //    while (sql.Read()) rawData.Add(CreateAnnualRawModel(sql));
-                //    cmd.Connection.Close();
-                //    return rawData as List<Entity>;
-                //}
                 if (typeof(Entity) == typeof(RawMasterModel))
                 {
                     List<RawMasterModel> rawData = new List<RawMasterModel>();
@@ -55,21 +48,21 @@ namespace TimeKeeper.BLL.Services
                     cmd.Connection.Close();
                     return rawData as List<Entity>;
                 }
-                if(typeof(Entity) == typeof(TeamRawNonWorkingHoursModel))   // racunanje pto po memberu
+                if(typeof(Entity) == typeof(TeamRawNonWorkingHoursModel))
                 {
                     List<TeamRawNonWorkingHoursModel> rawData = new List<TeamRawNonWorkingHoursModel>();
                     while (sql.Read()) rawData.Add(CreateTeamRawNonWorkingHoursModel(sql));
                     cmd.Connection.Close();
                     return rawData as List<Entity>;
                 }
-                if (typeof(Entity) == typeof(TeamRawModel))   // racunanje pto po memberu
+                if (typeof(Entity) == typeof(TeamRawModel))
                 {
                     List<TeamRawModel> rawData = new List<TeamRawModel>();
                     while (sql.Read()) rawData.Add(CreateTeamRawModel(sql));
                     cmd.Connection.Close();
                     return rawData as List<Entity>;
                 }
-                if (typeof(Entity) == typeof(TeamRawCountModel))   // racunanje pto po memberu
+                if (typeof(Entity) == typeof(TeamRawCountModel))
                 {
                     List<TeamRawCountModel> rawData = new List<TeamRawCountModel>();
                     while (sql.Read()) rawData.Add(CreateTeamRawCountModel(sql));

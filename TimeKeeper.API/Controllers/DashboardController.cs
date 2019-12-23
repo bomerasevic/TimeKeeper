@@ -113,8 +113,8 @@ namespace TimeKeeper.API.Controllers
             try
             {
                 Log.Info($"Try to get report for employee with id:{empId}");
-                //return Ok(dashboardService.CreateEmployeeReport(empId, year, month));
-                return Ok();
+                return Ok(dashboardService.CreateEmployeeReport(empId, year, month));
+                //return Ok();
             }
             catch (Exception ex)
             {
@@ -134,5 +134,18 @@ namespace TimeKeeper.API.Controllers
                 return HandleException(ex);
             }
         }
+        [HttpGet("bradford-factor/{empId}/{year}")]
+        public IActionResult GetBradfordFactor(int empId, int year)
+        {
+            try
+            {
+                return Ok(dashboardService.GetBradfordFactor(empId, year));
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
+        }
+
     }
 }

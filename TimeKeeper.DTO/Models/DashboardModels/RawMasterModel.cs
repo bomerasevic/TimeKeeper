@@ -35,7 +35,6 @@ namespace TimeKeeper.DTO.Models.DashboardModels
     public class TeamRawNonWorkingHoursModel
     {
         public int MemberId { get; set; }
-        //public string MemberName { get; set; }
         public decimal Value { get; set; }
     }
 }
