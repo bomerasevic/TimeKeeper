@@ -36,7 +36,7 @@ namespace TimeKeeper.BLL.Services
             DayType na = new DayType { Id = 13, Name = "N/A" };
             foreach (var d in query) result.HourTypes[d.type] = d.hours;
             result.TotalHours = list.Sum(h => h.TotalHours);
-            result.PTO = list.Where(d => d.DayType.Name != "workday").Sum(h => h.TotalHours);
+            result.PaidTimeOff = list.Where(d => d.DayType.Name != "workday").Sum(h => h.TotalHours);
             result.Overtime = list.Where(d => d.DayType.Name == "weekend").Sum(h => h.TotalHours)
                             + list.Where(d => d.DayType.Name != "weekend" && d.TotalHours > 8).Sum(h => (h.TotalHours - 8));
             return result;
