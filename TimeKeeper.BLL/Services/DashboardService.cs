@@ -289,8 +289,9 @@ namespace TimeKeeper.BLL.Services
 
             employeePersonalReport.HourTypes.Add("missingEntries", missingEntries);
             employeePersonalReport.Overtime = overtime;
-            employeePersonalReport.HourTypes.Add("totalHours", totalHours + missingEntries);
-            employeePersonalReport.PTO = employeePersonalReport.HourTypes["totalHours"] - employeePersonalReport.HourTypes["missingEntries"] - employeePersonalReport.HourTypes["workday"];
+            //employeePersonalReport.HourTypes.Add("totalHours", totalHours + missingEntries);
+            employeePersonalReport.TotalHours = Providers.GetMonthlyWorkingDays(year, month) * 8;
+            employeePersonalReport.PaidTimeOff = employeePersonalReport.TotalHours - employeePersonalReport.HourTypes["missingEntries"] - employeePersonalReport.HourTypes["workday"];
 
             return employeePersonalReport;
         }
