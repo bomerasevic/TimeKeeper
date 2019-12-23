@@ -32,7 +32,7 @@ namespace TimeKeeper.DAL
 
         public TimeKeeperContext Context { get { return _context; } }
 
-        public IRepository<Assignment> Assignments => _assignments ?? (_assignments = new AssignmentsRepository(_context));
+        public IRepository<Assignment> Assignments => _assignments ?? (_assignments = new Repository<Assignment>(_context));
         public IRepository<Day> Calendar => _calendar ?? (_calendar = new CalendarRepository(_context));
         public IRepository<DayType> DayTypes => _dayTypes ?? (_dayTypes = new Repository<DayType>(_context));
         public IRepository<Customer> Customers => _customers ?? (_customers = new CustomersRepository(_context));
@@ -40,7 +40,7 @@ namespace TimeKeeper.DAL
         public IRepository<Employee> Employees => _employees ?? (_employees = new EmployeesRepository(_context));
         public IRepository<EmployeePosition> EmployeePositions => _employeePositions ?? (_employeePositions = new Repository<EmployeePosition>(_context));
         public IRepository<EmployeeStatus> EmployeeStatuses => _employeeStatuses ?? (_employeeStatuses = new Repository<EmployeeStatus>(_context));
-        public IRepository<Member> Members => _members ?? (_members = new MembersRepository(_context));
+        public IRepository<Member> Members => _members ?? (_members = new Repository<Member>(_context));
         public IRepository<MemberStatus> MemberStatuses => _memberStatuses ?? (_memberStatuses = new Repository<MemberStatus>(_context));
         public IRepository<Project> Projects => _projects ?? (_projects = new ProjectsRepository(_context));
         public IRepository<ProjectPricing> ProjectPrices => _projectPrices ?? (_projectPrices = new Repository<ProjectPricing>(_context));

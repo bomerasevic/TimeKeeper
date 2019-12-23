@@ -1,40 +1,82 @@
 import React, { Component } from "react";
 import { getNews } from "../server";
 import { SafeAreaView, View, FlatList, Text } from "react-native";
+import Lista from "../components/List";
+import Constants from 'expo-constants';
 
-const Item = ({ title }) => (
-  <View>
-    <Text>{title}</Text>
-  </View>
-);
+import theme from '../assets/Theme';
+import { Icon, Header, Left } from 'native-base'
+
+import { employees } from "../services/api";
+
 
 export default class People extends Component {
+  static navigationOptions = {
+    header: null
+  }
   state = {
-    result: [],
+    data:[]
+    
   };
 
   async componentDidMount() {
-    const result = await getNews();
-    this.setState({ result });
+    const data = await employees();
+    if (data.length > 0) {
+      this.setState({ data });
+    }
   }
 
+  openItem = (item) => {
+    console.log('inside open item method');
+    this.props.navigation.navigate("EmployeeProfile", { item });
+  }
+
+
   render() {
+    const {navigate} = this.props.navigation;
     const { result } = this.state;
     return (
-      <SafeAreaView style={styles.container}>
-        <FlatList
-          data={result.data}
-          renderItem={({ item }) => <Item title={item.title} />}
-          keyExtractor={item => item.id}
+
+      <View style={styles.container}>
+        <Header style={styles.head}>
+          <Left>
+            <Icon style={styles.icon} name="ios-menu" onPress={() =>
+              this.props.navigation.openDrawer()
+            } />
+          </Left>
+          <Text style={styles.header}>EMPLOYEES</Text>
+        </Header>
+        
+        <Lista
+          data={this.state.data}
+          openItem={this.openItem}
         />
-      </SafeAreaView>
+      </View>
     );
   }
 }
 const styles = {
-  constainer: {
+  container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
+    marginTop: Constants.statusBarHeight,
+    backgroundColor: theme.COLORS.LISTCOLOR,
+  },
+  list: {
+    flex: 1,
+    backgroundColor: theme.COLORS.LISTCOLOR,
+  },
+  header: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    marginLeft: -80,
+    color: theme.COLORS.LISTCOLOR,
+    marginTop: 10
+  },
+  head: {
+    backgroundColor: 'white',
+
+  },
+  icon: {
+    marginLeft: -65
   }
 };

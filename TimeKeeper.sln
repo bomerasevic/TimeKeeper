@@ -17,6 +17,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeKeeper.IDP", "TimeKeepe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeKeeper.Utility", "TimeKeeper.Utility\TimeKeeper.Utility.csproj", "{91720D89-27C0-4DBE-A5AF-5F550A2F4DCB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeKeeper.BLL", "TimeKeeper.BLL\TimeKeeper.BLL.csproj", "{DC42D017-C8AA-4940-92CB-EBFA81ED908B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeKeeper.DTO", "TimeKeeper.DTO\TimeKeeper.DTO.csproj", "{DE0CA478-45C4-4B29-BC51-BC6DFFFE9B25}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +55,14 @@ Global
 		{91720D89-27C0-4DBE-A5AF-5F550A2F4DCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91720D89-27C0-4DBE-A5AF-5F550A2F4DCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91720D89-27C0-4DBE-A5AF-5F550A2F4DCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC42D017-C8AA-4940-92CB-EBFA81ED908B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC42D017-C8AA-4940-92CB-EBFA81ED908B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC42D017-C8AA-4940-92CB-EBFA81ED908B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC42D017-C8AA-4940-92CB-EBFA81ED908B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE0CA478-45C4-4B29-BC51-BC6DFFFE9B25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE0CA478-45C4-4B29-BC51-BC6DFFFE9B25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE0CA478-45C4-4B29-BC51-BC6DFFFE9B25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE0CA478-45C4-4B29-BC51-BC6DFFFE9B25}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

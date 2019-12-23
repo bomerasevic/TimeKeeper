@@ -4,8 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using TimeKeeper.API.Models;
-using TimeKeeper.API.Services;
+using TimeKeeper.DTO.Models;
+using TimeKeeper.DTO.Models.DomainModels;
 using TimeKeeper.Utility;
 
 namespace TimeKeeper.API.Controllers

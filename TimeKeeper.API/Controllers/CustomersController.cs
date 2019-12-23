@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using TimeKeeper.API.Factory;
 using TimeKeeper.DAL;
 using TimeKeeper.Domain;
+using TimeKeeper.DTO.Factory;
 
 namespace TimeKeeper.API.Controllers
 {
@@ -26,7 +26,7 @@ namespace TimeKeeper.API.Controllers
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public IActionResult Get()
+        public IActionResult Get() //MOGUCE BOLJI HANDLER STAVIT/NAPRAVIT, MOZDA GENERIC READ HANDLER
         {
             try
             {

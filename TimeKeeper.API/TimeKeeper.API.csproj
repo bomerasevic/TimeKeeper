@@ -22,8 +22,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TimeKeeper.BLL\TimeKeeper.BLL.csproj" />
     <ProjectReference Include="..\TimeKeeper.DAL\TimeKeeper.DAL.csproj" />
     <ProjectReference Include="..\TimeKeeper.Domain\TimeKeeper.Domain.csproj" />
+    <ProjectReference Include="..\TimeKeeper.DTO\TimeKeeper.DTO.csproj" />
     <ProjectReference Include="..\TimeKeeper.Utility\TimeKeeper.Utility.csproj" />
   </ItemGroup>
 
