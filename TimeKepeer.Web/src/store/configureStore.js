@@ -8,14 +8,18 @@ import thunk from "redux-thunk";
 
 //const oidcMiddleware = createOidcMiddleware(userManager);
 
-import { employeesReducer, customersReducer, projectsReducer, userReducer, AnnualReport, monthlyReport } from "./reducers/index";
+import { employeesReducer, customersReducer, projectsReducer, userReducer, AnnualReport, MonthlyReport, yearReducer, monthReducer, teamsReducer, teamTrackingReducer } from "./reducers/index";
 const rootReducer = combineReducers({
 	employees: employeesReducer,
 	user: userReducer,
 	customers: customersReducer,
 	projects: projectsReducer,
 	annualReport: AnnualReport,
-	monthlyReport: monthlyReport
+	monthlyReport: MonthlyReport,
+	year: yearReducer,
+	month: monthReducer,
+	teams: teamsReducer,
+	teamTracking: teamTrackingReducer
 
 });
 

@@ -1,37 +1,55 @@
 import Axios from "axios";
-import {
-    FETCH_MONTHLY_REPORT,
-    FETCH_MONTHLY_REPORT_SUCCESS,
-    FETCH_MONTHLY_REPORT_FAILURE
-} from "./types";
 import Config from "../../config";
+import {
+  FETCH_MONTHLY_REPORT,
+  FETCH_MONTHLY_REPORT_SUCCESS,
+  FETCH_MONTHLY_REPORT_FAILURE
+} from "./types";
+
 export const getMonthlyReport = (selectedYear, selectedMonth) => {
-    return dispatch => {
-        dispatch({ type: FETCH_MONTHLY_REPORT });
-        Axios.get("http://192.168.60.72/TimeKeeper/api/report/monthly-overview-stored/" + selectedYear + "/" + selectedMonth, Config.authHeader)
-            .then(res => {
-                console.log("data", res.data);
-                let tableHead = res.data.projects.map(x => x.name);
-                tableHead.unshift("Employee");
-                tableHead.push("PTO");
-                let data = res.data.employees.map(x => {
-                    return {
-                        ...x.hours,
-                        employee: x.employee.name,
-                        totalHours: x.totalHours,
-                    }
-                });
-                dispatch({ type: FETCH_MONTHLY_REPORT_SUCCESS, payload: { data: data, tableHead: tableHead } });
-            })
-            .catch(err => {
-                console.log(err);
-                dispatch({ type: FETCH_MONTHLY_REPORT_FAILURE, payload: err });
-            });
-    };
+  return dispatch => {
+    dispatch({ type: FETCH_MONTHLY_REPORT });
+    Axios.get(
+      "http://192.168.60.74/timekeeper/api/reports/monthly-overview/"+selectedYear+"/"+selectedMonth,
+      Config.authHeader
+    )
+      .then(res => {
+        // Map columns that will be used in table
+        let data = res.data.employeeProjectHours.map(x => {
+          return {
+            employee: x.employee.name,
+            "total hours": x.totalHours,
+            ...x.hoursByProject,
+            "paid time off": x.paidTimeOff
+          };
+        });
+        // ADD TOTALS TO THE TABLE
+        data.push({
+          employee: "TOTAL",
+          "total hours": res.data.totalHours,
+          ...res.data.hoursByProject,
+          "paid time off": res.data.employeeProjectHours
+            .map(x => x.paidTimeOff)
+            .reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+        });
+        dispatch({
+          type: FETCH_MONTHLY_REPORT_SUCCESS,
+          payload: {
+            data: data,
+            totalDays: res.data.totalWorkingDays,
+            totalHours: res.data.totalPossibleWorkingHours
+          }
+        });
+      })
+      .catch(err => {
+        console.log(err);
+        dispatch({ type: FETCH_MONTHLY_REPORT_FAILURE, payload: err });
+      });
+  };
 };
 
 export const startLoading = () => {
-    return dispatch => {
-        dispatch({ type: FETCH_MONTHLY_REPORT });
-    };
+  return dispatch => {
+    dispatch({ type: FETCH_MONTHLY_REPORT });
+  };
 };

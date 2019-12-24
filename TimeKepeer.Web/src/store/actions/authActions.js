@@ -2,9 +2,27 @@ import { AUTH_START, AUTH_SUCCESS, AUTH_FAIL, AUTH_LOGOUT } from "./actionTypes"
 import { loginUrl, login } from "../../utils/api";
 
 export const logout = () => {
-    return {
-        type: AUTH_LOGOUT
-    };
+	removeUser();
+	return {
+		type: AUTH_LOGOUT
+	};
+};
+
+const getUser = () => localStorage.getItem("user");
+const removeUser = () => localStorage.removeItem("user");
+
+export const authCheckState = () => {
+	return (dispatch) => {
+		const user = JSON.parse(getUser());
+
+		if (user) {
+			dispatch(authSuccess(user));
+		} else {
+			// console.log("Implementiraj logout metodu!!!");
+			dispatch(logout());
+			removeUser();
+		}
+	};
 };
 
 const authStart = () => {

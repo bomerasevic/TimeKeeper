@@ -22,9 +22,8 @@ import VisibilityIcon from "@material-ui/icons/Visibility";
 import NavigationLogin from "../NavigationLogin/NavigationLogin";
 import EmployeesModal from "./EmployeesModal";
 const EmployeesPage = (props) => {
-    const { classes } = props;
-    const { data, loading, error, selected, user, reload } = props;
-    const { fetchEmployees, employeeSelect, employeeDelete } = props;
+    const { classes, data, loading, error, selected, user, reload, fetchEmployees, employeeSelect, employeeDelete } = props;
+
     let employees = data;
     useEffect(() => {
         fetchEmployees();
@@ -154,7 +153,7 @@ const mapStateToProps = (state) => {
         loading: state.employees.loading,
         error: state.employees.error,
         selected: state.employees.selected,
-        user: state.user.user,
+        user: state.user,
         reload: state.employees.reload
     };
 };
