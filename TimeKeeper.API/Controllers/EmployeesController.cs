@@ -14,6 +14,7 @@ using TimeKeeper.DTO.Factory;
 
 namespace TimeKeeper.API.Controllers
 {
+    [Authorize(AuthenticationSchemes = "TokenAuthentication")]
     [Route("api/[controller]")]
     [ApiController]
     public class EmployeesController : BaseController
