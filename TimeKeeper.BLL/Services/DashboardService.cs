@@ -27,37 +27,180 @@ namespace TimeKeeper.BLL.Services
             Providers = new Providers(Unit);
             StoredProcedureService = new StoredProcedureService(Unit);
         }
-        public AdminDashboardModel GetAdminDashboardStored(int year, int month)
+        
+        public CompanyDashboardModel GetCompanyDashboard(int year, int month)
         {
-            List<string> roles = Unit.Roles.Get().Select(x => x.Name).ToList();
-            AdminDashboardModel adminDashboard = new AdminDashboardModel(roles);
+            CompanyDashboardModel companyDashboard = new CompanyDashboardModel();
+            decimal baseHours = Providers.GetMonthlyWorkingDays(year, month) * 8;
+            List<CompanyDashboardRawModel> rawData = StoredProcedureService.GetStoredProcedure<CompanyDashboardRawModel>("CompanyWorkingHoursData", new int[] { year, month });
+            List<CompanyEmployeeHoursModel> employeeHours = StoredProcedureService.GetStoredProcedure<CompanyEmployeeHoursModel>("EmployeeHoursByDayType", new int[] { year, month });
+            List<CompanyOvertimeModel> overtime = StoredProcedureService.GetStoredProcedure<CompanyOvertimeModel>("CompanyOvertimeHours", new int[] { year, month });
 
-            List<AdminRawCountModel> rawData = StoredProcedureService.GetStoredProcedure<AdminRawCountModel>("AdminDashboard", new int[] { year, month });
-
-            adminDashboard.NumberOfEmployees = rawData.GroupBy(x => x.EmployeeId).Count();
-            adminDashboard.NumberOfProjects = rawData.GroupBy(x => x.ProjectId).Count();
-            adminDashboard.TotalWorkingHours = rawData.Sum(x => x.WorkingHours);
-
-            List<Team> teams = Unit.Teams.Get().ToList();
-            List<Project> projects = teams.SelectMany(x => x.Projects).ToList();
-            adminDashboard.Projects.AddRange(projects.Select(x => GetAdminProjectDashboard(x, year, month)).ToList());
-            adminDashboard.NumberOfProjects = adminDashboard.Projects.Count();
-
-            foreach (Team team in teams)
+            List<MasterModel> activeTeams = new List<MasterModel>();
+            activeTeams.AddRange(rawData.GroupBy(x => new
             {
-                MasterModel teamModel = team.Master();
+                Id = x.TeamId,
+                Name = x.TeamName
+            }).ToList().Select(x => new MasterModel
+            {
+                Id = x.Key.Id,
+                Name = x.Key.Name
+            }).ToList());
 
-                //This method also calculates the role utilization
-                TeamDashboardModel teamDashboard = GetTeamDashboardForAdmin(team, year, month, adminDashboard.Roles);
+            companyDashboard.EmployeesCount = rawData.GroupBy(x => x.EmployeeId).Count();
+            companyDashboard.ProjectsCount = rawData.GroupBy(x => x.ProjectId).Count();
+            companyDashboard.TotalHours = companyDashboard.EmployeesCount * baseHours;
+            companyDashboard.TotalWorkingHours = rawData.Sum(x => x.WorkingHours);
+            companyDashboard.Projects = GetCompanyProjectModels(rawData);
+            companyDashboard.Roles = GetRoleUtilization(rawData, baseHours);
+            companyDashboard.Teams = GetCompanyTeamModels(rawData, employeeHours, activeTeams, overtime);
+            companyDashboard.MissingEntries = GetCompanyMissingEntries(employeeHours, companyDashboard.Teams, baseHours, overtime);
 
-                AdminTeamDashboardModel teamDashboardModel = GetAdminTeamDashboard(teamDashboard, teamModel);
+            return companyDashboard;
+        }
+        private decimal EmployeeRatioInTeam(List<CompanyEmployeeHoursModel> workDays, int teamId, int employeeId)
+        {
+            decimal empTeamWorkingHours = workDays.Where(x => x.EmployeeId == employeeId && x.TeamId == teamId).Sum(x => x.DayTypeHours);
+            decimal empWorkingHours = workDays.Where(x => x.EmployeeId == employeeId).Sum(x => x.DayTypeHours);
+            return empTeamWorkingHours / empWorkingHours;
+        }
+        private List<CompanyMissingEntriesModel> GetCompanyMissingEntries(List<CompanyEmployeeHoursModel> employeeHours, List<CompanyTeamModel> teams, decimal baseHours, List<CompanyOvertimeModel> overtime)
+        {
+            List<CompanyMissingEntriesModel> missingEntries = employeeHours.GroupBy(x => new { x.EmployeeId, x.EmployeeName })
+                                                                         .Select(x => new CompanyMissingEntriesModel
+                                                                         {
+                                                                             EmployeeId = x.Key.EmployeeId,
+                                                                             EmployeeName = x.Key.EmployeeName,
+                                                                             MissingEntriesHours = baseHours - x.Sum(y => y.DayTypeHours) + overtime.Where(y => y.EmployeeId == x.Key.EmployeeId).Sum(y => y.OvertimeHours)
+                                                                         }).ToList();
 
-                adminDashboard.Teams.Add(teamDashboardModel);
-                //adminDashboard.TotalWorkingHours += teamDashboardModel.WorkingHours;
-                adminDashboard.TotalHours += teamDashboardModel.TotalHours;
+            return missingEntries;
+        }
+        private List<CompanyTeamModel> GetCompanyTeamModels(List<CompanyDashboardRawModel> rawData, List<CompanyEmployeeHoursModel> employeeHours, List<MasterModel> activeTeams, List<CompanyOvertimeModel> overtime)
+        {
+            List<CompanyTeamModel> teams = new List<CompanyTeamModel>();
+            teams.AddRange(activeTeams.Select(x => new CompanyTeamModel
+            {
+                TeamId = x.Id,
+                TeamName = x.Name,
+                Overtime = 0,
+                PaidTimeOff = 0
+            }).OrderBy(x => x.TeamId).ToList());
+
+            List<CompanyOvertimeModel> overtimeNotNull = overtime.Where(x => x.OvertimeHours > 0).ToList();
+            List<CompanyEmployeeHoursModel> paidTimeOff = employeeHours.Where(x => x.DayTypeName != "Workday").ToList();
+            List<CompanyEmployeeHoursModel> workDays = employeeHours.Where(x => x.DayTypeName == "Workday").ToList();
+
+            foreach (CompanyEmployeeHoursModel row in workDays)
+            {
+                if (row.TeamId != 0)
+                {
+                    if (overtimeNotNull.FirstOrDefault(x => x.EmployeeId == row.EmployeeId) != null)
+                    {
+                        GetCompanyOvertime(teams, workDays, overtimeNotNull, row.TeamId, row.EmployeeId);
+                    }
+
+                    if (paidTimeOff.FirstOrDefault(x => x.EmployeeId == row.EmployeeId) != null)
+                    {
+                        GetCompanyPaidTimeOff(teams, workDays, paidTimeOff, row.TeamId, row.EmployeeId);
+                    }
+                }
             }
 
-            return adminDashboard;
+            return teams;
+        }
+        private void GetCompanyOvertime(List<CompanyTeamModel> teams, List<CompanyEmployeeHoursModel> workDays, List<CompanyOvertimeModel> overtime, int teamId, int employeeId)
+        {
+            decimal empOvertime = overtime.Where(x => x.EmployeeId == employeeId).Sum(x => x.OvertimeHours);
+            teams.FirstOrDefault(x => x.TeamId == teamId).Overtime += empOvertime * EmployeeRatioInTeam(workDays, teamId, employeeId);
+        }
+        private void GetCompanyPaidTimeOff(List<CompanyTeamModel> teams, List<CompanyEmployeeHoursModel> workDays, List<CompanyEmployeeHoursModel> paidTimeOff, int teamId, int employeeId)
+        {
+            decimal empPaidTimeOff = paidTimeOff.Where(x => x.EmployeeId == employeeId).Sum(x => x.DayTypeHours);
+            decimal empRatio = EmployeeRatioInTeam(workDays, teamId, employeeId);
+            teams.FirstOrDefault(x => x.TeamId == teamId).PaidTimeOff += empPaidTimeOff * empRatio;
+        }
+        private List<CompanyRolesDashboardModel> GetRoleUtilization(List<CompanyDashboardRawModel> rawData, decimal baseHours)
+        {
+            List<CompanyRolesDashboardModel> roles = new List<CompanyRolesDashboardModel>();
+
+            //Employee and role are grouped, and the roles utilization model is created
+            List<CompanyRolesRawModel> rolesRaw = CreateRolesRaw(rawData);
+
+            CompanyRolesDashboardModel role = new CompanyRolesDashboardModel { RoleName = "" };
+            foreach (CompanyRolesRawModel row in rolesRaw)
+            {
+                if (row.RoleName != role.RoleName)
+                {
+                    if (role.RoleName != "") roles.Add(role);
+                    role = new CompanyRolesDashboardModel { RoleName = row.RoleName };
+                    role.WorkingHours = rolesRaw.Where(x => x.RoleName == role.RoleName).Sum(x => x.WorkingHours);
+                }
+                /*Calculates the ratio of this employees total working hours 
+                 * as this role in employees overall total working hours, 
+                 * and uses the ratio to extract a number from the monthly base hours*/
+                decimal hoursEmployeeRole = rolesRaw.Where(x => x.EmployeeId == row.EmployeeId && x.RoleName == role.RoleName).Sum(x => x.WorkingHours);
+                decimal hoursEmployee = rolesRaw.Where(x => x.EmployeeId == row.EmployeeId).Sum(x => x.WorkingHours);
+                role.TotalHours += (hoursEmployeeRole / hoursEmployee) * baseHours;
+            }
+            if (role.RoleName != "") roles.Add(role);
+
+            return roles;
+        }
+
+        private List<CompanyRolesRawModel> CreateRolesRaw(List<CompanyDashboardRawModel> rawData)
+        {
+            List<CompanyRolesRawModel> rolesRaw = rawData.GroupBy(x => new { x.EmployeeId, x.RoleId, x.RoleName }).Select(
+                x => new CompanyRolesRawModel
+                {
+                    EmployeeId = x.Key.EmployeeId,
+                    RoleId = x.Key.RoleId,
+                    RoleName = x.Key.RoleName,
+                    WorkingHours = x.Sum(y => y.WorkingHours)
+                }).ToList().OrderBy(x => x.RoleName).ToList();
+
+            return rolesRaw;
+        }
+
+        private List<CompanyProjectsDashboardModel> GetCompanyProjectModels(List<CompanyDashboardRawModel> rawData)
+        {
+            List<CompanyProjectsDashboardModel> projects = new List<CompanyProjectsDashboardModel>();
+            //Data isn't sorted by projects unless a new List is created
+            List<CompanyDashboardRawModel> rawProjects = rawData.OrderBy(x => x.ProjectId).ToList();
+
+            CompanyProjectsDashboardModel project = new CompanyProjectsDashboardModel { Project = new MasterModel { Id = 0 } };
+            foreach (CompanyDashboardRawModel row in rawProjects)
+            {
+                if (row.ProjectId != project.Project.Id)
+                {
+                    if (project.Project.Id != 0) projects.Add(project);
+                    project = new CompanyProjectsDashboardModel
+                    {
+                        Project = new MasterModel { Id = row.ProjectId, Name = row.ProjectName },
+                        Revenue = GetProjectRevenue(rawProjects, row.ProjectId, row.ProjectPricingName)
+                    };
+                }
+            }
+            if (project.Project.Id != 0) projects.Add(project);
+
+            return projects;
+        }
+
+        private decimal GetProjectRevenue(List<CompanyDashboardRawModel> rawData, int projectId, string pricingType)
+        {
+            switch (pricingType)
+            {
+                case "Fixed bid":
+                    return rawData.FirstOrDefault(x => x.ProjectId == projectId).ProjectAmount;
+                case "Hourly":
+                    return rawData.Where(x => x.ProjectId == projectId).Sum(x => x.WorkingHours * x.RoleHourlyPrice);
+                case "PerCapita":
+                    return rawData.Where(x => x.ProjectId == projectId)
+                                  .GroupBy(x => new { x.EmployeeId, x.ProjectId, x.RoleMonthlyPrice })
+                                  .ToList().Sum(x => x.Key.RoleMonthlyPrice);
+                default:
+                    return 0;
+            }
         }
 
         public TeamDashboardModel GetTeamDashboardStored(Team team, int year, int month)
@@ -71,13 +214,15 @@ namespace TimeKeeper.BLL.Services
             teamDashboard.Month = month;
             teamDashboard.Team = new MasterModel { Id = team.Id, Name = team.Name };
             teamDashboard.NumberOfEmployees = rawData.GroupBy(x => x.EmployeeId).Count();            
-            teamDashboard.TotalWorkingHours = rawData.Sum(x => x.WorkingHours);
+            teamDashboard.TotalWorkingHours = rawData.Sum(x => x.Value);
 
             List<TeamRawCountModel> rawDataProjectsCount = StoredProcedureService.GetStoredProcedure<TeamRawCountModel>("CountProjects", new int[] { team.Id, year, month });
 
             teamDashboard.NumberOfProjects = rawDataProjectsCount.Count;
 
             decimal baseTotalHours = Providers.GetMonthlyWorkingDays(year, month) * 8;
+
+            List<TeamRawModel> rawDataMissingEntries = GetMembersMissingEntries(team.Id, year, month, baseTotalHours);
 
             foreach (TeamRawModel r in rawData)
             {
@@ -87,127 +232,21 @@ namespace TimeKeeper.BLL.Services
                     TotalHours = baseTotalHours,
                     Overtime = (rawDataOvertime == null || rawDataOvertime.FirstOrDefault(x => x.MemberId == r.EmployeeId) == null) ? 0 : rawDataOvertime.FirstOrDefault(x => x.MemberId == r.EmployeeId).Value,
                     PaidTimeOff = (rawDataPTO == null || rawDataPTO.FirstOrDefault(x => x.MemberId == r.EmployeeId) == null) ? 0 : rawDataPTO.FirstOrDefault(x => x.MemberId == r.EmployeeId).Value,
-                    WorkingHours = r.WorkingHours,
-                    MissingEntries = 0
+                    WorkingHours = r.Value,
+                    MissingEntries = (rawDataMissingEntries == null || rawDataMissingEntries.FirstOrDefault(x => x.EmployeeId == r.EmployeeId) == null) ? 0 : rawDataMissingEntries.FirstOrDefault(x => x.EmployeeId == r.EmployeeId).Value,
                 });
             }
             return teamDashboard;
         }
-        public TeamMissingEntries GetTeamMissingEntries(Team team, int year, int month)
+        public List<TeamRawModel> GetMembersMissingEntries(int teamId, int year, int month, decimal baseTotalHours)
         {
-            TeamMissingEntries teamMissing = new TeamMissingEntries();
-            teamMissing.Team = team.Master();
-            teamMissing.Hours = 0;
-            foreach (Member member in team.TeamMembers)
+            List<TeamRawModel> rawData = StoredProcedureService.GetStoredProcedure<TeamRawModel>("DateMonth", new int[] { teamId, year, month });
+
+            foreach (TeamRawModel trm in rawData)
             {
-                decimal employeeMissing = GetEmployeeMissingEntries(member.Employee, year, month);
-                teamMissing.Hours += employeeMissing;
+                trm.Value = baseTotalHours - trm.Value * 8;   // trm su odradjeni dani; 
             }
-            return teamMissing;
-        }
-        public decimal GetProjectRevenue(Project project, int year, int month)
-        {
-            switch (project.Pricing.Name)
-            {
-                case "Hourly":
-                    //DATABASE DOESN'T HAVE COHERENT DATA, THIS IS FOR SHOWCASE ONLY - FURTHER IMPLEMENTATION IS NEEDED!!!
-                    //return project.Tasks.Where(x => x.Day.IsDateInPeriod(year, month)).Sum(x => x.Hours * 15);
-                    return project.Team.TeamMembers.Sum(x => x.Role.MonthlyPrice);
-                case "PerCapita":
-                    //DATABASE DOESN'T HAVE COHERENT DATA, THIS IS FOR SHOWCASE ONLY - FURTHER IMPLEMENTATION IS NEEDED!!!
-                    //Only members who have tasks in this month need to be calculated
-                    return project.Team.TeamMembers.Sum(x => x.Role.MonthlyPrice);
-                case "Fixed bid":
-                    return project.Amount;
-                default:
-                    return 0;
-            }
-        }
-        private AdminProjectDashboardModel GetAdminProjectDashboard(Project project, int year, int month)
-        {
-            return new AdminProjectDashboardModel
-            {
-                Project = new MasterModel { Id = project.Id, Name = project.Name },
-                Revenue = GetProjectRevenue(project, year, month)
-            };
-        }
-        private AdminTeamDashboardModel GetAdminTeamDashboard(TeamDashboardModel teamDashboard, MasterModel team)
-        {
-            return new AdminTeamDashboardModel
-            {
-                Team = team,
-                TotalHours = teamDashboard.TotalHours,
-                WorkingHours = teamDashboard.TotalWorkingHours,
-                PaidTimeOff = teamDashboard.EmployeeTimes.Sum(x => x.PaidTimeOff),
-                MissingEntries = 0,
-                Overtime = teamDashboard.EmployeeTimes.Sum(x => x.Overtime)
-            };
-        }
-        public TeamDashboardModel GetTeamDashboardForAdmin(Team team, int year, int month, List<AdminRolesDashboardModel> roles)
-        {
-            //The DashboardService shouldn't really depend on the report service, this should be handled in another way
-            TeamDashboardModel teamDashboard = new TeamDashboardModel
-            {
-                EmployeeTimes = GetTeamMembersDashboard(team, year, month)
-            };
-            //projects for this month!!!
-            teamDashboard.NumberOfEmployees = teamDashboard.EmployeeTimes.Count();
-            teamDashboard.NumberOfProjects = team.Projects.Count();//_unit.Teams.Get(teamId).Projects.Count();
-            foreach (TeamMemberDashboardModel employeeTime in teamDashboard.EmployeeTimes)
-            {
-                teamDashboard.TotalHours += employeeTime.TotalHours;
-                teamDashboard.TotalWorkingHours += employeeTime.WorkingHours;
-                //Role utilization is also calculated here
-                //roles.FirstOrDefault(x => x.RoleName == employeeTime.MemberRole).TotalHours += employeeTime.TotalHours;
-                //roles.FirstOrDefault(x => x.RoleName == employeeTime.MemberRole).WorkingHours += employeeTime.WorkingHours;
-            }
-            return teamDashboard;
-        }
-        //public AdminDashboardModel GetAdminDashboardInfo(int year, int month)
-        //{
-        //    AdminDashboardModel adminDashboard = new AdminDashboardModel();
-
-        //    adminDashboard.NumberOfEmployees = Providers.GetNumberOfEmployeesForTimePeriod(month, year);
-
-        //    adminDashboard.NumberOfProjects = Providers.GetNumberOfProjectsForTimePeriod(month, year);
-
-        //    decimal monthlyBaseHours = Providers.GetMonthlyWorkingDays(year, month) * 8;
-        //    //adminDashboard.BaseTotalHours = monthlyBaseHours * adminDashboard.NumberOfEmployees;
-        //    adminDashboard.TotalHours = 0;
-
-        //    List<int> teamIds = Unit.Teams.Get().Select(x => x.Id).ToList();
-
-        //    foreach (int teamId in teamIds)
-        //    {
-        //        MasterModel team = Unit.Teams.Get(teamId).Master();
-        //        AdminTeamDashboardModel teamDashboardModel = GetAdminTeamDashboard(team, year, month);
-        //        adminDashboard.Teams.Add(teamDashboardModel);
-        //        adminDashboard.TotalHours += teamDashboardModel.WorkingHours;
-        //    }
-
-        //    return adminDashboard;
-        //}
-
-        public AdminProjectDashboardModel GetAdminProjectDashboard(ProjectModel project)  // ok
-        {
-            return new AdminProjectDashboardModel
-            {
-                Project = new MasterModel { Id = project.Id, Name = project.Name },
-                Revenue = project.Amount
-            };
-        }
-
-        public AdminTeamDashboardModel GetAdminTeamDashboard(Team team, int year, int month)
-        {
-            TeamDashboardModel teamDashboard = GetTeamDashboard(team, year, month);
-            return new AdminTeamDashboardModel
-            {
-                Team = team.Master(),
-                TotalHours = teamDashboard.TotalHours,
-                WorkingHours = teamDashboard.TotalWorkingHours,
-                PaidTimeOff = teamDashboard.EmployeeTimes.Sum(x => x.PaidTimeOff),
-                Overtime = teamDashboard.EmployeeTimes.Sum(x => x.Overtime)
-            };
+            return rawData;
         }
 
         public TeamDashboardModel GetTeamDashboard(Team team, int year, int month)
@@ -345,6 +384,8 @@ namespace TimeKeeper.BLL.Services
             return teamMembers;
         }
 
+
+
         public PersonalDashboardModel GetEmployeeDashboard(int employeeId, int year)
         {
             List<DayModel> calendar = Providers.GetEmployeeCalendar(employeeId, year);
@@ -397,18 +438,6 @@ namespace TimeKeeper.BLL.Services
                 }
             }
             return (decimal)Math.Pow(absenceInstances, 2) * absenceDays;
-        }
-        public decimal GetEmployeeMissingEntries(Employee employee, int year, int month)
-        {
-            EmployeeMissingEntries employeeMissing = new EmployeeMissingEntries();
-            employeeMissing.Employee = employee.Master();
-            employeeMissing.MissingEntries = 0;
-            List<DayModel> calendar = GetEmployeeMonth(employee.Id, year, month);
-            foreach (DayModel day in calendar)
-            {
-                if (day.DayType.Name == "Empty") employeeMissing.MissingEntries += 8;
-            }
-            return employeeMissing.MissingEntries;
-        }
+        }        
     }
 }

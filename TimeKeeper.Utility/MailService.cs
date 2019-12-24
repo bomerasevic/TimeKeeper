@@ -16,7 +16,7 @@ namespace TimeKeeper.Utility
             try
             {
                 string mail = "ntg.infodesk@gmail.com";
-                string password = "Company19892016";
+                string password = "Company19892019";
                 SmtpClient client = new SmtpClient()
                 {
                     Port = 587,

@@ -37,6 +37,9 @@ namespace TimeKeeper.API
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication("TokenAuthentication")
+                   .AddScheme<AuthenticationSchemeOptions, TokenAuthenticationHandler>("TokenAuthentication", null); 
+
             services.AddCors();
             services.AddMvc();
             services.AddMvc().AddJsonOptions(opt => opt.SerializerSettings.ContractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() });
@@ -51,7 +54,9 @@ namespace TimeKeeper.API
                 });
                 o.AddPolicy("IsAdmin", builder =>  // pravimo policy na osnovu role i attribute
                 {
-                    builder.RequireRole("admin");
+                    //builder.RequireRole("admin");
+                    builder.RequireAuthenticatedUser();
+                    builder.AddRequirements(new IsMemberRequirement());
                 });
                 o.AddPolicy("IsLead", builder =>  // pravimo policy na osnovu role i attribute
                 {
@@ -79,8 +84,7 @@ namespace TimeKeeper.API
                 });
             });
 
-            services.AddAuthentication("TokenAuthentication")
-                   .AddScheme<AuthenticationSchemeOptions, TokenAuthenticationHandler>("TokenAuthentication", null);
+            
             
             //services.AddAuthentication(options =>
             //{

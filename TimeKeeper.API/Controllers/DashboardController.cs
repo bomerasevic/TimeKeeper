@@ -44,7 +44,7 @@ namespace TimeKeeper.API.Controllers
             try
             {
                 Log.Info($"Try to get dashboard for admin");
-                return Ok(dashboardService.GetAdminDashboardStored(year, month));
+                return Ok(dashboardService.GetCompanyDashboard(year, month));
                 //return Ok();
             }
             catch (Exception ex)

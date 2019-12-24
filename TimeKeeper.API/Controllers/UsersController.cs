@@ -190,7 +190,7 @@ namespace TimeKeeper.API.Controllers
                 if (user != null)
                 {
                     string token = Access.GetToken(user);
-                    return Ok(new { UserModel = user.Create(), token });
+                    return Ok(new { User = user.Create(), token });
                 }
                 return NotFound();
             }
