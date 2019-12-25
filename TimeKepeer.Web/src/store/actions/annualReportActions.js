@@ -5,11 +5,26 @@ import {
   FETCH_ANNUAL_REPORT_FAILURE,
   START_ANNUAL_REPORT_LOADER
 } from "./types";
-import Config from "../../config";
+
+import { store } from "../../index";
+
 export const getAnnualReport = selectedYear => {
   return dispatch => {
     dispatch({ type: FETCH_ANNUAL_REPORT });
-    Axios.get("http://192.168.60.72/TimeKeeper/api/report/annual-overview-stored/" + selectedYear, Config.authHeader)
+
+    const token = store.getState().user.user.token;
+    console.log("token", token)
+    let headers = new Headers();
+
+    headers = {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      }
+    };
+    console.log("headers", headers)
+
+    Axios.get("http://192.168.60.72/TimeKeeper/api/report/annual-overview-stored/" + selectedYear, headers)
       .then(res => {
         console.log("data", res.data);
         let data = res.data.ar.map(x => {

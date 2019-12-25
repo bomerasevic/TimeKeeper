@@ -29,6 +29,7 @@ const EmployeesPage = (props) => {
         fetchEmployees();
         employees = data;
     }, [reload]);
+    console.log("uSer u emply", user.user)
     return (
 
         <React.Fragment>
@@ -60,7 +61,7 @@ const EmployeesPage = (props) => {
                                         Employees
                             </Typography>
                                 </div>
-                                {user.user.role === "admin" ? (
+                                {user.user.user.role === "admin" ? (
                                     <div>
                                         <Tooltip title="Add">
                                             <Button
@@ -100,7 +101,7 @@ const EmployeesPage = (props) => {
                                             <CustomTableCell>{e.lastName}</CustomTableCell>
                                             <CustomTableCell>{e.email}</CustomTableCell>
                                             <CustomTableCell>{e.phone}</CustomTableCell>
-                                            {user.user.role === "admin" ? (
+                                            {user.user.user.role === "admin" ? (
                                                 <CustomTableCell align="center">
                                                     <Button
                                                         aria-label="Edit"

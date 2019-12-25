@@ -17,11 +17,12 @@ export const userReducer = (state = initialUserState, action) => {
 			};
 
 		case AUTH_SUCCESS:
-			Config.token = "Bearer " + action.token;
-			Config.authHeader.headers.Authorization = Config.token;
+			// Config.token = "Bearer " + action.token;
+			// Config.authHeader.headers.Authorization = Config.token;
 			return {
 				...state,
 				user: action.user,
+				token: action.user.token,
 				loading: false
 			};
 		case AUTH_FAIL:

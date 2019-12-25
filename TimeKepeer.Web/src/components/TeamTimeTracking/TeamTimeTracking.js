@@ -29,7 +29,7 @@ const TeamTimeTracking = (props) => {
   }, [teams.selectedTeam, year, month, fetchTeamTracking]);
 
   return (
-    
+
     <React.Fragment>
       <Navigation />
       {loading ? (
@@ -56,78 +56,78 @@ const TeamTimeTracking = (props) => {
           </div>
         </Backdrop>
       ) : (
-        <Paper className={classes.root}>
-          <Toolbar className={classes.toolbar}>
-            <div>
-              <Typography
-                variant="h4"
-                id="tableTitle"
-                style={{ color: "white" }}
-              >
-                Team Time Tracking
+            <Paper className={classes.root}>
+              <Toolbar className={classes.toolbar}>
+                <div>
+                  <Typography
+                    variant="h4"
+                    id="tableTitle"
+                    style={{ color: "white" }}
+                  >
+                    Team Time Tracking
               </Typography>
-              <DropDownYear></DropDownYear>
-              <DropDownMonth></DropDownMonth>
-              <DropDownTeam></DropDownTeam>
-              <Button
-                onClick={() => {
-                  console.log("PROPS", props);
-                  fetchTeamTracking(teams.selectedTeam, year, month);
-                }}
-              >
-                FETCH THEM
+                  <DropDownYear></DropDownYear>
+                  <DropDownMonth></DropDownMonth>
+                  <DropDownTeam></DropDownTeam>
+                  <Button
+                    onClick={() => {
+                      console.log("PROPS", props);
+                      fetchTeamTracking(teams.selectedTeam, year, month);
+                    }}
+                  >
+                    FETCH THEM
               </Button>
-            </div>
-          </Toolbar>
-          <Table className={classes.table}>
-            <TableHead>
-              <TableRow>
-                <CustomTableCell
-                  className={classes.tableHeadFontsize}
-                  style={{ width: "9%" }}
-                >
-                  Employee
+                </div>
+              </Toolbar>
+              <Table className={classes.table}>
+                <TableHead>
+                  <TableRow>
+                    <CustomTableCell
+                      className={classes.tableHeadFontsize}
+                      style={{ width: "9%" }}
+                    >
+                      Employee
                 </CustomTableCell>
-                <CustomTableCell className={classes.tableHeadFontsize}>
-                  Working hours
+                    <CustomTableCell className={classes.tableHeadFontsize}>
+                      Working hours
                 </CustomTableCell>
-                <CustomTableCell className={classes.tableHeadFontsize}>
-                  Business absence
+                    <CustomTableCell className={classes.tableHeadFontsize}>
+                      Business absence
                 </CustomTableCell>
-                <CustomTableCell className={classes.tableHeadFontsize}>
-                  Public holiday
+                    <CustomTableCell className={classes.tableHeadFontsize}>
+                      Public holiday
                 </CustomTableCell>
-                <CustomTableCell
-                  className={classes.tableHeadFontsize}
-                  style={{ width: "9%" }}
-                >
-                  Vacation
+                    <CustomTableCell
+                      className={classes.tableHeadFontsize}
+                      style={{ width: "9%" }}
+                    >
+                      Vacation
                 </CustomTableCell>
-                <CustomTableCell className={classes.tableHeadFontsize}>
-                  Sick days
+                    <CustomTableCell className={classes.tableHeadFontsize}>
+                      Sick days
                 </CustomTableCell>
-                <CustomTableCell className={classes.tableHeadFontsize}>
-                  Missing entries
+                    <CustomTableCell className={classes.tableHeadFontsize}>
+                      Missing entries
                 </CustomTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {data.data !== undefined ?
-              data.data.map((r, i) => (
-                <TableRow key={r.id}>
-                  <CustomTableCell>{r.employee.name}</CustomTableCell>
-                  <CustomTableCell>{r.hourTypes.Workday}</CustomTableCell>
-                  <CustomTableCell>{r.hourTypes.Busines}</CustomTableCell>
-                  <CustomTableCell>{r.hourTypes.Holiday}</CustomTableCell>
-                  <CustomTableCell>{r.hourTypes.Vacation}</CustomTableCell>
-                  <CustomTableCell>{r.hourTypes.Sick}</CustomTableCell>
-                  <CustomTableCell>{r.hourTypes.Other}</CustomTableCell>
-                </TableRow>
-              )) : null}
-            </TableBody>
-          </Table>
-        </Paper>
-      )}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {data.data !== undefined ?
+                    data.data.map((r, i) => (
+                      <TableRow key={r.id}>
+                        <CustomTableCell>{r.employee.name}</CustomTableCell>
+                        <CustomTableCell>{r.hourTypes.Workday}</CustomTableCell>
+                        <CustomTableCell>{r.hourTypes.Busines}</CustomTableCell>
+                        <CustomTableCell>{r.hourTypes.Holiday}</CustomTableCell>
+                        <CustomTableCell>{r.hourTypes.Vacation}</CustomTableCell>
+                        <CustomTableCell>{r.hourTypes.Sick}</CustomTableCell>
+                        <CustomTableCell>{r.hourTypes.Other}</CustomTableCell>
+                      </TableRow>
+                    )) : null}
+                </TableBody>
+              </Table>
+            </Paper>
+          )}
     </React.Fragment>
   );
 };
