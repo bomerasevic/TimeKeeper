@@ -85,10 +85,10 @@ const EmployeesPage = (props) => {
                                         <CustomTableCell className={classes.tableHeadFontsize}>First Name</CustomTableCell>
                                         <CustomTableCell className={classes.tableHeadFontsize}>Last Name</CustomTableCell>
                                         <CustomTableCell className={classes.tableHeadFontsize}>E-mail</CustomTableCell>
-                                        <CustomTableCell className={classes.tableHeadFontsize} style={{ width: "13%" }}>
+                                        <CustomTableCell className={classes.tableHeadFontsize} style={{ width: "10%" }}>
                                             Phone
                                 </CustomTableCell>
-                                        <CustomTableCell className={classes.tableHeadFontsize} align="center">
+                                        <CustomTableCell className={classes.tableHeadFontsize} >
                                             Actions
                                 </CustomTableCell>
                                     </TableRow>

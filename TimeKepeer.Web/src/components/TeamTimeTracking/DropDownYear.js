@@ -43,8 +43,12 @@ const DropDownYear = (props) => {
           //   onChange={(e) => checkValue(e)}
           inputProps={{
             name: "age",
-            id: "age-simple"
-          }}
+            id: "age-simple",
+          }
+        
+        }
+          defaultValue = {2019}
+          
         >
           <MenuItem key={2019} value={2019}>
             {"2019"}

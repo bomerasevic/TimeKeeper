@@ -52,7 +52,9 @@ console.log(teams);
           name="selectOptions"
           onChange={(e) => dropdownTeamSelect(e.target.value)}
           inputProps={{}}
+          defaultValue = {1}
         >
+           
           {teams.map((team) => (
             <MenuItem key={team.id} value={team.id}>
               {team.name}
