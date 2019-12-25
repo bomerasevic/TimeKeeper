@@ -12,9 +12,9 @@ using TimeKeeper.Utility;
 
 namespace TimeKeeper.API.Controllers
 {
-    //[Authorize]
-    [Route("api/[controller]")]
-    [ApiController]
+    [Authorize(AuthenticationSchemes ="TokenAuthentication")]
+    //[Route("api/[controller]")]
+    //[ApiController]
     public class BaseController : ControllerBase
     {
         protected UnitOfWork Unit;

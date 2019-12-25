@@ -28,7 +28,24 @@ namespace TimeKeeper.API.Controllers
             try
             {
                 Log.Info($"Try to get dashboard for admin");
-                return Ok(dashboardService.GetAdminDashboardInfo(year, month));
+                //return Ok(dashboardService.GetAdminDashboardInfo(year, month));
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
+        }
+        [HttpGet("admin-dashboard-stored/{year}/{month}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public IActionResult GetAdminDashboardStored(int year, int month)
+        {
+            try
+            {
+                Log.Info($"Try to get dashboard for admin");
+                return Ok(dashboardService.GetCompanyDashboard(year, month));
+                //return Ok();
             }
             catch (Exception ex)
             {
@@ -43,7 +60,24 @@ namespace TimeKeeper.API.Controllers
             try
             {
                 Log.Info($"Try to get dashboard for team with id:{teamId}");
-                return Ok(dashboardService.GetTeamDashboard(teamId, year, month));
+                //return Ok(dashboardService.GetTeamDashboard(teamId, year, month));
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
+        }
+        [HttpGet("team-dashboard-stored/{teamId}/{year}/{month}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public IActionResult GetTeamDashboardStored(int teamId, int year, int month)
+        {
+            try
+            {
+                Log.Info($"Try to get dashboard for team with id:{teamId}");
+                return Ok(dashboardService.GetTeamDashboardStored(Unit.Teams.Get(teamId), year, month));
+                //return Ok();
             }
             catch (Exception ex)
             {
@@ -79,8 +113,8 @@ namespace TimeKeeper.API.Controllers
             try
             {
                 Log.Info($"Try to get report for employee with id:{empId}");
-                //return Ok(dashboardService.CreateEmployeeReport(empId, year, month));
-                return Ok();
+                return Ok(dashboardService.CreateEmployeeReport(empId, year, month));
+                //return Ok();
             }
             catch (Exception ex)
             {
@@ -93,12 +127,25 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
-                return Ok(dashboardService.GetTeamMonthReport(teamId, year, month));
+                return Ok(dashboardService.GetTeamMonthReport(Unit.Teams.Get(teamId), year, month));
             }
             catch (Exception ex)
             {
                 return HandleException(ex);
             }
         }
+        [HttpGet("bradford-factor/{empId}/{year}")]
+        public IActionResult GetBradfordFactor(int empId, int year)
+        {
+            try
+            {
+                return Ok(dashboardService.GetBradfordFactor(empId, year));
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
+        }
+
     }
 }

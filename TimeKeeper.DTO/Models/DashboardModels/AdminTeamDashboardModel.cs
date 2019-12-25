@@ -4,7 +4,7 @@ using System.Text;
 using TimeKeeper.DTO.Models.DomainModels;
 
 namespace TimeKeeper.DTO.Models.DashboardModels
-{
+{    
     public class AdminTeamDashboardModel
     {
         public MasterModel Team { get; set; }

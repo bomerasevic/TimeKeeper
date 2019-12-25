@@ -14,7 +14,6 @@ using TimeKeeper.Domain;
 
 namespace TimeKeeper.API.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TeamsController : BaseController
@@ -34,10 +33,10 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
-                LogIdentity();
+                //LogIdentity();
                 int userId = int.Parse(User.Claims.FirstOrDefault(x => x.Type == "sub").Value.ToString());
                 string role = User.Claims.FirstOrDefault(x => x.Type == "role").Value.ToString();
-                if (role == "admin" || role == "lead")
+                if (role == "admin")
                 {
                     Log.Info($"Try to get all Teams");
                     return Ok(Unit.Teams.Get().ToList().Select(x => x.Create()).ToList());
@@ -53,26 +52,26 @@ namespace TimeKeeper.API.Controllers
                 return HandleException(ex);
             }
         }
-        [NonAction]
-        private IActionResult LogIdentity()
-        {
-            if(User.Identity.IsAuthenticated)
-            {
-                var accessToken = HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
-                var response = new
-                {
-                    Id = User.Claims.FirstOrDefault(c => c.Type == "sub").Value.ToString(),
-                    Name = User.Claims.FirstOrDefault(c => c.Type == "given_name").Value.ToString(),
-                    Role = User.Claims.FirstOrDefault(c => c.Type == "role").Value.ToString(),
-                    accessToken  // Bearer {accessToken}
-                };
-                return Ok(response);
-            }
-            else
-            {
-                return NotFound();
-            }
-        }
+        //[NonAction]
+        //private IActionResult LogIdentity()
+        //{
+        //    if(User.Identity.IsAuthenticated)
+        //    {
+        //        var accessToken = HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
+        //        var response = new
+        //        {
+        //            Id = User.Claims.FirstOrDefault(c => c.Type == "sub").Value.ToString(),
+        //            Name = User.Claims.FirstOrDefault(c => c.Type == "given_name").Value.ToString(),
+        //            Role = User.Claims.FirstOrDefault(c => c.Type == "role").Value.ToString(),
+        //            accessToken  // Bearer {accessToken}
+        //        };
+        //        return Ok(response);
+        //    }
+        //    else
+        //    {
+        //        return NotFound();
+        //    }
+        //}
         /// <summary>
         /// This method returns Team by specified Id
         /// </summary>

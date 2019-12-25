@@ -12,6 +12,7 @@ using TimeKeeper.DTO.Factory;
 
 namespace TimeKeeper.API.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class CustomersController : BaseController
@@ -26,7 +27,7 @@ namespace TimeKeeper.API.Controllers
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public IActionResult Get()
+        public IActionResult Get() //MOGUCE BOLJI HANDLER STAVIT/NAPRAVIT, MOZDA GENERIC READ HANDLER
         {
             try
             {

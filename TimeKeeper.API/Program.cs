@@ -28,7 +28,6 @@ namespace TimeKeeper.API
                           .Build();
             host.Run();
 
-
             //var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
             //try
             //{
