@@ -6,33 +6,39 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
-//import { connect } from "react-redux";
-//import { loadEmployees } from "../../store/actions";
-import "./TableTK.css";
-
+import "./Table.css";
 
 function TableTK(props) {
+  const { head, rows, actions, handleClickOpen, handleClickDelete } = props;
+  console.log("table.js", props);
   return (
     <Paper elevation={3}>
       <Table className="table-tk">
-        <TableHead style={{ backgroundColor: "rgb(57, 54, 67, 0.9)" }}>
+        <TableHead>
           <TableRow className="table-tk-row-dark">
-            {props.head.map((cell, i) => (
-              <TableCell style={{ color: "white" }} key={i}>{cell}</TableCell>
+            {head.map((cell, i) => (
+              <TableCell key={i}>{cell}</TableCell>
             ))}
-            {props.actions && <TableCell style={{ color: "white" }}>Actions</TableCell>}
+            {actions && <TableCell>Actions</TableCell>}
           </TableRow>
         </TableHead>
         <TableBody>
-          {props.rows.map((row, i) => (
+          {rows.map((row, i) => (
             <TableRow key={i}>
               {Object.keys(row).map((cell, i) => {
                 return <TableCell key={i}>{row[cell]}</TableCell>;
               })}
-              {props.actions && (
+              {actions && (
                 <TableCell>
-                  <Button onClick={() => props.handleClickOpen(row.id)}>
-                    Edit
+                  <Button onClick={() => handleClickOpen(row.id)} title="Edit">
+                    <i className="far fa-edit"></i>
+                  </Button>
+                  <Button
+                    onClick={() => handleClickDelete(row.id)}
+                    color="secondary"
+                    title="Delete"
+                  >
+                    <i className="fas fa-ban"></i>
                   </Button>
                 </TableCell>
               )}
@@ -40,7 +46,6 @@ function TableTK(props) {
           ))}
         </TableBody>
       </Table>
-
     </Paper>
   );
 }

@@ -3,12 +3,8 @@ import "./Navigation.css";
 import logo from "../../assets/images/logo.svg";
 import userLogo from "../../assets/images/user.svg"
 import hamburger from "../../assets/images/hamburger.svg";
-import Modal from "react-modal";
-import swal from "sweetalert";
-import axios from "axios";
 import * as Yup from "yup";
 import { withRouter } from "react-router-dom";
-import config from "../../config";
 import M from "materialize-css";
 import { connect } from "react-redux";
 import userManager from "../../utils/userManager"
@@ -28,9 +24,15 @@ class NavigationLogin extends React.Component {
     }
 
     handleClickEmployees = () => {
-        console.log(this.props.user.profile.role);
+        console.log(this.props.user.user.role);
         this.props.history.push("/app/employees");
     };
+    handleClickAnnualReport = () => {
+        this.props.history.push("/app/annualreport");
+    }
+    handleClickMonthlyReport = () => {
+        this.props.history.push("/app/monthlyreport");
+    }
     handleClickTeams = () => {
         this.props.history.push("/app/teams");
     };
@@ -81,7 +83,7 @@ class NavigationLogin extends React.Component {
 
                                     <div className="dropdown-content" id="dropdown1">
                                         <a onClick={this.handleClickEmployees}>Employees</a>
-                                        {this.props.user.profile.role === "user" ? null : (
+                                        {this.props.user.user.role === "user" ? null : (
                                             <a onClick={this.handleClickCustomers}>Customers</a>)}
 
                                         <a onClick={this.handleClickProjects}>Projects</a>
@@ -99,8 +101,10 @@ class NavigationLogin extends React.Component {
                                     </a>
                                     <div className="dropdown-content" id="dropdown2">
                                         <a href="#">Personal report</a>
-                                        <a href="#">Monthly report</a>
-                                        <a href="#">Annual report</a>
+                                        <a onClick={
+                                            this.handleClickMonthlyReport}>Monthly report</a>
+                                        <a onClick={
+                                            this.handleClickAnnualReport}>Annual report</a>
                                         <a href="#">Project history</a>
                                         <a href="#">Dashboard</a>
                                     </div>
@@ -124,7 +128,7 @@ class NavigationLogin extends React.Component {
                                     }}></img></a>
                                 </li>
                                 <li>
-                                    <a style={{ paddingLeft: "10px" }}>{this.props.user.profile.name} ({this.props.user.profile.role})</a>
+                                    <a style={{ paddingLeft: "10px" }}>{this.props.user.user.name} ({this.props.user.user.role})</a>
                                 </li>
                                 <li>
                                     <a className=" btn modal-trigger" onClick={this.handleClickLogout}>

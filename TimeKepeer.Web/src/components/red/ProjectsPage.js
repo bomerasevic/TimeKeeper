@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { fetchProjects, projectSelect, projectDelete} from "../../store/actions/index";
+import { fetchProjects, projectSelect, projectDelete } from "../../store/actions/index";
 import { withStyles } from "@material-ui/core/styles";
 import {
 	Table,
@@ -26,8 +26,8 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import ProjectsModal from "./ProjectsModal";
 const ProjectsPage = (props) => {
 	const { classes } = props;
-    const { data, loading, error, selected, user, reload } = props;
-    const { fetchProjects, projectSelect, projectDelete } = props;
+	const { data, loading, error, selected, user, reload } = props;
+	const { fetchProjects, projectSelect, projectDelete } = props;
 	let projects = data;
 	useEffect(() => {
 		fetchProjects();
@@ -57,23 +57,23 @@ const ProjectsPage = (props) => {
 			) : (
 
 						<Paper className={classes.root}>
-                            {selected ? <ProjectsModal selected={selected} open={true} /> : null}
+							{selected ? <ProjectsModal selected={selected} open={true} /> : null}
 							<Toolbar className={classes.toolbar}>
 								<div>
 									<Typography variant="h4" id="tableTitle" style={{ color: "white" }}>
 										Projects
 							</Typography>
 								</div>
-								{user.profile.role === "admin" ? (
-                          
-								<div>
-								<Button aria-label="Add" className=" addButton btn add" style={{ color: "white" , backgroundColor:"#26a69a"}}
-								   onClick={() => projectSelect(null, "add")}>
-															Add
+								{user.user.role === "admin" ? (
+
+									<div>
+										<Button aria-label="Add" className=" addButton btn add" style={{ color: "white", backgroundColor: "#26a69a" }}
+											onClick={() => projectSelect(null, "add")}>
+											Add
                                              </Button>
-							
-								</div>
-						     ) : null}
+
+									</div>
+								) : null}
 							</Toolbar>
 							<Table className={classes.table}>
 								<TableHead>
@@ -88,7 +88,7 @@ const ProjectsPage = (props) => {
 										<CustomTableCell className={classes.tableHeadFontsize} align="center" style={{ width: "5%" }} >
 											Status
 								</CustomTableCell>
-										<CustomTableCell className={classes.tableHeadFontsize}  align="center"  >
+										<CustomTableCell className={classes.tableHeadFontsize} align="center"  >
 											Actions
 								</CustomTableCell>
 									</TableRow>
@@ -109,7 +109,7 @@ const ProjectsPage = (props) => {
 													<Button aria-label="View" className=" deleteButton a-btn delete">
 														View
 </Button>
-													{props.user.profile.role === "admin" ? (
+													{props.user.user.role === "admin" ? (
 														<Button
 															aria-label="Edit"
 															className=" editButton add a-btn"
@@ -118,8 +118,8 @@ const ProjectsPage = (props) => {
 														>
 															Edit
 </Button>) : null}
-													{props.user.profile.role === "admin" ? (
-														<Button aria-label="Delete" className=" deleteButton a-btn delete"  style={{ color: "#9e1c13" }}>
+													{props.user.user.role === "admin" ? (
+														<Button aria-label="Delete" className=" deleteButton a-btn delete" style={{ color: "#9e1c13" }}>
 															Delete
 </Button>) : null}
 
@@ -159,7 +159,7 @@ const mapStateToProps = (state) => {
 		loading: state.projects.loading,
 		error: state.projects.error,
 		selected: state.projects.selected,
-        reload: state.projects.reload
+		reload: state.projects.reload
 	};
 };
 export default connect(mapStateToProps, { fetchProjects, projectSelect, projectDelete })(withStyles(styles)(ProjectsPage));

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./Navigation.css";
+import { connect } from "react-redux";
 import logo from "../../../assets/images/logo.svg";
 import logomodal from "../../../assets/images/logomodal.png";
 import hamburger from "../../../assets/images/hamburger.svg";
@@ -10,8 +11,7 @@ import * as Yup from "yup";
 import { Formik, Form, Field } from "formik";
 import config from "../../../config";
 import { withRouter } from "react-router-dom";
-import userManager from "../../../utils/userManager"
-
+import { auth } from "../../../store/actions/index"
 const SignupSchema = Yup.object().shape({
 	username: Yup.string().min(5, "Too Short!").required("Required"),
 	password: Yup.string().required("Required")
@@ -58,13 +58,10 @@ class Navigation extends React.Component {
 								<a href="#contact">Contact us</a>
 							</li>
 							<li>
-								<a className=" btn login-static modal-trigger" onClick={() => {
-
-									userManager.signinRedirect();
-								}}>
+								<a className=" btn login-static modal-trigger" onClick={this.openModal}>
 									Login
 								</a>
-								{/* <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal}>
+								<Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal}>
 									<div className="row">
 										<img className="logo-modal" src={logomodal} />
 
@@ -78,25 +75,8 @@ class Navigation extends React.Component {
 												password: ""
 											}}
 											validationSchema={SignupSchema}
-											onSubmit={(values, { setSubmitting }) => {
-												axios
-													.post(`${config.apiUrl}Users`, values, {
-														headers: {
-															"Access-Control-Allow-Origin": "*",
-															"Content-Type": "application/json"
-														}
-													})
-													.then((resp) => {
-														swal("Login success", "", "success");
-														console.log(resp.data);
-														config.token = "Basic " + resp.data.base64;
-														console.log(config);
-														this.props.history.push("/app");
-													})
-													.catch((err) => {
-														console.log(err);
-														swal("Oops...", "Something went wrong! Reload page.", "error");
-													});
+											onSubmit={(values) => {
+												this.props.auth(values)
 											}}
 										>
 											{({ errors, touched }) => (
@@ -126,7 +106,7 @@ class Navigation extends React.Component {
 											)}
 										</Formik>
 									</div>
-								</Modal> */}
+								</Modal>
 							</li>
 						</ul>
 					</div>
@@ -136,4 +116,4 @@ class Navigation extends React.Component {
 	}
 }
 
-export default withRouter(Navigation);
+export default connect(null, { auth })(withRouter(Navigation));

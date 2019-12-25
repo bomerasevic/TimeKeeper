@@ -15,11 +15,11 @@ export const store = configureStore();
 
 ReactDOM.render(
 	<Provider store={store}>
-		<OidcProvider store={store} userManager={userManager}>
-			<BrowserRouter>
-				<App />
-			</BrowserRouter>
-		</OidcProvider>
+		{/* <OidcProvider store={store} userManager={userManager}> */}
+		<BrowserRouter>
+			<App />
+		</BrowserRouter>
+		{/* </OidcProvider> */}
 	</Provider>,
 	document.getElementById("root")
 );
