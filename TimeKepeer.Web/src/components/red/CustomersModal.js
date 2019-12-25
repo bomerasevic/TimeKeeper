@@ -87,19 +87,19 @@ const CustomersModal = (props) => {
     const { fetchCustomer, customerCancel, customerPut, customerAdd } = props;
     let rows = []
 
-    if(customer) {
+    // if(customer) {
      
-        let fetchedName = [];
-        console.log(customer);
-        customer.members.forEach(r => {
+    //     let fetchedName = [];
+    //     console.log(customer);
+    //     customer.members.forEach(r => {
 
-          let team = test(r.name);
-          let id = r.id;
-          let data = { id, team };
-          fetchedName.push(data);
-        });
-        rows = fetchedName
-    }
+    //       let team = test(r.name);
+    //       let id = r.id;
+    //       let data = { id, team };
+    //       fetchedName.push(data);
+    //     });
+    //     rows = fetchedName
+    // }
    
     useEffect(() => {
       if(id !== null) {
@@ -256,7 +256,7 @@ const CustomersModal = (props) => {
                           autoComplete="off"
                           as={CustomInputComponent}
                         />
-                        <InputLabel>Home Number</InputLabel>
+                        <InputLabel>Phone</InputLabel>
                         {errors.address && touched.address ? (
                           <div className={classes.errorMessage}>
                             {errors.address}
@@ -372,7 +372,7 @@ const CustomersModal = (props) => {
 
 const mapStateToProps = state => {
   return {
-    id: state.customer.selected.id,
+    id: state.customers.selected.id,
     customer: state.customers.customer,
     mode: state.customers.selected.mode
   }
