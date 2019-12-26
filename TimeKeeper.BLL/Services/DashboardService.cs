@@ -20,7 +20,6 @@ namespace TimeKeeper.BLL.Services
         protected UnitOfWork Unit;
         protected Providers Providers;
         protected StoredProcedureService StoredProcedureService;
-        //protected TimeTracking TimeTracking;
         public DashboardService(UnitOfWork unit)
         {
             Unit = unit;
@@ -54,7 +53,7 @@ namespace TimeKeeper.BLL.Services
             companyDashboard.Projects = GetCompanyProjectModels(rawData);
             companyDashboard.Roles = GetRoleUtilization(rawData, baseHours);
             companyDashboard.Teams = GetCompanyTeamModels(rawData, employeeHours, activeTeams, overtime);
-            companyDashboard.MissingEntries = GetCompanyMissingEntries(employeeHours, companyDashboard.Teams, baseHours, overtime);
+            GetCompanyMissingEntries(employeeHours, companyDashboard.Teams, baseHours, overtime);
 
             return companyDashboard;
         }
@@ -64,28 +63,36 @@ namespace TimeKeeper.BLL.Services
             decimal empWorkingHours = workDays.Where(x => x.EmployeeId == employeeId).Sum(x => x.DayTypeHours);
             return empTeamWorkingHours / empWorkingHours;
         }
-        private List<CompanyMissingEntriesModel> GetCompanyMissingEntries(List<CompanyEmployeeHoursModel> employeeHours, List<CompanyTeamModel> teams, decimal baseHours, List<CompanyOvertimeModel> overtime)
+        private void GetCompanyMissingEntries(List<CompanyEmployeeHoursModel> employeeHours, List<CompanyTeamModel> teams, decimal baseHours, List<CompanyOvertimeModel> overtime)
         {
-            List<CompanyMissingEntriesModel> missingEntries = employeeHours.GroupBy(x => new { x.EmployeeId, x.EmployeeName })
-                                                                         .Select(x => new CompanyMissingEntriesModel
-                                                                         {
-                                                                             EmployeeId = x.Key.EmployeeId,
-                                                                             EmployeeName = x.Key.EmployeeName,
-                                                                             MissingEntriesHours = baseHours - x.Sum(y => y.DayTypeHours) + overtime.Where(y => y.EmployeeId == x.Key.EmployeeId).Sum(y => y.OvertimeHours)
-                                                                         }).ToList();
+            List<EmployeeMissingEntries> missingEntriesEmployee = employeeHours.GroupBy(x => new { x.EmployeeId, x.EmployeeName })
+                .Select(x => new EmployeeMissingEntries
+                {
+                    Employee = new MasterModel { Id = x.Key.EmployeeId, Name = x.Key.EmployeeName },
+                    MissingEntries = baseHours - x.Sum(y => y.DayTypeHours) + overtime.Where(y => y.EmployeeId == x.Key.EmployeeId).Sum(y => y.OvertimeHours)
+                }).Where(x => x.MissingEntries > 0).ToList();
 
-            return missingEntries;
+            foreach (CompanyTeamModel team in teams)
+            {
+                foreach (EmployeeMissingEntries employee in missingEntriesEmployee)
+                {
+                    if (employeeHours.Any(x => x.EmployeeId == employee.Employee.Id && x.TeamId == team.Team.Id))
+                    {
+                        team.MissingEntries += employee.MissingEntries;
+                    }
+                }
+            }
         }
         private List<CompanyTeamModel> GetCompanyTeamModels(List<CompanyDashboardRawModel> rawData, List<CompanyEmployeeHoursModel> employeeHours, List<MasterModel> activeTeams, List<CompanyOvertimeModel> overtime)
         {
             List<CompanyTeamModel> teams = new List<CompanyTeamModel>();
             teams.AddRange(activeTeams.Select(x => new CompanyTeamModel
             {
-                TeamId = x.Id,
-                TeamName = x.Name,
-                Overtime = 0,
-                PaidTimeOff = 0
-            }).OrderBy(x => x.TeamId).ToList());
+                Team = x,
+                MissingEntries = 0,                
+                PaidTimeOff = 0,
+                Overtime = 0
+            }).OrderBy(x => x.Team.Name).ToList());
 
             List<CompanyOvertimeModel> overtimeNotNull = overtime.Where(x => x.OvertimeHours > 0).ToList();
             List<CompanyEmployeeHoursModel> paidTimeOff = employeeHours.Where(x => x.DayTypeName != "Workday").ToList();
@@ -112,39 +119,36 @@ namespace TimeKeeper.BLL.Services
         private void GetCompanyOvertime(List<CompanyTeamModel> teams, List<CompanyEmployeeHoursModel> workDays, List<CompanyOvertimeModel> overtime, int teamId, int employeeId)
         {
             decimal empOvertime = overtime.Where(x => x.EmployeeId == employeeId).Sum(x => x.OvertimeHours);
-            teams.FirstOrDefault(x => x.TeamId == teamId).Overtime += empOvertime * EmployeeRatioInTeam(workDays, teamId, employeeId);
+            teams.FirstOrDefault(x => x.Team.Id == teamId).Overtime += empOvertime * EmployeeRatioInTeam(workDays, teamId, employeeId);
         }
         private void GetCompanyPaidTimeOff(List<CompanyTeamModel> teams, List<CompanyEmployeeHoursModel> workDays, List<CompanyEmployeeHoursModel> paidTimeOff, int teamId, int employeeId)
         {
             decimal empPaidTimeOff = paidTimeOff.Where(x => x.EmployeeId == employeeId).Sum(x => x.DayTypeHours);
             decimal empRatio = EmployeeRatioInTeam(workDays, teamId, employeeId);
-            teams.FirstOrDefault(x => x.TeamId == teamId).PaidTimeOff += empPaidTimeOff * empRatio;
+            teams.FirstOrDefault(x => x.Team.Id == teamId).PaidTimeOff += empPaidTimeOff * empRatio;
         }
         private List<CompanyRolesDashboardModel> GetRoleUtilization(List<CompanyDashboardRawModel> rawData, decimal baseHours)
         {
             List<CompanyRolesDashboardModel> roles = new List<CompanyRolesDashboardModel>();
-
             //Employee and role are grouped, and the roles utilization model is created
             List<CompanyRolesRawModel> rolesRaw = CreateRolesRaw(rawData);
-
-            CompanyRolesDashboardModel role = new CompanyRolesDashboardModel { RoleName = "" };
+            CompanyRolesDashboardModel role = new CompanyRolesDashboardModel { Role = new MasterModel { Id = 0, Name = "" } };
             foreach (CompanyRolesRawModel row in rolesRaw)
             {
-                if (row.RoleName != role.RoleName)
+                if (row.RoleName != role.Role.Name)
                 {
-                    if (role.RoleName != "") roles.Add(role);
-                    role = new CompanyRolesDashboardModel { RoleName = row.RoleName };
-                    role.WorkingHours = rolesRaw.Where(x => x.RoleName == role.RoleName).Sum(x => x.WorkingHours);
+                    if (role.Role.Name != "") roles.Add(role);
+                    role = new CompanyRolesDashboardModel { Role = new MasterModel { Id = row.RoleId, Name = row.RoleName } };
+                    role.WorkingHours = rolesRaw.Where(x => x.RoleName == role.Role.Name).Sum(x => x.WorkingHours);
                 }
                 /*Calculates the ratio of this employees total working hours 
                  * as this role in employees overall total working hours, 
                  * and uses the ratio to extract a number from the monthly base hours*/
-                decimal hoursEmployeeRole = rolesRaw.Where(x => x.EmployeeId == row.EmployeeId && x.RoleName == role.RoleName).Sum(x => x.WorkingHours);
+                decimal hoursEmployeeRole = rolesRaw.Where(x => x.EmployeeId == row.EmployeeId && x.RoleName == role.Role.Name).Sum(x => x.WorkingHours);
                 decimal hoursEmployee = rolesRaw.Where(x => x.EmployeeId == row.EmployeeId).Sum(x => x.WorkingHours);
                 role.TotalHours += (hoursEmployeeRole / hoursEmployee) * baseHours;
             }
-            if (role.RoleName != "") roles.Add(role);
-
+            if (role.Role.Name != "") roles.Add(role);
             return roles;
         }
 
@@ -214,13 +218,14 @@ namespace TimeKeeper.BLL.Services
             teamDashboard.Month = month;
             teamDashboard.Team = new MasterModel { Id = team.Id, Name = team.Name };
             teamDashboard.NumberOfEmployees = rawData.GroupBy(x => x.EmployeeId).Count();            
-            teamDashboard.TotalWorkingHours = rawData.Sum(x => x.Value);
+            teamDashboard.TotalWorkingHours = rawData.Sum(x => x.Value);            
 
             List<TeamRawCountModel> rawDataProjectsCount = StoredProcedureService.GetStoredProcedure<TeamRawCountModel>("CountProjects", new int[] { team.Id, year, month });
 
             teamDashboard.NumberOfProjects = rawDataProjectsCount.Count;
 
             decimal baseTotalHours = Providers.GetMonthlyWorkingDays(year, month) * 8;
+            teamDashboard.TotalHours = baseTotalHours * teamDashboard.NumberOfEmployees;
 
             List<TeamRawModel> rawDataMissingEntries = GetMembersMissingEntries(team.Id, year, month, baseTotalHours);
 
@@ -386,58 +391,85 @@ namespace TimeKeeper.BLL.Services
 
 
 
-        public PersonalDashboardModel GetEmployeeDashboard(int employeeId, int year)
-        {
-            List<DayModel> calendar = Providers.GetEmployeeCalendar(employeeId, year);
-            decimal totalHours = Providers.GetYearlyWorkingDays(year) * 8;
+        //public PersonalDashboardModel GetEmployeeDashboard(int employeeId, int year)
+        //{
+        //    List<DayModel> calendar = Providers.GetEmployeeCalendar(employeeId, year);
+        //    decimal totalHours = Providers.GetYearlyWorkingDays(year) * 8;
 
-            return CreatePersonalDashboard(employeeId, year, totalHours, calendar);
+        //    return CreatePersonalDashboard(employeeId, year, totalHours, calendar);
+        //}
+        //public PersonalDashboardModel GetEmployeeDashboard(int employeeId, int year, int month)
+        //{
+        //    List<DayModel> calendar = Providers.GetEmployeeCalendar(employeeId, year, month);
+        //    decimal totalHours = Providers.GetMonthlyWorkingDays(year, month) * 8;
+
+        //    return CreatePersonalDashboard(employeeId, year, totalHours, calendar);
+        //}
+
+        //private PersonalDashboardModel CreatePersonalDashboard(int employeeId, int year, decimal totalHours, List<DayModel> calendar)
+        //{
+        //    decimal workingHours = calendar.Where(x => x.DayType.Name == "Workday").Sum(x => x.TotalHours);
+
+        //    return new PersonalDashboardModel
+        //    {
+        //        Employee = Unit.Employees.Get(employeeId).Master(),
+        //        TotalHours = totalHours,
+        //        WorkingHours = workingHours,
+        //        BradfordFactor = GetBradfordFactor(employeeId, year)
+        //    };
+        //}
+
+        //public decimal GetBradfordFactor(int employeeId, int year)
+        //{
+        //    List<DayModel> calendar = Providers.GetEmployeeCalendar(employeeId, year);
+        //    //an absence instance are any number of consecutive absence days. 3 consecutive absence days make an instance.
+        //    int absenceInstances = 0;
+        //    int absenceDays = 0;
+        //    calendar = calendar.OrderBy(x => x.Date).ToList();
+
+        //    //Bradford factor calculates only dates until the present day, because the calendar in argument returns the whole period
+        //    absenceDays = calendar.Where(x => x.DayType.Name == "sick" && x.Date < DateTime.Now).Count();
+
+        //    for (int i = 0; i < calendar.Count; i++)
+        //    {
+        //        if (calendar[i].DayType.Name == "sick" && calendar[i].Date < DateTime.Now)
+        //        {
+        //            if (i == 0) absenceInstances++;
+
+        //            else if (calendar[i - 1].DayType.Name != "sick")
+        //            {
+        //                absenceInstances++;
+        //            }
+        //        }
+        //    }
+        //    return (decimal)Math.Pow(absenceInstances, 2) * absenceDays;
+        //}
+        public PersonalDashboardModel GetPersonalDashboardStored(int empId, int year, int month)
+        {
+            PersonalDashboardModel personalDashboard = new PersonalDashboardModel();
+            List<PersonalDashboardRawModel> rawData = StoredProcedureService.GetStoredProcedure<PersonalDashboardRawModel>("personalDashboard", new int[] { empId, year, month });
+            decimal workingDaysInMonth = Providers.GetMonthlyWorkingDays(year, month) * 8;
+            decimal workingDaysInYear = Providers.GetYearlyWorkingDays(year) * 8;
+
+            personalDashboard.PersonalDashboardHours = rawData[0];
+            // What if there's overtime?
+            personalDashboard.UtilizationMonthly = decimal.Round(((rawData[0].WorkingMonthly / workingDaysInMonth) * 100), 2, MidpointRounding.AwayFromZero);
+            personalDashboard.UtilizationYearly = decimal.Round(((rawData[0].WorkingYearly / workingDaysInYear) * 100), 2, MidpointRounding.AwayFromZero);
+            personalDashboard.BradfordFactor = GetBradfordFactor(rawData[0], year);
+
+            return personalDashboard;
         }
-        public PersonalDashboardModel GetEmployeeDashboard(int employeeId, int year, int month)
+        public decimal GetBradfordFactor(PersonalDashboardRawModel personalDashboardHours, int year)
         {
-            List<DayModel> calendar = Providers.GetEmployeeCalendar(employeeId, year, month);
-            decimal totalHours = Providers.GetMonthlyWorkingDays(year, month) * 8;
-
-            return CreatePersonalDashboard(employeeId, year, totalHours, calendar);
-        }
-
-        private PersonalDashboardModel CreatePersonalDashboard(int employeeId, int year, decimal totalHours, List<DayModel> calendar)
-        {
-            decimal workingHours = calendar.Where(x => x.DayType.Name == "Workday").Sum(x => x.TotalHours);
-
-            return new PersonalDashboardModel
+            int absenceDays = personalDashboardHours.SickYearly;
+            List<RawAbsenceModel> rawAbsenceData = StoredProcedureService.GetStoredProcedure<RawAbsenceModel>("sickByMonths", new int[] { personalDashboardHours.EmployeeId, year });
+            if (rawAbsenceData == null)
             {
-                Employee = Unit.Employees.Get(employeeId).Master(),
-                TotalHours = totalHours,
-                WorkingHours = workingHours,
-                BradfordFactor = GetBradfordFactor(employeeId, year)
-            };
-        }
-
-        public decimal GetBradfordFactor(int employeeId, int year)
-        {
-            List<DayModel> calendar = Providers.GetEmployeeCalendar(employeeId, year);
-            //an absence instance are any number of consecutive absence days. 3 consecutive absence days make an instance.
-            int absenceInstances = 0;
-            int absenceDays = 0;
-            calendar = calendar.OrderBy(x => x.Date).ToList();
-
-            //Bradford factor calculates only dates until the present day, because the calendar in argument returns the whole period
-            absenceDays = calendar.Where(x => x.DayType.Name == "sick" && x.Date < DateTime.Now).Count();
-
-            for (int i = 0; i < calendar.Count; i++)
-            {
-                if (calendar[i].DayType.Name == "sick" && calendar[i].Date < DateTime.Now)
-                {
-                    if (i == 0) absenceInstances++;
-
-                    else if (calendar[i - 1].DayType.Name != "sick")
-                    {
-                        absenceInstances++;
-                    }
-                }
+                rawAbsenceData = new List<RawAbsenceModel>();
+                rawAbsenceData.Add(new RawAbsenceModel { AbsenceInstances = 0});
             }
-            return (decimal)Math.Pow(absenceInstances, 2) * absenceDays;
-        }        
+                //throw new ArgumentException("There is an error in database. Please check again your data.");
+            return (decimal)Math.Pow((int)rawAbsenceData[0].AbsenceInstances, 2) * absenceDays;
+        }
     }
 }

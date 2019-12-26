@@ -19,7 +19,9 @@ namespace TimeKeeper.DTO.Factory
             if (typeof(Entity) == typeof(TeamRawCountModel)) return CreateTeamRawCountModel(sql) as List<Entity>;
             if (typeof(Entity) == typeof(TeamRawModel)) return CreateTeamRawModel(sql) as List<Entity>;
             if (typeof(Entity) == typeof(TeamRawNonWorkingHoursModel)) return CreateTeamRawNonWorkingHoursModel(sql) as List<Entity>;
-            
+            if (typeof(Entity) == typeof(PersonalDashboardRawModel)) return CreatePersonalDashboard(sql) as List<Entity>;
+            if (typeof(Entity) == typeof(RawAbsenceModel)) return CreateRawAbsenceModel(sql) as List<Entity>;
+
             else return null;
         }
 
@@ -150,6 +152,33 @@ namespace TimeKeeper.DTO.Factory
                 });
             }
             return rawData;
+        }
+        private List<PersonalDashboardRawModel> CreatePersonalDashboard(DbDataReader sql)
+        {
+            List<PersonalDashboardRawModel> rawData = new List<PersonalDashboardRawModel>();
+            while (sql.Read())
+            {
+                rawData.Add(new PersonalDashboardRawModel
+                {
+                    EmployeeId = sql.GetInt32(0),
+                    EmployeeName = sql.GetString(1),
+                    WorkingMonthly = sql.GetDecimal(2),
+                    WorkingYearly = sql.GetDecimal(3),
+                    SickMonthly = sql.GetInt32(4),
+                    SickYearly = sql.GetInt32(5)
+                });
+            }
+            return rawData;
+        }
+        private List<RawAbsenceModel> CreateRawAbsenceModel(DbDataReader sql)
+        {
+            List<RawAbsenceModel> rawAbsenceModel = new List<RawAbsenceModel>();
+            rawAbsenceModel.Add(new RawAbsenceModel());
+            while (sql.Read())
+            {
+                rawAbsenceModel[rawAbsenceModel.Count - 1].AbsenceInstances++;
+            }
+            return rawAbsenceModel;
         }
         public RawMasterModel CreateRawMasterModel(DbDataReader sql)
         {

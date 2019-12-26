@@ -46,7 +46,7 @@ namespace TimeKeeper.DTO.Factory
                 DayType = new MasterModel { Id = day.DayType.Id, Name = day.DayType.Name },
                 Date = day.Date,
                 TotalHours = day.TotalHours,
-                Tasks = day.Tasks.Select(x => x.Master()).ToList()
+                Tasks = day.Tasks.Select(x => x.Create()).ToList()
             };
         }
         public static RoleModel Create(this Role role)

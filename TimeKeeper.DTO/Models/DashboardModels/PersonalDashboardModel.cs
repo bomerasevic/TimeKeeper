@@ -7,9 +7,9 @@ namespace TimeKeeper.DTO.Models.DashboardModels
 {
     public class PersonalDashboardModel
     {
-        public MasterModel Employee { get; set; }
-        public decimal TotalHours { get; set; }
-        public decimal WorkingHours { get; set; }
+        public PersonalDashboardRawModel PersonalDashboardHours { get; set; }
+        public decimal UtilizationMonthly { get; set; }
+        public decimal UtilizationYearly { get; set; }
         public decimal BradfordFactor { get; set; }
     }
 }

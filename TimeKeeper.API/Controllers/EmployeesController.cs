@@ -34,21 +34,21 @@ namespace TimeKeeper.API.Controllers
             try
             {
                 Log.Info($"Try to get all Employees");
-                int totalItems = Unit.Employees.Get().Count();
-                int totalPages = (int)Math.Ceiling(totalItems / (decimal)pageSize);
-                if (page < 1) page = 1;
-                if (page > totalPages) page = totalPages;
-                int currentPage = page - 1;
-                var query = Unit.Employees.Get().Skip(currentPage * pageSize).Take(pageSize);
-                var pagination = new
-                {
-                    pageSize,
-                    totalItems,
-                    totalPages,
-                    page
-                };
-                HttpContext.Response.Headers.Add("pagination", JsonConvert.SerializeObject(pagination));
-                return Ok(query.ToList().Select(x => x.Create()).ToList());
+                //int totalItems = Unit.Employees.Get().Count();
+                //int totalPages = (int)Math.Ceiling(totalItems / (decimal)pageSize);
+                //if (page < 1) page = 1;
+                //if (page > totalPages) page = totalPages;
+                //int currentPage = page - 1;
+                //var query = Unit.Employees.Get().Skip(currentPage * pageSize).Take(pageSize);
+                //var pagination = new
+                //{
+                //    pageSize,
+                //    totalItems,
+                //    totalPages,
+                //    page
+                //};
+                //HttpContext.Response.Headers.Add("pagination", JsonConvert.SerializeObject(pagination));
+                return Ok(Unit.Employees.Get().ToList().Select(x => x.Create()).ToList());
             }
             catch (Exception ex)
             {
