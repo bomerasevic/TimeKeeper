@@ -60,9 +60,7 @@ const Schema = Yup.object().shape({
   employmentBeginDate: Yup.string().required(
     "Employment Begin Date is Required!"
   ),
-  employmentEndDate: Yup.string().required(
-    "Employment End Date is Required!"
-  ),
+ 
   position: Yup.string().required("Job Title is Required!"),
   status: Yup.string().required("Status is Required!")
 });
@@ -157,6 +155,7 @@ const EmployeesModal = (props) => {
           status: employee ? employee.status.id : ""
         }}
         onSubmit={values => {
+         console.log("onSubmit EM", values)
           values.birthday = moment(values.birthday).format(
             "YYYY-MM-DD HH:mm:ss"
           );
@@ -199,7 +198,7 @@ const EmployeesModal = (props) => {
                       src="http://www.hmcatering.com/wp-content/uploads/2015/05/profile-placeholder.jpg"
                       className={classes.img}
                     />
-                    <InputLabel>Salary</InputLabel>
+                    {/* <InputLabel>Salary</InputLabel>
                     {errors.salary && touched.salary ? (
                       <div className={classes.errorMessage}>
                         {errors.salary}
@@ -213,9 +212,9 @@ const EmployeesModal = (props) => {
                       disableUnderline={true}
                       autoComplete="off"
                       as={CustomInputComponent}
-                    />
+                    /> */}
 
-                    <Paper className={classes.root}>
+                    {/* <Paper className={classes.root}>
                       <Table className={classes.table}>
                         <TableHead className={classes.tableHead}>
                           <TableRow>
@@ -243,7 +242,7 @@ const EmployeesModal = (props) => {
                           ))}
                         </TableBody>
                       </Table>
-                    </Paper>
+                    </Paper> */}
                   </div>
 
                   <div className={classes.container}>

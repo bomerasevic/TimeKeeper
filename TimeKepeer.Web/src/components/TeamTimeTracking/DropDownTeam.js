@@ -21,6 +21,13 @@ const styles = (theme) => ({
   },
   selectEmpty: {
     marginTop: theme.spacing.unit * 2
+  },
+  label : {
+    color: "white"
+  },
+
+  whiteColor : {
+    color: "white"
   }
 });
 let counter = 0;
@@ -47,8 +54,10 @@ console.log(teams);
   return (
     <form className={classes.root} autoComplete="off">
       <FormControl className={classes.formControl}>
-        <InputLabel htmlFor="age-simple">Team</InputLabel>
+        <InputLabel htmlFor="age-simple" className={classes.label}>Team</InputLabel>
         <Select
+          className= {classes.whiteColor}
+          classes = {{icon: classes.label}}
           name="selectOptions"
           onChange={(e) => dropdownTeamSelect(e.target.value)}
           inputProps={{}}

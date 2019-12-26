@@ -67,9 +67,9 @@ const TeamTimeTracking = (props) => {
                     Team Time Tracking
               </Typography>
                <div className={classes.dropDown}>
-                  <DropDownYear className={classes.dropDown}></DropDownYear>
-                  <DropDownMonth className={classes.dropDown}></DropDownMonth>
-                  <DropDownTeam className={classes.dropDown}></DropDownTeam>
+                  <DropDownYear className={classes.selectors}></DropDownYear>
+                  <DropDownMonth className={classes.selectors}></DropDownMonth>
+                  <DropDownTeam className={classes.selectors}></DropDownTeam>
                   </div>
                   {/* <Button
                     onClick={() => {
@@ -129,7 +129,7 @@ const TeamTimeTracking = (props) => {
                         <CustomTableCell>{r.hourTypes.holiday}</CustomTableCell>
                         <CustomTableCell>{r.hourTypes.vacation}</CustomTableCell>
                         <CustomTableCell>{r.hourTypes.sick}</CustomTableCell>
-                        <CustomTableCell>{r.hourTypes.other}</CustomTableCell>
+                        <CustomTableCell>{r.hourTypes.missingEntries}</CustomTableCell>
                       </TableRow>
                     )) : null}
                 </TableBody>

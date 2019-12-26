@@ -4,11 +4,11 @@ const styles = (theme) => ({
 		display: "flex",
 		width: "100%",
 		height: "100%",
-		padding: "2rem"
+		padding: "1rem"
 	},
 	container: {
 		width: "100%",
-		margin: "2rem"
+		margin: "1rem"
 	},
 	 input: {
 	 	margin: "0 0 1rem 0"

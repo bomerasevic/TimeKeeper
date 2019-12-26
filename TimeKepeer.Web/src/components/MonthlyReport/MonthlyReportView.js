@@ -1,6 +1,9 @@
 import React, { Fragment, useState, useEffect } from "react";
 import TableView from "../TableView/TableView";
 import "../red/EmployeesStyles";
+import styles from "./MonthlyReportStyles";
+import { withStyles } from "@material-ui/core/styles";
+import { MenuItem, TextField, InputLabel } from "@material-ui/core";
 import { getMonthlyReport, startLoading } from "../../store/actions/monthlyReportActions";
 import { connect } from "react-redux";
 import {
@@ -24,9 +27,10 @@ import NavigationLogin from "../NavigationLogin/NavigationLogin";
 const MonthlyReport =(props) => {
   const [selectedYear, setSelectedYear] = useState(2019);
   const [selectedMonth, setSelectedMonth] = useState(1);
-  const { loading, error, classes} = props;
+  const { isLoading, error, classes} = props;
   const title = "Monthly Overview";
-  const backgroundImage = "/images/customers.jpg";
+  const backgroundImage = "../../assets/images/overview.png";
+ 
 
   useEffect(() => {
     props.getMonthlyReport(selectedYear, selectedMonth);
@@ -40,11 +44,60 @@ const MonthlyReport =(props) => {
   };
   console.log("HEHHHHHHHHHHHHHHHHHEHHHHHHHHHH");
 
+  const YearDropdown = () => (
+    <TextField 
+    style={{ marginLeft: "1200px" }}
+      variant="outlined"
+      id="Selected Year"
+      select
+      label="Selected Year"
+      value={selectedYear}
+      onChange={(e) => {
+        props.startLoading();
+        setSelectedYear(e.target.value);
+      }}
+      margin="normal"
+    
+  
+    >
+      {[2019, 2018, 2017].map((x) => {
+        return (
+          <MenuItem value={x} key={x}>
+            {x}
+          </MenuItem>
+        );
+      })}
+    </TextField>
+  );
+  const MonthDropdown = () => (
+    <TextField
+    style={{ marginLeft: "1200px"  }}
+      variant="outlined"
+      id="Selected Month"
+      select
+      label="Selected Month"
+      value={selectedMonth}
+      onChange={(e) => {
+        
+        props.startLoading();
+        setSelectedMonth(e.target.value);
+      }}
+      margin="normal"
+    >
+      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((x) => {
+        return (
+          <MenuItem value={x} key={x}>
+            {x}
+          </MenuItem>
+        );
+      })}
+    </TextField>
+  );
   return (
     <Fragment>
         < NavigationLogin />
-        {loading ? (
-                <Backdrop open={loading}>
+        {isLoading ? (
+                <Backdrop open={isLoading}>
                     <div className={classes.center}>
                         <CircularProgress size={100} className={classes.loader} />
                         <h1 className={classes.loaderText}>Loading...</h1>
@@ -62,9 +115,11 @@ const MonthlyReport =(props) => {
                 </Backdrop>
             ) : (
         <Fragment>
+          <MonthDropdown />
+          <YearDropdown />
           <TableView
             title={title}
-            backgroundImage={backgroundImage}
+            
             table={props.monthlyReport.table}
             selectedYear={selectedYear}
             handleSelectedYear={handleSelectedYear}
@@ -83,8 +138,10 @@ const MonthlyReport =(props) => {
 
 const mapStateToProps = state => {
   return {
-    monthlyReport: state.monthlyReport
+    monthlyReport: state.monthlyReport, 
+    isLoading: state.monthlyReport.isLoading
   };
 };
 
-export default connect(mapStateToProps, { getMonthlyReport, startLoading })(MonthlyReport);
+export default connect(mapStateToProps, { getMonthlyReport, startLoading })( withStyles(styles)(MonthlyReport)
+);

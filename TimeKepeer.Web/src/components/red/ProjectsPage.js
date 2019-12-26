@@ -121,7 +121,7 @@ const ProjectsPage = (props) => {
                                                         //className={classes.deleteButton}
                                                         className=" button deleteButton a-btn delete"
                                                         style={{ color: "#9e1c13" }}
-                                                        onClick={() => projectDelete(p.id)}
+                                                        onClick={() => projectDelete(p.id, "delete")}
                                                     >
                                                         Delete
                                             </Button>
