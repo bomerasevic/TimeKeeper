@@ -157,6 +157,7 @@ const EmployeesModal = (props) => {
           status: employee ? employee.status.id : ""
         }}
         onSubmit={values => {
+         console.log("onSubmit EM", values)
           values.birthday = moment(values.birthday).format(
             "YYYY-MM-DD HH:mm:ss"
           );
@@ -215,7 +216,7 @@ const EmployeesModal = (props) => {
                       as={CustomInputComponent}
                     />
 
-                    <Paper className={classes.root}>
+                    {/* <Paper className={classes.root}>
                       <Table className={classes.table}>
                         <TableHead className={classes.tableHead}>
                           <TableRow>
@@ -243,7 +244,7 @@ const EmployeesModal = (props) => {
                           ))}
                         </TableBody>
                       </Table>
-                    </Paper>
+                    </Paper> */}
                   </div>
 
                   <div className={classes.container}>

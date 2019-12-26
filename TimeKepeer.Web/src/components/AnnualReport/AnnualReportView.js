@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from "react";
-
+import DropDownYear from "../../components/TeamTimeTracking/DropDownYear";
 import TableView from "../../components/TableView/TableView";
-import { MenuItem, TextField } from "@material-ui/core";
+import { MenuItem, TextField, InputLabel } from "@material-ui/core";
 import { getAnnualReport, startLoading } from "../../store/actions/annualReportActions";
 import { connect } from "react-redux";
 
@@ -17,17 +17,22 @@ function AnnualReport(props) {
   }, [selectedYear]);
 
   const YearDropdown = () => (
+    
     <TextField
-      variant="outlined"
+    
+      variant = "outlined"
+    
       id="Selected Year"
+      margin="normal"
       select
       label="Selected Year"
       value={selectedYear}
+  
       onChange={e => {
         props.startLoading();
         setSelectedYear(e.target.value);
       }}
-      margin="normal"
+     
     >
       {[2019, 2018, 2017].map(x => {
         return (
@@ -44,8 +49,9 @@ function AnnualReport(props) {
       < NavigationLogin />
       {!props.annualReport.isLoading && (
         <Fragment>
-          <YearDropdown />
+           <DropDownYear />
           <TableView
+            
             title={title}
             backgroundImage={backgroundImage}
             table={props.annualReport.table}

@@ -26,7 +26,8 @@ const MonthlyReport =(props) => {
   const [selectedMonth, setSelectedMonth] = useState(1);
   const { loading, error, classes} = props;
   const title = "Monthly Overview";
-  const backgroundImage = "/images/customers.jpg";
+  const backgroundImage = "../../assets/images/overview.png";
+ 
 
   useEffect(() => {
     props.getMonthlyReport(selectedYear, selectedMonth);
@@ -64,7 +65,7 @@ const MonthlyReport =(props) => {
         <Fragment>
           <TableView
             title={title}
-            backgroundImage={backgroundImage}
+            
             table={props.monthlyReport.table}
             selectedYear={selectedYear}
             handleSelectedYear={handleSelectedYear}

@@ -9,14 +9,15 @@ function TableView(props) {
   console.log("TABle view props", props);
   return (
     <Fragment>
-      <div className="crud-top" style={{ backgroundImage: `url(${backgroundImage})` }}>
-        <h2>{title}</h2>
+      <div className="crud-top" style={{ backgroundColor: `rgb(69,63,69)` }}>
+        <h2 style={{color: "white"}}>{title}</h2>
       </div>
       <Container fixed maxWidth="xl" className="crud-table mb-3">
         <Grid container justify="center">
           <Grid item xs={12}>
             {/* <TableTK head={this.state.head} rows={this.state.rows}/> */}
             <TableTK
+             
               {...table}
               handleClickOpen={handleClickOpen}
               handleClickDelete={handleClickDelete}
@@ -25,14 +26,14 @@ function TableView(props) {
         </Grid>
       </Container>
 
-      <Fab
+      {/* <Fab
         color="primary"
         aria-label="add"
         className="fab-position"
         onClick={() => handleClickOpen(null)}
       >
         <AddIcon />
-      </Fab>
+      </Fab> */}
     </Fragment>
   );
 }

@@ -18,6 +18,14 @@ const styles = (theme) => ({
   },
   selectEmpty: {
     marginTop: theme.spacing.unit * 2
+  },
+  label : {
+    color: "white",
+    fontSize: "15px"
+  },
+
+  whiteColor : {
+    color: "white"
   }
 });
 let counter = 0;
@@ -36,8 +44,10 @@ const DropDownYear = (props) => {
   return (
     <form className={classes.root} autoComplete="off">
       <FormControl className={classes.formControl}>
-        <InputLabel htmlFor="age-simple">Year</InputLabel>
+        <InputLabel htmlFor="age-simple" className={classes.label}>Year</InputLabel>
         <Select
+         className= {classes.whiteColor}
+         classes = {{icon: classes.label}}
           name="selectOptions"
           onChange={(e) => yearSelect(e.target.value)}
           //   onChange={(e) => checkValue(e)}

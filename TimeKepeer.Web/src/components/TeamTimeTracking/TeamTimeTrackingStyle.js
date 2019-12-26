@@ -14,7 +14,8 @@ const styles = (theme) => ({
 		display: "flexbox",
 		justifyContent: "space-between",
 		padding: "1.2rem",
-		backgroundColor: "rgb(54,52,63)"
+		backgroundColor: "rgb(54,52,64)",
+		opacity: "0.95"
 	},
 	table: {
 		minWidth: 1000
@@ -30,7 +31,8 @@ const styles = (theme) => ({
 		textTransform: "uppercase",
 		fontWeight: "500",
         fontSize: "1.1rem",
-        backgroundColor: "rgb(54,52,63)"
+		backgroundColor: "rgb(54,52,64)",
+		opacity: "0.95"
         
 	},
 	loader: {
@@ -59,11 +61,15 @@ const styles = (theme) => ({
     },
     
     dropDown: {
-		display: "inline-block",
-		color: "white",
+		display: "flex",
+		flexDirection: "row-reverse",
+		color: "white"
 
 
-    },
+	},
+	selectors: {
+color: "white"
+	},
 	editButton: {
 		fill: "green",
 		"&:hover": {

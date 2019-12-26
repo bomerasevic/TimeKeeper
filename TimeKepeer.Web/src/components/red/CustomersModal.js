@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import { connect } from 'react-redux'
 import { Formik, Field, Form } from "formik";
@@ -13,186 +13,158 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Table, TableBody, TableCell, TableHead,TableRow, Paper 
+  Table, TableBody, TableCell, TableHead, TableRow, Paper
 } from "@material-ui/core";
 import styles from './EmployeesModalStyle';
-import {fetchCustomer, customerCancel, customerPut, customerAdd, customerDelete} from '../../store/actions/index';
- 
+import { fetchCustomer, customerCancel, customerPut, customerAdd } from '../../store/actions/index';
+
+
+const team = [
+  { id: 1, name: "Alpha" },
+  { id: 2, name: "Bravo" },
+  { id: 3, name: "Charlie" },
+  { id: 4, name: "Delta" },
+  { id: 5, name: "Foxtrot" },
+  { id: 6, name: "Oscar" },
+  { id: 7, name: "Sierra" },
+  { id: 8, name: "Tango" },
+  {id: 9, name: "Yankee"}
+];
 
 const statuses = [
   { id: 1, name: "Prospect" },
-  { id: 2, name: "Client" }
+  { id: 2, name: "Client" },
+
 ];
 
-const team = membersData => {
-	let index = membersData.indexOf(",");
-	let team = membersData.substr(index + 1);
-  
-	return team;
-  };
+const test = (membersData) => {
+  let index = membersData.indexOf(",");
+  let team = membersData.substr(index + 1);
+
+  return team;
+};
 
 const Schema = Yup.object().shape({
  
-  businessName: Yup.string()
+  name: Yup.string()
     .min(2, "Business Name too short!")
     .max(32, "Business Name too long!")
     .required("Business Name is Required!"),
-  contactName: Yup.string()
+  contact: Yup.string()
     .min(2, "Contact Name too short!")
     .max(32, "Contact Name too long!")
     .required("Contat Name is Required!"),
   email: Yup.string().required("Email is Required!"),
   Address: Yup.string().required("Home Address is Required!"),
-  ZipCode: Yup.string().required("Zip Code is Required!"),
+  Address_ZipCode: Yup.string().required("Zip Code is Required!"),
 
   city: Yup.string().required("City is Required!"),
   status: Yup.string().required("Status is Required!"),
   project: Yup.string().required("Project is Required!")
 });
 
-// fetchEmployee = id => {
-//   if (id === 666) {
-//     this.setState({ finish: true });
-//   } else {
-//     axios(`${config.apiUrl}employees/${id}`, {
-//       headers: {
-//         "Content-Type": "application/json",
-//         Authorization: config.token
-//       }
-//     })
-//       .then(res => {
-//         //console.log(res.data.members);
-//         let fetchedName = [];
-//         res.data.members.forEach(r => {
-//           let team = test(r.name);
-//           let id = r.id;
-//           let data = { id, team };
-//           fetchedName.push(data);
-//         });
-//         console.log(fetchedName);
 
-//         this.setState({
-//           employee: res.data,
-//           rows: fetchedName,
-//           finish: true
-//         });
-//       })
-//       .catch(() => this.setState({ finish: true }));
-//   }
-// };
 
 
 const CustomersModal = (props) => {
-    const { classes, open, customer, id, mode } = props;
-    const { fetchCustomer, customerCancel, customerPut, customerAdd } = props;
-    let rows = []
+  const { classes, open, customer, id, mode, reload } = props;
+  const { fetchCustomer, customerCancel, customerPut, customerAdd } = props;
+  let rows = []
 
-    // if(customer) {
-     
-    //     let fetchedName = [];
-    //     console.log(customer);
-    //     customer.members.forEach(r => {
+  // if(employee) {
 
-    //       let team = test(r.name);
-    //       let id = r.id;
-    //       let data = { id, team };
-    //       fetchedName.push(data);
-    //     });
-    //     rows = fetchedName
-    // }
-   
-    useEffect(() => {
-      if(id !== null) {
-        fetchCustomer(id)
-      }
-      
-    }, [])
+  //     let fetchedName = [];
+  //     console.log(employee);
+  //     employee.membersforEach((r) => {
 
-  
-    const CustomInputComponent = props => (
-      <Input
-        // required={true}
-        disabled={mode === 'view' ? true : null}
-        fullWidth={true}
-        className={classes.input}
-        {...props}
-      />
-    );
-    
+  //       let team = test(r.name);
+  //       let id = r.id;
+  //       let data = { id, team };
+  //       fetchedName.push(data);
+  //     });
+  //     rows = fetchedName;
+  // };
 
-    
-    const CustomStatusComponent = props => {
-      return (
-        <Select fullWidth {...props} className={classes.input} disabled={mode === 'view' ? true : null}>
-          <MenuItem value={1}>Prospect</MenuItem>
-          <MenuItem value={2}>Client</MenuItem>
-       
-        </Select>
-      );
-    };
+  useEffect(() => {
+    if (id !== null) {
+      fetchCustomer(id)
+    }
 
+  }, [])
+
+
+  const CustomInputComponent = props => (
+    <Input
+      // required={true}
+      disabled={mode === 'view' ? true : null}
+      fullWidth={true}
+      className={classes.input}
+      {...props}
+    />
+  );
+
+  const CustomTeamComponent = props => {
     return (
-      <React.Fragment>
+      <Select fullWidth {...props} className={classes.input} disabled={mode === 'view' ? true : null}>
+        <MenuItem value={1}>Alpha</MenuItem>
+        <MenuItem value={2}>Bravo</MenuItem>
+        <MenuItem value={3}>Charlie</MenuItem>
+        <MenuItem value={4}>Delta</MenuItem>
+        <MenuItem value={5}>Foxtrot</MenuItem>
+        <MenuItem value={6}>Oscar</MenuItem>
+        <MenuItem value={7}>Sierra</MenuItem>
+        <MenuItem value={8}>Tango</MenuItem>
+        <MenuItem value={9}>Yankee</MenuItem>
+      </Select>
+    );
+  };
+
+  const CustomStatusComponent = props => {
+    return (
+      <Select fullWidth {...props} className={classes.input} disabled={mode === 'view' ? true : null}>
+        <MenuItem value={1}>Prospect</MenuItem>
+        <MenuItem value={2}>Client</MenuItem>
+      </Select>
+    );
+  };
+
+  return (
+    <React.Fragment>
+
+      {customer || mode === 'add' ? <Formik
+        validationSchema={Schema}
+        initialValues={{
        
-          {customer || mode==='add' ? <Formik
-            validationSchema={Schema}
-            initialValues={{
-             
-              businessName: customer ? customer.businessName : "",
-              contactName: customer ? customer.contactName : "",
-              email: customer ? customer.email : "",
-              address: customer ? customer.homeAddress : "",
+          name: customer ? customer.name : "",
+          contact: customer ? customer.contact : "",
+          email: customer ? customer.email : "",
+          phone: customer ? customer.phone : "",
+          //Address_ZipCode: customer ? customer.Address_ZipCode : "",
+          //city: customer ? customer.city : "",
+          status: customer ? customer.status.id : "",
+          //team: customer ? customer.team : ""
+        }}
+        onSubmit={values => {
+       
+          console.log('onSubmit CM', values)
+          let newStatus = statuses.filter(s => values.status === s.id);
+          
+          values.status = newStatus[0];
+          
+          if (customer) {
+            values.id = customer.id
+            customerPut(customer.id, values)
+          } else {
+            values.image = 'image'
+            customerAdd(values)
             
-              status: customer ? customer.status.id : ""
-            }}
-            onSubmit={values => {
-           
+          }
 
-              //let newPosition = positions.filter(p => values.position === p.id);
-              let newStatus = statuses.filter(s => values.status === s.id);
 
-              //values.position = newPosition[0];
-              values.status = newStatus[0];
 
-              if(customer) {
-                values.id = customer.id
-                customerPut(customer.id, values)
-              } else {
-                values.image = 'image'
-                customerAdd(values)
-              }
-
-            
-              // if (employee) {
-              //   values.id = employee.id;
-              //   axios
-              //     .put(
-              //       `${config.apiUrl}employees/${id}`,
-              //       values,
-              //       config.authHeader
-              //     )
-              //     .then(res => {
-              //       handleClose();
-              //     })
-              //     .catch(err => {
-              //       this.setState({ loading: false });
-              //       console.log("error");
-              //     });
-              // } else {
-              //   console.log(values);
-              //   axios
-              //     .post(`${config.apiUrl}employees`, values, config.authHeader)
-              //     .then(res => {
-              //       handleClose();
-              //     })
-              //     .catch(err => {
-              //       this.setState({ loading: false });
-              //       console.log("error");
-              //     });
-              // }
-            }}
-          >
-            {({ errors, touched }) => (
+        }}
+      >
+         {({ errors, touched }) => (
               <Dialog
                 open={open}
                 aria-labelledby="form-dialog-title"
@@ -207,41 +179,30 @@ const CustomersModal = (props) => {
                           alt="image"
                           className={classes.img}
                         />
-                        
-                        <InputLabel>Business Name</InputLabel>
-                        {errors.businessName && touched.businessName ? (
-                          <div className={classes.errorMessage}>
-                            {errors.businessName}
-                          </div>
-                        ) : (
-                          <div className={classes.errorMessage}> &nbsp; </div>
-                        )}
-                        <Field
-                          name="businessName"
-                          disableUnderline={true}
-                          autoComplete="off"
-                          as={CustomInputComponent}
-                        />
+                          
                         
                       </div>
 
                       <div className={classes.container}>
-                    
-                        <InputLabel>Contact Name</InputLabel>
-                        {errors.contactName && touched.contactName ? (
+                      <InputLabel>Business Name</InputLabel>
+                        {errors.name && touched.name ? (
                           <div className={classes.errorMessage}>
-                            {errors.contactName}
+                            {errors.name}
                           </div>
                         ) : (
                           <div className={classes.errorMessage}> &nbsp; </div>
                         )}
                         <Field
-                          autoComplete="off"
-                          name="contactName"
+                          name="name"
                           disableUnderline={true}
+                          autoComplete="off"
                           as={CustomInputComponent}
                         />
-                        <InputLabel>e-Mail</InputLabel>
+                    
+                    
+                     
+                    
+                     <InputLabel>e-Mail</InputLabel>
                         {errors.email && touched.email ? (
                           <div className={classes.errorMessage}>
                             {errors.email}
@@ -256,24 +217,25 @@ const CustomersModal = (props) => {
                           autoComplete="off"
                           as={CustomInputComponent}
                         />
-                        <InputLabel>Phone</InputLabel>
-                        {errors.address && touched.address ? (
+                            <InputLabel>Contact Name</InputLabel>
+                        {errors.contact && touched.contact ? (
                           <div className={classes.errorMessage}>
-                            {errors.address}
+                            {errors.contact}
                           </div>
                         ) : (
                           <div className={classes.errorMessage}> &nbsp; </div>
                         )}
                         <Field
                           autoComplete="off"
-                          name="address"
+                          name="contact"
                           disableUnderline={true}
                           as={CustomInputComponent}
                         />
-                        <InputLabel>Zip Code</InputLabel>
-                        {errors.zipCode && touched.zipCode ? (
+                      
+                        {/* <InputLabel>Zip Code</InputLabel>
+                        {errors.Address_ZipCode&& touched.Address_ZipCode ? (
                           <div className={classes.errorMessage}>
-                            {errors.zipCode}
+                            {errors.Address_ZipCode}
                           </div>
                         ) : (
                           <div className={classes.errorMessage}> &nbsp; </div>
@@ -283,10 +245,10 @@ const CustomersModal = (props) => {
                           name="zipCode"
                           disableUnderline={true}
                           as={CustomInputComponent}
-                        />
+                        /> */}
                       </div>
                       <div className={classes.container}>
-                        <InputLabel>City</InputLabel>
+                        {/* <InputLabel>City</InputLabel>
                         {errors.city && touched.city ? (
                           <div className={classes.errorMessage}>
                             {errors.city}
@@ -299,7 +261,7 @@ const CustomersModal = (props) => {
                           name="city"
                           disableUnderline={true}
                           as={CustomInputComponent}
-                        />
+                        /> */}
                         <InputLabel>Status</InputLabel>
                         {errors.status && touched.status ? (
                           <div className={classes.errorMessage}>
@@ -313,7 +275,23 @@ const CustomersModal = (props) => {
                           name="status"
                           as={CustomStatusComponent}
                         />
-                        <InputLabel>Team</InputLabel>
+                       
+                            <InputLabel>Phone</InputLabel>
+                        {errors.phone && touched.phone ? (
+                          <div className={classes.errorMessage}>
+                            {errors.phone}
+                          </div>
+                        ) : (
+                          <div className={classes.errorMessage}> &nbsp; </div>
+                        )}
+                        <Field
+                          autoComplete="off"
+                          name="phone"
+                          disableUnderline={true}
+                          as={CustomInputComponent}
+                        />
+
+                        {/* <InputLabel>Team</InputLabel>
                         {errors.team && touched.team ? (
                           <div className={classes.errorMessage}>
                             {errors.team}
@@ -324,51 +302,36 @@ const CustomersModal = (props) => {
                         <Field
                           name="team"
                           autoComplete="off"
-                          disableUnderline={true}
-                          as={CustomInputComponent}
-                        />
-                       <InputLabel>Project</InputLabel>
-                        {errors.project && touched.project ? (
-                          <div className={classes.errorMessage}>
-                            {errors.project}
-                          </div>
-                        ) : (
-                          <div className={classes.errorMessage}> &nbsp; </div>
-                        )}
-                        <Field
-                          name="project"
-                          autoComplete="off"
-                          disableUnderline={true}
-                          as={CustomInputComponent}
-                        />
-                        <div className={classes.buttons}>
-                          {mode !== 'view' ? <Button className={classes.submitButton}
-                            variant="contained"
-                            //color="primary"
-                            type="submit"
-                          >
-                            Submit
+                          //disableUnderline={true}
+                          as={CustomTeamComponent}
+                        /> */}
+                   
+                       <div className={classes.buttons}>
+                      {mode !== 'view' ? <Button className={classes.submitButton}
+                        variant="contained"
+                        type="submit"
+                      >
+                        Submit
                           </Button> : null}
-                          <Button
-                            variant="contained"
-                            //color={mode === 'view' ? 'primary' : 'secondary'}
-                            onClick={() => customerCancel()}
-                          >
-                            {mode==='view' ? 'Back' : "Cancel"}
-                          </Button>
-                        </div>
+                      <Button
+                        variant="contained"
+                        //color={mode === 'view' ? 'primary' : 'secondary'}
+                        onClick={() => customerCancel()}
+                      >
+                        {mode === 'view' ? 'Back' : "Cancel"}
+                      </Button>
+                    </div>
                       </div>
                     </div>
                   </Form>
                 </DialogContent>
               </Dialog>
             )}
-          </Formik> : null}
-  
-      </React.Fragment>
-    );
-  }
+      </Formik> : null}
 
+    </React.Fragment>
+  );
+}
 
 const mapStateToProps = state => {
   return {
