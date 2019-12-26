@@ -20,15 +20,20 @@ import AccessDenied from "./components/AccessDenied/AccessDenied";
 import { connect } from "react-redux"
 import AnnualReport from "./components/AnnualReport/AnnualReportView";
 import MonthlyReport from "./components/MonthlyReport/MonthlyReportView"
+import Calendar from "./components/Calendar/Calendar"
+import CompanyDashboard from "./components/CompanyDashboard/CompanyDashboard"
+import { authCheckState } from "./store/actions/authActions"
 class App extends React.Component {
 	componentDidMount() {
 		this.handleLogin();
+		this.props.authCheckState();
 	}
 
 	componentDidUpdate(prevProps) {
 		if (prevProps.user !== this.props.user) {
 			this.handleLogin();
 		}
+
 	}
 
 	handleLogin = () => {
@@ -67,6 +72,9 @@ class App extends React.Component {
 				<Route exact path="/app/projects">
 					<ProjectsPage />
 				</Route>
+				<Route exact path="/app/calendar">
+					<Calendar />
+				</Route>
 				<Route exact path="/app/customers">
 					<CustomersPage />
 
@@ -84,6 +92,9 @@ class App extends React.Component {
 
 				<Route exact path="/app/monthlyreport">
 					<MonthlyReport />
+				</Route>
+				<Route exact path="/app/companydashboard">
+					<CompanyDashboard />
 				</Route>
 
 
@@ -108,4 +119,4 @@ const mapStateToProps = (state) => {
 		user: state.user.user
 	}
 }
-export default connect(mapStateToProps)(withRouter(App));
+export default connect(mapStateToProps, { authCheckState })(withRouter(App));

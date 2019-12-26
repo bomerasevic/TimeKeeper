@@ -4,11 +4,11 @@ import { customersReducer } from "./customersReducer";
 import { combineReducers } from "redux";
 import { AnnualReport } from "./annualReportReducer";
 import { MonthlyReport } from "./monthlyReportReducer";
-import { monthReducer} from "./monthReducer";
+import { monthReducer } from "./monthReducer";
 import { yearReducer } from "./yearReducer";
 import { teamsReducer } from "./teamsReducer";
 import { teamTrackingReducer } from "./teamTrackingReducer";
-
+import { calendarReducer } from "./calendarReducer"
 export default combineReducers({
   employees: employeesReducer,
   projects: projectsReducer,
@@ -18,7 +18,8 @@ export default combineReducers({
   month: monthReducer,
   year: yearReducer,
   teams: teamsReducer,
-  teamTracking: teamTrackingReducer
+  teamTracking: teamTrackingReducer,
+  calendar: calendarReducer
 
 })
 export { AnnualReport } from "./annualReportReducer";
@@ -32,3 +33,4 @@ export { monthReducer } from "./monthReducer";
 export { yearReducer } from "./yearReducer";
 export { teamsReducer } from "./teamsReducer";
 export { teamTrackingReducer } from "./teamTrackingReducer";
+export { calendarReducer } from "./calendarReducer"

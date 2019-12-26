@@ -10,7 +10,7 @@ export const getMonthlyReport = (selectedYear, selectedMonth) => {
   return dispatch => {
     dispatch({ type: FETCH_MONTHLY_REPORT });
     Axios.get(
-      "http://192.168.60.74/timekeeper/api/reports/monthly-overview/"+selectedYear+"/"+selectedMonth,
+      "http://192.168.60.74/timekeeper/api/reports/monthly-overview/" + selectedYear + "/" + selectedMonth,
       Config.authHeader
     )
       .then(res => {

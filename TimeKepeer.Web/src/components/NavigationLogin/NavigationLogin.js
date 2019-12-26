@@ -7,7 +7,7 @@ import * as Yup from "yup";
 import { withRouter } from "react-router-dom";
 import M from "materialize-css";
 import { connect } from "react-redux";
-import userManager from "../../utils/userManager"
+import { logout } from "../../store/actions/authActions"
 const SignupSchema = Yup.object().shape({
     username: Yup.string()
         .min(5, "Too Short!")
@@ -48,8 +48,15 @@ class NavigationLogin extends React.Component {
     handleClickTracking = () => {
         this.props.history.push("/app/tracking");
     };
+    handleCompanyDashboard = () => {
+        this.props.history.push("/app/companydashboard");
+
+    }
+    handleCalendar = () => {
+        this.props.history.push("/app/calendar");
+    };
     handleClickLogout = () => {
-        userManager.signoutRedirect();
+        this.props.logout();
 
     };
 
@@ -106,7 +113,8 @@ class NavigationLogin extends React.Component {
                                         <a onClick={
                                             this.handleClickAnnualReport}>Annual report</a>
                                         <a href="#">Project history</a>
-                                        <a href="#">Dashboard</a>
+                                        <a onClick={this.handleCalendar}>Calendar</a>
+                                        <a onClick={this.handleCompanyDashboard}>Calendar</a>
                                     </div>
                                 </li>
                                 <li>
@@ -153,5 +161,5 @@ const mapStateToProps = state => {
     };
 }
 
-export default connect(mapStateToProps, {})(withRouter(NavigationLogin));
+export default connect(mapStateToProps, { logout })(withRouter(NavigationLogin));
 

@@ -7,6 +7,7 @@ import {
 } from "./types";
 
 import { store } from "../../index";
+import config from "../../config";
 
 export const getAnnualReport = selectedYear => {
   return dispatch => {
@@ -24,7 +25,7 @@ export const getAnnualReport = selectedYear => {
     };
     console.log("headers", headers)
 
-    Axios.get("http://192.168.60.72/TimeKeeper/api/report/annual-overview-stored/" + selectedYear, headers)
+    Axios.get(config.url + "api/report/annual-overview-stored/" + selectedYear, headers)
       .then(res => {
         console.log("data", res.data);
         let data = res.data.ar.map(x => {
