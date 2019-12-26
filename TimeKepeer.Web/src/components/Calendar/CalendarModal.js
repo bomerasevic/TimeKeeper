@@ -28,6 +28,8 @@ const CustomeSelectDayTypes = props => {
             <MenuItem value={7}>Other</MenuItem>
         </Select>
     );
+
+
 };
 
 function CalendarModal(props) {
@@ -67,8 +69,8 @@ function CalendarModal(props) {
                             </form>
                             {value === 1 ? (
                                 <div>
-                                    {props.day.jobDetails.length > 0
-                                        ? props.day.jobDetails.map(jobDetail => (
+                                    {props.day.tasks.length > 0
+                                        ? props.day.tasks.map(jobDetail => (
                                             <div>
                                                 {console.log("JOB DETAIL", jobDetail)}
                                                 <CalendarTask

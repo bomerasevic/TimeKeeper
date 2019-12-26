@@ -24,6 +24,9 @@ import { VictoryPie, VictoryChart, VictoryAxis, VictoryTheme, VictoryLabel } fro
 // ]
 
 class PieChart extends React.Component {
+    state = {
+        maxWidth: null
+    };
     static defaultProps = {
         height: 250,
         width: 250,
@@ -37,8 +40,15 @@ class PieChart extends React.Component {
     render() {
         const { height, width, padding, innerRadius, fontSize, padAngle, data, title } = this.props;
         return (
-            <div style={{ height: height + "px", width: width + "px", position: "relative" }}>
+            <div
+                className="pie-charts"
+                style={{
+                    position: "relative"
+                }}
+            >
                 <VictoryPie
+
+                    colorScale={["#1d7a72", "black"]}
                     padding={padding}
                     innerRadius={innerRadius}
                     labels={({ datum }) => ` ${datum.y}`}
@@ -49,16 +59,24 @@ class PieChart extends React.Component {
                     }}
                     padAngle={padAngle}
                     data={data}
+                    animate={{
+                        duration: 0,
+                        onLoad: {
+                            duration: 0,
+                            before: () => ({ _y: -1200, label: " " }),
+                            after: datum => ({ _y: datum._y })
+                        }
+                    }}
                 />
                 <h6
                     style={{
-                        position: "absolute",
-                        top: "50%",
-                        right: "50%",
-                        transform: " translate(50%,-50%)",
+                        // position: "absolute",
+                        // top: "50%",
+                        // right: "50%",
+                        // transform: " translate(50%,-50%)",
                         textAlign: "center",
-                        fontSize: "16px",
-                        maxWidth: innerRadius
+                        fontSize: "16px"
+                        // maxWidth: innerRadius
                     }}
                 >
                     {title}

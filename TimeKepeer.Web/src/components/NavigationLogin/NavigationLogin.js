@@ -39,6 +39,9 @@ class NavigationLogin extends React.Component {
     handleClickCustomers = () => {
         this.props.history.push("/app/customers");
     };
+    handleTeamDashboard = () => {
+        this.props.history.push("/app/teamdashboard");
+    };
     handleClickProjects = () => {
         this.props.history.push("/app/projects");
     };
@@ -107,14 +110,14 @@ class NavigationLogin extends React.Component {
                                     <i className="fa fa-caret-down" />
                                     </a>
                                     <div className="dropdown-content" id="dropdown2">
+                                        <a onClick={this.handleCompanyDashboard}> Company Report</a>
+                                        <a onClick={this.handleTeamDashboard}> Team Report</a>
                                         <a href="#">Personal report</a>
                                         <a onClick={
                                             this.handleClickMonthlyReport}>Monthly report</a>
                                         <a onClick={
                                             this.handleClickAnnualReport}>Annual report</a>
-                                        <a href="#">Project history</a>
                                         <a onClick={this.handleCalendar}>Calendar</a>
-                                        <a onClick={this.handleCompanyDashboard}>Calendar</a>
                                     </div>
                                 </li>
                                 <li>

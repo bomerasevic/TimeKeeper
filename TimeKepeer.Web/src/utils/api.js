@@ -8,9 +8,9 @@ export const customersUrl = Config.url + "api/customers";
 export const projectsUrl = Config.url + "api/projects";
 export const dropDownTeamsUrl = Config.url + "api/teams";
 export const teamTrackingUrl = Config.url + "api/dashboard/team-time-tracking";
-
-export const calendarUrl = "http://192.168.60.73/timekeeper/api/calendar";
-export const tasksUrl = "http://192.168.60.73/timekeeper/api/tasks";;
+export const companyDashboard = Config.url + "api/dashboard/admin-dashboard-stored/"
+export const calendarUrl = "http://192.168.60.72/timekeeper/api/dashboard";
+export const tasksUrl = "http://192.168.60.72/timekeeper/api/assignments";
 
 
 export const getCalendar = (url, id, year, month) => {

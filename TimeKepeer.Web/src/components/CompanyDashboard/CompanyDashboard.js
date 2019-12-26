@@ -1,13 +1,29 @@
 import React, { Fragment, useState, useEffect } from "react";
-// import Config from "../Config";
-// import { connect } from "react-redux";
-import data from "./data";
-import PieChart from "../Charts/PieChart";
-import BarChart from "../Charts/BarChart";
-import { Container, Grid } from "@material-ui/core";
+//import BlockElementSpinner from "../../components/BlockElementSpinner/BlockElementSpinner";
+import { connect } from "react-redux";
+// import data from "./data";
+import PieChart from "../../components/Charts/PieChart";
+import BarChart from "../../components/Charts/BarChart";
+import { Container, Grid, Paper, TextField, MenuItem } from "@material-ui/core";
+import { getCompanyDashboard } from "../../store/actions/companyDashboardActions";
+//import "./CompanyDashboard.css";
+import NavigationLogin from "../NavigationLogin/NavigationLogin";
 
-function CompanyDashboard(props) {
-    useEffect(() => { }, []);
+
+function CompanyDashboard({ data, isLoading, getCompanyDashboard }) {
+    const [selectedYear, setSelectedYear] = useState(2019);
+    const [selectedMonth, setSelectedMonth] = useState(1);
+
+    useEffect(() => {
+        getCompanyDashboard(selectedYear, selectedMonth);
+    }, [selectedYear, selectedMonth]);
+
+    const handleSelectedYear = e => {
+        setSelectedYear(e.target.value);
+    };
+    const handleSelectedMonth = e => {
+        setSelectedMonth(e.target.value);
+    };
 
     const TotalHoursChart = ({ data }) => {
         console.log(data);
@@ -21,34 +37,70 @@ function CompanyDashboard(props) {
         const modifiedData = data.map((x, i) => {
             return { name: x.project.name, value: parseInt(x.revenue) };
         });
-        return <BarChart data={modifiedData} height={350} width={350} />;
+        return (
+            <Fragment>
+                <BarChart
+                    data={modifiedData}
+                    height={"auto"}
+                    width={350}
+                    xLabel="Projects"
+                    yLabel="Revenue"
+                />
+                <h6 className="text-center">Revenue</h6>
+            </Fragment>
+        );
     };
     const PtoChart = ({ data }) => {
         const modifiedData = data.map((x, i) => {
-            return { name: x.teamName, value: parseInt(x.paidTimeOff) };
+            return { name: x.team.name, value: parseInt(x.paidTimeOff) };
         });
-        return <BarChart data={modifiedData} height={350} width={350} />;
+        return (
+            <Fragment>
+                <BarChart
+                    data={modifiedData}
+                    height={"auto"}
+                    width={350}
+                    xLabel="Teams"
+                    yLabel="Paid Time Off"
+                />
+                <h6 className="text-center">Paid Time Off</h6>
+            </Fragment>
+        );
     };
     const OvertimeChart = ({ data }) => {
         const modifiedData = data.map((x, i) => {
-            return { name: x.teamName, value: parseInt(x.overtime) };
+            return { name: x.team.name, value: parseInt(x.overtime) };
         });
-        return <BarChart data={modifiedData} height={350} width={350} />;
+        return (
+            <Fragment>
+                <BarChart
+                    data={modifiedData}
+                    height={"auto"}
+                    width={350}
+                    xLabel="Teams"
+                    yLabel="Overtime"
+                />
+                <h6 className="text-center">Overtime</h6>
+            </Fragment>
+        );
     };
     const MissingEntriesChart = ({ data }) => {
         const modifiedData = data.map(x => {
-            return { name: x.employeeName, value: parseInt(x.missingEntriesHours) };
+            return { name: x.team.name, value: parseInt(x.missingEntries) };
         });
         return (
-            <BarChart
-                data={modifiedData}
-                height={250}
-                width={250}
-                horizontal={true}
-                angle={0}
-                labelPadding={0}
-                fontSize={7}
-            />
+            <Fragment>
+                <BarChart
+                    data={modifiedData}
+                    height={"auto"}
+                    width={500}
+                    horizontal={true}
+                    angle={0}
+                    labelPadding={0}
+                    fontSize={7}
+                />
+                <h6 className="text-center">Missing Entries</h6>
+            </Fragment>
         );
     };
     const UtilizationCharts = ({ data }) => {
@@ -58,54 +110,156 @@ function CompanyDashboard(props) {
                 { x: "Remaining Hours", y: parseInt(x.totalHours - x.workingHours) }
             ];
             return (
-                <Grid item md={2} key={i}>
-                    <PieChart height={250} width={250} padAngle={1} data={modifiedData} title={x.roleName} />
+                <Grid item md={3} key={i}>
+                    <PieChart height={250} padAngle={1} data={modifiedData} title={x.role.name} />
                 </Grid>
             );
         });
     };
+    const YearDropdown = () => (
+        <TextField
+            variant="outlined"
+            id="selected-year"
+            select
+            label="Selected Year"
+            value={selectedYear}
+            onChange={handleSelectedYear}
+            margin="normal"
+            fullWidth={true}
+        >
+            {[2019, 2018, 2017].map(x => {
+                return (
+                    <MenuItem value={x} key={x}>
+                        {x}
+                    </MenuItem>
+                );
+            })}
+        </TextField>
+    );
+
+    const MonthDropdown = () => (
+        <TextField
+            variant="outlined"
+            id="selected-month"
+            z
+            select
+            label="Selected Month"
+            value={selectedMonth}
+            onChange={handleSelectedMonth}
+            margin="normal"
+            fullWidth={true}
+        >
+            {[
+                "January",
+                "February",
+                "March",
+                "April",
+                "May",
+                "June",
+                "July",
+                "August",
+                "September",
+                "October",
+                "November",
+                "December"
+            ].map((x, i) => {
+                return (
+                    <MenuItem value={i + 1} key={x}>
+                        {x}
+                    </MenuItem>
+                );
+            })}
+        </TextField>
+    );
 
     return (
         <Fragment>
-            {/* {!props.annualReport.isLoading && ( */}
-            <Container>
-                <Grid container spacing={4}>
-                    <Grid item>TOTAL HOURS: {data.dashboard.totalHours}</Grid>
-                    <Grid item>EMPLOYEES: {data.dashboard.employeesCount}</Grid>
-                    <Grid item>PROJECTS: {data.dashboard.projectsCount}</Grid>
-                </Grid>
-                <Grid container spacing={4}>
-                    <Grid item md={3}>
-                        <TotalHoursChart data={data.dashboard} />
+
+            < NavigationLogin />
+            {!isLoading && (
+                <Container className="mt-3 mb-5">
+                    <Grid
+                        container
+                        spacing={4}
+                        alignItems="center"
+                        justify="space-between"
+                        className="mb-1-5"
+                    >
+                        <Grid item sm={8}>
+                            <h3 className="mb-0 mt-0">Company Dashboard</h3>
+                        </Grid>
+                        <Grid item sm={2}>
+                            <MonthDropdown />
+                        </Grid>
+                        <Grid item sm={2}>
+                            <YearDropdown />
+                        </Grid>
                     </Grid>
-                    <Grid item md={3}>
-                        <RevenueChart data={data.dashboard.projects} />
+                    <Grid
+                        container
+                        spacing={4}
+                        justify="space-between"
+                        alignItems="center"
+                        className="mb-1-5"
+                    >
+                        <Grid item md={4}>
+                            <Paper elevation={3} className="company-totals">
+                                <div className="flex flex-column align-items-center justify-content-center">
+                                    <h4>TOTAL HOURS</h4> <h1 className="mb-0 mt-0">{data.totalHours}</h1>
+                                </div>
+                            </Paper>
+                        </Grid>
+                        <Grid item md={4}>
+                            <Paper elevation={3} className="company-totals">
+                                <div className="flex flex-column align-items-center justify-content-center">
+                                    <h4>EMPLOYEES</h4> <h1 className="mb-0 mt-0">{data.employeesCount}</h1>
+                                </div>
+                            </Paper>
+                        </Grid>
+                        <Grid item md={4}>
+                            <Paper elevation={3} className="company-totals">
+                                <div className="flex flex-column align-items-center justify-content-center">
+                                    <h4>PROJECTS </h4> <h1 className="mb-0 mt-0">{data.projectsCount}</h1>
+                                </div>
+                            </Paper>
+                        </Grid>
                     </Grid>
-                    <Grid item md={3}>
-                        <PtoChart data={data.dashboard.teams} />
-                    </Grid>
-                    <Grid item md={3}>
-                        <OvertimeChart data={data.dashboard.teams} />
-                    </Grid>
-                </Grid>
-                <Grid container spacing={4}>
-                    <Grid item md={2}>
-                        <MissingEntriesChart data={data.dashboard.missingEntries} />
-                    </Grid>
-                    <UtilizationCharts data={data.dashboard.roles} />
-                </Grid>
-            </Container>
-            {/* )} */}
-            {/* {props.annualReport.isLoading && <BlockElementSpinner />} */}
+                    <Paper elevation={3} className="company-totals" className="mb-3">
+                        <Grid container spacing={4} justify="center" alignItems="center">
+                            <Grid item md={3}>
+                                <TotalHoursChart data={data} />
+                            </Grid>
+                            <Grid item md={3}>
+                                <RevenueChart data={data.projects} />
+                            </Grid>
+                            <Grid item md={3}>
+                                <PtoChart data={data.teams} />
+                            </Grid>
+                            <Grid item md={3}>
+                                <OvertimeChart data={data.teams} />
+                            </Grid>
+                        </Grid>
+                    </Paper>
+                    <Paper elevation={3} className="company-totals">
+                        <Grid container spacing={4} justify="center" alignItems="center">
+                            <Grid item md={3}>
+                                <MissingEntriesChart data={data.teams} />
+                            </Grid>
+                            <UtilizationCharts data={data.roles} />
+                        </Grid>
+                    </Paper>
+                </Container>
+            )}
+            {isLoading}
         </Fragment>
     );
 }
 
-// const mapStateToProps = state => {
-//   return {
-//     annualReport: state.annualReport
-//   };
-// };
+const mapStateToProps = state => {
+    return {
+        data: state.companyDashboard.data,
+        isLoading: state.companyDashboard.isLoading
+    };
+};
 
-// export default connect(mapStateToProps, { getAnnualReport, startLoading })(AnnualReport);
-export default CompanyDashboard;
+export default connect(mapStateToProps, { getCompanyDashboard })(CompanyDashboard);

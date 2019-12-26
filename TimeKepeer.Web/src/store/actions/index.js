@@ -45,4 +45,7 @@ export * from "./teamTrackingActions";
 export * from "./teamsActions";
 export * from "./yearActions";
 export * from "./monthActions";
+export * from "./companyDashboardActions";
+export * from "./teamDashboardActions";
+
 export { auth } from "./authActions";

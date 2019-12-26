@@ -8,7 +8,7 @@ import thunk from "redux-thunk";
 
 //const oidcMiddleware = createOidcMiddleware(userManager);
 
-import { employeesReducer, customersReducer, projectsReducer, userReducer, AnnualReport, MonthlyReport, yearReducer, monthReducer, teamsReducer, teamTrackingReducer, calendarReducer } from "./reducers/index";
+import { employeesReducer, customersReducer, projectsReducer, userReducer, AnnualReport, MonthlyReport, yearReducer, monthReducer, teamsReducer, teamTrackingReducer, calendarReducer, companyDashboardReducer, teamDashboardReducer } from "./reducers/index";
 const rootReducer = combineReducers({
 	employees: employeesReducer,
 	user: userReducer,
@@ -20,7 +20,9 @@ const rootReducer = combineReducers({
 	month: monthReducer,
 	teams: teamsReducer,
 	teamTracking: teamTrackingReducer,
-	calendarMonth: calendarReducer
+	calendarMonth: calendarReducer,
+	companyDashboard: companyDashboardReducer,
+	teamDashboard: teamDashboardReducer
 
 });
 

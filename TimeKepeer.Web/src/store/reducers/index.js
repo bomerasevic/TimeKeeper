@@ -8,6 +8,8 @@ import { monthReducer } from "./monthReducer";
 import { yearReducer } from "./yearReducer";
 import { teamsReducer } from "./teamsReducer";
 import { teamTrackingReducer } from "./teamTrackingReducer";
+import { companyDashboardReducer } from "./companyDashboardReducer"
+import { teamDashboardReducer } from "./teamDashboardReducer"
 import { calendarReducer } from "./calendarReducer"
 export default combineReducers({
   employees: employeesReducer,
@@ -19,7 +21,9 @@ export default combineReducers({
   year: yearReducer,
   teams: teamsReducer,
   teamTracking: teamTrackingReducer,
-  calendar: calendarReducer
+  calendar: calendarReducer,
+  companyDashboard: companyDashboardReducer,
+  teamDashboard: teamDashboardReducer
 
 })
 export { AnnualReport } from "./annualReportReducer";
@@ -34,3 +38,5 @@ export { yearReducer } from "./yearReducer";
 export { teamsReducer } from "./teamsReducer";
 export { teamTrackingReducer } from "./teamTrackingReducer";
 export { calendarReducer } from "./calendarReducer"
+export { companyDashboardReducer } from "./companyDashboardReducer"
+export { teamDashboardReducer } from "./teamDashboardReducer"

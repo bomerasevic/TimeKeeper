@@ -7,8 +7,9 @@ import moment from "moment";
 import { loadCalendar, rldCal } from "../../store/actions/calendarActions";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-
+import "./Calendar.css"
 import CalendarModal from "./CalendarModal";
+import NavigationLogin from "../NavigationLogin/NavigationLogin";
 
 function CalendarDisplay(props) {
     const [date, setDate] = useState(new Date(2019, 5, 6, 10, 33, 30, 0));
@@ -67,6 +68,8 @@ function CalendarDisplay(props) {
 
     return (
         <div>
+
+            < NavigationLogin />
             <Calendar onChange={onChange} value={date} />
             <div>
                 {props.calendarMonth &&

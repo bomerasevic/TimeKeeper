@@ -1,7 +1,7 @@
 import * as V from "victory";
 import React from "react";
 import data from "./data";
-import { VictoryBar, VictoryChart, VictoryAxis, VictoryTheme } from "victory";
+import { VictoryBar, VictoryChart, VictoryAxis, VictoryTheme, VictoryLabel } from "victory";
 
 class BarChart extends React.Component {
     static defaultProps = {
@@ -10,8 +10,8 @@ class BarChart extends React.Component {
         domainPadding: 20,
         horizontal: false,
         data, // {name: "", value: ""} pairs
-        angle: 45,
-        labelPadding: 40,
+        angle: 90,
+        labelPadding: 25,
         fontSize: 14
     };
     render() {
@@ -23,10 +23,18 @@ class BarChart extends React.Component {
             data,
             angle,
             labelPadding,
-            fontSize
+            fontSize,
+            xLabel,
+            yLabel
         } = this.props;
         return (
-            <div style={{ height: height + "px", width: width + "px" }}>
+            <div
+                style={{
+                    height: height === "auto" ? height : height + "px",
+                    width: width + "px",
+                    maxWidth: "100%"
+                }}
+            >
                 <VictoryChart
                     // domainPadding will add space to each side of VictoryBar to
                     // prevent it from overlapping the axis
@@ -37,28 +45,36 @@ class BarChart extends React.Component {
                         // tickValues specifies both the number of ticks and where
                         // they are placed on the axis
                         tickFormat={data.map(x => x.name)}
+                        // tickLabelComponent={<VictoryLabel dx={80} verticalAnchor="middle" />}
                         style={{
-                            axisLabel: { angle: angle },
                             tickLabels: {
                                 angle: angle,
                                 padding: labelPadding,
-                                alignSelf: "flex-start",
+                                fontSize: fontSize
+                            }
+                        }}
+                        label={xLabel}
+                    />
+                    <VictoryAxis
+                        dependentAxis
+                        label={yLabel}
+                        // tickFormat specifies how ticks should be displayed
+                        // tickFormat={x}
+                        style={{
+                            tickLabels: {
+                                // angle: angle,
+                                padding: labelPadding,
                                 fontSize: fontSize
                             }
                         }}
                     />
-                    <VictoryAxis
-                        dependentAxis
-
-                    // tickFormat specifies how ticks should be displayed
-                    // tickFormat={x}
-                    />
                     <VictoryBar
                         animate={{
-                            duration: 2000,
-                            onLoad: { duration: 1000 }
+                            duration: 0,
+                            onLoad: { duration: 0 }
                         }}
                         data={data}
+                        labels={({ datum }) => `${datum._y}`}
                         x="name"
                         y="value"
                         horizontal={horizontal}

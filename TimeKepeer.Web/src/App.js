@@ -23,6 +23,7 @@ import MonthlyReport from "./components/MonthlyReport/MonthlyReportView"
 import Calendar from "./components/Calendar/Calendar"
 import CompanyDashboard from "./components/CompanyDashboard/CompanyDashboard"
 import { authCheckState } from "./store/actions/authActions"
+import TeamDashboard from "./components/TeamDashboard/TeamDashboard";
 class App extends React.Component {
 	componentDidMount() {
 		this.handleLogin();
@@ -95,6 +96,9 @@ class App extends React.Component {
 				</Route>
 				<Route exact path="/app/companydashboard">
 					<CompanyDashboard />
+				</Route>
+				<Route exact path="/app/teamdashboard">
+					<TeamDashboard />
 				</Route>
 
 

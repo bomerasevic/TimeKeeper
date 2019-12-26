@@ -14,6 +14,7 @@ import { connect } from "react-redux";
 import moment from "moment";
 
 const CustomSelectComponent = props => {
+    console.log("Ovo je task", props)
     return (
         <Select fullWidth {...props}>
             {props.data.map(p => (
@@ -67,7 +68,8 @@ function CalendarTask(props) {
             }}
             initialValues={{
                 hours: props.data ? props.data.hours : "",
-                project: props.data ? props.data.project.id : 1,
+                //project: props.data ? props.data.project.id : 1,
+                project: 1,
                 description: props.data ? props.data.description : ""
             }}
         >
@@ -76,7 +78,7 @@ function CalendarTask(props) {
                     <span>{moment(props.day.date).format("YYYY-MM-DD")}</span>
                     <TodayIcon />
                 </Grid>
-                {console.log("PROPPOVI OPOVI", props)}
+                {console.log("PROPPOVI OPOVI sa task sa data", props.data)}
                 <Fragment>
                     <Grid container spacing={4} alignItems="center">
                         <Grid item xs={3}>
