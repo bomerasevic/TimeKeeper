@@ -176,7 +176,7 @@ namespace TimeKeeper.DTO.Factory
             rawAbsenceModel.Add(new RawAbsenceModel());
             while (sql.Read())
             {
-                rawAbsenceModel[rawAbsenceModel.Count - 1].AbsenceInstances++;
+                rawAbsenceModel[0].AbsenceInstances++;
             }
             return rawAbsenceModel;
         }

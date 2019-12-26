@@ -33,7 +33,6 @@ namespace TimeKeeper.API.Controllers
         {
             try
             {
-                //LogIdentity();
                 int userId = int.Parse(User.Claims.FirstOrDefault(x => x.Type == "sub").Value.ToString());
                 string role = User.Claims.FirstOrDefault(x => x.Type == "role").Value.ToString();
                 if (role == "admin")
@@ -52,26 +51,7 @@ namespace TimeKeeper.API.Controllers
                 return HandleException(ex);
             }
         }
-        //[NonAction]
-        //private IActionResult LogIdentity()
-        //{
-        //    if(User.Identity.IsAuthenticated)
-        //    {
-        //        var accessToken = HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
-        //        var response = new
-        //        {
-        //            Id = User.Claims.FirstOrDefault(c => c.Type == "sub").Value.ToString(),
-        //            Name = User.Claims.FirstOrDefault(c => c.Type == "given_name").Value.ToString(),
-        //            Role = User.Claims.FirstOrDefault(c => c.Type == "role").Value.ToString(),
-        //            accessToken  // Bearer {accessToken}
-        //        };
-        //        return Ok(response);
-        //    }
-        //    else
-        //    {
-        //        return NotFound();
-        //    }
-        //}
+        
         /// <summary>
         /// This method returns Team by specified Id
         /// </summary>
