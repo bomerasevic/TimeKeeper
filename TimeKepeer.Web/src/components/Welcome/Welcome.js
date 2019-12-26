@@ -5,9 +5,6 @@ import Navigation from "../StaticPage/Navigation/Navigation";
 import logo from "../../assets/images/puzzle.png";
 import "../StaticPage/Navigation/Navigation.css";
 import { connect } from "react-redux";
-//import FooterBar from "../FooterBar/FooterBar";
-
-//import Menu from "../MobileNavigation/menu";
 
 function Welcome(props) {
 	return (
@@ -18,8 +15,8 @@ function Welcome(props) {
 					<div className="container header-text">
 						<img className="logo-large" src={logo} />
 						<h1 style={{ padding: "0", margin: "0" }}>Welcome </h1>
-						<h1 style={{ fontSize: "40px", padding: "0", margin: "0" }}>{props.user.profile.name} </h1>
-						<h2 style={{ padding: "0", margin: "0" }}>({props.user.profile.role})</h2>
+						<h1 style={{ fontSize: "40px", padding: "0", margin: "0" }}>{props.user.user.name} </h1>
+						<h2 style={{ padding: "0", margin: "0" }}>({props.user.user.role})</h2>
 						<h2 style={{ fontSize: "10x" }}>
 							This is your TimeKeeper.
 

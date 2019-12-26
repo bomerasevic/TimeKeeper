@@ -16,7 +16,7 @@ import {
   Table, TableBody, TableCell, TableHead,TableRow, Paper 
 } from "@material-ui/core";
 import styles from './EmployeesModalStyle';
-import {fetchProject, projectCancel, projectPut, projectAdd, employeeDelete} from '../../store/actions/index';
+import {fetchProject, projectCancel, projectPut, projectAdd} from '../../store/actions/index';
 
 
 
@@ -85,22 +85,22 @@ const Schema = Yup.object().shape({
 
 const ProjectsModal = (props) => {
     const { classes, open, project, id, mode } = props;
-    const { fetchEmployee, employeeCancel, employeePut, employeeAdd } = props;
+    const { fetchProject, projectCancel, projectPut, projectAdd } = props;
     let rows = []
 
-    if(project) {
+    // if(project) {
      
-        let fetchedName = [];
-        console.log(project);
-        project.members.forEach(r => {
+    //     let fetchedName = [];
+    //     console.log(project);
+    //     project.members.forEach(r => {
 
-          let team = test(r.name);
-          let id = r.id;
-          let data = { id, team };
-          fetchedName.push(data);
-        });
-        rows = fetchedName
-    }
+    //       let team = test(r.name);
+    //       let id = r.id;
+    //       let data = { id, team };
+    //       fetchedName.push(data);
+    //     });
+    //     rows = fetchedName
+    // }
    
     useEffect(() => {
       if(id !== null) {
@@ -350,10 +350,10 @@ const ProjectsModal = (props) => {
                           as={CustomInputComponent}
                         />
                      
-                        <div className={classes.buttons}>
+                     <div className={classes.buttons}>
                           {mode !== 'view' ? <Button className={classes.submitButton}
                             variant="contained"
-                          
+                            //color="primary"
                             type="submit"
                           >
                             Submit

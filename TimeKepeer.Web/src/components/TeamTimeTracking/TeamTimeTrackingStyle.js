@@ -6,7 +6,10 @@ const styles = (theme) => ({
 		margin: "auto",
 		marginTop: theme.spacing(3),
 		overflowX: "auto"
-	},
+    },
+    headerTable : {
+     backgroundColor: "rgb(54,52,63)"
+    },
 	toolbar: {
 		display: "flexbox",
 		justifyContent: "space-between",
@@ -26,8 +29,9 @@ const styles = (theme) => ({
 	tableHeadFontsize: {
 		textTransform: "uppercase",
 		fontWeight: "500",
-		fontSize: "1.1rem",
-		backgroundColor: "rgb(54,52,63)"
+        fontSize: "1.1rem",
+        backgroundColor: "rgb(54,52,63)"
+        
 	},
 	loader: {
 		color: "#26a69a"
@@ -52,7 +56,14 @@ const styles = (theme) => ({
 			backgroundColor: "red !important",
 			margin: "20px !important"
 		}
-	},
+    },
+    
+    dropDown: {
+		display: "inline-block",
+		color: "white",
+
+
+    },
 	editButton: {
 		fill: "green",
 		"&:hover": {
