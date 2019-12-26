@@ -58,7 +58,7 @@ const CustomersPage = (props) => {
                             <Toolbar className={classes.toolbar}>
                                 <div>
                                     <Typography variant="h4" id="tableTitle" style={{ color: "white" }}>
-                                        Customer
+                                        Customers
                             </Typography>
                                 </div>
                                 {user.user.user.role === "admin" ? (

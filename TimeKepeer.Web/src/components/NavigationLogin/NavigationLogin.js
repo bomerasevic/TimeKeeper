@@ -7,7 +7,7 @@ import * as Yup from "yup";
 import { withRouter } from "react-router-dom";
 import M from "materialize-css";
 import { connect } from "react-redux";
-import userManager from "../../utils/userManager"
+import { logout } from "../../store/actions/authActions"
 const SignupSchema = Yup.object().shape({
     username: Yup.string()
         .min(5, "Too Short!")
@@ -39,6 +39,9 @@ class NavigationLogin extends React.Component {
     handleClickCustomers = () => {
         this.props.history.push("/app/customers");
     };
+    handleTeamDashboard = () => {
+        this.props.history.push("/app/teamdashboard");
+    };
     handleClickProjects = () => {
         this.props.history.push("/app/projects");
     };
@@ -48,8 +51,15 @@ class NavigationLogin extends React.Component {
     handleClickTracking = () => {
         this.props.history.push("/app/tracking");
     };
+    handleCompanyDashboard = () => {
+        this.props.history.push("/app/companydashboard");
+
+    }
+    handleCalendar = () => {
+        this.props.history.push("/app/calendar");
+    };
     handleClickLogout = () => {
-        userManager.signoutRedirect();
+        this.props.logout();
 
     };
 
@@ -100,13 +110,14 @@ class NavigationLogin extends React.Component {
                                     <i className="fa fa-caret-down" />
                                     </a>
                                     <div className="dropdown-content" id="dropdown2">
-                                        <a href="#">Personal report</a>
+                                        <a onClick={this.handleCompanyDashboard}> Company Report</a>
+                                        <a onClick={this.handleTeamDashboard}> Team Report</a>
+
                                         <a onClick={
                                             this.handleClickMonthlyReport}>Monthly report</a>
                                         <a onClick={
                                             this.handleClickAnnualReport}>Annual report</a>
-                                        <a href="#">Project history</a>
-                                        <a href="#">Dashboard</a>
+
                                     </div>
                                 </li>
                                 <li>
@@ -128,7 +139,7 @@ class NavigationLogin extends React.Component {
                                     }}></img></a>
                                 </li>
                                 <li>
-                                    <a style={{ paddingLeft: "10px" }}>{this.props.user.user.name} ({this.props.user.user.role})</a>
+                                    <a onClick={this.handleCalendar} style={{ paddingLeft: "10px" }}>{this.props.user.user.name} ({this.props.user.user.role})</a>
                                 </li>
                                 <li>
                                     <a className=" btn modal-trigger" onClick={this.handleClickLogout}>
@@ -153,5 +164,5 @@ const mapStateToProps = state => {
     };
 }
 
-export default connect(mapStateToProps, {})(withRouter(NavigationLogin));
+export default connect(mapStateToProps, { logout })(withRouter(NavigationLogin));
 

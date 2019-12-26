@@ -18,6 +18,13 @@ const styles = (theme) => ({
   },
   selectEmpty: {
     marginTop: theme.spacing.unit * 2
+  },
+  label : {
+    color: "white"
+  },
+
+  whiteColor : {
+    color: "white"
   }
 });
 let counter = 0;
@@ -34,10 +41,12 @@ const DropDownMonth = (props) => {
 
   const { data, monthSelect } = props;
   return (
-    <form className={classes.root} autoComplete="off">
+    <form  className={classes.root}     classes = {{icon: classes.label}} autoComplete="off">
       <FormControl className={classes.formControl}>
-        <InputLabel htmlFor="age-simple">Month</InputLabel>
+        <InputLabel htmlFor="age-simple" className = {classes.label}>Month</InputLabel>
         <Select
+         className= {classes.whiteColor}
+         classes = {{icon: classes.label}}
           name="selectOptions"
           onChange={(e) => monthSelect(e.target.value)}
           inputProps={{

@@ -14,7 +14,7 @@ function TableTK(props) {
   return (
     <Paper elevation={3}>
       <Table className="table-tk">
-        <TableHead>
+        <TableHead style={{ backgroundColor: "#696369", color:"white" }}>
           <TableRow className="table-tk-row-dark">
             {head.map((cell, i) => (
               <TableCell key={i}>{cell}</TableCell>
