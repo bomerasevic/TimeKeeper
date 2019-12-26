@@ -1,12 +1,33 @@
 import axios from "axios";
-
+import url from "../config"
+import Config from "../config";
 import { store } from "../index";
-export const loginUrl = "http://192.168.60.72/timekeeper/login"
-export const employeesUrl = "http://192.168.60.72/timekeeper/api/employees";
-export const customersUrl = "http://192.168.60.72/timekeeper/api/customers";
-export const projectsUrl = "http://192.168.60.72/timekeeper/api/projects";
-export const dropDownTeamsUrl = "http://192.168.60.72/timekeeper/api/teams";
-export const teamTrackingUrl = "http://192.168.60.72/timekeeper/api/dashboard/team-time-tracking";
+export const loginUrl = Config.url + "login"
+export const employeesUrl = Config.url + "api/employees";
+export const customersUrl = Config.url + "api/customers";
+export const projectsUrl = Config.url + "api/projects";
+export const dropDownTeamsUrl = Config.url + "api/teams";
+export const teamTrackingUrl = Config.url + "api/dashboard/team-time-tracking";
+export const companyDashboard = Config.url + "api/dashboard/admin-dashboard-stored/"
+export const calendarUrl = "http://192.168.60.72/timekeeper/api/dashboard";
+export const tasksUrl = "http://192.168.60.72/timekeeper/api/assignments";
+
+
+export const getCalendar = (url, id, year, month) => {
+	let newUrl = `${url}/${id}/${year}/${month}`;
+	const token = store.getState().user.user.token;
+	let headers = new Headers();
+	headers = {
+		Accept: "application/json",
+		Authorization: `Bearer ${token}`
+	};
+	const options = {
+		headers
+	};
+	return axios(newUrl, options)
+		.then(data => ({ data }))
+		.catch(error => ({ error }));
+};
 
 export const apiGetAllRequest = (url, method = "GET") => {
 	console.log("TOKEN", store.getState().user.user.token);

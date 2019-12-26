@@ -29,14 +29,6 @@ function TableView(props) {
         </Grid>
       </Container>
 
-      {/* <Fab
-        color="primary"
-        aria-label="add"
-        className="fab-position"
-        onClick={() => handleClickOpen(null)}
-      >
-        <AddIcon />
-      </Fab> */}
     </Fragment>
   );
 }

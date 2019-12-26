@@ -1,6 +1,6 @@
 export default {
-
 	token: "Basic am9objpqb2hu",
+	url: "http://192.168.60.72/timekeeper/",
 	authHeader: {
 		headers: {
 			"Content-Type": "application/json",

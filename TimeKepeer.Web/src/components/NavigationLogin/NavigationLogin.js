@@ -7,7 +7,7 @@ import * as Yup from "yup";
 import { withRouter } from "react-router-dom";
 import M from "materialize-css";
 import { connect } from "react-redux";
-import userManager from "../../utils/userManager"
+import { logout } from "../../store/actions/authActions"
 const SignupSchema = Yup.object().shape({
     username: Yup.string()
         .min(5, "Too Short!")
@@ -39,6 +39,9 @@ class NavigationLogin extends React.Component {
     handleClickCustomers = () => {
         this.props.history.push("/app/customers");
     };
+    handleTeamDashboard = () => {
+        this.props.history.push("/app/teamdashboard");
+    };
     handleClickProjects = () => {
         this.props.history.push("/app/projects");
     };
@@ -48,8 +51,15 @@ class NavigationLogin extends React.Component {
     handleClickTracking = () => {
         this.props.history.push("/app/tracking");
     };
+    handleCompanyDashboard = () => {
+        this.props.history.push("/app/companydashboard");
+
+    }
+    handleCalendar = () => {
+        this.props.history.push("/app/calendar");
+    };
     handleClickLogout = () => {
-        userManager.signoutRedirect();
+        this.props.logout();
 
     };
 
@@ -100,13 +110,14 @@ class NavigationLogin extends React.Component {
                                     <i className="fa fa-caret-down" />
                                     </a>
                                     <div className="dropdown-content" id="dropdown2">
+                                        <a onClick={this.handleCompanyDashboard}> Company Report</a>
+                                        <a onClick={this.handleTeamDashboard}> Team Report</a>
                                         <a href="#">Personal report</a>
                                         <a onClick={
                                             this.handleClickMonthlyReport}>Monthly report</a>
                                         <a onClick={
                                             this.handleClickAnnualReport}>Annual report</a>
-                                        <a href="#">Project history</a>
-                                        <a href="#">Dashboard</a>
+                                        <a onClick={this.handleCalendar}>Calendar</a>
                                     </div>
                                 </li>
                                 <li>
@@ -153,5 +164,5 @@ const mapStateToProps = state => {
     };
 }
 
-export default connect(mapStateToProps, {})(withRouter(NavigationLogin));
+export default connect(mapStateToProps, { logout })(withRouter(NavigationLogin));
 
