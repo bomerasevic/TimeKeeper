@@ -11,19 +11,13 @@ using TimeKeeper.DTO.Factory;
 
 namespace TimeKeeper.API.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class AssignmentsController : BaseController
     {
         public AssignmentsController(TimeKeeperContext context) : base(context) { }
 
-        /// <summary>
-        /// This method returns all tasks
-        /// </summary>
-        /// <returns>All tasks</returns>
-        /// <response status="200">OK</response>
-        /// <response status="400">Bad request</response>
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]

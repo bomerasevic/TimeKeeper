@@ -270,7 +270,6 @@ namespace TimeKeeper.BLL.Services
             {
                 teamDashboard.TotalHours += employeeTime.TotalHours;
                 teamDashboard.TotalWorkingHours += employeeTime.WorkingHours;
-                //teamDashboard.TotalMissingEntries += employeeTime.MissingEntries;
             }
 
             return teamDashboard;
@@ -333,7 +332,6 @@ namespace TimeKeeper.BLL.Services
 
             employeePersonalReport.HourTypes.Add("missingEntries", missingEntries);
             employeePersonalReport.Overtime = overtime;
-            //employeePersonalReport.HourTypes.Add("totalHours", totalHours + missingEntries);
             employeePersonalReport.TotalHours = Providers.GetMonthlyWorkingDays(year, month) * 8;
             employeePersonalReport.PaidTimeOff = employeePersonalReport.TotalHours - employeePersonalReport.HourTypes["missingEntries"] - employeePersonalReport.HourTypes["workday"];
 
@@ -351,25 +349,7 @@ namespace TimeKeeper.BLL.Services
 
             return employeeTimeModels;
         }
-        //public List<TeamMemberDashboardModel> GetTeamMembersDashboard(int teamId, int year, int month)
-        //{
-        //    List<EmployeeTimeModel> employeeTimes = GetTeamMonthReport(teamId, year, month);
-        //    List<TeamMemberDashboardModel> teamMembers = new List<TeamMemberDashboardModel>();
-        //    foreach (EmployeeTimeModel employeeTime in employeeTimes)
-        //    {
-        //        teamMembers.Add(new TeamMemberDashboardModel
-        //        {
-        //            Employee = employeeTime.Employee,
-        //            TotalHours = employeeTime.TotalHours,
-        //            Overtime = employeeTime.Overtime,
-        //            PaidTimeOff = employeeTime.PaidTimeOff,
-        //            WorkingHours = employeeTime.HourTypes["workday"],
-        //            MissingEntries = employeeTime.HourTypes["missingEntries"]
-        //        });
-        //    }
-
-        //    return teamMembers;
-        //}
+        
         private List<TeamMemberDashboardModel> GetTeamMembersDashboard(Team team, int year, int month)
         {
             List<EmployeeTimeModel> employeeTimes = GetTeamMonthReport(team, year, month);
@@ -389,61 +369,6 @@ namespace TimeKeeper.BLL.Services
             return teamMembers;
         }
 
-
-
-        //public PersonalDashboardModel GetEmployeeDashboard(int employeeId, int year)
-        //{
-        //    List<DayModel> calendar = Providers.GetEmployeeCalendar(employeeId, year);
-        //    decimal totalHours = Providers.GetYearlyWorkingDays(year) * 8;
-
-        //    return CreatePersonalDashboard(employeeId, year, totalHours, calendar);
-        //}
-        //public PersonalDashboardModel GetEmployeeDashboard(int employeeId, int year, int month)
-        //{
-        //    List<DayModel> calendar = Providers.GetEmployeeCalendar(employeeId, year, month);
-        //    decimal totalHours = Providers.GetMonthlyWorkingDays(year, month) * 8;
-
-        //    return CreatePersonalDashboard(employeeId, year, totalHours, calendar);
-        //}
-
-        //private PersonalDashboardModel CreatePersonalDashboard(int employeeId, int year, decimal totalHours, List<DayModel> calendar)
-        //{
-        //    decimal workingHours = calendar.Where(x => x.DayType.Name == "Workday").Sum(x => x.TotalHours);
-
-        //    return new PersonalDashboardModel
-        //    {
-        //        Employee = Unit.Employees.Get(employeeId).Master(),
-        //        TotalHours = totalHours,
-        //        WorkingHours = workingHours,
-        //        BradfordFactor = GetBradfordFactor(employeeId, year)
-        //    };
-        //}
-
-        //public decimal GetBradfordFactor(int employeeId, int year)
-        //{
-        //    List<DayModel> calendar = Providers.GetEmployeeCalendar(employeeId, year);
-        //    //an absence instance are any number of consecutive absence days. 3 consecutive absence days make an instance.
-        //    int absenceInstances = 0;
-        //    int absenceDays = 0;
-        //    calendar = calendar.OrderBy(x => x.Date).ToList();
-
-        //    //Bradford factor calculates only dates until the present day, because the calendar in argument returns the whole period
-        //    absenceDays = calendar.Where(x => x.DayType.Name == "sick" && x.Date < DateTime.Now).Count();
-
-        //    for (int i = 0; i < calendar.Count; i++)
-        //    {
-        //        if (calendar[i].DayType.Name == "sick" && calendar[i].Date < DateTime.Now)
-        //        {
-        //            if (i == 0) absenceInstances++;
-
-        //            else if (calendar[i - 1].DayType.Name != "sick")
-        //            {
-        //                absenceInstances++;
-        //            }
-        //        }
-        //    }
-        //    return (decimal)Math.Pow(absenceInstances, 2) * absenceDays;
-        //}
         public PersonalDashboardModel GetPersonalDashboardStored(int empId, int year, int month)
         {
             PersonalDashboardModel personalDashboard = new PersonalDashboardModel();
@@ -463,12 +388,11 @@ namespace TimeKeeper.BLL.Services
         {
             int absenceDays = personalDashboardHours.SickYearly;
             List<RawAbsenceModel> rawAbsenceData = StoredProcedureService.GetStoredProcedure<RawAbsenceModel>("sickByMonths", new int[] { personalDashboardHours.EmployeeId, year });
-            if (rawAbsenceData == null)
+            if (rawAbsenceData.Count == 0)
             {
                 rawAbsenceData = new List<RawAbsenceModel>();
                 rawAbsenceData.Add(new RawAbsenceModel { AbsenceInstances = 0});
             }
-                //throw new ArgumentException("There is an error in database. Please check again your data.");
             return (decimal)Math.Pow((int)rawAbsenceData[0].AbsenceInstances, 2) * absenceDays;
         }
     }
