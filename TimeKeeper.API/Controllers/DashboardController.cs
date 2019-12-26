@@ -105,15 +105,15 @@ namespace TimeKeeper.API.Controllers
                 return HandleException(ex);
             }
         }
-        [HttpGet("employee-report/{empId}/{year}/{month}")]
+        [HttpGet("personal-dashboard-stored/{empId}/{year}/{month}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public IActionResult GetEmployeeReport(int empId, int year, int month)
+        public IActionResult GetPersonalDashboard(int empId, int year, int month)
         {
             try
             {
                 Log.Info($"Try to get report for employee with id:{empId}");
-                return Ok(dashboardService.CreateEmployeeReport(empId, year, month));
+                return Ok(dashboardService.GetPersonalDashboardStored(empId, year, month));
                 //return Ok();
             }
             catch (Exception ex)
@@ -134,18 +134,18 @@ namespace TimeKeeper.API.Controllers
                 return HandleException(ex);
             }
         }
-        [HttpGet("bradford-factor/{empId}/{year}")]
-        public IActionResult GetBradfordFactor(int empId, int year)
-        {
-            try
-            {
-                return Ok(dashboardService.GetBradfordFactor(empId, year));
-            }
-            catch (Exception ex)
-            {
-                return HandleException(ex);
-            }
-        }
+        //[HttpGet("bradford-factor/{empId}/{year}")]
+        //public IActionResult GetBradfordFactor(int empId, int year)
+        //{
+        //    try
+        //    {
+        //        return Ok(dashboardService.GetBradfordFactor(empId, year));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return HandleException(ex);
+        //    }
+        //}
 
     }
 }

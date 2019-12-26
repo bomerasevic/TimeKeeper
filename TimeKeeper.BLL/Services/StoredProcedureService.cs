@@ -36,6 +36,7 @@ namespace TimeKeeper.BLL.Services
         {
             var cmd = CreateSelectProcedure(procedureName, args);
             DbDataReader sql = cmd.ExecuteReader();
+            //if(!sql.HasRows) cmd.Connection.Close();
             if (sql.HasRows) return _sqlFactory.BuildSQL<Entity>(sql);
 
             return new List<Entity>();

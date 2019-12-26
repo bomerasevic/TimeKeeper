@@ -10,7 +10,6 @@ namespace TimeKeeper.DTO.Models.DashboardModels
         public int ProjectsCount { get; set; }
         public decimal TotalHours { get; set; }
         public decimal TotalWorkingHours { get; set; }
-        public List<CompanyMissingEntriesModel> MissingEntries { get; set; }
         public List<CompanyTeamModel> Teams { get; set; }
         public List<CompanyProjectsDashboardModel> Projects { get; set; }
         public List<CompanyRolesDashboardModel> Roles { get; set; }
