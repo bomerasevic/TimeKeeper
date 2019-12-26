@@ -139,12 +139,12 @@ const ProjectsModal = (props) => {
           {project || mode==='add' ? <Formik
             validationSchema={Schema}
             initialValues={{
-              projectName: project ? project.projectName : "",
+              name: project ? project.name : "",
             
-              startDate: project
+              StartDate: project
                 ? moment(project.beginDate).format("YYYY-MM-DD")
                 : "",
-              endDate: project
+              EndDate: project
                 ? moment(project.endDate).format("YYYY-MM-DD")
                 : "",
              
@@ -152,10 +152,10 @@ const ProjectsModal = (props) => {
             }}
             onSubmit={values => {
              
-              values.endDate = moment(values.endDate).format(
+              values.EndDate = moment(values.EndDate).format(
                 "YYYY-MM-DD HH:mm:ss"
               );
-              values.beginDate = moment(values.beginDate).format(
+              values.StartDate = moment(values.StartDate).format(
                 "YYYY-MM-DD HH:mm:ss"
               );
 
@@ -214,9 +214,9 @@ const ProjectsModal = (props) => {
                 
                       <div className={classes.container}>
                         <InputLabel>Project Name</InputLabel>
-                        {errors.projectName && touched.projectName ? (
+                        {errors.name && touched.name ? (
                           <div className={classes.errorMessage}>
-                            {errors.projectName}
+                            {errors.name}
                           </div>
                         ) : (
                           <div className={classes.errorMessage}> &nbsp; </div>
@@ -228,9 +228,9 @@ const ProjectsModal = (props) => {
                           as={CustomInputComponent}
                         />
                         <InputLabel>Description</InputLabel>
-                        {errors.description && touched.description ? (
+                        {errors.Description && touched.Description ? (
                           <div className={classes.errorMessage}>
-                            {errors.description}
+                            {errors.Description}
                           </div>
                         ) : (
                           <div className={classes.errorMessage}> &nbsp; </div>
@@ -245,10 +245,10 @@ const ProjectsModal = (props) => {
                          <div className={classes.container}>
                         
                         <InputLabel> Start Date</InputLabel>
-                        {errors.startDate &&
-                        touched.startDate ? (
+                        {errors.StartDate &&
+                        touched.StartDate ? (
                           <div className={classes.errorMessage}>
-                            {errors.startDate}
+                            {errors.StartDate}
                           </div>
                         ) : (
                           <div className={classes.errorMessage}> &nbsp; </div>
@@ -261,9 +261,9 @@ const ProjectsModal = (props) => {
                           as={CustomInputComponent}
                         />
                         <InputLabel>Status</InputLabel>
-                        {errors.status && touched.status ? (
+                        {errors.StatusId && touched.StatusId ? (
                           <div className={classes.errorMessage}>
-                            {errors.status}
+                            {errors.StatusId}
                           </div>
                         ) : (
                           <div className={classes.errorMessage}> &nbsp; </div>
@@ -274,9 +274,9 @@ const ProjectsModal = (props) => {
                           as={CustomStatusComponent}
                         />
                         <InputLabel>Team</InputLabel>
-                        {errors.team && touched.team ? (
+                        {errors.TeamId && touched.TeamId ? (
                           <div className={classes.errorMessage}>
-                            {errors.team}
+                            {errors.TeamId}
                           </div>
                         ) : (
                           <div className={classes.errorMessage}> &nbsp; </div>
@@ -288,10 +288,10 @@ const ProjectsModal = (props) => {
                           as={CustomInputComponent}
                         />
                         <InputLabel> End Date</InputLabel>
-                        {errors.endDate &&
-                        touched.endDate ? (
+                        {errors.EndDate &&
+                        touched.EndDate ? (
                           <div className={classes.errorMessage}>
-                            {errors.endDate}
+                            {errors.EndDate}
                           </div>
                         ) : (
                           <div className={classes.errorMessage}> &nbsp; </div>
@@ -306,9 +306,9 @@ const ProjectsModal = (props) => {
                         </div>
                        <div className={classes.container}>
                        <InputLabel>Customer</InputLabel>
-                        {errors.customer && touched.customer ? (
+                        {errors.CustomerdId && touched.CustomerId ? (
                           <div className={classes.errorMessage}>
-                            {errors.team}
+                            {errors.CustomerId}
                           </div>
                         ) : (
                           <div className={classes.errorMessage}> &nbsp; </div>
@@ -320,9 +320,9 @@ const ProjectsModal = (props) => {
                           as={CustomInputComponent}
                         />
                         <InputLabel>Pricing</InputLabel>
-                        {errors.pricing && touched.pricing ? (
+                        {errors.PricingId && touched.PricingId ? (
                           <div className={classes.errorMessage}>
-                            {errors.team}
+                            {errors.PricingId}
                           </div>
                         ) : (
                           <div className={classes.errorMessage}> &nbsp; </div>
@@ -335,9 +335,9 @@ const ProjectsModal = (props) => {
                           as={CustomInputComponent}
                         />
                         <InputLabel>Amount (fixed bid only)</InputLabel>
-                        {errors.amount && touched.amount ? (
+                        {errors.Amount && touched.Amount ? (
                           <div className={classes.errorMessage}>
-                            {errors.amount}
+                            {errors.Amount}
                           </div>
                         ) : (
                           <div className={classes.errorMessage}> &nbsp; </div>
