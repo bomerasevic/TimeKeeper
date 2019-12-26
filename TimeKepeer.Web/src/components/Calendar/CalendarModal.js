@@ -50,6 +50,9 @@ function CalendarModal(props) {
                     <Grid item sm={12}>
                         <AppBar position="static">
                             <Tabs
+                                style={{
+                                    backgroundColor: "#575467"
+                                }}
                                 value={0}
                                 variant="fullWidth"
                                 onChange={handleChange}
@@ -64,7 +67,9 @@ function CalendarModal(props) {
                         <Paper>
                             <form>
                                 <FormControl>
-                                    <CustomeSelectDayTypes value={value} onChange={handleChange} />
+                                    <CustomeSelectDayTypes style={{
+                                        paddingLeft: "15px"
+                                    }} value={value} onChange={handleChange} />
                                 </FormControl>
                             </form>
                             {value === 1 ? (

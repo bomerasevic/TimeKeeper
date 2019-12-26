@@ -112,12 +112,12 @@ class NavigationLogin extends React.Component {
                                     <div className="dropdown-content" id="dropdown2">
                                         <a onClick={this.handleCompanyDashboard}> Company Report</a>
                                         <a onClick={this.handleTeamDashboard}> Team Report</a>
-                                        <a href="#">Personal report</a>
+
                                         <a onClick={
                                             this.handleClickMonthlyReport}>Monthly report</a>
                                         <a onClick={
                                             this.handleClickAnnualReport}>Annual report</a>
-                                        <a onClick={this.handleCalendar}>Calendar</a>
+
                                     </div>
                                 </li>
                                 <li>
@@ -139,7 +139,7 @@ class NavigationLogin extends React.Component {
                                     }}></img></a>
                                 </li>
                                 <li>
-                                    <a style={{ paddingLeft: "10px" }}>{this.props.user.user.name} ({this.props.user.user.role})</a>
+                                    <a onClick={this.handleCalendar} style={{ paddingLeft: "10px" }}>{this.props.user.user.name} ({this.props.user.user.role})</a>
                                 </li>
                                 <li>
                                     <a className=" btn modal-trigger" onClick={this.handleClickLogout}>
