@@ -1,10 +1,12 @@
 import React, { useState, useEffect, Fragment } from "react";
 
 import { apiGetAllRequest } from "../../utils/api";
-
+import { withStyles } from "@material-ui/core/styles";
+import styles from "../AnnualReport/AnnualReportStyles";
 import Calendar from "react-calendar";
 import moment from "moment";
 import { loadCalendar, rldCal } from "../../store/actions/calendarActions";
+import { Backdrop, CircularProgress, Button } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import "./Calendar.css"
@@ -13,6 +15,7 @@ import NavigationLogin from "../NavigationLogin/NavigationLogin";
 import loader from "../../assets/images/loader.gif"
 import Config from "../../config"
 function CalendarDisplay(props) {
+    const { classes, error, loading } = props;
     const [date, setDate] = useState(new Date(2019, 5, 6, 10, 33, 30, 0));
     const [year, setYear] = useState(moment(date).format("YYYY"));
     const [month, setMonth] = useState(moment(date).format("MM"));
@@ -115,8 +118,9 @@ const mapStateToProps = state => {
     return {
         calendarMonth: state.calendarMonth.data.data,
         user: state.user,
-        reload: state.calendarMonth.reload
+        reload: state.calendarMonth.reload,
+        loading: state.calendarMonth.loading
     };
 };
 
-export default connect(mapStateToProps, { loadCalendar, rldCal })(withRouter(CalendarDisplay));
+export default connect(mapStateToProps, { loadCalendar, rldCal })(withRouter(withStyles(styles)(CalendarDisplay)));
