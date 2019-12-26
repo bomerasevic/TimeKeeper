@@ -2,17 +2,21 @@ import React, { Fragment, useState, useEffect } from "react";
 //import BlockElementSpinner from "../../components/BlockElementSpinner/BlockElementSpinner";
 import { connect } from "react-redux";
 // import data from "./data";
+import { withStyles } from "@material-ui/core/styles";
+import styles from "../AnnualReport/AnnualReportStyles";
 import PieChart from "../../components/Charts/PieChart";
 import BarChart from "../../components/Charts/BarChart";
-import { Container, Grid, Paper, TextField, MenuItem } from "@material-ui/core";
+import { Container, Grid, Paper, TextField, MenuItem , Backdrop, CircularProgress, Button} from "@material-ui/core";
 import { getCompanyDashboard } from "../../store/actions/companyDashboardActions";
 //import "./CompanyDashboard.css";
 import NavigationLogin from "../NavigationLogin/NavigationLogin";
 
 
-function CompanyDashboard({ data, isLoading, getCompanyDashboard }) {
+
+function CompanyDashboard({ data, isLoading, getCompanyDashboard, classes, error }) {
     const [selectedYear, setSelectedYear] = useState(2019);
     const [selectedMonth, setSelectedMonth] = useState(1);
+   
 
     useEffect(() => {
         getCompanyDashboard(selectedYear, selectedMonth);
@@ -176,7 +180,24 @@ function CompanyDashboard({ data, isLoading, getCompanyDashboard }) {
         <Fragment>
 
             < NavigationLogin />
-            {!isLoading && (
+            {isLoading ? (
+                <Backdrop open={isLoading}>
+                    <div className={classes.center}>
+                        <CircularProgress size={100} className={classes.loader} />
+                        <h1 className={classes.loaderText}>Loading...</h1>
+                    </div>
+                </Backdrop>
+            ) : error ? (
+                <Backdrop open={true}>
+                    <div className={classes.center}>
+                        <h1 className={classes.loaderText}>{error.message}</h1>
+                        <h2 className={classes.loaderText}>Please reload the application</h2>
+                        <Button variant="outlined" size="large" className={classes.loaderText}>
+                            Reload
+                        </Button>
+                    </div>
+                </Backdrop>
+            ) : (
                 <Container className="mt-3 mb-5">
                     <Grid
                         container
@@ -262,4 +283,6 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps, { getCompanyDashboard })(CompanyDashboard);
+export default connect(mapStateToProps, { getCompanyDashboard })(
+    withStyles(styles)(CompanyDashboard)
+);
