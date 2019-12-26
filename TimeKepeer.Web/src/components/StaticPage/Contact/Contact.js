@@ -4,6 +4,7 @@ import { Formik, Form, Field } from "formik";
 import axios from "axios";
 import * as Yup from "yup";
 import swal from "sweetalert";
+import config from "../../../config"
 const phoneRegExp = /^[0-9]/;
 const SignupSchema = Yup.object().shape({
     name: Yup.string()
@@ -13,7 +14,7 @@ const SignupSchema = Yup.object().shape({
         .email("Invalid email")
         .required("Required"),
     phoneNumber: Yup.string().matches(phoneRegExp, 'Phone number is not valid'),
-         message: Yup.string()
+    message: Yup.string()
         .min(10, "Must be 10 characters or more")
         .required("Required"),
 
@@ -23,7 +24,7 @@ const SignupSchema = Yup.object().shape({
         .required("Required")
 });
 
-const contactFormEndpoint = "http://192.168.60.72/TimeKeeper/api/contact";
+const contactFormEndpoint = config.url + "api/contact";
 const Contact = () => {
     const [isSubmitionCompleted, setSubmitionCompleted] = useState(false);
     function handleClickOpen() {
@@ -81,9 +82,9 @@ const Contact = () => {
                                             <label htmlFor="name">Name</label>
                                         </div>
                                         <div className="input-field static">
-                                       
+
                                             <Field
-                                            
+
                                                 name="phoneNumber"
                                                 id="icon_telephone"
                                                 type="tel"
@@ -91,11 +92,11 @@ const Contact = () => {
                                             {errors.phoneNumber && touched.phoneNumber ? (
                                                 <div className="invalid">{errors.phoneNumber}</div>
                                             ) : null}
-                                          
+
                                             <label htmlFor="icon_telephone">Phone</label>
                                         </div>
                                         <div className="input-field static">
-                                            <Field  name="email" type="email" id="email1" />
+                                            <Field name="email" type="email" id="email1" />
                                             {errors.email && touched.email ? (
                                                 <div className="invalid">{errors.email}</div>
                                             ) : null}

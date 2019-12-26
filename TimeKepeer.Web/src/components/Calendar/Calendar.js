@@ -10,7 +10,8 @@ import { connect } from "react-redux";
 import "./Calendar.css"
 import CalendarModal from "./CalendarModal";
 import NavigationLogin from "../NavigationLogin/NavigationLogin";
-
+import loader from "../../assets/images/loader.gif"
+import Config from "../../config"
 function CalendarDisplay(props) {
     const [date, setDate] = useState(new Date(2019, 5, 6, 10, 33, 30, 0));
     const [year, setYear] = useState(moment(date).format("YYYY"));
@@ -21,7 +22,7 @@ function CalendarDisplay(props) {
     const [selectedTab, setSelectedTab] = useState(0);
 
     useEffect(() => {
-        apiGetAllRequest("http://192.168.60.72/timekeeper/api/projects").then(res => {
+        apiGetAllRequest(Config.url + "api/projects").then(res => {
             setProjects(res.data.data);
         });
 
@@ -67,27 +68,44 @@ function CalendarDisplay(props) {
     }
 
     return (
-        <div>
+        <div >
 
             < NavigationLogin />
-            <Calendar onChange={onChange} value={date} />
-            <div>
-                {props.calendarMonth &&
-                    moment(props.calendarMonth[day - 1].date).format("YYYY-MM-DD") ===
-                    moment(date).format("YYYY-MM-DD") ? (
-                        <div>
-                            <CalendarModal
-                                selectedTab={selectedTab}
-                                handleSelectedTab={handleSelectedTab}
-                                a11yProps={a11yProps}
-                                calendarMonth={props.calendarMonth}
-                                projects={projects}
-                                day={props.calendarMonth[day - 1]}
-                            />
-                        </div>
-                    ) : (
-                        <h2>No data</h2>
-                    )}
+            <div style={{
+                display: "flex"
+            }}>
+                <Calendar onChange={onChange} value={date} />
+                <div style={{
+                    marginTop: "100px",
+                    width: "900px"
+                }}>
+                    {props.calendarMonth &&
+                        moment(props.calendarMonth[day - 1].date).format("YYYY-MM-DD") ===
+                        moment(date).format("YYYY-MM-DD") ? (
+                            <div>
+                                <CalendarModal
+                                    style={{
+
+                                    }}
+                                    selectedTab={selectedTab}
+                                    handleSelectedTab={handleSelectedTab}
+                                    a11yProps={a11yProps}
+                                    calendarMonth={props.calendarMonth}
+                                    projects={projects}
+                                    day={props.calendarMonth[day - 1]}
+                                />
+                            </div>
+                        ) : (
+                            <div>
+                                <img style={{
+                                    width: "100px",
+                                    marginLeft: "400px"
+
+                                }} src={loader} alt="loading..." />
+                                <p>Loading data...</p>
+                            </div>
+                        )}
+                </div>
             </div>
         </div>
     );
