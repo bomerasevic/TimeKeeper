@@ -14,7 +14,7 @@ import {
   Toolbar,
   Typography
 } from "@material-ui/core";
-import styles from "../red/EmployeesStyles";
+import styles from "./TeamTimeTrackingStyle";
 import DropDownMonth from "../TeamTimeTracking/DropDownMonth";
 import DropDownYear from "../TeamTimeTracking/DropDownYear";
 import DropDownTeam from "../TeamTimeTracking/DropDownTeam";
@@ -66,47 +66,55 @@ const TeamTimeTracking = (props) => {
                   >
                     Team Time Tracking
               </Typography>
-                  <DropDownYear></DropDownYear>
-                  <DropDownMonth></DropDownMonth>
-                  <DropDownTeam></DropDownTeam>
-                  <Button
+               <div className={classes.dropDown}>
+                  <DropDownYear className={classes.dropDown}></DropDownYear>
+                  <DropDownMonth className={classes.dropDown}></DropDownMonth>
+                  <DropDownTeam className={classes.dropDown}></DropDownTeam>
+                  </div>
+                  {/* <Button
                     onClick={() => {
                       console.log("PROPS", props);
                       fetchTeamTracking(teams.selectedTeam, year, month);
                     }}
                   >
                     FETCH THEM
-              </Button>
+              </Button> */}
                 </div>
               </Toolbar>
               <Table className={classes.table}>
-                <TableHead>
+                <TableHead
+                className= {classes.headerTabel}>
                   <TableRow>
                     <CustomTableCell
                       className={classes.tableHeadFontsize}
-                      style={{ width: "9%" }}
+                      style={{ width: "14.28%" }}
                     >
                       Employee
                 </CustomTableCell>
-                    <CustomTableCell className={classes.tableHeadFontsize}>
+                    <CustomTableCell className={classes.tableHeadFontsize}
+                     style={{ width: "14.28%" }}>
                       Working hours
                 </CustomTableCell>
-                    <CustomTableCell className={classes.tableHeadFontsize}>
+                    <CustomTableCell className={classes.tableHeadFontsize}
+                     style={{ width: "14.28%" }}>
                       Business absence
                 </CustomTableCell>
-                    <CustomTableCell className={classes.tableHeadFontsize}>
+                    <CustomTableCell className={classes.tableHeadFontsize}
+                     style={{ width: "14.28%" }}>
                       Public holiday
                 </CustomTableCell>
                     <CustomTableCell
                       className={classes.tableHeadFontsize}
-                      style={{ width: "9%" }}
+                      style={{ width: "14.28%" }}
                     >
                       Vacation
                 </CustomTableCell>
-                    <CustomTableCell className={classes.tableHeadFontsize}>
+                    <CustomTableCell className={classes.tableHeadFontsize}
+                     style={{ width: "14.28%" }}>
                       Sick days
                 </CustomTableCell>
-                    <CustomTableCell className={classes.tableHeadFontsize}>
+                    <CustomTableCell className={classes.tableHeadFontsize}
+                     style={{ width: "14.28%" }}>
                       Missing entries
                 </CustomTableCell>
                   </TableRow>
@@ -116,12 +124,12 @@ const TeamTimeTracking = (props) => {
                     data.data.map((r, i) => (
                       <TableRow key={r.id}>
                         <CustomTableCell>{r.employee.name}</CustomTableCell>
-                        <CustomTableCell>{r.hourTypes.Workday}</CustomTableCell>
-                        <CustomTableCell>{r.hourTypes.Busines}</CustomTableCell>
-                        <CustomTableCell>{r.hourTypes.Holiday}</CustomTableCell>
-                        <CustomTableCell>{r.hourTypes.Vacation}</CustomTableCell>
-                        <CustomTableCell>{r.hourTypes.Sick}</CustomTableCell>
-                        <CustomTableCell>{r.hourTypes.Other}</CustomTableCell>
+                        <CustomTableCell>{r.hourTypes.workday}</CustomTableCell>
+                        <CustomTableCell>{r.hourTypes.business}</CustomTableCell>
+                        <CustomTableCell>{r.hourTypes.holiday}</CustomTableCell>
+                        <CustomTableCell>{r.hourTypes.vacation}</CustomTableCell>
+                        <CustomTableCell>{r.hourTypes.sick}</CustomTableCell>
+                        <CustomTableCell>{r.hourTypes.other}</CustomTableCell>
                       </TableRow>
                     )) : null}
                 </TableBody>
@@ -140,7 +148,8 @@ const CustomTableCell = withStyles((theme) => ({
   },
   body: {
     fontSize: 14
-  }
+  },
+
 }))(TableCell);
 
 const mapStateToProps = (state) => {

@@ -44,6 +44,7 @@ const DropDownMonth = (props) => {
             name: "age",
             id: "age-simple"
           }}
+          defaultValue = {1}
         >
           <MenuItem key={1} value={1}>
             {"January"}

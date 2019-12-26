@@ -60,4 +60,17 @@ namespace TimeKeeper.DTO.Models.DashboardModels
         public string RoleName { get; set; }
         public decimal WorkingHours { get; set; }
     }
+    public class PersonalDashboardRawModel
+    {
+        public int EmployeeId { get; set; }
+        public string EmployeeName { get; set; }
+        public decimal WorkingMonthly { get; set; }
+        public decimal WorkingYearly { get; set; }
+        public int SickMonthly { get; set; }
+        public int SickYearly { get; set; }
+    }
+    public class RawAbsenceModel
+    {
+        public decimal AbsenceInstances { get; set; }
+    }
 }
